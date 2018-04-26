@@ -16,3 +16,11 @@ class BlogArtis(models.Model):
 
     def __str__(self):
         return self.title
+
+class TestData(models.Model):
+    test = models.BinaryField()
+    testChar = models.PositiveIntegerField()
+    testCC = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "hahaha: " + self.testCC
