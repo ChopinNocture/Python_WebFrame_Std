@@ -17,6 +17,7 @@ class BlogArtis(models.Model):
     def __str__(self):
         return self.title
 
+
 class TestData(models.Model):
     test = models.BinaryField()
     testChar = models.PositiveIntegerField()
