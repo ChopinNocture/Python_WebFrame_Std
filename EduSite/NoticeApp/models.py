@@ -11,5 +11,5 @@ class Notices(models.Model):
     class Meta:
         ordering = ("-publicDate",)
 
-#    def __str__(self):
-#        return self.id
+    def __str__(self):
+        return self.content
