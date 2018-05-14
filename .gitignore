@@ -97,3 +97,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+EduSite/NoticeApp/migrations/0004_auto_20180514_1948.py
+EduSite/NoticeApp/migrations/0005_auto_20180514_1949.py

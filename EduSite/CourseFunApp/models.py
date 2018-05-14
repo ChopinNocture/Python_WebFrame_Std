@@ -2,20 +2,20 @@ from django.db import models
 
 # Create your models here.
 
+#--------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
+
 
 class Course(models.Model):
     treeData = models.BinaryField()
-    #teacherID = models.ForeignKey('Teacher', on_delete=models.CASCADE, )
+    # teacherID = models.ForeignKey('Teacher', on_delete=models.CASCADE, )
     description = models.TextField(max_length=MAX_CONTENT_LENGTH)
-
-    class Meta:
-        ordering = ("-publicDate",)
 
     def __str__(self):
         return "this is course" + self.description
 
 
+#--------------------------------------------------------
 class Lesson(models.Model):
     description = models.TextField(max_length=MAX_CONTENT_LENGTH)
 
@@ -39,9 +39,49 @@ QUESTION_TYPE_CHOICES = (
 )
 
 
+#--------------------------------------------------------
+# 题目基类
 class Question(models.Model):
-    questionType = models.CharField(
-        max_length=2,
-        choices=QUESTION_TYPE_CHOICES,
-        default=SINGLE_SELECTION,
-    )
+    description = models.TextField()
+    sectionID = models.CharField(max_length=32)
+    flag = models.PositiveSmallIntegerField()
+    star = models.PositiveSmallIntegerField()
+
+    class Meta:
+        abstract = True
+
+
+# 填空题
+class FillInBlankQuestion(Question):
+    blankKeys = models.TextField()
+
+
+# 判断题
+class TrueOrFalseQuestion(Question):
+    Key = models.BooleanField()
+
+
+# 单项选择题
+class ChoiceQuestion(Question):
+    options = models.TextField()
+    key = models.PositiveSmallIntegerField()
+
+
+# 多项选择题
+class MultiChoiceQuestion(Question):
+    options = models.TextField()
+    keys = models.TextField()
+
+
+# 配对题
+class PairQuestion(Question):
+    leftOptions = models.TextField()
+    rightOptions = models.TextField()
+    pairKeys = models.TextField()
+
+
+# 排序题
+class SortQuestion(Question):
+    options = models.TextField()
+    keys = models.TextField()
+
