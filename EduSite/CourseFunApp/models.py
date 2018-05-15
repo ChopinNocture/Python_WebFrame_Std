@@ -50,6 +50,9 @@ class Question(models.Model):
     class Meta:
         abstract = True
 
+   # def get_url_name(self):
+
+
 
 # 填空题
 class FillInBlankQuestion(Question):
