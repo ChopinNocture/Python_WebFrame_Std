@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-#--------------------------------------------------------
+# --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
 
 
@@ -15,7 +15,7 @@ class Course(models.Model):
         return "this is course" + self.description
 
 
-#--------------------------------------------------------
+# --------------------------------------------------------
 class Lesson(models.Model):
     description = models.TextField(max_length=MAX_CONTENT_LENGTH)
 
@@ -39,7 +39,7 @@ QUESTION_TYPE_CHOICES = (
 )
 
 
-#--------------------------------------------------------
+# --------------------------------------------------------
 # 题目基类
 class Question(models.Model):
     description = models.TextField()
@@ -50,8 +50,9 @@ class Question(models.Model):
     class Meta:
         abstract = True
 
-   # def get_url_name(self):
-
+    @classmethod
+    def get_url_name(cls):
+        return cls.__name__.replace('Question', '', 1)
 
 
 # 填空题
@@ -87,4 +88,3 @@ class PairQuestion(Question):
 class SortQuestion(Question):
     options = models.TextField()
     keys = models.TextField()
-
