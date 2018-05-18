@@ -18,7 +18,7 @@ Q_FORM_SUFFIX = 'Form'
 
 
 # --------------------------------------------------------
-# public notice now
+# get question list by type
 def get_question_list(request, qtype):
     #   package = __import__('\\.models')
     temp_class = getattr(questionModels, qtype + Q_TYPE_SUFFIX)
@@ -31,6 +31,8 @@ def get_question_list(request, qtype):
     return HttpResponse(questList)
 
 
+# --------------------------------------------------------
+# editor for question
 def question_editor(request, qtype, qid=-1):
     formClass = getattr(questionForms, qtype + Q_FORM_SUFFIX)
 
@@ -50,12 +52,12 @@ def question_editor(request, qtype, qid=-1):
 
         if newQuestForm.is_valid():
             newQuestForm.save()
-#            quest_in_DB = newQuestForm.save(commit=False)
-#            formData = newQuestForm.cleaned_data
-#            for iter in newQuestForm.fields:
-#                print(iter)
-#                setattr(quest_in_DB, iter, formData[iter])
-#            quest_in_DB.save()
+            #            quest_in_DB = newQuestForm.save(commit=False)
+            #            formData = newQuestForm.cleaned_data
+            #            for iter in newQuestForm.fields:
+            #                print(iter)
+            #                setattr(quest_in_DB, iter, formData[iter])
+            #            quest_in_DB.save()
             return HttpResponse("Succeed")
         else:
             return HttpResponse("False")
@@ -63,5 +65,6 @@ def question_editor(request, qtype, qid=-1):
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
         return render(request=request, template_name="course/questionEditor.html", context={"form": retForm})
-
     # return HttpResponse(temp_class.get_url_name())
+
+
