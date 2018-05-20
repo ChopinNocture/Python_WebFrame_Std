@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 from .models import Notices
+from .forms import NoticesForm
 #from django.utils.dateformat import DateFormat
 from django.utils import timezone
 
@@ -23,6 +24,14 @@ def public_notice(request, year, month, day, duration, content):
     )
 
     return HttpResponse("Testing Session: ")
+
+
+def public_notice_form(request):
+    noticeform = NoticesForm()
+
+    if request.method == "GET":
+        return render(request=request, context={"form": noticeform})
+
 
 #--------------------------------------------------------
 # get notices by time
