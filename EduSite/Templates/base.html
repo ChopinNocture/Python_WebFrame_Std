@@ -5,13 +5,16 @@
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<title>{% block title %}{% endblock %}</title>
+        <link >
     	<!link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
     </head>
     <body>
+        <script src="{% static 'js/jquery.js'%}"></script>
+        {% block javascript %}{% endblock %}
         <div class="container">
         	{% block content %}{% endblock %}
         </div>
         {% include "footer.html" %}
-        {% block javascritp %}{% endblock %}
     </body>
 </html>

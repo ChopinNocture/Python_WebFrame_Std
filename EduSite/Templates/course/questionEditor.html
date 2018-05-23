@@ -4,7 +4,7 @@
 <div class="text-center">
     <h1>Question Editor</h1>
     {% load staticfiles %}
-    <form class="form-horizontal" action="." method="post">
+    <form class="form-horizontal" action="." method="post" id="QuestionContentEditor">
         {% csrf_token %}
         {{ form.as_p}}
         <input type="submit" value="Add">
