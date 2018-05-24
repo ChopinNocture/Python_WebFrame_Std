@@ -1,12 +1,20 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Question Editor{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/quesion-form.js'%}"></script>
+{% endblock %}
 {% block content %}
 <div class="text-center">
     <h1>Question Editor</h1>
     {% load staticfiles %}
-    <form class="form-horizontal" action="." method="post" id="QuestionContentEditor">
+    <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor">
         {% csrf_token %}
         {{ form.as_p}}
+
+        <p><input type="text" form="Form_KeyEditor"></p>
+        <p><button type="button" id="Btn_KeyAdd">Add Key</button></p>
+
         <input type="submit" value="Add">
     </form>
     <button type="button">Hello</button>

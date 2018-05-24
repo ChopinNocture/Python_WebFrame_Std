@@ -28,7 +28,8 @@ class ChoiceForm(ModelForm):
         model = ChoiceQuestion
         fields = FIELD_LIST + ['options', 'key']
         widgets = {
-            'key': HiddenInput(attrs={'id': 'SubmitKey'})
+            'options': HiddenInput(attrs={'id': 'Input_Options'}),
+            'key': HiddenInput(attrs={'id': 'Input_Key'}),
         }
         labels = {
             'key': 'SubmitKey'
@@ -44,7 +45,8 @@ class MultiChoiceForm(ModelForm):
         model = MultiChoiceQuestion
         fields = FIELD_LIST + ['options', 'keys']
         widgets = {
-            'keys': HiddenInput(attrs={'id': 'SubmitKey'})
+            'options': HiddenInput(attrs={'id': 'Input_Options'}),
+            'keys': HiddenInput(attrs={'id': 'Input_Key'}),
         }
 
 
