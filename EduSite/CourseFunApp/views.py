@@ -34,6 +34,7 @@ def get_question_list(request, qtype):
 # --------------------------------------------------------
 # editor for question
 def question_editor(request, qtype, qid=-1):
+    print("fa67868768")
     formClass = getattr(questionForms, qtype + Q_FORM_SUFFIX)
 
     if not issubclass(formClass, ModelForm):
@@ -58,12 +59,15 @@ def question_editor(request, qtype, qid=-1):
             #                print(iter)
             #                setattr(quest_in_DB, iter, formData[iter])
             #            quest_in_DB.save()
+            print("Succeed")
             return HttpResponse("Succeed")
         else:
+            print("fals!!!!!!!!!!!~~~~~~~~")
             return HttpResponse("False")
 
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
+        print("!!!!!!!!!!!~~~~~~~~")
         return render(request=request, template_name="course/questionEditor.html", context={"form": retForm})
     # return HttpResponse(temp_class.get_url_name())
 
