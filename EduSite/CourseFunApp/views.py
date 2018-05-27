@@ -34,7 +34,11 @@ def get_question_list(request, qtype):
 
 # --------------------------------------------------------
 # editor for question
-def question_editor(request, qtype, qid=-1):
+def question_editor(request):
+    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list})
+
+# form part
+def question_editor_form(request, qtype, qid=-1):
     print("------------------" + q_type_list[0].get_url_name())
     formClass = getattr(questionForms, qtype + Q_FORM_SUFFIX)
 
@@ -69,7 +73,7 @@ def question_editor(request, qtype, qid=-1):
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
         print("!!!!!!!!!!!~~~~~~~~")
-        return render(request=request, template_name="course/questionEditor.html", context={"form": retForm, "qTypeList":q_type_list})
+        return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
 

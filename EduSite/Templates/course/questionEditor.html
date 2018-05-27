@@ -11,29 +11,26 @@
 {% endblock %}
 
 {% block content %}
-    <nav>
-        <div class="">
-            {% for qType in qTypeList %} 
-            {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
-                <a href="{{qTypeURL}}"><span>{{ qType.get_url_name }}</span></a> 
-            {% endfor %}
-        </div>
-    </nav>
     <div class="text-center">
         <h1>Question Editor</h1>
-        {% load staticfiles %}
+        <nav>
+            <div class="">
+                <p>
+                {% for qType in qTypeList %} 
+                {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
+                    <button type="button" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}">{{qType.get_url_name}}</button>
+                {% endfor %}
+                </p>
+            </div> 
+        </nav>
+        
         <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
             {% csrf_token %}
-            {{ form.as_p}}
-
-            <div id="OptionPanel">
-                <p id="BtnLine">
-                    <button type="button" id="Btn_OptionAdd">Add Option</button>
-                    <button type="button" id="Btn_OptionDelete">Delete Option</button>
-                </p>
+            <div id="QType_Panel">
             </div>
             <input type="submit" value="Add" form="Form_QuestionEditor">
         </form>
+
         <button type="button" onclick="onSubmitCheck()">Add to Course</button>
     </div>
 {% endblock %}
