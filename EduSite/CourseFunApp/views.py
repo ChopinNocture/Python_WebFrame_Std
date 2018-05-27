@@ -16,6 +16,7 @@ import CourseFunApp.forms as questionForms
 Q_TYPE_SUFFIX = 'Question'
 Q_FORM_SUFFIX = 'Form'
 
+q_type_list = questionModels.Question.__subclasses__()
 
 # --------------------------------------------------------
 # get question list by type
@@ -34,7 +35,7 @@ def get_question_list(request, qtype):
 # --------------------------------------------------------
 # editor for question
 def question_editor(request, qtype, qid=-1):
-    print("fa67868768")
+    print("------------------" + q_type_list[0].get_url_name())
     formClass = getattr(questionForms, qtype + Q_FORM_SUFFIX)
 
     if not issubclass(formClass, ModelForm):
@@ -68,7 +69,7 @@ def question_editor(request, qtype, qid=-1):
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
         print("!!!!!!!!!!!~~~~~~~~")
-        return render(request=request, template_name="course/questionEditor.html", context={"form": retForm})
+        return render(request=request, template_name="course/questionEditor.html", context={"form": retForm, "qTypeList":q_type_list})
     # return HttpResponse(temp_class.get_url_name())
 
 

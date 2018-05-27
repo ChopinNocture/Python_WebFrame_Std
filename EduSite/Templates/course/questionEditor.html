@@ -11,6 +11,14 @@
 {% endblock %}
 
 {% block content %}
+    <nav>
+        <div class="">
+            {% for qType in qTypeList %} 
+            {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
+                <a href="{{qTypeURL}}"><span>{{ qType.get_url_name }}</span></a> 
+            {% endfor %}
+        </div>
+    </nav>
     <div class="text-center">
         <h1>Question Editor</h1>
         {% load staticfiles %}
@@ -19,7 +27,10 @@
             {{ form.as_p}}
 
             <div id="OptionPanel">
-                <p id="BtnLine"><button type="button" id="Btn_OptionAdd">Add Option</button>   <button type="button" id="Btn_OptionDelete">Delete Option</button></p>
+                <p id="BtnLine">
+                    <button type="button" id="Btn_OptionAdd">Add Option</button>
+                    <button type="button" id="Btn_OptionDelete">Delete Option</button>
+                </p>
             </div>
             <input type="submit" value="Add" form="Form_QuestionEditor">
         </form>

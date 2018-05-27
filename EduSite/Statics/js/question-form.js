@@ -1,10 +1,6 @@
 var MAX_OPTION_NUMBER = 12;
 var MIN_OP_N = 1;
 
-var op_addBtn = $('#Btn_OptionAdd');
-var btn_Panel = $('#BtnLine');
-
-
 var op_Label = $('<label id="">A: </label>');
 var ID_LABEL = 'lb_option';
 
@@ -18,10 +14,16 @@ var ID_RADIO = 'radio_option';
 var iOptionNumber = 4;
 
 
+var op_addBtn = $('#Btn_OptionAdd');
+var btn_Panel = $('#BtnLine');
 
 op_addBtn.click(onAddOptionClick);
 $('#Btn_OptionDelete').click(onDeleteOptionClick);
+
+
 updateOptions();
+
+alert(URL);
 
 function updateOptions() {
     var opPanel = $("#OptionPanel");
@@ -66,6 +68,8 @@ function checkQuestion() {
     $('#id_sectionID').val("A");
     $('#id_flag').val(0x01);
     $('#id_star').val(3);
+
+    //------------------check type
     $('#id_options').val('xuanze');
     $('#id_key').val(1);
     
