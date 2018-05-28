@@ -11,15 +11,15 @@ var CheckFunc_Prefix = "check";
 var question_type = "Choice";
 
 //$(document).ready(updateQForm);
-function ajaxSubmit(frm, sucFunc, failFunc) {
-    alert("hahahaha" + frm);
-    
+function ajaxSubmit(aform, sucFunc, failFunc) {
+    alert($(aform).serialize());
+
     $.ajax({
-        url: frm.action,
-        type: frm.method,
-        data: frm.form-data,
+        url: aform.action,
+        type: aform.method,
+        data: $(aform).serialize(),
         dataType: "html",
-        success:sucFunc,
+        success: sucFunc,
         error: failFunc
     });
 }
@@ -37,7 +37,7 @@ function onNavTypeClk(event) {
 function updateQForm(data) {
     //alert("Data Loaded: " + data);
     document.getElementById('Form_QuestionEditor').action = question_type + "/";
-    document.getElementById('Form_QuestionEditor').submit = function() { ajaxSubmit(this, onSubmitSuccess, onSubmitFailed)};
+    document.getElementById('Form_QuestionEditor').submit = function() { alert("QE func" + this); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed)};
     alert(document.getElementById('Form_QuestionEditor').action);
 
     document.getElementById('QType_Panel').innerHTML = data;
@@ -62,7 +62,7 @@ function checkForm() {
 
 function onSubmitCheck() {
     if (checkForm()) {
-        alert("121212!");
+        alert("checkForm!");
         document.getElementById('Form_QuestionEditor').submit();
     } else {
         alert("!!!");
@@ -75,6 +75,7 @@ function onSubmitFailed(result) {
 
 function onSubmitSuccess(result) {
     alert(result);
+    document.getElementById('Form_QuestionEditor').reset();
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice
