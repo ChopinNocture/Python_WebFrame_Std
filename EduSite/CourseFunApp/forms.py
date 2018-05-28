@@ -13,13 +13,12 @@ Q_WIDGETS_SETTING = {
 class FillInBlankForm(ModelForm):
     class Meta:
         model = FillInBlankQuestion
-        fields = FIELD_LIST + ['blankKeys']
+        fields = FIELD_LIST + ['blankKey']
         widgets = Q_WIDGETS_SETTING
         widgets.update({
-            'blankKeys': HiddenInput()
+            'blankKey': HiddenInput()
         })
         
-
 
 # 判断题
 class TrueOrFalseForm(ModelForm):
@@ -50,11 +49,11 @@ class ChoiceForm(ModelForm):
 class MultiChoiceForm(ModelForm):
     class Meta:
         model = MultiChoiceQuestion
-        fields = FIELD_LIST + ['options', 'keys']
+        fields = FIELD_LIST + ['options', 'key']
         widgets = Q_WIDGETS_SETTING
         widgets.update({
             'options': HiddenInput(),
-            'keys': HiddenInput(),
+            'key': HiddenInput(),
         })
 
 
@@ -62,11 +61,11 @@ class MultiChoiceForm(ModelForm):
 class PairForm(ModelForm):
     class Meta:
         model = PairQuestion
-        fields = FIELD_LIST + ['leftOptions', 'rightOptions', 'pairKeys']
+        fields = FIELD_LIST + ['leftOptions', 'rightOptions', 'pairKey']
 
 
 # 排序题
 class SortForm(ModelForm):
     class Meta:
         model = SortQuestion
-        fields = FIELD_LIST + ['options', 'keys']
+        fields = FIELD_LIST + ['options', 'key']

@@ -57,7 +57,7 @@ class Question(models.Model):
 
 # 填空题
 class FillInBlankQuestion(Question):
-    blankKeys = models.TextField()
+    blankKey = models.TextField()
 
 
 # 判断题
@@ -74,17 +74,17 @@ class ChoiceQuestion(Question):
 # 多项选择题
 class MultiChoiceQuestion(Question):
     options = models.TextField()
-    keys = models.TextField()
+    key = models.TextField()
 
 
 # 配对题
 class PairQuestion(Question):
     leftOptions = models.TextField()
     rightOptions = models.TextField()
-    pairKeys = models.TextField()
+    pairKey = models.TextField()
 
 
 # 排序题
 class SortQuestion(Question):
     options = models.TextField()
-    keys = models.TextField()
+    key = models.TextField()

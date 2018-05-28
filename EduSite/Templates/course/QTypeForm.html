@@ -1,6 +1,4 @@
-{{form.as_p}}
-
-{% if questionType == "Choice" %}
+{{form.as_p}} {% if questionType == "Choice" or questionType == "MultiChoice" %}
 <div id="OptionPanel">
     <p id="BtnLine">
         <button type="button" id="Btn_OptionAdd">Add Option</button>
@@ -9,4 +7,4 @@
 </div>
 {% else %}
 <p>hahahahaha</p>
-{% endif %} 
+{% endif %}

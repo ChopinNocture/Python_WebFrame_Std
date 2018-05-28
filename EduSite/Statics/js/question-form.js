@@ -1,9 +1,7 @@
-
-
 //$("<p><button type='button' id='Btn_KeyAdd'>Add Option</button></p>")
 
 
-  
+
 
 $('button[id^=NavBtn_]').click(onNavTypeClk);
 
@@ -12,49 +10,75 @@ var RefreshFunc_Prefix = "refresh";
 var CheckFunc_Prefix = "check";
 var question_type = "Choice";
 
+//$(document).ready(updateQForm);
+function ajaxSubmit(frm, sucFunc, failFunc) {
+    alert("hahahaha" + frm);
+    
+    $.ajax({
+        url: frm.action,
+        type: frm.method,
+        data: frm.form-data,
+        dataType: "html",
+        success:sucFunc,
+        error: failFunc
+    });
+}
+
+
 function onNavTypeClk(event) {
     // alert(event.target.dataset["url"]);
     // alert(event.target.dataset["typeName"]);
-    
+
     question_type = event.target.dataset["typeName"];
-    
+
     $.get(event.target.dataset.url, updateQForm);
 }
 
 function updateQForm(data) {
     //alert("Data Loaded: " + data);
+    document.getElementById('Form_QuestionEditor').action = question_type + "/";
+    document.getElementById('Form_QuestionEditor').submit = function() { ajaxSubmit(this, onSubmitSuccess, onSubmitFailed)};
+    alert(document.getElementById('Form_QuestionEditor').action);
+
     document.getElementById('QType_Panel').innerHTML = data;
 
-    //alert(RefreshFunc_Prefix + question_type + "()");
-
+    alert("update " + question_type + " form");
     eval(RefreshFunc_Prefix + question_type + "()");
 }
 
 function checkForm() {
     var ret = true;
-    alert($('#id_description').val());
+
     ret = ret && ($('#id_description').val().length != 0);
     $('#id_sectionID').val("A");
     $('#id_flag').val(0x01);
     $('#id_star').val(3);
 
     //------------------check type
-    eval(CheckFunc_Prefix + question_type + "()");
+    ret = ret && eval(CheckFunc_Prefix + question_type + "()");
+    ret = ret && document.getElementById('Form_QuestionEditor').checkValidity();
+    return ret;
 }
 
 function onSubmitCheck() {
     if (checkForm()) {
         alert("121212!");
         document.getElementById('Form_QuestionEditor').submit();
-    }
-    else {
+    } else {
         alert("!!!");
     }
 }
 
+function onSubmitFailed(result) {
+    alert(result);
+}
 
+function onSubmitSuccess(result) {
+    alert(result);
+}
 //-------------------------------------------------------
-// Choice Part
+// Question type: Choice & MultiChoice
+//-------------------------------------------------------
 var MAX_OPTION_NUMBER = 12;
 var MIN_OP_N = 1;
 var op_Label = $('<label id="">A: </label>');
@@ -63,25 +87,57 @@ var ID_LABEL = 'lb_option';
 var op_text = $('<input type="text" form="Form_OptionEditor" id=""/>');
 var ID_TEXT = 'text_option';
 
-var op_keyRadio = $("<input type='radio' name='QuestionOption' id=''/>");
-var ID_RADIO = 'radio_option';
+var OPTION_KEY_HTML = '<input type="******" name="OptionKey" id="" value=""/>';
+var op_keyButton = $();
+var ID_KEYButton = 'key_option';
 
-var iOptionNumber = 4;
+var KEY_TYPE_HTML_DIC = { "Choice": "radio", "MultiChoice": "checkbox" };
 
+var iOptionNumber = 4; // default
+
+//--------------
+// key function:
+//-------------- refresh --------------
 function refreshChoice() {
-    alert("choice");
     $('#Btn_OptionAdd').click(onAddOptionClick);
     $('#Btn_OptionDelete').click(onDeleteOptionClick);
+    var tempHTML = OPTION_KEY_HTML.replace("******", KEY_TYPE_HTML_DIC[question_type])
+    op_keyButton = $(tempHTML);
     updateOptions();
 }
 
+function refreshMultiChoice() {
+    refreshChoice();
+}
+//-------------- check --------------
 function checkChoice() {
-    $('#id_options').val('xuanze');
-    $('#id_key').val(1);
+    var ret = true;
+
+    var keyValue = $('input:' + KEY_TYPE_HTML_DIC[question_type] + ':checked').map(function () { return $(this).val(); }).get().join(",");
+    alert(keyValue);
     
+    ret = ret && !(keyValue == '');
+    if (keyValue == '') {
+        alert("No Key!!!!!");
+    }
+
+    //[id^=NavBtn_]
+    var optionString = $('input:text[form="Form_OptionEditor"]').map(function () { return $(this).val(); }).get().join("|-|");
+    ret = ret && (optionString.indexOf("|-||-|") == -1);
+    if (optionString.indexOf("|-||-|")!=-1) {
+        alert("option can not be empty");
+    }
+
+    alert(optionString);
+    $('#id_options').val(optionString);
+    $('#id_key').val(keyValue);
+
     return ret;
 }
 
+function checkMultiChoice() {
+    return checkChoice();
+}
 //--------------
 function updateOptions() {
     var opPanel = $("#OptionPanel");
@@ -95,8 +151,8 @@ function updateOptions() {
             var optionLine = $("<p id=''></p>");
             optionLine.attr("id", "elem" + i);
             optionLine.append(op_Label.clone().attr("id", ID_LABEL + i));
-            optionLine.append(op_text.clone().attr("id", ID_TEXT + i));
-            optionLine.append(op_keyRadio.clone().attr("id", ID_RADIO + i));
+            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i }));
+            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i }));
 
             btn_Panel.before(optionLine);
         }

@@ -72,7 +72,7 @@ def question_editor_form(request, qtype, qid=-1):
 
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
-        print("!!!!!!!!!!!~~~~~~~~")
+        print("Get access-----")
         return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
