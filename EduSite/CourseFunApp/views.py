@@ -34,8 +34,22 @@ def get_question_list(request, qtype):
 
 # --------------------------------------------------------
 # editor for question
+
+class TempCouse(object):
+    id = 0
+    name = 'Lesson'
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
 def question_editor(request):
-    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list})
+    course_list = list()
+    i=0
+    while i<10:
+        course_list.append(TempCouse(id=i, name='Lesson '+ str(i)))
+        i+=1
+    
+    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list, "course_list":course_list})
 
 # form part
 def question_editor_form(request, qtype, qid=-1):

@@ -1,36 +1,49 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}Question Editor{% endblock %}
-
-{% block jsFunctionLib %}
-    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-{% endblock %}
-
+{% extends "base_bs_style.html" %}
+{% load static %} 
+{% block title %}Question Editor{% endblock %} 
 {% block jsPage %}
-    <script type="text/javascript" src="{% static 'js/question-form.js' %}"></script>
-{% endblock %}
-
+<script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script> 
+{% endblock %} 
 {% block content %}
-    <div class="text-center">
-        <h1>Question Editor</h1>
-        <nav>
-            <div class="">
-                <p>
-                {% for qType in qTypeList %} 
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <ul class="nav nav-pills nav-fill">
+                {% for qType in qTypeList %}
+                <li class="nav-item">
                 {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
-                    <button type="button" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}">{{qType.get_url_name}}</button>
+                    <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}">{{qType.get_url_name}}</a>
+                </li>
                 {% endfor %}
-                </p>
-            </div> 
-        </nav>
-        
-        <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
-            {% csrf_token %}
-            <div id="QType_Panel">
-            </div>
-            <input type="submit" value="Add" form="Form_QuestionEditor">
-        </form>
-
-        <button type="button" onclick="onSubmitCheck()">Add to Course</button>
+                <br />
+            </ul>
+        </div>
+    
     </div>
+	<div class="row">
+        <div class="col-2">
+            <ul class="list-group">
+                {% for course in course_list %}
+                    <li class="list-group-item">{{course.name}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-8">
+            <div class="row-fluid">
+                <div class="">
+                        <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
+                                {% csrf_token %}
+                                <div id="QType_Panel">
+                                </div>
+                                <input class="form-control" type="submit" value="Add" form="Form_QuestionEditor">
+                        </form>
+                        <button class="form-control" type="button" onclick="onSubmitCheck()">Add to Course</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            hahaha 
+        </div>
+    </div>    
+</div>
 {% endblock %}

@@ -1,9 +1,10 @@
-from django.forms import ModelForm, HiddenInput
+from django.forms import ModelForm, HiddenInput,Textarea
 
 from .models import *
 
 FIELD_LIST = ['description', 'sectionID', 'flag', 'star']
 Q_WIDGETS_SETTING = {
+    'description': Textarea(attrs={'class': 'form-control'}),
     'sectionID': HiddenInput(), #attrs={'id': 'Input_SectionID'}),
     'flag': HiddenInput(),
     'star': HiddenInput(),
@@ -25,7 +26,7 @@ class TrueOrFalseForm(ModelForm):
     class Meta:
         model = TrueOrFalseQuestion
         fields = FIELD_LIST + ['Key']
-
+        widgets = Q_WIDGETS_SETTING
 
 # 单项选择题
 class ChoiceForm(ModelForm):
@@ -62,10 +63,11 @@ class PairForm(ModelForm):
     class Meta:
         model = PairQuestion
         fields = FIELD_LIST + ['leftOptions', 'rightOptions', 'pairKey']
-
+        widgets = Q_WIDGETS_SETTING
 
 # 排序题
 class SortForm(ModelForm):
     class Meta:
         model = SortQuestion
         fields = FIELD_LIST + ['options', 'key']
+        widgets = Q_WIDGETS_SETTING

@@ -3,7 +3,7 @@
 
 
 
-$('button[id^=NavBtn_]').click(onNavTypeClk);
+$('a[id^=NavBtn_]').click(onNavTypeClk);
 
 //-------------------------------------------------------
 var RefreshFunc_Prefix = "refresh";
@@ -28,10 +28,19 @@ function ajaxSubmit(aform, sucFunc, failFunc) {
 function onNavTypeClk(event) {
     // alert(event.target.dataset["url"]);
     // alert(event.target.dataset["typeName"]);
-
     question_type = event.target.dataset["typeName"];
 
+    $('ul.nav-pills').find('a').each(function() {
+        if (this.dataset["typeName"]==question_type) {
+            $(this).addClass('active');
+        }
+        else {
+            $(this).removeClass('active');
+        }
+    })
+    
     $.get(event.target.dataset.url, updateQForm);
+    return false;
 }
 
 function updateQForm(data) {
@@ -85,6 +94,7 @@ var MIN_OP_N = 1;
 var op_Label = $('<label id="">A: </label>');
 var ID_LABEL = 'lb_option';
 
+var STYLE_CLASS = "form-control-inline";
 var op_text = $('<input type="text" form="Form_OptionEditor" id=""/>');
 var ID_TEXT = 'text_option';
 
@@ -151,9 +161,9 @@ function updateOptions() {
         if (i >= opList.length) {
             var optionLine = $("<p id=''></p>");
             optionLine.attr("id", "elem" + i);
-            optionLine.append(op_Label.clone().attr("id", ID_LABEL + i));
-            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i }));
-            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i }));
+            optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }));
+            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS }));
+            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i, "class": STYLE_CLASS }));
 
             btn_Panel.before(optionLine);
         }
