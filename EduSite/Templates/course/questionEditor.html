@@ -12,14 +12,15 @@
                 {% for qType in qTypeList %}
                 <li class="nav-item">
                 {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
-                    <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}">{{qType.get_url_name}}</a>
+                {% url 'course:question-list' qType.get_url_name as qListURL %}
+                    <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}" data-qlist-url="{{qListURL}}">{{qType.get_url_name}}</a>
                 </li>
                 {% endfor %}
                 <br />
             </ul>
-        </div>
-    
+        </div>    
     </div>
+
 	<div class="row">
         <div class="col-2">
             <ul class="list-group">
@@ -28,21 +29,25 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-8">
+        <div class="col-7">
             <div class="row-fluid">
                 <div class="">
-                        <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
-                                {% csrf_token %}
-                                <div id="QType_Panel">
-                                </div>
-                                <input class="form-control" type="submit" value="Add" form="Form_QuestionEditor">
-                        </form>
-                        <button class="form-control" type="button" onclick="onSubmitCheck()">Add to Course</button>
+                    <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
+                        {% csrf_token %}
+                        <div id="QType_Panel">
+                        </div>
+                        <input class="form-control" type="submit" value="Add" form="Form_QuestionEditor">
+                    </form>
+                    <button class="form-control" type="button" onclick="onSubmitCheck()">Add to Course</button>
                 </div>
             </div>
         </div>
-        <div class="col-2">
-            hahaha 
+        <div class="col-3">
+            <div class="row-fluid">
+                <p><label>Filter by Course</label><input class="form-control-inline" type="checkbox" form="Form_QList" onclick=""/></p>
+                <ul class="list-group" id="Question_List">
+                </ul>
+            </div>
         </div>
     </div>    
 </div>

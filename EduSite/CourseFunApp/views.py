@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.forms import ModelForm
 
 # Create your views here.
@@ -26,10 +26,17 @@ def get_question_list(request, qtype):
     if not issubclass(temp_class, questionModels.Question):
         return HttpResponse("Error type:" + qtype)
 
-    questList = temp_class.objects.all()
+    quests = temp_class.objects.all()
+
+    quest_list = list()
+
+    for iter in quests:
+        quest_list.append({"id":iter.id, "desc":iter.description}) 
+
     # return render(request=request, template_name="home.html" )
 
-    return HttpResponse(questList)
+    return JsonResponse(quest_list, safe=False)
+    # return HttpResponse(questList)
 
 
 # --------------------------------------------------------

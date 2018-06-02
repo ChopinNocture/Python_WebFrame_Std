@@ -9,6 +9,8 @@ $('a[id^=NavBtn_]').click(onNavTypeClk);
 var RefreshFunc_Prefix = "refresh";
 var CheckFunc_Prefix = "check";
 var question_type = "Choice";
+var current_url = "";
+var curr_qid = "";
 
 //$(document).ready(updateQForm);
 function ajaxSubmit(aform, sucFunc, failFunc) {
@@ -24,34 +26,88 @@ function ajaxSubmit(aform, sucFunc, failFunc) {
     });
 }
 
-
 function onNavTypeClk(event) {
-    // alert(event.target.dataset["url"]);
+    curr_qid = "";
+    alert(event.target.dataset["url"]);
     // alert(event.target.dataset["typeName"]);
     question_type = event.target.dataset["typeName"];
 
-    $('ul.nav-pills').find('a').each(function() {
-        if (this.dataset["typeName"]==question_type) {
+    $('ul.nav-pills').find('a').each(function () {
+        if (this.dataset["typeName"] == question_type) {
             $(this).addClass('active');
         }
         else {
             $(this).removeClass('active');
         }
     })
-    
-    $.get(event.target.dataset.url, updateQForm);
+
+    current_url = event.target.dataset.url;
+    $.get(current_url, updateQForm);
+    $.get(event.target.dataset.qlistUrl, updateQList);
+
     return false;
 }
 
+//=======================================================
+// Update question list
+//=======================================================
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action" data-qid=-1 id="">';
+var QLIST_ITEM_SUFIX = '</button>';
+
+var QLIST_BTN_ID = "qlist_id";
+
+function onQListBtnClick(event) {
+    curr_qid = event.target.dataset["qid"];
+
+    $('button[id^=' + QLIST_BTN_ID + ']').each(function () {
+        if (this.dataset["qid"] == curr_qid) {
+            $(this).addClass('active');
+        }
+        else {
+            $(this).removeClass('active');
+        }
+    })
+
+    $.get(current_url + curr_qid, updateQForm);
+
+    return false;
+}
+
+function updateQList(jsonData) {
+    alert("update " + jsonData + " QList ");
+
+    var qListPanel = $("#Question_List");
+
+    qListPanel.empty();
+
+    var tempLine;
+    var i = 0;
+    jsonData.forEach(function (iter, index, array) {
+        tempLine = $(QLIST_ITEM_STR + iter.desc + QLIST_ITEM_SUFIX).clone().attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i }).click(onQListBtnClick);
+        qListPanel.append(tempLine);
+        //alert(value.id + "  " + value.desc);
+        ++i;
+    });
+}
+
+
+//=======================================================
+// form framework
+//=======================================================
 function updateQForm(data) {
     //alert("Data Loaded: " + data);
-    document.getElementById('Form_QuestionEditor').action = question_type + "/";
-    document.getElementById('Form_QuestionEditor').submit = function() { alert("QE func" + this); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed)};
+    if(curr_qid!="") {
+        document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
+    }
+    else {
+        document.getElementById('Form_QuestionEditor').action = question_type + "/";
+    }
+    document.getElementById('Form_QuestionEditor').submit = function () { alert("QE func" + this); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
     alert(document.getElementById('Form_QuestionEditor').action);
 
     document.getElementById('QType_Panel').innerHTML = data;
 
-    alert("update " + question_type + " form");
+    //alert("update " + question_type + " form");
     eval(RefreshFunc_Prefix + question_type + "()");
 }
 
@@ -91,7 +147,7 @@ function onSubmitSuccess(result) {
 //-------------------------------------------------------
 var MAX_OPTION_NUMBER = 12;
 var MIN_OP_N = 1;
-var op_Label = $('<label id="">A: </label>');
+var op_Label = $('<label id="">A:</label>');
 var ID_LABEL = 'lb_option';
 
 var STYLE_CLASS = "form-control-inline";
@@ -126,7 +182,7 @@ function checkChoice() {
 
     var keyValue = $('input:' + KEY_TYPE_HTML_DIC[question_type] + ':checked').map(function () { return $(this).val(); }).get().join(",");
     alert(keyValue);
-    
+
     ret = ret && !(keyValue == '');
     if (keyValue == '') {
         alert("No Key!!!!!");
@@ -135,7 +191,7 @@ function checkChoice() {
     //[id^=NavBtn_]
     var optionString = $('input:text[form="Form_OptionEditor"]').map(function () { return $(this).val(); }).get().join("|-|");
     ret = ret && (optionString.indexOf("|-||-|") == -1);
-    if (optionString.indexOf("|-||-|")!=-1) {
+    if (optionString.indexOf("|-||-|") != -1) {
         alert("option can not be empty");
     }
 
@@ -150,6 +206,24 @@ function checkMultiChoice() {
     return checkChoice();
 }
 //--------------
+function parseForm(aform) {
+    var keyValue = $('#id_key').val();
+    var optionString = $('#id_options').val();
+    var optionList = optionString.split("|-|");
+    var keyList = keyValue.split(",");
+        
+    var retList = new Array();
+
+    iOptionNumber = optionList.length;
+
+    for (var i = 0; i < iOptionNumber; i++) {
+        retList.push({ "option": optionList[i], "isKey": ($.inArray(""+i, keyList)>=0) });        
+    }
+
+    return retList;
+}
+
+//--------------
 function updateOptions() {
     var opPanel = $("#OptionPanel");
     var opList = opPanel.find("p[id^=elem]");
@@ -157,13 +231,19 @@ function updateOptions() {
     //alert(opList.length);
     var needNumber = Math.max(iOptionNumber, opList.length)
 
+    var hasValue = (curr_qid != "");
+
+    if (hasValue) {
+        var formList = parseForm();
+    }
+
     for (var i = 0; i < needNumber; ++i) {
         if (i >= opList.length) {
             var optionLine = $("<p id=''></p>");
             optionLine.attr("id", "elem" + i);
             optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }));
-            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS }));
-            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i, "class": STYLE_CLASS }));
+            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS }).val(hasValue ? formList[i]["option"] : ""));
+            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i, "class": STYLE_CLASS, "checked": hasValue ? formList[i]["isKey"] : false }));
 
             btn_Panel.before(optionLine);
         }
