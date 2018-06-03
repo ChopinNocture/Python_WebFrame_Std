@@ -62,12 +62,19 @@ class MultiChoiceForm(ModelForm):
 class PairForm(ModelForm):
     class Meta:
         model = PairQuestion
-        fields = FIELD_LIST + ['leftOptions', 'rightOptions', 'pairKey']
+        fields = FIELD_LIST + ['leftOptions', 'rightOptions']
         widgets = Q_WIDGETS_SETTING
+        widgets.update({
+            'leftOptions': HiddenInput(),
+            'rightOptions': HiddenInput(),
+        })
 
 # 排序题
 class SortForm(ModelForm):
     class Meta:
         model = SortQuestion
-        fields = FIELD_LIST + ['options', 'key']
+        fields = FIELD_LIST + ['options']
         widgets = Q_WIDGETS_SETTING
+        widgets.update({
+            'options': HiddenInput(),
+        })

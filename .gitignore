@@ -102,3 +102,5 @@ EduSite/NoticeApp/migrations/0005_auto_20180514_1949.py
 EduSite/TestApp/migrations/0001_initial.py
 EduSite/CourseFunApp/migrations/0001_initial.py
 EduSite/NoticeApp/migrations/0001_initial.py
+EduSite/CourseFunApp/migrations/0002_auto_20180604_0146.py
+EduSite/NoticeApp/migrations/0002_auto_20180604_0146.py

@@ -1,16 +1,18 @@
 //$("<p><button type='button' id='Btn_KeyAdd'>Add Option</button></p>")
 
 
-
-
 $('a[id^=NavBtn_]').click(onNavTypeClk);
 
 //-------------------------------------------------------
+var ParseForm_Prefix = "parseForm2Json";
 var RefreshFunc_Prefix = "refresh";
 var CheckFunc_Prefix = "check";
 var question_type = "Choice";
 var current_url = "";
 var curr_qid = "";
+
+var with_value = false;
+var value_Json = { "desc": "" };
 
 //$(document).ready(updateQForm);
 function ajaxSubmit(aform, sucFunc, failFunc) {
@@ -27,8 +29,8 @@ function ajaxSubmit(aform, sucFunc, failFunc) {
 }
 
 function onNavTypeClk(event) {
-    curr_qid = "";
-    alert(event.target.dataset["url"]);
+    
+    //alert(event.target.dataset["url"]);
     // alert(event.target.dataset["typeName"]);
     question_type = event.target.dataset["typeName"];
 
@@ -41,6 +43,8 @@ function onNavTypeClk(event) {
         }
     })
 
+    curr_qid = "";
+    with_value = false;
     current_url = event.target.dataset.url;
     $.get(current_url, updateQForm);
     $.get(event.target.dataset.qlistUrl, updateQList);
@@ -68,14 +72,14 @@ function onQListBtnClick(event) {
         }
     })
 
+    with_value = true;
     $.get(current_url + curr_qid, updateQForm);
 
     return false;
 }
 
 function updateQList(jsonData) {
-    alert("update " + jsonData + " QList ");
-
+    //alert("update " + jsonData + " QList ");
     var qListPanel = $("#Question_List");
 
     qListPanel.empty();
@@ -96,16 +100,16 @@ function updateQList(jsonData) {
 //=======================================================
 function updateQForm(data) {
     //alert("Data Loaded: " + data);
-    if(curr_qid!="") {
+    document.getElementById('QType_Panel').innerHTML = data;
+
+    if (with_value) {
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
+        eval(ParseForm_Prefix + question_type + "()");
     }
     else {
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
     }
     document.getElementById('Form_QuestionEditor').submit = function () { alert("QE func" + this); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
-    alert(document.getElementById('Form_QuestionEditor').action);
-
-    document.getElementById('QType_Panel').innerHTML = data;
 
     //alert("update " + question_type + " form");
     eval(RefreshFunc_Prefix + question_type + "()");
@@ -147,7 +151,7 @@ function onSubmitSuccess(result) {
 //-------------------------------------------------------
 var MAX_OPTION_NUMBER = 12;
 var MIN_OP_N = 1;
-var op_Label = $('<label id="">A:</label>');
+var op_Label = $('<label id=""></label>');
 var ID_LABEL = 'lb_option';
 
 var STYLE_CLASS = "form-control-inline";
@@ -158,36 +162,38 @@ var OPTION_KEY_HTML = '<input type="******" name="OptionKey" id="" value=""/>';
 var op_keyButton = $();
 var ID_KEYButton = 'key_option';
 
-var KEY_TYPE_HTML_DIC = { "Choice": "radio", "MultiChoice": "checkbox" };
+//var KEY_TYPE_HTML_DIC = { "Choice": "radio", "MultiChoice": "checkbox" };
+var with_key = true;
+var key_type = "";
 
 var iOptionNumber = 4; // default
 
 //--------------
 // key function:
-//-------------- refresh --------------
-function refreshChoice() {
+function refresh_option_part() {
     $('#Btn_OptionAdd').click(onAddOptionClick);
     $('#Btn_OptionDelete').click(onDeleteOptionClick);
-    var tempHTML = OPTION_KEY_HTML.replace("******", KEY_TYPE_HTML_DIC[question_type])
+    var tempHTML = OPTION_KEY_HTML.replace("******", key_type)
     op_keyButton = $(tempHTML);
     updateOptions();
 }
 
+//-------------- refresh --------------
+function refreshChoice() {
+    key_type = "radio";
+    with_key = true;
+    refresh_option_part();
+}
+
 function refreshMultiChoice() {
-    refreshChoice();
+    key_type = "checkbox";
+    with_key = true;
+    refresh_option_part();
 }
 //-------------- check --------------
-function checkChoice() {
+function checkOptions() {
     var ret = true;
-
-    var keyValue = $('input:' + KEY_TYPE_HTML_DIC[question_type] + ':checked').map(function () { return $(this).val(); }).get().join(",");
-    alert(keyValue);
-
-    ret = ret && !(keyValue == '');
-    if (keyValue == '') {
-        alert("No Key!!!!!");
-    }
-
+    
     //[id^=NavBtn_]
     var optionString = $('input:text[form="Form_OptionEditor"]').map(function () { return $(this).val(); }).get().join("|-|");
     ret = ret && (optionString.indexOf("|-||-|") == -1);
@@ -195,74 +201,182 @@ function checkChoice() {
         alert("option can not be empty");
     }
 
-    alert(optionString);
+    //alert(optionString);
     $('#id_options').val(optionString);
-    $('#id_key').val(keyValue);
+
+
+    if(with_key) {
+        var keyValue = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(",");
+        //alert(keyValue);
+    
+        ret = ret && !(keyValue == '');
+        if (keyValue == '') {
+            alert("No Key!!!!!");
+        }
+        $('#id_key').val(keyValue);
+    }
 
     return ret;
 }
 
-function checkMultiChoice() {
-    return checkChoice();
-}
-//--------------
-function parseForm(aform) {
-    var keyValue = $('#id_key').val();
+checkMultiChoice = checkChoice = checkOptions;
+// function checkMultiChoice() {
+//     return checkChoice();
+// }
+//-------------- parse ---------------
+parseForm2JsonChoice = parseForm2JsonMultiChoice = parseForm;
+function parseForm() {
+    var keyValue = $('#id_key') == null ? "" : $('#id_key').val();
     var optionString = $('#id_options').val();
     var optionList = optionString.split("|-|");
     var keyList = keyValue.split(",");
-        
-    var retList = new Array();
 
+    var value_List = [];
     iOptionNumber = optionList.length;
 
     for (var i = 0; i < iOptionNumber; i++) {
-        retList.push({ "option": optionList[i], "isKey": ($.inArray(""+i, keyList)>=0) });        
+        value_List.push({ "option": optionList[i], "isKey": ($.inArray("" + i, keyList) >= 0) });
     }
 
-    return retList;
+    value_Json = { "options": value_List };
 }
 
 //--------------
 function updateOptions() {
     var opPanel = $("#OptionPanel");
-    var opList = opPanel.find("p[id^=elem]");
     var btn_Panel = $('#BtnLine');
-    //alert(opList.length);
-    var needNumber = Math.max(iOptionNumber, opList.length)
 
-    var hasValue = (curr_qid != "");
+    var i=0;
 
-    if (hasValue) {
-        var formList = parseForm();
-    }
+    var tempContent = "";
+    var tempCheck = false;
 
-    for (var i = 0; i < needNumber; ++i) {
-        if (i >= opList.length) {
-            var optionLine = $("<p id=''></p>");
-            optionLine.attr("id", "elem" + i);
-            optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }));
-            optionLine.append(op_text.clone().attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS }).val(hasValue ? formList[i]["option"] : ""));
-            optionLine.append(op_keyButton.clone().attr({ "id": ID_KEYButton + i, "value": i, "class": STYLE_CLASS, "checked": hasValue ? formList[i]["isKey"] : false }));
+    opPanel.children("p[id^=elem]").each(function() {
+        if(i<iOptionNumber) {
+            tempContent = "";
+            tempCheck = false;
 
-            btn_Panel.before(optionLine);
+            if (with_value) {
+                if (i < value_Json["options"].length) {
+                    tempContent = value_Json["options"][i]["option"];
+                    tempCheck = value_Json["options"][i]["isKey"];
+                }
+            }
+        
+            $(this).children(ID_TEXT + i).val(tempContent);
+            if (with_key) {
+                $(this).children(ID_KEYButton + i).attr("checked", tempCheck);
+            }
         }
-        if (i >= iOptionNumber) {
-            opList[i].remove();
+        else{
+            this.remove();
         }
+        ++i;
+    })
+
+    while (i<iOptionNumber) {
+        var optionLine = $("<p id=''></p>");
+        optionLine.attr("id", "elem" + i);
+        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html(String.fromCharCode(65 + i)));
+
+        tempContent = "";
+        tempCheck = false;
+        if (with_value) {
+            if (i < value_Json["options"].length) {
+                tempContent = value_Json["options"][i]["option"];
+                tempCheck = value_Json["options"][i]["isKey"];
+            }
+        }
+        optionLine.append(op_text.clone()
+            .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS })
+            .val(tempContent));
+
+        if (with_key) {
+            optionLine.append(op_keyButton.clone()
+                .attr({
+                    "id": ID_KEYButton + i,
+                    "value": i, "class": STYLE_CLASS,
+                    "checked": tempCheck
+                }));
+        }
+
+        btn_Panel.before(optionLine);
+        //.remove();
+        ++i;
     }
 }
 
 function onAddOptionClick(event) {
-    //alert(event.target.enable);
-    ++iOptionNumber;
-    iOptionNumber = Math.min(MAX_OPTION_NUMBER, iOptionNumber);
-    updateOptions();
+    if (iOptionNumber < MAX_OPTION_NUMBER) {
+        ++iOptionNumber;
+        updateOptions();
+    }
+    else {
+        alert("Already Max Number!");
+    }
+
 }
 
 function onDeleteOptionClick(event) {
-    --iOptionNumber;
-    iOptionNumber = Math.max(MIN_OP_N, iOptionNumber);
-    updateOptions();
+    if (iOptionNumber > MIN_OP_N) {
+        --iOptionNumber;
+        updateOptions();
+    }
+    else {
+        alert("Already Min Number!");
+    }
 }
+
+//-------------------------------------------------------
+// Question type: FillInBlank
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshFillInBlank() {
+}
+
+//-------------- check --------------
+function checkFillInBlank() {
+    return false;
+}
+
+//-------------------------------------------------------
+// Question type: TrueOrFalse
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshTrueOrFalse() {
+}
+
+//-------------- check --------------
+function checkTrueOrFalse() {
+    return false;
+}
+
+//-------------------------------------------------------
+// Question type: Pair
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshPair() {
+}
+
+//-------------- check --------------
+function checkPair() {
+    return false;
+}
+
+//-------------------------------------------------------
+// Question type: Sort
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshSort() {
+    key_type = "hidden";
+    with_key = false;
+    refresh_option_part();
+}
+
+//-------------- check --------------
+checkSort = checkOptions;
+// function checkSort() {
+//     return false;
+// }
+
 //-------------------------------------------------------
