@@ -1,0 +1,29 @@
+{% extends "base_bs_style.html" %}
+{% load static %} 
+{% block title %}Teacher Main Page{% endblock %} 
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <nav class="navbar navbar-dark bg-dark">
+                <!-- Navbar content -->
+                <a class="navbar-brand" target="Content_Frame" href={% url 'course:question-editor' %} >Course Editor</a>
+            </nav>
+            <!-- <ul class="nav nav-pills nav-fill">
+                {% for qType in qTypeList %}
+                <li class="nav-item">
+                {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
+                {% url 'course:question-list' qType.get_url_name as qListURL %}
+                    <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}" data-qlist-url="{{qListURL}}">{{qType.get_url_name}}</a>
+                </li>
+                {% endfor %}
+                <br />
+            </ul> -->
+        </div>    
+    </div>
+</div>
+    <div class="container-fluid">
+        <iframe class="container" name="Content_Frame"></iframe>
+    </div>
+
+{% endblock %}

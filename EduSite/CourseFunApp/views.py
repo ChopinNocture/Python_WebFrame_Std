@@ -41,7 +41,6 @@ def get_question_list(request, qtype):
 
 # --------------------------------------------------------
 # editor for question
-
 class TempCouse(object):
     id = 0
     name = 'Lesson'
