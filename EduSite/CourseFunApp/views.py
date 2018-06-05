@@ -26,18 +26,17 @@ def get_question_list(request, qtype):
     if not issubclass(temp_class, questionModels.Question):
         return HttpResponse("Error type:" + qtype)
 
-    quests = temp_class.objects.all()
+    if not request.is_ajax():
+        return HttpResponse("Only support ajax Get!")
 
+    quests = temp_class.objects.all()
     quest_list = list()
 
     for iter in quests:
         quest_list.append({"id":iter.id, "desc":iter.description}) 
 
     # return render(request=request, template_name="home.html" )
-
     return JsonResponse(quest_list, safe=False)
-    # return HttpResponse(questList)
-
 
 # --------------------------------------------------------
 # editor for question
@@ -92,7 +91,6 @@ def question_editor_form(request, qtype, qid=-1):
 
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
-        print("Get access-----")
         return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
