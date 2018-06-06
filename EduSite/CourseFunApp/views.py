@@ -12,7 +12,7 @@ import CourseFunApp.forms as questionForms
 
 
 # --------------------------------------------------------
-# public notice now
+#  
 Q_TYPE_SUFFIX = 'Question'
 Q_FORM_SUFFIX = 'Form'
 
@@ -47,6 +47,7 @@ class TempCouse(object):
         self.id = id
         self.name = name
 
+# editor main
 def question_editor(request):
     course_list = list()
     i=0
