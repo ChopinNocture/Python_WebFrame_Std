@@ -38,7 +38,6 @@ QUESTION_TYPE_CHOICES = (
     (VOICE_Q, 'Voice'),
 )
 
-
 # --------------------------------------------------------
 # 题目基类
 class Question(models.Model):
@@ -88,3 +87,19 @@ class PairQuestion(Question):
 class SortQuestion(Question):
     options = models.TextField()
     # key = models.TextField()
+
+
+# ---------------
+# 题目类方法
+def get_qType_class(qType_name:str):
+    for iterType in Question.__subclasses__():
+        if iterType.get_url_name()==qType_name:
+            return iterType
+    raise AttributeError('Do not have this type:' + qType_name)
+
+def get_qType_list():
+    type_list = []
+    for iterType in Question.__subclasses__():
+        type_list.append(iterType.get_url_name)
+    
+    return type_list

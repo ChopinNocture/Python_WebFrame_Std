@@ -6,6 +6,7 @@ from django.forms import ModelForm
 
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
+import CourseFunApp.exam_system as exam_sys
 
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
@@ -13,17 +14,15 @@ import CourseFunApp.forms as questionForms
 
 # --------------------------------------------------------
 #  
-Q_TYPE_SUFFIX = 'Question'
-Q_FORM_SUFFIX = 'Form'
-
-q_type_list = questionModels.Question.__subclasses__()
+q_type_list = questionModels.get_qType_list()
 
 # --------------------------------------------------------
 # get question list by type
 def get_question_list(request, qtype):
-    #   package = __import__('\\.models')
-    temp_class = getattr(questionModels, qtype + Q_TYPE_SUFFIX)
-    if not issubclass(temp_class, questionModels.Question):
+    try:
+        temp_class = questionModels.get_qType_class(qtype)
+    except (AttributeError) as e:
+        print(e)
         return HttpResponse("Error type:" + qtype)
 
     if not request.is_ajax():
@@ -59,19 +58,28 @@ def question_editor(request):
 
 # form part
 def question_editor_form(request, qtype, qid=-1):
-    print("------------------" + q_type_list[0].get_url_name())
-    formClass = getattr(questionForms, qtype + Q_FORM_SUFFIX)
-
-    if not issubclass(formClass, ModelForm):
-        return HttpResponse("Error type:" + qtype)
+    # print("------------------" + q_type_list[0].get_url_name())
+    try:
+        formClass = questionForms.get_qForm_class(qtype)
+    except (AttributeError) as e:
+        # print(e)
+        return HttpResponse(e)
 
     requestData = getattr(request, request.method)
 
     quest_in_DB = None
     if qid is not -1:
-        temp_class = getattr(questionModels, qtype + Q_TYPE_SUFFIX)
-        if issubclass(temp_class, questionModels.Question):
+        try:
+            temp_class = questionModels.get_qType_class(qtype)
+        except (AttributeError) as e:
+            print(e)
+            return HttpResponse("Error type:" + qtype)
+
+        try:
             quest_in_DB = temp_class.objects.get(id=qid)
+        except (temp_class.MultipleObjectsReturned) as e:
+            print(e + "Multiply objects get from:" + type(temp_class))
+            return HttpResponse(e + "Multiply objects get from:" + type(temp_class))
 
     if request.method == "POST":
         newQuestForm = formClass(requestData, instance=quest_in_DB)
@@ -87,7 +95,7 @@ def question_editor_form(request, qtype, qid=-1):
             print("Succeed")
             return HttpResponse("Succeed")
         else:
-            print("fals!!!!!!!!!!!~~~~~~~~")
+            print("false!!!!!!!!!!!~~~~~~~~")
             return HttpResponse("False")
 
     elif request.method == "GET":
@@ -95,4 +103,8 @@ def question_editor_form(request, qtype, qid=-1):
         return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
-
+# --------------------------------------------------------
+# oprater for question
+def question_test(request):
+    exam_sys.generate_question_set()
+    return HttpResponse('helllo')

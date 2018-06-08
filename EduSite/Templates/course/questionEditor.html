@@ -11,8 +11,8 @@
             <ul class="nav nav-pills nav-fill">
                 {% for qType in qTypeList %}
                 <li class="nav-item">
-                {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
-                {% url 'course:question-list' qType.get_url_name as qListURL %}
+                {% url 'course:question-editor-type' qType as qTypeURL %}
+                {% url 'course:question-list' qType as qListURL %}
                     <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}" data-qlist-url="{{qListURL}}">{{qType.get_url_name}}</a>
                 </li>
                 {% endfor %}

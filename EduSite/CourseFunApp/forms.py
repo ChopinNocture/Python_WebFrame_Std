@@ -78,3 +78,22 @@ class SortForm(ModelForm):
         widgets.update({
             'options': HiddenInput(),
         })
+
+
+# ---------------
+# 题目Form方法
+current_module = __import__(__name__)
+Q_FORM_SUFFIX = 'Form'
+
+def get_qForm_class(qType_name:str):
+    try:
+        formCls = getattr(current_module.forms, qType_name + Q_FORM_SUFFIX)
+    except (AttributeError) as e:        
+        print(e)
+        raise AttributeError('Forms do not have this type:' + qType_name)
+
+    if not issubclass(formCls, ModelForm):
+        raise AttributeError('ModelForm do not have this type:' + qType_name)
+
+    return formCls
+    
