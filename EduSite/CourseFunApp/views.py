@@ -109,3 +109,8 @@ def question_test(request):
     question_dict = exam_sys.generate_question_set()
     # print(json.dumps(question_dict))
     return JsonResponse(question_dict)
+
+# --------------------------------------------------------
+# answer sheet
+def answer_sheet(request):
+    return render(request=request, template_name="course/AnswerSheet.html", context={"form": "", "questionType": ""})

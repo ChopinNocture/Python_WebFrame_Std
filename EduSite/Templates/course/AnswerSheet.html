@@ -1,0 +1,37 @@
+{% extends "base_bs_style.html" %}
+{% load static %} 
+{% block title %}Answer Sheet{% endblock %} 
+{% block jsPage %}
+<script type="text/javascript" src="{% static 'js/course/answer-sheet.js' %}"></script> 
+{% endblock %} 
+{% block content %}
+<div class="row">
+    <div class="col-3">
+        <div class="card">
+            <div class="card-header">
+                Course Struct
+            </div>
+            <img class="card-img-bottom float-xl-right" src="{% static 'images/teacher.png' %}" alt="Card image cap">
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="card">
+            <h3 class="card-header" id="section_title">Chapter 1: answer these questions</h3>
+            <div class="card-body">
+                    <h4 class="card-title"><span class="badge badge-info">1</span><sub>/10</sub> choice</h4>
+                    <p>
+                        this is choice 
+                    </p>
+            </div>
+            <div class="card-body">
+                    hahahaha
+            </div>
+            <div class="card-footer">
+                foot
+            </div>
+        </div>
+    </div>
+</div>
+            
+
+{% endblock %}
