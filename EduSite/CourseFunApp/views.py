@@ -105,6 +105,7 @@ def question_editor_form(request, qtype, qid=-1):
 
 # --------------------------------------------------------
 # oprater for question
-def question_test(request):
-    exam_sys.generate_question_set()
-    return HttpResponse('helllo')
+def question_test(request):    
+    question_dict = exam_sys.generate_question_set()
+    # print(json.dumps(question_dict))
+    return JsonResponse(question_dict)

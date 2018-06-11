@@ -100,6 +100,6 @@ def get_qType_class(qType_name:str):
 def get_qType_list():
     type_list = []
     for iterType in Question.__subclasses__():
-        type_list.append(iterType.get_url_name)
+        type_list.append(iterType.get_url_name())
     
     return type_list

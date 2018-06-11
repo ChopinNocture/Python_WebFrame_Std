@@ -1,19 +1,40 @@
+from django.forms.models import model_to_dict
 import CourseFunApp.models as QuestionModels
+
+import random
 
 q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{}
 def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
-    tmp_list = type_list
-    if tmp_list.count == 0:
+    question_dict = {}
+
+    tmp_list = type_list    
+    if len(tmp_list) == 0:
         tmp_list = q_type_list
 
     for iter_tpName in tmp_list:
+        print(" --- " + iter_tpName)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
             raise e
-        # temp_class.objct
 
-    print(len(tmp_list))
+        count = temp_class.objects.all().count()
+        need_num = min(per_sum, count)
+        if count==need_num:
+            generated_list = temp_class.objects.all()
+        else:
+            rand_ids = random.sample(range(1, count), need_num)
+            generated_list = temp_class.objects.filter(id_in=rand_ids)
+        
+        print("" + str(len(generated_list)) + ":")
+        if len(generated_list)>0:
+            q_json_list = []
+            for iter_item in generated_list:                
+                q_json_list.append(model_to_dict(iter_item))
+            question_dict[iter_tpName] = q_json_list
+    
+    return question_dict
+    
