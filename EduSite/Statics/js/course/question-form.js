@@ -169,8 +169,6 @@ var iOptionNumber = DEFAULT_OPTION_NUM; // default
 
 var Options_Json = [];
 
-var OPTION_SPLITER_SYMBOL = "|-|";
-
 //--------------
 // key function:
 //-------------- refresh --------------
