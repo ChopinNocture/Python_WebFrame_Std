@@ -6,16 +6,16 @@ import random
 q_type_list = QuestionModels.get_qType_list()
 # get question
 
-# generate a question set. Dict:{}
+# generate a question set. Dict:{type:[]}
 def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
-    question_dict = {}
-
     tmp_list = type_list    
     if len(tmp_list) == 0:
         tmp_list = q_type_list
 
+    q_json_list = []
+    question_dict = {}
     for iter_tpName in tmp_list:
-        print(" --- " + iter_tpName)
+        print(' --- ' + iter_tpName)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
@@ -29,12 +29,12 @@ def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
             rand_ids = random.sample(range(1, count), need_num)
             generated_list = temp_class.objects.filter(id_in=rand_ids)
         
-        print("" + str(len(generated_list)) + ":")
-        if len(generated_list)>0:
-            q_json_list = []
-            for iter_item in generated_list:                
-                q_json_list.append(model_to_dict(iter_item))
-            question_dict[iter_tpName] = q_json_list
+        print('' + str(len(generated_list)) + ':')
+        if len(generated_list)>0:            
+            for iter_item in generated_list:
+                question_dict = model_to_dict(iter_item)
+                question_dict['qType'] = iter_tpName
+                q_json_list.append(question_dict)
     
-    return question_dict
+    return {'qType_list':q_type_list, 'qList':q_json_list}
     

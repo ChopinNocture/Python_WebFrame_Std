@@ -112,5 +112,12 @@ def question_test(request):
 
 # --------------------------------------------------------
 # answer sheet
-def answer_sheet(request):
-    return render(request=request, template_name="course/AnswerSheet.html", context={"form": "", "questionType": ""})
+def answer_sheet(request, sectionID):
+    if request.method == "GET":
+        print(request.method)
+        return render(request=request, template_name="course/AnswerSheet.html", context={"section_name": "Chapter 5: answer these questions", "questionType": ""})
+    else:
+        print("-`-`-`-`"+request.method)
+        question_dict = exam_sys.generate_question_set()        
+        return JsonResponse(question_dict)
+    

@@ -17,11 +17,10 @@
                     <a class="nav-link" href="#" id="NavBtn_{{ qType }}" data-url="{{qTypeURL}}" data-type-name="{{ qType }}" data-qlist-url="{{qListURL}}">{{qType}}</a>
                 </li>
                 {% endfor %}
-                <br />
             </ul>
         <!-- </div> -->
-    </div>
-
+        <hr/>
+    </div>    
     <div class="row">
         <div class="col-2">
             <div class="card">
@@ -56,13 +55,10 @@
             <!-- <div class="row-fluid"> -->
             <div class="card">
                 <div class="card-header">
-                    Question title
-                </div>
-                <div class="card-body">
-                <p>
-                    <label>Filter by Course</label>
-                    <input class="form-control-inline" type="checkbox" form="Form_QList" onclick=""/>
-                </p>
+                    <p>
+                        <label>Filter by Course</label>
+                        <input class="form-control-inline" type="checkbox" form="Form_QList" onclick=""/>
+                    </p>
                 </div>
                 <ul class="list-group" id="Question_List">
                 </ul>                

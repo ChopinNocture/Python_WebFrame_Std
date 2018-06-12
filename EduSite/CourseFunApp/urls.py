@@ -9,7 +9,7 @@ urlpatterns = [
     path('questions/editor/<slug:qtype>/', views.question_editor_form, name='question-editor-type'),
     path('questions/editor/<slug:qtype>/<int:qid>/', views.question_editor_form),
     path('questions/test/', views.question_test),
-    path('answer_sheet/', views.answer_sheet),
+    path('answer_sheet/<int:sectionID>/', views.answer_sheet),
 #    path('delete/<int:notice_id>/', views.delete_notice),
 #    path('get/', views.get_notices),
 ]

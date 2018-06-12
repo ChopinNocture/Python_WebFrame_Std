@@ -14,18 +14,6 @@ var curr_qid = "";
 var with_value = false;
 
 //$(document).ready(updateQForm);
-function ajaxSubmit(aform, sucFunc, failFunc) {
-    alert($(aform).serialize());
-
-    $.ajax({
-        url: aform.action,
-        type: aform.method,
-        data: $(aform).serialize(),
-        dataType: "html",
-        success: sucFunc,
-        error: failFunc
-    });
-}
 
 function onNavTypeClk(event) {
 

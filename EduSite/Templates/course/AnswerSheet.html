@@ -5,6 +5,9 @@
 <script type="text/javascript" src="{% static 'js/course/answer-sheet.js' %}"></script> 
 {% endblock %} 
 {% block content %}
+<form method="post" action="." id="qlist_form">
+{% csrf_token %}
+</form>
 <div class="row">
     <div class="col-3">
         <div class="card">
@@ -16,22 +19,26 @@
     </div>
     <div class="col-9">
         <div class="card">
-            <h3 class="card-header" id="section_title">Chapter 1: answer these questions</h3>
+            <h3 class="card-header" id="section_title">{{section_name}}</h3>
             <div class="card-body">
-                    <h4 class="card-title"><span class="badge badge-info">1</span><sub>/10</sub> choice</h4>
-                    <p>
-                        this is choice 
-                    </p>
+                <h4 class="card-title">
+                    <span class="badge badge-info" id="question_index">1</span><span class="align-text-top" id="question_count">/10</span>
+                    <label id="question_type">Choice</label>
+                </h4>
+                <p id="q_description">
+                    this is choice 
+                </p>
             </div>
-            <div class="card-body">
-                    hahahaha
+        </div>
+        <br/>
+        <div class="card">
+            <div class="card-body" id="q_type_sheet">
+                hahahaha
             </div>
             <div class="card-footer">
                 foot
             </div>
         </div>
     </div>
-</div>
-            
-
+</div> 
 {% endblock %}
