@@ -1,4 +1,5 @@
 var OPTION_SPLITER_SYMBOL = "|-|";
+var KEY_SPLITER_SYMBOL = ",";
 
 function ajaxSubmit(aform, sucFunc, failFunc) {
     alert($(aform).serialize());

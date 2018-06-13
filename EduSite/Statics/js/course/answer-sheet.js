@@ -6,28 +6,34 @@ $('#btn_submit').click(onSubmitClk);
 $('#btn_next').click(onNextClk);
 $('#btn_Prev').click(onPrevClk);
 
-var qType_list = []
-var answer_list = []
+var qType_list = [];
+var result_list = [];   // complete, result, answer
 var qList_obj = null;
 var cur_idx = -1;
 var question_sum = 0;
 
 function onInit(event) {
     //alert('henen');    
-    ajaxSubmitJson( document.getElementById('qlist_form'), onQuestionListGet, failFunc)
+    ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc)
 }
 
-function checkAnswer() {}
-function onSubmitClk(event){
+var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
+function checkAnswer() {
+    var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
+    result_list[cur_idx] = result_json;    
+    alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
+}
+
+function onSubmitClk(event) {
     checkAnswer();
 }
 
-function onNextClk(event){
-    cur_idx = Math.min(cur_idx + 1, question_sum);
+function onNextClk(event) {
+    cur_idx = Math.min(cur_idx + 1, question_sum - 1);
     update();
 }
 
-function onPrevClk(event){
+function onPrevClk(event) {
     cur_idx = Math.max(cur_idx - 1, 0);
     update();
 }
@@ -40,9 +46,11 @@ function onQuestionListGet(jsonData) {
     //alert(typeof(jsonData));
     alert('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
     qType_list = jsonData.qType_list;
-    question_sum = qType_list.length;
-    answer_list = new Array(question_sum);
     qList_obj = jsonData;
+    
+    question_sum = qList_obj.qList.length;
+    answer_list = new Array(question_sum);
+    
     cur_idx = 0;
     update();
 }
@@ -57,8 +65,10 @@ function update() {
 
             $('#q_type_sheet').empty();
             if (qType_list.indexOf(qList_obj.qList[cur_idx].qType) != -1) {
-                eval('checkAnswer = check' + qList_obj.qList[cur_idx].qType);
+                // framework [set:check answer] and [refresh page]                
                 eval('refresh' + qList_obj.qList[cur_idx].qType + '(qList_obj.qList[cur_idx])');
+                // 设置check函数
+                eval('checkAnswerFunc = check' + qList_obj.qList[cur_idx].qType);
             }
             //
         }
@@ -68,32 +78,22 @@ function update() {
 //=======================================================
 // FillInBlank TrueOrFalse Choice MultiChoice Pair Sort
 //=======================================================
+//-------------------------------------------------------
+// Question type: FillInBlank
+//-------------------------------------------------------
+//---- refresh ----
 function refreshFillInBlank(question) {
-    alert(question);
     $('#q_description').html(question.description);
 }
 
-function checkFillInBlank() {    
+function checkFillInBlank(key_str) {
+    return '';
 }
 
-function checkTrueOrFalse() {}
-
-function chk_Opt(key_type) {
-    return $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(",");
-}
-
-function checkChoice() {
-    alert(chk_Opt('radio'));
-}
-function checkMultiChoice() {
-    alert(chk_Opt('checkbox'));
-}
-
-function checkPair() {}
-function checkSort() {}
-
+//-------------------------------------------------------
+// Question type: TrueOrFalse
+//-------------------------------------------------------
 function refreshTrueOrFalse(question) {
-    alert(question);
     $('#q_description').html(question.description);
     var html_str = '';
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Right" value="Right"/><label>Right</label>';
@@ -110,7 +110,26 @@ function refreshTrueOrFalse(question) {
 
     $('#q_type_sheet').html(html_str);
 }
+function checkTrueOrFalse(key_bool) {
+    var result_json = { 'complete': false }
 
+    result_json.complete = $('#TF_Right').prop('checked') || $('#TF_Wrong').prop('checked');
+    if (!result_json.complete) {
+        alert('Unfinished! Must choose something!');
+        return result_json;
+    }
+
+    result_json['answer'] = $('#TF_Right').prop('checked');
+
+    result_json['result'] = (key_bool == result_json['answer']);
+
+    return result_json;
+}
+
+//-------------------------------------------------------
+// Question type: Choice MultiChoice
+//-------------------------------------------------------
+//---- refresh ----
 var OPTION_HTML = '<div class="form-check">\
                         <input class="form-check-input" type="$$" name="QuestionOptions" id="@@" value="^^">\
                         <label class="form-check-label" for="@@">\
@@ -118,17 +137,16 @@ var OPTION_HTML = '<div class="form-check">\
                         </label>\
                     </div>';
 var OPTION_ID = 'ID_Option';
-
-function generateOptions(question, CheckOrRadio='radio') {
+function generateOptions(question, CheckOrRadio = 'radio') {
     var html_str = '';
     var option_list = question.options.split(OPTION_SPLITER_SYMBOL);
-    
+
     for (var i = 0; i < option_list.length; ++i) {
         html_str += OPTION_HTML.replace('$$', CheckOrRadio)
-                    .replace('@@', OPTION_ID + (i + 1))
-                    .replace('@@', OPTION_ID + (i + 1))
-                    .replace('##', option_list[i])
-                    .replace('^^', i)                    
+            .replace('@@', OPTION_ID + (i + 1))
+            .replace('@@', OPTION_ID + (i + 1))
+            .replace('##', option_list[i])
+            .replace('^^', i)
     }
     return html_str;
 }
@@ -143,10 +161,41 @@ function refreshMultiChoice(question) {
     $('#q_type_sheet').html(generateOptions(question, 'checkbox'));
 }
 
+//---- check ----
+function chk_Opt(key_str, key_type) {
+    var result_json = { 'complete': false };
+    var answer_str = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+
+    result_json.complete = (answer_str.length>0);
+    if (result_json.complete) {
+        result_json['answer'] = answer_str;
+        result_json['result'] = (answer_str == key_str);
+    }
+    else {
+        alert('Unfinished! Must choose something!');
+    }
+    return result_json;
+}
+
+function checkChoice(key_str) {
+    return chk_Opt(key_str, 'radio');
+}
+
+function checkMultiChoice(key_str) {
+    return chk_Opt(key_str, 'checkbox');
+}
+
+//-------------------------------------------------------
+// Question type: Pair
+//-------------------------------------------------------
 function refreshPair(question) {
     $('#q_description').html(question.description);
 }
-
+function checkPair(key_str) { }
+//-------------------------------------------------------
+// Question type: Sort
+//-------------------------------------------------------
 function refreshSort(question) {
     $('#q_description').html(question.description);
 }
+function checkSort(key_str) { }

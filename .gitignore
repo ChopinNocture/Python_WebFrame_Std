@@ -104,3 +104,4 @@ EduSite/CourseFunApp/migrations/0001_initial.py
 EduSite/NoticeApp/migrations/0001_initial.py
 EduSite/CourseFunApp/migrations/0002_auto_20180604_0146.py
 EduSite/NoticeApp/migrations/0002_auto_20180604_0146.py
+EduSite/NoticeApp/migrations/0002_auto_20180613_1745.py

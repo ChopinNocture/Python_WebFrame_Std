@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput,Textarea
+from django.forms import ModelForm, HiddenInput,Textarea,CheckboxInput
 
 from .models import *
 
@@ -14,10 +14,10 @@ Q_WIDGETS_SETTING = {
 class FillInBlankForm(ModelForm):
     class Meta:
         model = FillInBlankQuestion
-        fields = FIELD_LIST + ['blankKey']
+        fields = FIELD_LIST + ['key']
         widgets = Q_WIDGETS_SETTING
         widgets.update({
-            'blankKey': HiddenInput()
+            'key': HiddenInput()
         })
         
 
@@ -25,8 +25,11 @@ class FillInBlankForm(ModelForm):
 class TrueOrFalseForm(ModelForm):
     class Meta:
         model = TrueOrFalseQuestion
-        fields = FIELD_LIST + ['Key']
-        widgets = Q_WIDGETS_SETTING
+        fields = FIELD_LIST + ['key']
+        widgets = Q_WIDGETS_SETTING 
+        widgets.update({
+            'key': CheckboxInput()
+        })
 
 # 单项选择题
 class ChoiceForm(ModelForm):

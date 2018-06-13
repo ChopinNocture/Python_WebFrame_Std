@@ -56,18 +56,18 @@ class Question(models.Model):
 
 # 填空题
 class FillInBlankQuestion(Question):
-    blankKey = models.TextField()
+    key = models.TextField()
 
 
 # 判断题
 class TrueOrFalseQuestion(Question):
-    Key = models.BooleanField()
+    key = models.BooleanField()
 
 
 # 单项选择题
 class ChoiceQuestion(Question):
     options = models.TextField()
-    key = models.PositiveSmallIntegerField()
+    key = models.PositiveSmallIntegerField() 
 
 
 # 多项选择题

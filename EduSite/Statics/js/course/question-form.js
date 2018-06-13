@@ -214,7 +214,7 @@ function checkOptions() {
 
 
     if (with_key) {
-        var keyValue = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(",");
+        var keyValue = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
         //alert(keyValue);
 
         ret = ret && !(keyValue == '');
@@ -238,7 +238,7 @@ function parseOptionForm() {
     var keyList = [];
     if (with_key && ($('#id_key') != null)) {
         keyValue = $('#id_key').val();
-        keyList = keyValue.split(",");
+        keyList = keyValue.split(KEY_SPLITER_SYMBOL);
     }
 
     var value_List = [];
