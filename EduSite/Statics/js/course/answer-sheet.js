@@ -12,8 +12,7 @@ var qList_obj = null;
 var cur_idx = -1;
 var question_sum = 0;
 
-function onInit(event) {
-    //alert('henen');    
+function onInit(event) {  
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc)
 }
 
@@ -34,8 +33,10 @@ function onNextClk(event) {
 }
 
 function onPrevClk(event) {
-    cur_idx = Math.max(cur_idx - 1, 0);
-    update();
+    //cur_idx = Math.max(cur_idx - 1, 0);
+    //update();
+
+    tool_shuffle_list(8);
 }
 
 function failFunc() {
@@ -196,6 +197,8 @@ function checkPair(key_str) { }
 // Question type: Sort
 //-------------------------------------------------------
 function refreshSort(question) {
+    var listtt = new Array(10);
+    listtt.
     $('#q_description').html(question.description);
 }
 function checkSort(key_str) { }
