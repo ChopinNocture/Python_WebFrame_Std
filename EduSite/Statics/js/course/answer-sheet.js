@@ -204,24 +204,23 @@ var SORTABLE_OPTION_HTML = '<div class="" id="@@" ondrop="drop(event)" ondragove
                                 </div>\
                             </div>';
 
-function drag(event)
-{
-    event.dataTransfer.setData("id", event.target.parentNode.id);
+function drag(event) {
+    event.dataTransfer.setData('id', $(event.target).parent().attr('id'));// parentNode.id);
 }
 
 function drop(event) {
     event.preventDefault();
     var id = event.dataTransfer.getData("id");
 
-    var orin = document.getElementById(id);
-    var orinNode = orin.children[0];
-    var targetNode = event.target.children[0];
+    var orin = $('#'+id);
+    var orinNode = orin.children('div');
+    var targetNode = $(event.target).children('div');
 
-    orin.innerHTML = '';
-    event.target.innerHTML = '';//.removeChild(targetNode);
+    orin.empty();
+    $(event.target).empty();//target.innerHTML = '';//.removeChild(targetNode);
 
-    event.target.innerHTML = orinNode.html;
-    orin.innerHTML = targetNode.html;
+    $(event.target).append(orinNode);
+    orin.append(targetNode);
 }
 
 function allowDrop(event){
