@@ -33,10 +33,8 @@ function onNextClk(event) {
 }
 
 function onPrevClk(event) {
-    //cur_idx = Math.max(cur_idx - 1, 0);
-    //update();
-
-    tool_shuffle_list(8);
+    cur_idx = Math.max(cur_idx - 1, 0);
+    update();    
 }
 
 function failFunc() {
@@ -111,6 +109,7 @@ function refreshTrueOrFalse(question) {
 
     $('#q_type_sheet').html(html_str);
 }
+
 function checkTrueOrFalse(key_bool) {
     var result_json = { 'complete': false }
 
@@ -121,7 +120,6 @@ function checkTrueOrFalse(key_bool) {
     }
 
     result_json['answer'] = $('#TF_Right').prop('checked');
-
     result_json['result'] = (key_bool == result_json['answer']);
 
     return result_json;
@@ -138,6 +136,7 @@ var OPTION_HTML = '<div class="form-check">\
                         </label>\
                     </div>';
 var OPTION_ID = 'ID_Option';
+
 function generateOptions(question, CheckOrRadio = 'radio') {
     var html_str = '';
     var option_list = question.options.split(OPTION_SPLITER_SYMBOL);
@@ -196,9 +195,53 @@ function checkPair(key_str) { }
 //-------------------------------------------------------
 // Question type: Sort
 //-------------------------------------------------------
-function refreshSort(question) {
-    var listtt = new Array(10);
-    listtt.
-    $('#q_description').html(question.description);
+
+var SORTABLE_OPTION_HTML = '<div class="" id="@@" ondrop="drop(event)" ondragover="allowDrop(event)">\
+                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="^^"> \
+                                    <label class="form-check-label"> \
+                                        ##\
+                                    </label>\
+                                </div>\
+                            </div>';
+
+function drag(event)
+{
+    event.dataTransfer.setData("id", event.target.parentNode.id);
 }
+
+function drop(event) {
+    event.preventDefault();
+    var id = event.dataTransfer.getData("id");
+
+    var orin = document.getElementById(id);
+    var orinNode = orin.children[0];
+    var targetNode = event.target.children[0];
+
+    orin.innerHTML = '';
+    event.target.innerHTML = '';//.removeChild(targetNode);
+
+    event.target.innerHTML = orinNode.html;
+    orin.innerHTML = targetNode.html;
+}
+
+function allowDrop(event){
+    event.preventDefault();
+}
+
+function refreshSort(question) {
+    $('#q_description').html(question.description);
+
+    var option_list = question.options.split(OPTION_SPLITER_SYMBOL);    
+    var shuffled_op = tool_shuffle_list(option_list.length);
+    
+    var html_str = '';
+    for (var i = 0; i < shuffled_op.length; ++i) {
+        html_str += SORTABLE_OPTION_HTML.replace('@@', OPTION_ID + (i + 1))
+                                        .replace('##', option_list[shuffled_op[i]])
+                                        .replace('^^', shuffled_op[i])
+    }
+    $('#q_type_sheet').html(html_str);
+    alert(shuffled_op);
+}
+
 function checkSort(key_str) { }
