@@ -196,21 +196,23 @@ function checkPair(key_str) { }
 // Question type: Sort
 //-------------------------------------------------------
 
-var SORTABLE_OPTION_HTML = '<div class="" id="@@" ondrop="drop(event)" ondragover="allowDrop(event)">\
+var SORTABLE_OPTION_HTML = '<div class="" id="@@" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
                                 <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="^^"> \
-                                    <label class="form-check-label"> \
                                         ##\
-                                    </label>\
                                 </div>\
                             </div>';
 
 function drag(event) {
-    event.dataTransfer.setData('id', $(event.target).parent().attr('id'));// parentNode.id);
+    event.dataTransfer.setData('text', $(event.target).parent().attr('id'));// parentNode.id);
+    event.dataTransfer.effectAllowed = 'copy'; 
 }
 
 function drop(event) {
+    
     event.preventDefault();
-    var id = event.dataTransfer.getData("id");
+
+    alert(event.target);
+    var id = event.dataTransfer.getData("text");
 
     var orin = $('#'+id);
     var orinNode = orin.children('div');
@@ -225,6 +227,8 @@ function drop(event) {
 
 function allowDrop(event){
     event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    return false;
 }
 
 function refreshSort(question) {
