@@ -10,30 +10,32 @@
 </form>
 <div class="row m-5">
     <div class="col-3">
-        <div class="card">
-            <div class="card-header">
-                Course Struct
+        <div class="card" id="statistic_frame">
+            <div class="card-header" id="statistic_main">
+                <h5>
+                答对<span class="badge badge-pill badge-success" id="stat_right">0</span>  
+                答错<span class="badge badge-pill badge-danger" id="stat_wrong">0</span>
+                </h5>
+                <button id="btn_back" class="btn btn-warning btn-lg align-right">Back</button>
             </div>
             <img class="card-img-bottom float-xl-right" src="{% static 'images/teacher.png' %}" alt="Card image cap">
         </div>
     </div>
     <div class="col-9">
-        <div class="card">
+        <div class="card" id="quesion_desc_main">
             <h3 class="card-header" id="section_title">{{section_name}}</h3>
             <div class="card-body">
                 <h4 class="card-title">
-                    <span class="badge badge-info" id="question_index">1</span><span class="align-text-top" id="question_count">/10</span>
-                    <label id="question_type">Choice</label>
+                    <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
+                    <label id="question_type"></label>
                 </h4>
-                <p id="q_description">
-                    this is choice 
+                <p id="q_description">                    
                 </p>
             </div>
         </div>
         <br/>
         <div class="card">
-            <div class="card-body" id="q_type_sheet">
-                hahahaha
+            <div class="card-body" id="q_type_sheet">                
             </div>
             <div class="card-footer text-right">
                 <p id="q_type_tips" class="align-content-center">foot

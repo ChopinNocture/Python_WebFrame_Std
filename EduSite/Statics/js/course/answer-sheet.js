@@ -16,29 +16,53 @@ function onInit(event) {
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc)
 }
 
-var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
-function checkAnswer() {
-    var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
-    result_list[cur_idx] = result_json;    
-    alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
-}
-
 function onSubmitClk(event) {
     checkAnswer();
 }
 
 function onNextClk(event) {
+    var lastnextidx = cur_idx;
     cur_idx = Math.min(cur_idx + 1, question_sum - 1);
-    update();
+    if (lastnextidx != cur_idx) {
+        update();
+    }
 }
 
 function onPrevClk(event) {
+    var lastnextidx = cur_idx;
     cur_idx = Math.max(cur_idx - 1, 0);
-    update();    
+    if (lastnextidx != cur_idx) {
+        update();
+    }
 }
 
 function failFunc() {
     alert('boibo');
+}
+
+var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
+function checkAnswer() {
+    var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
+    result_list[cur_idx] = result_json;    
+    alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
+
+    updateStat();
+}
+
+function updateStat() {
+    var right_sum=0, wrong_sum = 0;
+    result_list.forEach(function(value,index,array) {
+        if (value['complete']) {
+            if(value['result']) {
+                ++right_sum;
+            }
+            else {
+                ++wrong_sum;
+            }
+        }        
+    });
+    $('#stat_right').html(right_sum);
+    $('#stat_wrong').html(wrong_sum);
 }
 
 function onQuestionListGet(jsonData) {
@@ -143,8 +167,8 @@ function generateOptions(question, CheckOrRadio = 'radio') {
 
     for (var i = 0; i < option_list.length; ++i) {
         html_str += OPTION_HTML.replace('$$', CheckOrRadio)
-            .replace('@@', OPTION_ID + (i + 1))
-            .replace('@@', OPTION_ID + (i + 1))
+            .replace('@@', OPTION_ID + (i))
+            .replace('@@', OPTION_ID + (i))
             .replace('##', option_list[i])
             .replace('^^', i)
     }
@@ -197,7 +221,7 @@ function checkPair(key_str) { }
 //-------------------------------------------------------
 
 var SORTABLE_OPTION_HTML = '<div class="" id="@@" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
-                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="^^"> \
+                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="^^" data-opidx="~~"> \
                                         ##\
                                 </div>\
                             </div>';
@@ -231,6 +255,8 @@ function allowDrop(event){
     return false;
 }
 
+var SORT_OP_ID = 'drag_item';
+
 function refreshSort(question) {
     $('#q_description').html(question.description);
 
@@ -239,12 +265,28 @@ function refreshSort(question) {
     
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
-        html_str += SORTABLE_OPTION_HTML.replace('@@', OPTION_ID + (i + 1))
+        html_str += SORTABLE_OPTION_HTML.replace('@@', OPTION_ID + (i))
                                         .replace('##', option_list[shuffled_op[i]])
-                                        .replace('^^', shuffled_op[i])
+                                        .replace('~~', shuffled_op[i])
+                                        .replace('^^', SORT_OP_ID + i);
     }
     $('#q_type_sheet').html(html_str);
     alert(shuffled_op);
 }
 
-function checkSort(key_str) { }
+function checkSort(key_str) { 
+    alert("hgaha");
+    var suc = true;
+    $('div[id^=' + SORT_OP_ID + ']').each(function (index) {
+        alert('  0  ' + index + '  ' + this.dataset['opidx']);
+        suc = (index == this.dataset['opidx']);
+        return suc;
+    });
+
+    var result_json = { 'complete': true };
+
+    result_json['answer'] = $('div[id^=' + SORT_OP_ID + ']').map(function(){return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
+    result_json['result'] = suc;
+
+    return result_json;
+}
