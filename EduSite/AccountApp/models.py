@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class StudentProf(models.Model):
-    user = models.OneToOneField(User, unique=True)
+    user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)
     gold = models.IntegerField()
     progress = models.PositiveIntegerField()
     rank = models.PositiveIntegerField()
 
 class TeacherProf(models.Model):
-    user = models.OneToOneField(User, unique=True)
+    user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)

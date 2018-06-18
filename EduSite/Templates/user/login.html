@@ -1,0 +1,17 @@
+{% extends "base_bs_style.html" %}
+{% load static %} 
+{% block title %}Login{% endblock %} 
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid text-center">
+        <h1>Login</h1>
+        <p>Input user name.</p>
+        <form class="form-horizontal" action="." method="post" id="Form_Login">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Login">
+            <!--input class="form-control" type="submit" value="Add" form="Form_QuestionEditor"-->
+        </form>
+    </div>
+</div>
+{% endblock %}
