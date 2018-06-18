@@ -5,5 +5,8 @@ from django.contrib.auth.models import User
 class StudentProf(models.Model):
     user = models.OneToOneField(User, unique=True)
     gold = models.IntegerField()
-    progress
-    rank
+    progress = models.PositiveIntegerField()
+    rank = models.PositiveIntegerField()
+
+class TeacherProf(models.Model):
+    user = models.OneToOneField(User, unique=True)

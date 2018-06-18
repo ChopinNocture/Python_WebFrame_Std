@@ -21,4 +21,5 @@ urlpatterns = [
     path('test/', include('TestApp.urls')),
     path('notice/', include('NoticeApp.urls')),
     path('course/', include('CourseFunApp.urls', namespace='course')),
+    path('user/', include('AccountApp.urls', namespace='user')),
 ]
