@@ -9,6 +9,7 @@ var RefreshFunc_Prefix = "refresh";
 var CheckFunc_Prefix = "check";
 var question_type = "Choice";
 var current_url = "";
+var cur_list_url = "";
 var curr_qid = "";
 
 var with_value = false;
@@ -33,8 +34,9 @@ function onNavTypeClk(event) {
     curr_qid = "";
     with_value = false;
     current_url = event.target.dataset.url;
+    cur_list_url = event.target.dataset.qlistUrl;
     $.get(current_url, updateQForm);
-    $.get(event.target.dataset.qlistUrl, updateQList);
+    $.get(cur_list_url, updateQList);
 
     return false;
 }
@@ -102,11 +104,13 @@ function updateQForm(data) {
     if (with_value) {
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
         eval(ParseFormFunc_Prefix + question_type + "()");
+        document.getElementById('btn_modify').innerHTML = "确认修改";
     }
     else {
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
+        document.getElementById('btn_modify').innerHTML = "加入题库";
     }
-    document.getElementById('Form_QuestionEditor').submit = function () { alert("QE func" + this); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
+    document.getElementById('Form_QuestionEditor').submit = function () { ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
 
     //alert("update " + question_type + " form");
     eval(RefreshFunc_Prefix + question_type + "()");
@@ -142,6 +146,10 @@ function onSubmitFailed(result) {
 function onSubmitSuccess(result) {
     alert(result);
     document.getElementById('Form_QuestionEditor').reset();
+    if(!with_value) {
+        eval(RefreshFunc_Prefix + question_type + "()");
+        $.get(cur_list_url, updateQList);
+    }    
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort

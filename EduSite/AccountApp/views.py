@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp.forms import LoginForm
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf
 
 def user_login(request):
     if request.method == 'POST':
@@ -27,3 +29,10 @@ def user_login(request):
     if request.method == 'GET':
         login_form = LoginForm()
         return render(request, 'user/login.html', {'form': login_form})
+
+
+@login_required(login_url='/user/login/')
+def student_manager(request):
+    if request.method == 'GET':
+        class_list = ClassInfo.objects.all()
+        return render(request, 'user/student_manager.html', {'class_list': class_list})
