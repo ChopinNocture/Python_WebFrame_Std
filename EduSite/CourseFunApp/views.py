@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.forms import ModelForm
 
 # Create your views here.
-
+from CourseFunApp.models import Lesson
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
@@ -38,21 +38,13 @@ def get_question_list(request, qtype):
     return JsonResponse(quest_list, safe=False)
 
 # --------------------------------------------------------
-# editor for question
-class TempCouse(object):
-    id = 0
-    name = 'Lesson'
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-
 # editor main
 def question_editor(request):
     course_list = list()
-    i=0
-    while i<10:
-        course_list.append(TempCouse(id=i, name='Lesson '+ str(i)))
-        i+=1
+    lesson_list = Lesson.objects.all()
+
+    for iter in lesson_list:
+        course_list.append({"id":iter.id, "name":iter.description})
     
     return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list, "course_list":course_list})
 
@@ -82,6 +74,7 @@ def question_editor_form(request, qtype, qid=-1):
             return HttpResponse(e + "Multiply objects get from:" + type(temp_class))
 
     if request.method == "POST":
+        print(" -- "+requestData["sectionID"])
         newQuestForm = formClass(requestData, instance=quest_in_DB)
 
         if newQuestForm.is_valid():
@@ -118,11 +111,12 @@ def study(request, lesson_id):
 # --------------------------------------------------------
 # answer sheet
 def answer_sheet(request, sectionID):
+    lesson = Lesson.objects.get(id=sectionID)
     if request.method == "GET":
         print(request.method)
-        return render(request=request, template_name="course/AnswerSheet.html", context={"section_name": "Chapter 5: answer these questions", "questionType": ""})
+        return render(request=request, template_name="course/AnswerSheet.html", context={"section_name": lesson.description, "questionType": ""})
     else:
         print("-`-`-`-`"+request.method)
-        question_dict = exam_sys.generate_question_set()        
+        question_dict = exam_sys.generate_question_set(lesson)
         return JsonResponse(question_dict)
     

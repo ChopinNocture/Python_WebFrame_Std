@@ -17,7 +17,7 @@ class Course(models.Model):
 
 # --------------------------------------------------------
 class Lesson(models.Model):
-    description = models.TextField(max_length=MAX_CONTENT_LENGTH)
+    description = models.CharField(max_length=MAX_CONTENT_LENGTH)
 
 class LessonContent(models.Model):
     lesson = models.OneToOneField(Lesson, unique=True, on_delete=models.CASCADE,)
@@ -47,7 +47,7 @@ QUESTION_TYPE_CHOICES = (
 # 题目基类
 class Question(models.Model):
     description = models.TextField()
-    sectionID = models.CharField(max_length=32)
+    sectionID = models.ForeignKey(Lesson, on_delete=models.CASCADE, )
     flag = models.PositiveSmallIntegerField()
     star = models.PositiveSmallIntegerField()
 

@@ -12,6 +12,8 @@ var current_url = "";
 var cur_list_url = "";
 var curr_qid = "";
 
+var lesson_id = -1;
+
 var with_value = false;
 
 //$(document).ready(updateQForm);
@@ -39,6 +41,23 @@ function onNavTypeClk(event) {
     $.get(cur_list_url, updateQList);
 
     return false;
+}
+
+//=======================================================
+// Lesson Part
+//=======================================================
+function onLessonClick(event) {
+    $('button[id^=course_]').removeClass('active');
+    
+    if(event.target.dataset.lesson==lesson_id) {
+        $(event.target).removeClass('active');
+        lesson_id = null;
+    }
+    else {
+        $(event.target).addClass('active');
+        lesson_id = event.target.dataset.lesson;
+    }
+    alert(event.target.dataset.lesson + "  ---  " );
 }
 
 //=======================================================
@@ -120,7 +139,7 @@ function checkForm() {
     var ret = true;
 
     ret = ret && ($('#id_description').val().length != 0);
-    $('#id_sectionID').val("A");
+    $('#id_sectionID').val(lesson_id);
     $('#id_flag').val(0x01);
     $('#id_star').val(3);
 

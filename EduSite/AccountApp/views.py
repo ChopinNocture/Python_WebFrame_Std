@@ -31,15 +31,15 @@ def user_login(request):
         login_form = LoginForm()
         return render(request, 'user/login.html', {'form': login_form})
 
+from CourseFunApp.views import Lesson
 
 @login_required(login_url='/user/login/')
-def student_main(request):
-    from CourseFunApp.views import TempCouse
+def student_main(request):    
     course_list = list()
-    i=0
-    while i<10:
-        course_list.append(TempCouse(id=i, name='Lesson '+ str(i)))
-        i+=1
+    lesson_list = Lesson.objects.all()
+
+    for iter in lesson_list:
+        course_list.append({"id":iter.id, "name":iter.description})
 
     cur_user = request.user  
     if cur_user is not None:

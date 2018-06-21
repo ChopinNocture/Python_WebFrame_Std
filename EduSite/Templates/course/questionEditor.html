@@ -24,15 +24,13 @@
     <div class="row">
         <div class="col-2">
             <div class="card">
-                <div class="card-header">
-                    Course Struct
+                <div class="card-header text-center">
+                    课程章节列表
                 </div>
-                <!-- <div class="card-body"> -->
-                    <ul class="list-group list-group-flush">
-                        {% for course in course_list %}
-                        <li class="list-group-item">{{course.name}}</li>
-                        {% endfor %}
-                    </ul>
+                <!-- <div class="card-body"> -->                    
+                    {% for course in course_list %}
+                    <button class="list-group-item list-group-item-action inline-block text-truncate" data-lesson={{course.id}} id="course_{{course.id}}" onclick="onLessonClick(event)">{{course.name}}</button>
+                    {% endfor %}                    
                 <!-- </div> -->
             </div>
         </div>
@@ -54,10 +52,10 @@
         <div class="col-3">
             <!-- <div class="row-fluid"> -->
             <div class="card">
-                <div class="card-header">
+                <div class="card-header text-center">
                     <p>
-                        <label>Filter by Course</label>
-                        <input class="form-control-inline" type="checkbox" form="Form_QList" onclick=""/>
+                        <input class="form-check-input" type="checkbox" form="Form_QList" onclick="" id="LessonFilter"/>
+                        <label class="form-check-label" for="LessonFilter">按课程筛选</label>
                     </p>
                 </div>
                 <ul class="list-group" id="Question_List">

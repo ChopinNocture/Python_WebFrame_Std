@@ -21,13 +21,13 @@ def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
         except (AttributeError) as e:
             raise e
 
-        count = temp_class.objects.all().count()
+        count = temp_class.objects.filter(sectionID=sectionID).count()
         need_num = min(per_sum, count)
         if count==need_num:
-            generated_list = temp_class.objects.all()
+            generated_list = temp_class.objects.filter(sectionID=sectionID)
         else:
             rand_ids = random.sample(range(1, count), need_num)
-            generated_list = temp_class.objects.filter(id_in=rand_ids)
+            generated_list = temp_class.objects.filter(sectionID=sectionID, id__in=rand_ids)
         
         print('' + str(len(generated_list)) + ':')
         if len(generated_list)>0:            
