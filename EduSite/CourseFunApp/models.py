@@ -19,6 +19,11 @@ class Course(models.Model):
 class Lesson(models.Model):
     description = models.TextField(max_length=MAX_CONTENT_LENGTH)
 
+class LessonContent(models.Model):
+    lesson = models.OneToOneField(Lesson, unique=True, on_delete=models.CASCADE,)
+    file = models.FileField()
+    content = models.TextField()
+
 
 SINGLE_SELECTION = 'SS'
 MULTI_SELECTION = 'MS'

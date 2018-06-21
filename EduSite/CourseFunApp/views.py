@@ -104,12 +104,17 @@ def question_editor_form(request, qtype, qid=-1):
     # return HttpResponse(temp_class.get_url_name())
 
 # --------------------------------------------------------
-# oprater for question
-def question_test(request):    
-    question_dict = exam_sys.generate_question_set()
-    # print(json.dumps(question_dict))
-    return JsonResponse(question_dict)
+# oprater for lesson
+def lesson_editor(request):
+    return HttpResponse('Lesson Editor')
 
+
+def lesson_content(request, lesson_id):
+    return HttpResponse('hello')
+
+
+def study(request, lesson_id):
+    return HttpResponse('Lesson Study')
 # --------------------------------------------------------
 # answer sheet
 def answer_sheet(request, sectionID):
