@@ -8,6 +8,7 @@ from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf
 
 def user_login(request):
+    print(request.POST.get('next'))
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
@@ -16,10 +17,10 @@ def user_login(request):
 
             if user:
                 login(request, user)
-                if user.groups.filter(name='Teacher').exists():
-                    return HttpResponseRedirect('/course/questions/editor/')
+                if user.groups.filter(name='teachers').exists():
+                    return HttpResponseRedirect('/user/teacher/')
                 else:
-                    return HttpResponseRedirect('/course/answer_sheet/1/')
+                    return HttpResponseRedirect('/user/student/')
                 #return HttpResponse('Welcome!')
             else:
                 return HttpResponse('Sorry!')
@@ -30,6 +31,26 @@ def user_login(request):
         login_form = LoginForm()
         return render(request, 'user/login.html', {'form': login_form})
 
+
+@login_required(login_url='/user/login/')
+def student_main(request):
+    from CourseFunApp.views import TempCouse
+    course_list = list()
+    i=0
+    while i<10:
+        course_list.append(TempCouse(id=i, name='Lesson '+ str(i)))
+        i+=1
+
+    cur_user = request.user  
+    if cur_user is not None:
+        cur_prof = StudentProf.objects.get(user=cur_user)
+    stu_form = Student_Prof_Form(instance=cur_prof)
+    return render(request, 'user/student_main.html',{'form_student':stu_form, "course_list":course_list})
+
+# @login_required(login_url='/user/login/')
+def teacher_main(request):
+    return render(request, 'user/teacher_main.html')
+    
 
 @login_required(login_url='/user/login/')
 def student_manager(request):

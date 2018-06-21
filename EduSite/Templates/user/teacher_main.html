@@ -3,26 +3,58 @@
 {% block title %}Teacher Main Page{% endblock %} 
 {% block content %}
 <div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <nav class="navbar navbar-dark bg-dark">
-                <!-- Navbar content -->
-                <a class="navbar-brand" target="Content_Frame" href={% url 'course:question-editor' %} >Course Editor</a>
-            </nav>
-            <!-- <ul class="nav nav-pills nav-fill">
-                {% for qType in qTypeList %}
-                <li class="nav-item">
-                {% url 'course:question-editor-type' qType.get_url_name as qTypeURL %}
-                {% url 'course:question-list' qType.get_url_name as qListURL %}
-                    <a class="nav-link" href="#" id="NavBtn_{{ qType.get_url_name }}" data-url="{{qTypeURL}}" data-type-name="{{ qType.get_url_name }}" data-qlist-url="{{qListURL}}">{{qType.get_url_name}}</a>
-                </li>
-                {% endfor %}
-                <br />
-            </ul> -->
-        </div>    
+    <div class="alert alert-primary" role="alert">
+            老师好！
     </div>
-</div>
-<div class="container-fluid">
-    <iframe class="container" name="Content_Frame"></iframe>
+
+    <div class="row">
+        <div class="card border-info mb-3" style="width: 18rem;">
+            <div class="card-header">
+                <h3>题库管理</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">按类别管理题库，添加题目、删除题目、修改题目等等。
+                    <br>题目类型包含：填空题、判断题、单选题、多选题、排序题、配对题
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href={% url 'course:question-editor' %} class="btn btn-primary">进入</a>
+            </div>
+        </div>
+        <div class="card border-info mb-3" style="width: 18rem;">
+            <div class="card-header">
+                <h3>学生管理</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">添加、查看学生信息等。</p>
+            </div>
+            <div class="card-footer">
+                <a href={% url 'user:student_manager' %} class="btn btn-primary">进入</a>
+            </div>
+        </div>
+        <div class="card border-info mb-3" style="width: 18rem;">
+            <div class="card-header">
+                <h3>考试管理</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">新建试卷，安排考试时间。查看每次考试的成绩等</p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-primary">进入</a>
+            </div>
+        </div>
+        <div class="card border-info mb-3" style="width: 18rem;">
+            <div class="card-header">
+                <h3>公告管理</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">发布公告</p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-primary align-bottom">进入</a>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
