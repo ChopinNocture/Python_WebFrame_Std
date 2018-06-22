@@ -2,6 +2,11 @@
 
 
 $('a[id^=NavBtn_]').click(onNavTypeClk);
+$('a[id^=NavBtn_]').each(function(index,elem) {
+    elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
+});
+
+
 
 //-------------------------------------------------------
 var ParseFormFunc_Prefix = "parseForm2Json";
@@ -57,7 +62,7 @@ function onLessonClick(event) {
         $(event.target).addClass('active');
         lesson_id = event.target.dataset.lesson;
     }
-    alert(event.target.dataset.lesson + "  ---  " );
+    //alert(event.target.dataset.lesson + "  ---  " );
 }
 
 //=======================================================
@@ -151,10 +156,10 @@ function checkForm() {
 
 function onSubmitCheck() {
     if (checkForm()) {
-        alert("checkForm!");
+        //alert("checkForm!");
         document.getElementById('Form_QuestionEditor').submit();
     } else {
-        alert("!!!");
+        alert("提交失败，请检查题目填写是否正确。");
     }
 }
 
@@ -163,7 +168,7 @@ function onSubmitFailed(result) {
 }
 
 function onSubmitSuccess(result) {
-    alert(result);
+    //alert(result);
     document.getElementById('Form_QuestionEditor').reset();
     if(!with_value) {
         eval(RefreshFunc_Prefix + question_type + "()");
@@ -233,7 +238,7 @@ function checkOptions() {
     var optionString = $('input:text[form="Form_OptionEditor"]').map(function () { return $(this).val(); }).get().join(OPTION_SPLITER_SYMBOL);
     ret = ret && (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) == -1);
     if (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) != -1) {
-        alert("option can not be empty");
+        alert("警告！选项内容不能为空！");
     }
 
     //alert(optionString);
@@ -246,7 +251,7 @@ function checkOptions() {
 
         ret = ret && !(keyValue == '');
         if (keyValue == '') {
-            alert("No Key!!!!!");
+            alert("警告！答案未填写！");
         }
         $('#id_key').val(keyValue);
     }
@@ -359,7 +364,7 @@ function onAddOptionClick(event) {
         optionsUpdateFunc();
     }
     else {
-        alert("Already Max Number!");
+        alert("警告！选项已经达到最大数量!");
     }
 
 }
@@ -370,7 +375,7 @@ function onDeleteOptionClick(event) {
         optionsUpdateFunc();
     }
     else {
-        alert("Already Min Number!");
+        alert("警告！不能再少了!");
     }
 }
 
@@ -474,14 +479,14 @@ function checkPair() {
 
     ret = ret && (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) == -1 && optionString.slice(-OPTION_SPLITER_SYMBOL.length) != OPTION_SPLITER_SYMBOL);
     if (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) != -1 || optionString.slice(-OPTION_SPLITER_SYMBOL.length) == OPTION_SPLITER_SYMBOL) {
-        alert("Left options can not be empty");
+        alert("警告！左边选项不能为空！");
     }
     $('#id_leftOptions').val(optionString);
 
     optionString = $('input[id^="right_"]:text[form="Form_OptionEditor"]').map(function () { return $(this).val(); }).get().join(OPTION_SPLITER_SYMBOL);
     ret = ret && (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) == -1 && optionString.slice(-OPTION_SPLITER_SYMBOL.length) != OPTION_SPLITER_SYMBOL);
     if (optionString.indexOf(OPTION_SPLITER_SYMBOL + OPTION_SPLITER_SYMBOL) != -1 || optionString.slice(-OPTION_SPLITER_SYMBOL.length) == OPTION_SPLITER_SYMBOL) {
-        alert("Right options can not be empty");
+        alert("警告！右边选项不能为空！");
     }
     $('#id_rightOptions').val(optionString);
 
@@ -494,7 +499,7 @@ function parseForm2JsonPair() {
     var rightOpList = $('#id_rightOptions').val().split(OPTION_SPLITER_SYMBOL);
 
     if (leftOpList.length != rightOpList.length) {
-        alert("Wrong!!! Left option number: " + leftOpList.length + " ;Right option number: " + rightOpList.length + " !Not equal!!!");
+        alert("警告！左边选项数: " + leftOpList.length + " ;右边选项数: " + rightOpList.length + " ！不相等！");
     }
     else {
         pairs_Json = [];

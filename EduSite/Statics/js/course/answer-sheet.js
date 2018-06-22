@@ -37,14 +37,14 @@ function onPrevClk(event) {
 }
 
 function failFunc() {
-    alert('boibo');
+    alert('失败');
 }
 
 var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
 function checkAnswer() {
     var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
     result_list[cur_idx] = result_json;    
-    alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
+    //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
 
     updateStat();
 }
@@ -67,7 +67,7 @@ function updateStat() {
 
 function onQuestionListGet(jsonData) {
     //alert(typeof(jsonData));
-    alert('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
+    //alert('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
     qType_list = jsonData.qType_list;
     qList_obj = jsonData;
     
@@ -139,7 +139,7 @@ function checkTrueOrFalse(key_bool) {
 
     result_json.complete = $('#TF_Right').prop('checked') || $('#TF_Wrong').prop('checked');
     if (!result_json.complete) {
-        alert('Unfinished! Must choose something!');
+        alert('提交之前请完成题目!');
         return result_json;
     }
 
@@ -196,7 +196,7 @@ function chk_Opt(key_str, key_type) {
         result_json['result'] = (answer_str == key_str);
     }
     else {
-        alert('Unfinished! Must choose something!');
+        alert('提交之前请完成题目!');
     }
     return result_json;
 }
@@ -235,7 +235,7 @@ function drop(event) {
     
     event.preventDefault();
 
-    alert(event.target);
+    //alert(event.target);
     var id = event.dataTransfer.getData("text");
 
     var orin = $('#'+id);
@@ -271,14 +271,14 @@ function refreshSort(question) {
                                         .replace('^^', SORT_OP_ID + i);
     }
     $('#q_type_sheet').html(html_str);
-    alert(shuffled_op);
+    //alert(shuffled_op);
 }
 
 function checkSort(key_str) { 
-    alert("hgaha");
+    //alert("hgaha");
     var suc = true;
     $('div[id^=' + SORT_OP_ID + ']').each(function (index) {
-        alert('  0  ' + index + '  ' + this.dataset['opidx']);
+        //alert('  0  ' + index + '  ' + this.dataset['opidx']);
         suc = (index == this.dataset['opidx']);
         return suc;
     });
