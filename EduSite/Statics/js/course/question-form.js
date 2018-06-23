@@ -382,13 +382,46 @@ function onDeleteOptionClick(event) {
 //-------------------------------------------------------
 // Question type: FillInBlank
 //-------------------------------------------------------
+var FillInBlank_Key_Reg = /{@([\w\u4e00-\u9fa5]+)@}/g;
+var fill_key_list = [];
 //-------------- refresh --------------
 function refreshFillInBlank() {
+    $('#id_description').change(refreshKeys);
+    if(with_value) {
+        refreshKeys();
+    }
+}
+
+function refreshKeys() {
+    var ques_str = $('#id_description').val();    
+    $('#KeysPanel').empty();
+    var htmltext = "";
+    var key;
+    var i=1;
+    fill_key_list = [];
+
+    FillInBlank_Key_Reg.lastIndex = 0;
+
+    while(key=FillInBlank_Key_Reg.exec(ques_str)) {
+        fill_key_list.push(key[1]);
+        htmltext += "填空答案"+ i.toString() + ":  " + key[1] + "<br>";
+        ++i;
+    }
+    $('#KeysPanel').html(htmltext);
 }
 
 //-------------- check --------------
 function checkFillInBlank() {
-    return false;
+    if(fill_key_list.length<=0) {
+        alert("警告！答案未填写！");        
+        return false;
+    }
+
+    var keyValue = fill_key_list.map(function (elem, index) { return elem; }).join(KEY_SPLITER_SYMBOL);
+    alert(keyValue);
+    $('#id_key').val(keyValue);
+
+    return true;
 }
 
 //-------------- parseForm2Json ---------------

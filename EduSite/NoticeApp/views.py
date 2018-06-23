@@ -30,7 +30,7 @@ def public_notice_form(request):
     noticeform = NoticesForm()
 
     if request.method == "GET":
-        return render(request=request, context={"form": noticeform})
+        return render(request=request, template_name='notice/notice_editor.html', context={"form": noticeform})
 
 
 #--------------------------------------------------------

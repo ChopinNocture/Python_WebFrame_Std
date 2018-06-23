@@ -9,7 +9,7 @@ class Notices(models.Model):
     publicDate = models.DateTimeField(default=timezone.datetime.today())
     expireDate = models.DateTimeField(default=timezone.datetime.today())
     #teacherID = models.ForeignKey('Teacher', on_delete=models.CASCADE, )
-    content = models.TextField(max_length=MAX_CONTENT_LENGTH)
+    content = models.CharField(max_length=MAX_CONTENT_LENGTH)
 
     class Meta:
         ordering = ("-publicDate",)
