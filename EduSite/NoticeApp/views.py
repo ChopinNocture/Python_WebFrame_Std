@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from datetime import timedelta
 
 # Create your views here.
 from .models import Notices
@@ -15,15 +16,20 @@ def public_notice_now(request, content):
     return public_notice(request, today.year, today.month, today.day, 3, content)
 
 # public notice by time
-def public_notice(request, year, month, day, duration, content):
+def public_notice(request, year, month, day, duration):
     # sid = request
+    if not request.method == "POST" or not request.is_ajax():
+        return HttpResponse("Permission reject!")
+
+    content = request.POST.get('content')
+    publicDate = timezone.datetime(year=year, month=month, day=day).date()
     newNotice = Notices.objects.create(
-        publicDate = timezone.datetime(year=year, month=month, day=day).date(),
-        expireDate = timezone.datetime(year=year, month=month, day=day+duration).date(),
+        publicDate = publicDate,
+        expireDate = publicDate + timedelta(duration),
         content = content
     )
 
-    return HttpResponse("Testing Session: ")
+    return HttpResponse("Succeed!", status=200)
 
 
 def public_notice_form(request):

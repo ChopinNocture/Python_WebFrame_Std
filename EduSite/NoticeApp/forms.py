@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 
 from .models import *
 
@@ -7,6 +7,9 @@ from .models import *
 class NoticesForm(ModelForm):
     class Meta:
         model = Notices
+        widgets = {
+            'content': Textarea(attrs={'class': 'form-control', 'cols':30, 'rows':4 }),
+        }
         fields = '__all__'
 
 

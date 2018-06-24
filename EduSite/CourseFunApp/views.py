@@ -26,7 +26,7 @@ def get_question_list(request, qtype):
         return HttpResponse("Error type:" + qtype)
 
     if not request.is_ajax():
-        return HttpResponse("Only support ajax Get!")
+        return HttpResponse("Permission reject!")
 
     quests = temp_class.objects.all()
     quest_list = list()
