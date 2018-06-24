@@ -27,10 +27,13 @@ def public_notice(request, year, month, day, duration, content):
 
 
 def public_notice_form(request):
+    history_list = Notices.objects.filter(expireDate__gt=timezone.now())
     noticeform = NoticesForm()
 
     if request.method == "GET":
-        return render(request=request, template_name='notice/notice_editor.html', context={"form": noticeform})
+        return render(request=request, 
+        template_name='notice/notice_editor.html', 
+        context={'form': noticeform, 'notice_list':history_list})
 
 
 #--------------------------------------------------------

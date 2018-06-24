@@ -78,46 +78,50 @@
         padding: 10px;
     }
 </style>
-<script>
-	var mySchedule = new Schedule({
-		el: '#schedule-box',
-		//date: '2018-9-20',
-		clickCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		nextMonthCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		nextYeayCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		prevMonthCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		prevYearCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		}
-	});
-</script>
+<script type="text/javascript" src="{% static 'js/notice/notice_editor.js' %}"></script> 
 
 {% endblock %}
 
 {% block content %}
+
+<div class="row">
+    <div class="col-8">
+        <div class="row-fluid">
+            <div class="">
+                <form class="form-horizontal" action="." method="post" id="form_notice" onsubmit="">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div id="QType_Panel">
+                    </div>
+                    <!--input class="form-control" type="submit" value="Add" form="Form_QuestionEditor"-->
+                </form>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-success right" type="button" onclick="onSubmitCheck()" id="btn_modify">加入题库</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header text-center">
+                已发布公告列表
+            </div>
+            <!-- <div class="card-body"> -->                    
+                {% for notice in notice_list %}
+                <button class="list-group-item list-group-item-action inline-block text-truncate" data-lesson={{notice.id}} id="notice_{{notice.id}}" onclick="onNoticeClick(event)">{{notice.content}}</button>
+                {% endfor %}                    
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+
+
 <div id='schedule-box' class="boxshaw"></div>
 <div>
     <h3 id='h3Ele'></h3>
 </div>
-<div class="form-group">
-    <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
-    <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-        <input class="form-control" size="16" type="text" value="" readonly>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-    </div>
-    <input type="hidden" id="dtp_input1" value="" /><br/>
-</div>  
 
-{{form.as_p}}
+
 {% endblock %}
 
 {% block header %}
