@@ -2,12 +2,111 @@
 {% load static %} 
 {% block title %}Notice Editor{% endblock %} 
 {% block jsPage %}
-<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/libs/schedule.js' %}"></script> 
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-<link href="{% static 'css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet" media="screen">
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    ul{
+        list-style: none;
+    }
+    #schedule-box{
+        width: 320px;
+        margin: 0 auto;
+        padding: 35px 20px;
+        font-size: 13px;
+    }
+    .schedule-hd{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+    .today{
+        flex: 1;
+        text-align: center;
+    }
+    .ul-box{
+        overflow: hidden;
+    }
+    .ul-box > li{
+        float: left;
+        width: 14.28%;
+        text-align: center;
+        padding: 5px 0;
+    }
+    .other-month{
+        color: #999999;
+    }
+    .current-month{
+        color: #333333;
+    }
+    .today-style{
+        border-radius: 50%;
+        background: #58d321;
+    }
+    .arrow{
+        cursor: pointer;
+    }
+    .dayStyle{
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 35px;
+        cursor: pointer;
+    }
+    .current-month > .dayStyle:hover{
+        background: #00BDFF;
+        color: #ffffff;
+    }
+    .today-flag{
+        background: #00C2B1;
+        color: #fff;
+    }
+    .boxshaw{
+        box-shadow: 2px 2px 15px 2px #e3e3e3;
+    }
+    .selected-style {
+        background: #00BDFF;
+        color: #ffffff;
+    }
+    #h3Ele{
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+<script>
+	var mySchedule = new Schedule({
+		el: '#schedule-box',
+		//date: '2018-9-20',
+		clickCb: function (y,m,d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+		},
+		nextMonthCb: function (y,m,d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+		},
+		nextYeayCb: function (y,m,d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+		},
+		prevMonthCb: function (y,m,d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+		},
+		prevYearCb: function (y,m,d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+		}
+	});
+</script>
+
 {% endblock %}
 
 {% block content %}
+<div id='schedule-box' class="boxshaw"></div>
+<div>
+    <h3 id='h3Ele'></h3>
+</div>
 <div class="form-group">
     <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
     <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
