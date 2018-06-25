@@ -178,11 +178,11 @@ function onSubmitFailed(result) {
 
 function onSubmitSuccess(result) {
     //alert(result);
-    document.getElementById('Form_QuestionEditor').reset();
+    //document.getElementById('Form_QuestionEditor').clear();
     if(!with_value) {
-        eval(RefreshFunc_Prefix + question_type + "()");
-        doRefreshQList();
-    }    
+        eval(RefreshFunc_Prefix + question_type + "()");        
+    }
+    doRefreshQList();
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort
@@ -427,7 +427,6 @@ function checkFillInBlank() {
     }
 
     var keyValue = fill_key_list.map(function (elem, index) { return elem; }).join(KEY_SPLITER_SYMBOL);
-    alert(keyValue);
     $('#id_key').val(keyValue);
 
     return true;
