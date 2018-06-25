@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from datetime import timedelta
 
 # Create your views here.
@@ -45,9 +45,16 @@ def public_notice_form(request):
 #--------------------------------------------------------
 # get notices by time
 def get_notices(request, fromDate=timezone.now(), expireDate=timezone.now()):
-    currentNotices = Notices.objects.filter(publicDate__lte=fromDate, expireDate__gt=expireDate)
-    httpRsp = HttpResponse(currentNotices)
+    if request.method == "GET" and request.is_ajax():
+        currentNotices = Notices.objects.filter(publicDate__lte=fromDate, expireDate__gt=expireDate)
+        
+        notices_list = list()
+        for iter in currentNotices:
+            notices_list.append({"id":iter.id, "content":iter.content}) 
 
+        return JsonResponse(notices_list, safe=False)
+    
+    httpRsp = HttpResponse(currentNotices)    
     return httpRsp
 
 

@@ -2,7 +2,7 @@
 {% load static %} 
 {% block title %}Question Editor{% endblock %} 
 {% block jsPage %}
-<script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/user/student_main.js' %}"></script> 
 {% endblock %} 
 {% block content %}
 {% endblock %}
@@ -39,7 +39,7 @@
                 <div class="card-header">
                     <h3>公告</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
                     公布一些内容
                 </div>
             </div>
