@@ -10,6 +10,9 @@ Q_WIDGETS_SETTING = {
     'star': HiddenInput(),
 }
 
+Q_LABELS_SETTING = {
+    'description': '题干'
+}
 # 填空题
 class FillInBlankForm(ModelForm):
     class Meta:
@@ -19,6 +22,7 @@ class FillInBlankForm(ModelForm):
         widgets.update({
             'key': HiddenInput()
         })
+        labels = Q_LABELS_SETTING
         
 
 # 判断题
@@ -30,6 +34,8 @@ class TrueOrFalseForm(ModelForm):
         widgets.update({
             'key': CheckboxInput()
         })
+        labels = Q_LABELS_SETTING
+        labels.update({'key':'答案为 正确：'})
 
 # 单项选择题
 class ChoiceForm(ModelForm):
@@ -41,9 +47,10 @@ class ChoiceForm(ModelForm):
             'options': HiddenInput(),
             'key': HiddenInput(),
         })
-        labels = {
+        labels = Q_LABELS_SETTING
+        labels.update({
             'key': 'SubmitKey'
-        }
+        })
         help_texts = {
             'key': '1'
         }
@@ -59,6 +66,7 @@ class MultiChoiceForm(ModelForm):
             'options': HiddenInput(),
             'key': HiddenInput(),
         })
+        labels = Q_LABELS_SETTING
 
 
 # 配对题
@@ -71,6 +79,7 @@ class PairForm(ModelForm):
             'leftOptions': HiddenInput(),
             'rightOptions': HiddenInput(),
         })
+        labels = Q_LABELS_SETTING
 
 # 排序题
 class SortForm(ModelForm):
@@ -81,6 +90,7 @@ class SortForm(ModelForm):
         widgets.update({
             'options': HiddenInput(),
         })
+        labels = Q_LABELS_SETTING
 
 
 # ---------------

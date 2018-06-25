@@ -18,7 +18,7 @@ q_type_list = questionModels.get_qType_list()
 
 # --------------------------------------------------------
 # get question list by type
-def get_question_list(request, qtype):
+def get_question_list(request, qtype, section_id=None):
     try:
         temp_class = questionModels.get_qType_class(qtype)
     except (AttributeError) as e:
@@ -28,7 +28,11 @@ def get_question_list(request, qtype):
     if not request.is_ajax():
         return HttpResponse("Permission reject!")
 
-    quests = temp_class.objects.all()
+    if section_id is None:
+        quests = temp_class.objects.all()
+    else:
+        quests = temp_class.objects.filter(sectionID=section_id)
+        
     quest_list = list()
 
     for iter in quests:

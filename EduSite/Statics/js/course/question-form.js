@@ -17,7 +17,7 @@ var current_url = "";
 var cur_list_url = "";
 var curr_qid = "";
 
-var lesson_id = -1;
+var section_id = null;
 
 var with_value = false;
 
@@ -43,26 +43,35 @@ function onNavTypeClk(event) {
     current_url = event.target.dataset.url;
     cur_list_url = event.target.dataset.qlistUrl;
     $.get(current_url, updateQForm);
-    $.get(cur_list_url, updateQList);
-
+    doRefreshQList();
+    
     return false;
 }
 
+function doRefreshQList() {
+    if(section_id && cur_list_url) {        
+        $.get(cur_list_url + section_id.toString(), updateQList);
+    }
+    else {
+        $("#Question_List").empty();
+    }
+}
 //=======================================================
-// Lesson Part
+// section Part
 //=======================================================
-function onLessonClick(event) {
+function onSectionClick(event) {
     $('button[id^=course_]').removeClass('active');
     
-    if(event.target.dataset.lesson==lesson_id) {
+    if(event.target.dataset.section==section_id) {
         $(event.target).removeClass('active');
-        lesson_id = null;
+        section_id = null;
     }
     else {
         $(event.target).addClass('active');
-        lesson_id = event.target.dataset.lesson;
+        section_id = event.target.dataset.section;
     }
-    //alert(event.target.dataset.lesson + "  ---  " );
+    doRefreshQList();
+    //alert(event.target.dataset.section + "  ---  " );
 }
 
 //=======================================================
@@ -144,7 +153,7 @@ function checkForm() {
     var ret = true;
 
     ret = ret && ($('#id_description').val().length != 0);
-    $('#id_sectionID').val(lesson_id);
+    $('#id_sectionID').val(section_id);
     $('#id_flag').val(0x01);
     $('#id_star').val(3);
 
@@ -172,13 +181,13 @@ function onSubmitSuccess(result) {
     document.getElementById('Form_QuestionEditor').reset();
     if(!with_value) {
         eval(RefreshFunc_Prefix + question_type + "()");
-        $.get(cur_list_url, updateQList);
+        doRefreshQList();
     }    
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort
 //-------------------------------------------------------
-var MAX_OPTION_NUMBER = 12;
+var MAX_OPTION_NUMBER = 20;
 var MIN_OP_N = 1;
 var op_Label = $('<label id=""></label>');
 var label_label = 65; // A:65  1:49
@@ -329,7 +338,7 @@ function updateOptions() {
     while (i < iOptionNumber) {
         var optionLine = $("<p id=''></p>");
         optionLine.attr("id", "elem" + i);
-        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html(String.fromCharCode(label_label + i)));
+        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html("正确选项 " + String.fromCharCode(label_label + i) + " : "));
 
         tempContent = "";
         tempCheck = false;
@@ -484,7 +493,7 @@ function updatePairOptions() {
     while (i < iOptionNumber) {
         var optionLine = $("<p id=''></p>");
         optionLine.attr("id", "elem" + i);
-        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html("Pair " + (i + 1)));
+        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html("正确配对  " + (i + 1)));
 
         leftContent = rightContent = "";
         if (with_value && (i < pairs_Json.length)) {
