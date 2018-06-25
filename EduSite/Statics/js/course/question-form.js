@@ -1,10 +1,16 @@
 //$("<p><button type='button' id='Btn_KeyAdd'>Add Option</button></p>")
 
-
+$(document).ready(init);
 $('a[id^=NavBtn_]').click(onNavTypeClk);
 $('a[id^=NavBtn_]').each(function(index,elem) {
     elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
 });
+
+function init(){
+    $('#NavBtn_'+question_type).click();
+    $('button[id^=course_]:first').click();
+}
+
 
 
 
@@ -12,7 +18,8 @@ $('a[id^=NavBtn_]').each(function(index,elem) {
 var ParseFormFunc_Prefix = "parseForm2Json";
 var RefreshFunc_Prefix = "refresh";
 var CheckFunc_Prefix = "check";
-var question_type = "Choice";
+
+var question_type = "FillInBlank";
 var current_url = "";
 var cur_list_url = "";
 var curr_qid = "";
@@ -20,8 +27,6 @@ var curr_qid = "";
 var section_id = null;
 
 var with_value = false;
-
-//$(document).ready(updateQForm);
 
 function onNavTypeClk(event) {
 
@@ -60,17 +65,12 @@ function doRefreshQList() {
 // section Part
 //=======================================================
 function onSectionClick(event) {
-    $('button[id^=course_]').removeClass('active');
-    
-    if(event.target.dataset.section==section_id) {
-        $(event.target).removeClass('active');
-        section_id = null;
-    }
-    else {
+    if(event.target.dataset.section!=section_id) {
+        $('button[id^=course_]').removeClass('active');
         $(event.target).addClass('active');
-        section_id = event.target.dataset.section;
+        section_id = event.target.dataset.section;    
+        doRefreshQList();
     }
-    doRefreshQList();
     //alert(event.target.dataset.section + "  ---  " );
 }
 
@@ -179,10 +179,21 @@ function onSubmitFailed(result) {
 function onSubmitSuccess(result) {
     //alert(result);
     //document.getElementById('Form_QuestionEditor').clear();
-    if(!with_value) {
-        eval(RefreshFunc_Prefix + question_type + "()");        
+    var infostr = '';
+    if(with_value) {
+        infostr = "题目修改成功！";
     }
-    doRefreshQList();
+    else{
+        infostr ="题目成功添加入题库！";
+    }
+    $('#info_window_content').html(infostr);
+    $('#info_window').modal('show');
+
+    $.get(current_url + curr_qid, updateQForm);
+    // if(!with_value) {
+    //     eval(RefreshFunc_Prefix + question_type + "()");        
+    // }
+    // doRefreshQList();
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort
