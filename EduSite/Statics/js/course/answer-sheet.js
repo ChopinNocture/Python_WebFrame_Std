@@ -47,6 +47,7 @@ function checkAnswer() {
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
 
     updateStat();
+    //showKey();
 }
 
 function updateStat() {
@@ -105,12 +106,43 @@ function update() {
 // Question type: FillInBlank
 //-------------------------------------------------------
 //---- refresh ----
+var BLANK_HTML = '<input type="text" class="" style="width:5px display:inline" id="***" placeholder=""></input>';
+var blank_id_prefix = 'blank_';
+
+var FillInBlank_Key_Reg = /{@([\w\u4e00-\u9fa5]+)@}/g;
+var fill_desc = "";
+
+var blank_key_list = [];
+
 function refreshFillInBlank(question) {
-    $('#q_description').html(question.description);
+    blank_key_list = [];
+    var i=0;
+
+    fill_desc = question.description.replace(FillInBlank_Key_Reg, function ($0, $1) {
+        blank_key_list.push($1);
+        //blank_key_list
+        var htmltext = BLANK_HTML.replace("***", blank_id_prefix + i.toString());
+        ++i;
+        return htmltext;
+    });
+
+    $('#q_description').html(fill_desc);
 }
 
 function checkFillInBlank(key_str) {
-    return '';
+    var result_json = { 'complete': false };
+    
+    var answer_str = $('input[id^=' + blank_id_prefix + ']').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+
+    result_json.complete = (answer_str.length>0);
+    if (result_json.complete) {
+        result_json['answer'] = answer_str;
+        result_json['result'] = (answer_str == key_str);
+    }
+    else {
+        alert('提交之前请完成题目!');
+    }
+    return result_json;
 }
 
 //-------------------------------------------------------

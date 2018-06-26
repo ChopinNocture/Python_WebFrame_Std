@@ -12,8 +12,7 @@ urlpatterns = [
     path('answer_sheet/<int:sectionID>/', views.answer_sheet, name='answer-sheet'),
     path('lesson/editor/', views.lesson_editor, name='lesson_editor'),
     path('lesson/<int:lesson_id>/', views.lesson_content, name='lesson_content'),
-    path('study/<int:lesson_id>/', views.study, name='study'),    
+    path('study/<int:lesson_id>/', views.study, name='study'),
 #    path('delete/<int:notice_id>/', views.delete_notice),
 #    path('get/', views.get_notices),
 ]
-

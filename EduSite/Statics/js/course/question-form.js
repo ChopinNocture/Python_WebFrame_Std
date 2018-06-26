@@ -120,6 +120,7 @@ function updateQList(jsonData) {
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
         tempLine = $(QLIST_ITEM_STR + iter.desc + QLIST_ITEM_SUFIX).clone().attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i }).click(onQListBtnClick);
+        if(curr_qid==iter.id) tempLine.addClass('active');
         qListPanel.append(tempLine);
         //alert(value.id + "  " + value.desc);
         ++i;
@@ -189,11 +190,13 @@ function onSubmitSuccess(result) {
     $('#info_window_content').html(infostr);
     $('#info_window').modal('show');
 
+    doRefreshQList();
     $.get(current_url + curr_qid, updateQForm);
+    
     // if(!with_value) {
     //     eval(RefreshFunc_Prefix + question_type + "()");        
     // }
-    // doRefreshQList();
+    
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort
@@ -413,6 +416,7 @@ function refreshFillInBlank() {
 }
 
 function refreshKeys() {
+    
     var ques_str = $('#id_description').val();    
     $('#KeysPanel').empty();
     var htmltext = "";
@@ -422,9 +426,9 @@ function refreshKeys() {
 
     FillInBlank_Key_Reg.lastIndex = 0;
 
-    while(key=FillInBlank_Key_Reg.exec(ques_str)) {
+    while (key = FillInBlank_Key_Reg.exec(ques_str)) {
         fill_key_list.push(key[1]);
-        htmltext += "填空答案"+ i.toString() + ":  " + key[1] + "<br>";
+        htmltext += "填空答案" + i.toString() + ":  " + key[1] + "<br>";
         ++i;
     }
     $('#KeysPanel').html(htmltext);
