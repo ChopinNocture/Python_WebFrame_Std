@@ -46,7 +46,7 @@ function onNavTypeClk(event) {
     with_value = false;
     current_url = event.target.dataset.url;
     cur_list_url = event.target.dataset.qlistUrl;
-    $.get(current_url, updateQForm);
+    refreshOthers();
     doRefreshQList();
     
     return false;
@@ -96,10 +96,14 @@ function onQListBtnClick(event) {
     //         $(this).removeClass('active');
     //     }
     // })
-    $('#btn_deleteQ').attr("disabled", curr_qid == "");    
-    $.get(current_url + curr_qid, updateQForm);
+    refreshOthers();
 
     return false;
+}
+
+function refreshOthers() {
+    $('#btn_deleteQ').attr("disabled", curr_qid == "");    
+    $.get(current_url + curr_qid, updateQForm);
 }
 
 function updateQList(jsonData) {
@@ -132,7 +136,7 @@ function delSucFunc() {
     closeModal();
     doRefreshQList();
     curr_qid = "";
-    $.get(current_url + curr_qid, updateQForm);
+    refreshOthers();
 }
 
 function onDeleteConfirm() {
@@ -227,7 +231,7 @@ function onSubmitSuccess(result) {
     $('#info_window').modal('show');
 
     doRefreshQList();
-    $.get(current_url + curr_qid, updateQForm);
+    refreshOthers();
     
     // if(!with_value) {
     //     eval(RefreshFunc_Prefix + question_type + "()");        
