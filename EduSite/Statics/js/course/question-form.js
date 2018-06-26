@@ -6,13 +6,12 @@ $('a[id^=NavBtn_]').each(function(index,elem) {
     elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
 });
 
+csrf_Setup();
+
 function init(){
     $('#NavBtn_'+question_type).click();
     $('button[id^=course_]:first').click();
 }
-
-
-
 
 //-------------------------------------------------------
 var ParseFormFunc_Prefix = "parseForm2Json";
@@ -53,14 +52,6 @@ function onNavTypeClk(event) {
     return false;
 }
 
-function doRefreshQList() {
-    if(section_id && cur_list_url) {        
-        $.get(cur_list_url + section_id.toString(), updateQList);
-    }
-    else {
-        $("#Question_List").empty();
-    }
-}
 //=======================================================
 // section Part
 //=======================================================
@@ -71,6 +62,7 @@ function onSectionClick(event) {
         section_id = event.target.dataset.section;    
         doRefreshQList();
     }
+    
     //alert(event.target.dataset.section + "  ---  " );
 }
 
@@ -104,7 +96,7 @@ function onQListBtnClick(event) {
     //         $(this).removeClass('active');
     //     }
     // })
-
+    $('#btn_deleteQ').attr("disabled", curr_qid == "");    
     $.get(current_url + curr_qid, updateQForm);
 
     return false;
@@ -120,13 +112,57 @@ function updateQList(jsonData) {
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
         tempLine = $(QLIST_ITEM_STR + iter.desc + QLIST_ITEM_SUFIX).clone().attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i }).click(onQListBtnClick);
-        if(curr_qid==iter.id) tempLine.addClass('active');
+        if (curr_qid == iter.id) tempLine.addClass('active');
         qListPanel.append(tempLine);
         //alert(value.id + "  " + value.desc);
         ++i;
     });
 }
 
+function doRefreshQList() {
+    if(section_id && cur_list_url) {        
+        $.get(cur_list_url + section_id.toString(), updateQList);
+    }
+    else {
+        $("#Question_List").empty();
+    }
+}
+
+function delSucFunc() {
+    closeModal();
+    doRefreshQList();
+    curr_qid = "";
+    $.get(current_url + curr_qid, updateQForm);
+}
+
+function onDeleteConfirm() {
+    var urlStr = $("#btn_deleteQ").data('url');
+    urlStr = urlStr.replace("qqqq", question_type);
+    urlStr = urlStr.replace("999", curr_qid);
+    
+    $.ajax({        
+        url: urlStr,
+        type: 'post',
+        success: delSucFunc
+    });     
+}
+
+function onDeleteQuestionClick(event) {
+    OpenModal("确认要删除选中的题目吗？删除后不可恢复！", onDeleteConfirm);
+}
+
+function closeModal() {
+    $('#btn_confirm').click(null);
+    $('#btn_cancel').click(null);
+    $('#modal_confirm').modal('hide');
+}
+
+function OpenModal(content, confirmFunc, cancelFunc=null) {
+    $('#id_modal_content').html(content);
+    $('#modal_confirm').modal('show');
+    $('#btn_confirm').click(confirmFunc);
+    $('#btn_cancel').click(cancelFunc);
+}
 
 //=======================================================
 // form framework
@@ -181,11 +217,11 @@ function onSubmitSuccess(result) {
     //alert(result);
     //document.getElementById('Form_QuestionEditor').clear();
     var infostr = '';
-    if(with_value) {
+    if (with_value) {
         infostr = "题目修改成功！";
     }
-    else{
-        infostr ="题目成功添加入题库！";
+    else {
+        infostr = "题目成功添加入题库！";
     }
     $('#info_window_content').html(infostr);
     $('#info_window').modal('show');

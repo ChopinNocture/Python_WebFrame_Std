@@ -1,9 +1,8 @@
-var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
 var PUBDATE_PREFIX = "发布日期：";
 var pub_date_str = "";
 
 $('#btn_public').click(onPublic);
+csrf_Setup();
 
 function refresh_date(y, m, d) {    
     pub_date_str = '' + y + '/' + m + '/' + d;
@@ -18,15 +17,6 @@ var mySchedule = new Schedule({
     nextYeayCb: refresh_date,
     prevMonthCb: refresh_date,
     prevYearCb: refresh_date
-});
-
-
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
 });
 
 

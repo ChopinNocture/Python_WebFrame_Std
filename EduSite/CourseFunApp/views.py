@@ -52,6 +52,25 @@ def question_editor(request):
     
     return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list, "course_list":course_list})
 
+def delete_question(request, qtype, qid):
+    # sid = request
+    if not request.method == "POST" or not request.is_ajax():
+        return HttpResponse("Permission reject!")
+
+    try:
+        temp_class = questionModels.get_qType_class(qtype)
+    except (AttributeError) as e:
+        print(e)
+        return HttpResponse("Error type:" + qtype)
+
+    try:
+        temp_class.objects.filter(id=qid).delete()
+    except Exception as e:
+        print(e + type(temp_class))
+        return HttpResponse(e + "--" + type(temp_class))
+
+    return HttpResponse("Succeed!", status=200)
+
 # form part
 def question_editor_form(request, qtype, qid=-1):
     # print("------------------" + q_type_list[0].get_url_name())

@@ -5,8 +5,7 @@
 <script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script> 
 {% endblock %} 
 {% block content %}
-<div class="container-fluid">
-<div class="container-fluid border border-dark  p-2 bg-light">
+<div class="container-fluid ">
 <!-- <div class="card border-white"> -->
     <div class="row-fluid ">
     <!-- <div class="card-header"> -->
@@ -20,9 +19,8 @@
                 {% endfor %}
             </ul>
         <!-- </div> -->
-        <hr/>
     </div>    
-    <div class="row">
+    <div class="row border border-primary mx-1 py-4 bg-light">
         <div class="col-2">
             <div class="card">
                 <div class="card-header text-center">
@@ -53,7 +51,7 @@
         <div class="col-3">
             <!-- <div class="row-fluid"> -->
             <div class="card">
-                <div class="card-header text-center">
+                <div class="card-header card-header-sm text-center">
                     <p>
                         题目列表
                         <!-- <input class="form-check-input" type="checkbox" form="Form_QList" onclick="" id="sectionFilter"/>
@@ -61,16 +59,39 @@
                     </p>
                 </div>
                 <ul class="list-group" id="Question_List">
-                </ul>                
+                </ul>
+                <div class="card-footer text-right">
+                    <button class="btn btn-danger right" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 <div class="modal fade bd-example-modal-sm" id="info_window" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content text-center text-success" id="info_window_content">
             ...
+        </div>
+    </div>
+</div>
+
+<div class="modal fade border border-2 border-danger" tabindex="-1" role="dialog" id="modal_confirm">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-warning">关键操作确认</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger" id="id_modal_content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn_confirm">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_cancel">取消</button>
+            </div>
         </div>
     </div>
 </div>
