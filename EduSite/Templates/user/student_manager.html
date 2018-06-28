@@ -2,7 +2,8 @@
 {% load static %} 
 {% block title %}学生管理{% endblock %} 
 {% block jsPage %}
-<!-- <script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script>  -->
+<script type="text/javascript" src="{% static 'js/top_layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/user/student_manager.js' %}"></script>
 {% endblock %} 
 {% block header %}
 {% include "user/teacher_header.html" %}
@@ -30,7 +31,7 @@
             <div class="card-footer small">
                 <p>
                     <button class="btn btn-success right" type="button" onclick="" id="btn_add_stu" data-toggle="modal" data-target="#exampleModalCenter">添加学生</button>
-                    <button class="btn btn-dark right" type="button" onclick="" id="btn_del_stu">删除学生</button>
+                    <button class="btn btn-dark right" type="button" onclick="onDeleteClick(event)" id="btn_del_stu">删除学生</button>
                 </p>
             </div>
         </div>
@@ -42,24 +43,25 @@
 </div>
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-      </div>
+        <div class="modal-body">
+            ...
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+{% include "top_layer.html" %}
 {% endblock %}
 
 

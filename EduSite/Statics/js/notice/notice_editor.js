@@ -4,6 +4,21 @@ var pub_date_str = "";
 $('#btn_public').click(onPublic);
 csrf_Setup();
 
+const MAX_DELAY = 100;
+var delay_day = 3;
+
+$('#id_last_day').attr({ "max": MAX_DELAY });
+$('#id_last_day').change(onDelayChange);
+
+function onDelayChange(event) {
+    var delay = Number($('#id_last_day').val());
+    if(delay && Number.isSafeInteger(delay)) {
+        delay = Math.max(1, Math.min(MAX_DELAY, delay) );
+        delay_day = delay;
+    }
+    Number($('#id_last_day').val(delay_day));
+}
+
 function refresh_date(y, m, d) {    
     pub_date_str = '' + y + '/' + m + '/' + d;
     $('#label_pubdate').html(PUBDATE_PREFIX + pub_date_str);
@@ -30,7 +45,7 @@ function onPublic(event) {
         alert("请选择公告发布日期！");
         return;
     }
-    var targetURL = event.target.dataset.url + pub_date_str + "/" + "3" + "/";
+    var targetURL = event.target.dataset.url + pub_date_str + "/" + delay_day.toString() + "/";
     $.ajax({        
         url: targetURL,
         type: 'post',
@@ -51,8 +66,8 @@ function failFunc(event) {
 }
 
 
-
 var cur_notice = -1;
+
 function onNoticeClick(event) {
     $('button[id^=notice_]').removeClass('active');
     
