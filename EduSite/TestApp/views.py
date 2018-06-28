@@ -18,3 +18,6 @@ def test_session(request):
 
 def test_teacher(request):    
     return render(request=request, template_name="teacher_main.html")
+
+def test_UI(request):
+    return render(request=request, template_name="test/UIControlTest.html")
