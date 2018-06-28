@@ -277,15 +277,22 @@ function onSubmitSuccess(result) {
 //-------------------------------------------------------
 var MAX_OPTION_NUMBER = 20;
 var MIN_OP_N = 1;
-var op_Label = $('<label id=""></label>');
+var Label_Prepend = $('<div class="input-group-prepend"></div>')
+var op_Label = $('<label id="" style="width:120px"></label>');
 var label_label = 65; // A:65  1:49
 var ID_LABEL = 'lb_option';
 
-var STYLE_CLASS = "form-control-inline";
+var LINE_HTML = '<div class="form-inline" id=""></div>';
+
+var H5_input_group = $('<div class="input-group mb-2 mr-sm-2"></div>');
+
+var STYLE_CLASS_LABEL = "input-group-text";
+var STYLE_CLASS_SEL = "form-check-input mb-2 mr-sm-2";
+var STYLE_CLASS_INPUT = "form-control";
 var op_text = $('<input type="text" form="Form_OptionEditor" id=""/>');
 var ID_TEXT = 'text_option';
 
-var OPTION_KEY_HTML = '<input type="******" name="OptionKey" id="" value=""/>';
+var OPTION_KEY_HTML = '<input type="**" name="OptionKey" id="" value=""/>';
 var op_keyButton = $();
 var ID_KEYButton = 'key_option';
 
@@ -385,7 +392,7 @@ var optionsUpdateFunc = updateOptions;
 function refresh_option_part() {
     $('#Btn_OptionAdd').click(onAddOptionClick);
     $('#Btn_OptionDelete').click(onDeleteOptionClick);
-    var tempHTML = OPTION_KEY_HTML.replace("******", key_type)
+    var tempHTML = OPTION_KEY_HTML.replace("**", key_type)
     op_keyButton = $(tempHTML);
     if (!with_value) iOptionNumber = DEFAULT_OPTION_NUM;
     optionsUpdateFunc();
@@ -400,7 +407,7 @@ function updateOptions() {
     var tempContent = "";
     var tempCheck = false;
 
-    opPanel.children("p[id^=elem]").each(function () {
+    opPanel.children("div[id^=elem]").each(function () {
         if (i < iOptionNumber) {
             tempContent = "";
             tempCheck = false;
@@ -424,9 +431,8 @@ function updateOptions() {
     })
 
     while (i < iOptionNumber) {
-        var optionLine = $("<p id=''></p>");
+        var optionLine = $(LINE_HTML);
         optionLine.attr("id", "elem" + i);
-        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html("正确选项 " + String.fromCharCode(label_label + i) + " : "));
 
         tempContent = "";
         tempCheck = false;
@@ -436,15 +442,25 @@ function updateOptions() {
                 tempCheck = Options_Json[i]["isKey"];
             }
         }
-        optionLine.append(op_text.clone()
-            .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS })
-            .val(tempContent));
+        optionLine.append(
+            H5_input_group.clone().append(
+                Label_Prepend.clone().append(
+                    op_Label.clone()
+                    .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for":ID_KEYButton + i })
+                    .html("正确选项 " + String.fromCharCode(label_label + i) + " : ")
+                )
+            ).append(
+                op_text.clone()
+                .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                .val(tempContent)
+            )
+        );
 
         if (with_key) {
             optionLine.append(op_keyButton.clone()
                 .attr({
                     "id": ID_KEYButton + i,
-                    "value": i, "class": STYLE_CLASS,
+                    "value": i, "class": STYLE_CLASS_SEL,
                     "checked": tempCheck
                 }));
         }
@@ -560,7 +576,7 @@ function updatePairOptions() {
     var i = 0;
     var leftContent, rightContent = "";
 
-    opPanel.children("p[id^=elem]").each(function () {
+    opPanel.children("div[id^=elem]").each(function () {
         if (i < iOptionNumber) {
             leftContent = rightContent = "";
 
@@ -579,9 +595,8 @@ function updatePairOptions() {
     })
 
     while (i < iOptionNumber) {
-        var optionLine = $("<p id=''></p>");
+        var optionLine = $(LINE_HTML);
         optionLine.attr("id", "elem" + i);
-        optionLine.append(op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS }).html("正确配对  " + (i + 1)));
 
         leftContent = rightContent = "";
         if (with_value && (i < pairs_Json.length)) {
@@ -589,12 +604,20 @@ function updatePairOptions() {
             rightContent = pairs_Json[i]["right"];
         }
 
-        optionLine.append(op_text.clone()
-            .attr({ "id": "left_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS })
-            .val(leftContent));
-        optionLine.append(op_text.clone()
-            .attr({ "id": "right_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS })
-            .val(rightContent));
+        optionLine.append(
+            H5_input_group.clone().append(
+                Label_Prepend.clone().append(
+                    op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL }).html("正确配对  " + (i + 1))
+                )
+            ).append(
+                op_text.clone()
+                .attr({ "id": "left_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                .val(leftContent)
+            ).append(op_text.clone()
+                .attr({ "id": "right_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                .val(rightContent)
+            )
+        );
 
         btn_Panel.before(optionLine);
         ++i;

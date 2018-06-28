@@ -5,6 +5,10 @@
 <script type="text/javascript" src="{% static 'js/libs/schedule.js' %}"></script>
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
 <style>
+    .bg-DBlue {
+        background-color: linear-gradient(red,blue);
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -99,25 +103,35 @@
 
 {% block content %} 
 {% csrf_token %}
-<div class="container border border-dark mx-5 py-4">
+<h2 class="text-center font-weight-bold p-1 text-warning">公告发布</h2>
+<div class="container border border-dark mx-5 py-4 bg-light rounded ">    
     <div class="row">
         <div class="col-8">
             <div class="row-fluid">
-                <div class="text-center">
-                    <div class="input-group">
+                <div class="text-center p-1 boxshaw">
+                    <div class="input-group p-1 m-auto" style="height: 200px;width: 61.8%;">
                         <div class="input-group-prepend">
                             <span class="input-group-text">公告内容</span>
                         </div>
-                        <textarea class="form-control" aria-label="With textarea" id="id_content"></textarea>
+                        <textarea class="form-control" aria-label="With textarea" id="id_content" style="resize: none"></textarea>
                     </div>
                     <p>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#date_selector" aria-expanded="false" aria-controls="date_selector"
+                        <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#date_selector" aria-expanded="false" aria-controls="date_selector"
                             id="label_pubdate">
                             发布日期:20--/--/--
                         </button>
                     </p>
                     <div class="collapse" id="date_selector">
                         <div id='schedule-box' class="boxshaw"></div>
+                    </div>
+                    <div class="input-group p-1 m-auto" style="width: 61.8%;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">持续时间</span>
+                        </div>
+                        <input class="form-control" type="number" min="1" max="100" value="3" id="id_last_day" required></input>
+                        <div class="input-group-append">
+                            <span class="input-group-text">天</span>
+                        </div>
                     </div>
                 </div>
                 <div class="text-right">
@@ -126,13 +140,13 @@
             </div>
         </div>
         <div class="col-4 border-left border-dark">
-            <div class="card">
+            <div class="card bg-warning">
                 <div class="card-header text-center">
                     已发布公告列表
                 </div>
                 <!-- <div class="card-body"> -->
                 {% for notice in notice_list %}
-                <button class="list-group-item list-group-item-action inline-block text-truncate" data-notice={{notice.id}} id="notice_{{notice.id}}"
+                <button class="list-group-item list-group-item-action list-group-item-warning inline-block text-truncate" data-notice={{notice.id}} id="notice_{{notice.id}}"
                     onclick="onNoticeClick(event)">{{notice.content}}</button>
                 {% endfor %}
                 <!-- </div> -->
