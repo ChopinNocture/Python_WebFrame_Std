@@ -20,15 +20,15 @@
             </ul>
         <!-- </div> -->
     </div>    
-    <div class="row border border-primary mx-1 py-4 bg-light">
+    <div class="row border rounded border-primary mx-1 py-4 bg-light">
         <div class="col-2">
-            <div class="card">
+            <div class="card bg-secondary text-white">
                 <div class="card-header text-center">
-                    课程章节列表
+                    <h5 class="card-title">课程章节列表</h5>
                 </div>
                 <!-- <div class="card-body"> -->                    
                     {% for course in course_list %}
-                    <button class="list-group-item list-group-item-action inline-block text-truncate" data-section={{course.id}} id="course_{{course.id}}" onclick="onSectionClick(event)">{{course.name}}</button>
+                    <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" data-section={{course.id}} id="course_{{course.id}}" onclick="onSectionClick(event)">{{course.name}}</button>
                     {% endfor %}                    
                 <!-- </div> -->
             </div>
@@ -50,18 +50,22 @@
         </div>
         <div class="col-3">
             <!-- <div class="row-fluid"> -->
-            <div class="card">
-                <div class="card-header card-header-sm text-center">
-                    <p>
-                        题目列表
-                        <!-- <input class="form-check-input" type="checkbox" form="Form_QList" onclick="" id="sectionFilter"/>
-                        <label class="form-check-label" for="sectionFilter">按课程筛选</label> -->
-                    </p>
+            <div class="card bg-info">
+                <div class="card-header card-header-sm">
+                    <h5 class="card-title">题目列表
+                        <span class="float-right">
+                            <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
+                        </span>
+                    </h5>
+                    <div class="collapse align-content-end" id="content_filer">                        
+                        <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
+                    </div>
                 </div>
                 <ul class="list-group" id="Question_List">
                 </ul>
                 <div class="card-footer text-right">
-                    <button class="btn btn-danger right" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
+                    <button class="btn btn-dark" type="button" onclick="onAddModeClick(event)" id="btn_addQ" >添加题目</button> &nbsp&nbsp
+                    <button class="btn btn-danger" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
                 </div>
             </div>
         </div>

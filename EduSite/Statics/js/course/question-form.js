@@ -69,10 +69,17 @@ function onSectionClick(event) {
 //=======================================================
 // Update question list
 //=======================================================
-var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action inline-block text-truncate" data-qid=-1 id="">';
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" data-qid=-1 id="">';
 var QLIST_ITEM_SUFIX = '</button>';
 
 var QLIST_BTN_ID = "qlist_id";
+
+function onAddModeClick(event) {
+    $('button[id^=' + QLIST_BTN_ID + '].active').removeClass('active');
+    curr_qid = "";
+    with_value = false;
+    refreshOthers();
+}
 
 function onQListBtnClick(event) {
     $('button[id^=' + QLIST_BTN_ID + ']').removeClass('active');
@@ -102,7 +109,8 @@ function onQListBtnClick(event) {
 }
 
 function refreshOthers() {
-    $('#btn_deleteQ').attr("disabled", curr_qid == "");    
+    $('#btn_deleteQ').attr("disabled", curr_qid == "");
+    $('#btn_addQ').attr("hidden", curr_qid == "");
     $.get(current_url + curr_qid, updateQForm);
 }
 
@@ -139,6 +147,32 @@ function delSucFunc() {
     refreshOthers();
 }
 
+//----------------
+// filter
+$('#content_filer').on('hide.bs.collapse', function () {
+    filterQList();
+})
+
+$('#content_filer').on('show.bs.collapse', function () {
+    $('#filter_input').val("");
+})
+
+function onFilterInput(event) {
+    filterQList(event.target.value);
+}
+
+function filterQList(words = null) {
+    if(words) {
+        $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
+            $(elem).attr("hidden", elem.innerHTML.indexOf(words) == -1);
+        });
+    }
+    else {
+        $('button[id^=' + QLIST_BTN_ID + ']').attr("hidden", false);
+    }
+}
+
+//----------------
 function onDeleteConfirm() {
     var urlStr = $("#btn_deleteQ").data('url');
     urlStr = urlStr.replace("qqqq", question_type);
