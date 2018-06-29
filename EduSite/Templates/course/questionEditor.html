@@ -12,7 +12,7 @@
     <div class="row-fluid ">
     <!-- <div class="card-header"> -->
         <!-- <div class="span12"> -->
-            <ul class="nav nav-pills justify-content-center text-center ">
+            <ul class="nav nav-pills justify-content-center text-center">
                 {% for qType in qTypeList %}
                 <li class="nav-item" style="width: 150px;">
                     {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
@@ -51,37 +51,43 @@
 
                 <div class="border-top border-warning py-2"></div>
                 <div class="row align-content-center align-middle">
-                    <div class="input-group-prepend col-sm-4 rounded-circle">
-                    <span class=" align-middle input-group-text pt-0 border-right">难度</span>
-                    <h2 ic_group="difficult">
-                        <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                        <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                        <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                        <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                        <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                    </h2>
+                    <div class="input-group-prepend col-sm-1 rounded-circle">
+                        <span class="align-middle input-group-text pt-0 border-right">难度</span>
+                    </div>
+                    <div class="col-sm-4 pt-1">
+                        <div class="align-items-center align-middle">
+                            <h2 ic_group="difficult">
+                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                            </h2>                    
+                        </div>
+                    </div>                    
+
+                    <div class="col-sm-5 form-inline text-center align-self-auto">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">出现位置</span>
+                        </div>
+                        <div class="input-group-text">
+                            <div class="form-check form-control-sm form-check-inline">
+                                <input class="form-check-input form-control" type="checkbox" name="appear_pos" id="id_in_pra" value="pra" checked>
+                                <label class="form-check-label form-control-plaintext font-weight-bold" for="id_in_pra" disable>
+                                    练习
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">                                
+                                <input class="form-check-input " type="checkbox" name="appear_pos" id="id_in_exm" value="exm" checked>
+                                <label class="form-check-label form-control-plaintext font-weight-bold" for="id_in_exm" disable>
+                                    考试
+                                </label>                            
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="input-group-prepend col-sm-2">
-                        <span class="input-group-text">出现位置</span>
-                    </div>
-                    <div class="col-sm-3 align-middle">
-                        <div class="form-check align-middle">
-                            <input class="form-check-input form-control-sm" type="checkbox" name="appear_pos" id="id_in_pra" value="pra" checked>
-                            <label class="form-check-label form-control-sm" for="id_in_pra">
-                                练习
-                            </label>
-                        </div>
-                        <div class="form-check align-middle">    
-                            <input class="form-check-input form-control" type="checkbox" name="appear_pos" id="id_in_exm" value="exm" checked>
-                            <label class="form-check-label form-control-sm" for="id_in_exm">
-                                考试
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="col-1">
-                        <button class="btn btn-lg btn-success right" type="button" onclick="onSubmitCheck()" id="btn_modify">加入题库</button>
+                    <div class="col-sm-2 align-right text-right">
+                        <button class="btn btn-success align-right" type="button" onclick="onSubmitCheck()" id="btn_modify">加入题库</button>
                     </div>
                   
                 </div>
@@ -110,7 +116,6 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block jsPage %}        
