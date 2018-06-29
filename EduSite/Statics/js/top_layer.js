@@ -1,3 +1,7 @@
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+})
+
 function closeModal() {
     $('#btn_confirm').click(null);
     $('#btn_cancel').click(null);

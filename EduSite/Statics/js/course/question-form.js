@@ -63,14 +63,16 @@ function onSectionClick(event) {
         doRefreshQList();
     }
     
+//    $(event.target).blur();
+    return true;
     //alert(event.target.dataset.section + "  ---  " );
 }
 
 //=======================================================
 // Update question list
 //=======================================================
-var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" data-qid=-1 id="">';
-var QLIST_ITEM_SUFIX = '</button>';
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" \
+                    tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
 
 var QLIST_BTN_ID = "qlist_id";
 
@@ -123,7 +125,13 @@ function updateQList(jsonData) {
     var tempLine;
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
-        tempLine = $(QLIST_ITEM_STR + iter.desc + QLIST_ITEM_SUFIX).clone().attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i }).click(onQListBtnClick);
+        tempLine = $(QLIST_ITEM_STR)
+                    .clone()
+                    .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title":iter.desc })
+                    .html(iter.desc)
+                    .tooltip()
+                    .click(onQListBtnClick);
+
         if (curr_qid == iter.id) tempLine.addClass('active');
         qListPanel.append(tempLine);
         //alert(value.id + "  " + value.desc);
@@ -278,17 +286,17 @@ function onSubmitSuccess(result) {
 var MAX_OPTION_NUMBER = 20;
 var MIN_OP_N = 1;
 var Label_Prepend = $('<div class="input-group-prepend"></div>')
-var op_Label = $('<label id="" style="width:120px"></label>');
+var op_Label = $('<label id="" style="width:98px"></label>');
 var label_label = 65; // A:65  1:49
 var ID_LABEL = 'lb_option';
 
-var LINE_HTML = '<div class="form-inline" id=""></div>';
+var LINE_HTML = '<div class="form-inline w-100" id=""></div>';
 
-var H5_input_group = $('<div class="input-group mb-2 mr-sm-2"></div>');
+var H5_input_group = $('<div class="input-group mb-2 mr-sm-1" style="width:96%"></div>');
 
-var STYLE_CLASS_LABEL = "input-group-text";
+var STYLE_CLASS_LABEL = "input-group-text text-info";
 var STYLE_CLASS_SEL = "form-check-input mb-2 mr-sm-2";
-var STYLE_CLASS_INPUT = "form-control";
+var STYLE_CLASS_INPUT = "form-control font-weight-bold";
 var op_text = $('<input type="text" form="Form_OptionEditor" id=""/>');
 var ID_TEXT = 'text_option';
 
@@ -392,8 +400,7 @@ var optionsUpdateFunc = updateOptions;
 function refresh_option_part() {
     $('#Btn_OptionAdd').click(onAddOptionClick);
     $('#Btn_OptionDelete').click(onDeleteOptionClick);
-    var tempHTML = OPTION_KEY_HTML.replace("**", key_type)
-    op_keyButton = $(tempHTML);
+    op_keyButton = $(OPTION_KEY_HTML.replace("**", key_type));
     if (!with_value) iOptionNumber = DEFAULT_OPTION_NUM;
     optionsUpdateFunc();
 }
@@ -442,19 +449,6 @@ function updateOptions() {
                 tempCheck = Options_Json[i]["isKey"];
             }
         }
-        optionLine.append(
-            H5_input_group.clone().append(
-                Label_Prepend.clone().append(
-                    op_Label.clone()
-                    .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for":ID_KEYButton + i })
-                    .html("正确选项 " + String.fromCharCode(label_label + i) + " : ")
-                )
-            ).append(
-                op_text.clone()
-                .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
-                .val(tempContent)
-            )
-        );
 
         if (with_key) {
             optionLine.append(op_keyButton.clone()
@@ -464,6 +458,20 @@ function updateOptions() {
                     "checked": tempCheck
                 }));
         }
+
+        optionLine.append(
+            H5_input_group.clone().append(
+                Label_Prepend.clone().append(
+                    op_Label.clone()
+                    .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for":ID_KEYButton + i })
+                    .html("正确选项 " + String.fromCharCode(label_label + i))
+                )
+            ).append(
+                op_text.clone()
+                .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                .val(tempContent)
+            )
+        );
 
         btn_Panel.before(optionLine);
         //.remove();
@@ -505,8 +513,11 @@ function refreshFillInBlank() {
     }
 }
 
+var FILL_BLANK_KEY_HTML = '<div class="input-group mb-1 mr-sm-1"> <div class="input-group-prepend"> \
+                            <label style="width:98px" class="input-group-text text-info">填空答案 ** </label> \
+                           </div> <input type="text" id="text_option0" data-index="0" class="font-weight-bold form-control" value="--" disabled> </div>';
+
 function refreshKeys() {
-    
     var ques_str = $('#id_description').val();    
     $('#KeysPanel').empty();
     var htmltext = "";
@@ -518,7 +529,7 @@ function refreshKeys() {
 
     while (key = FillInBlank_Key_Reg.exec(ques_str)) {
         fill_key_list.push(key[1]);
-        htmltext += "填空答案" + i.toString() + ":  " + key[1] + "<br>";
+        htmltext += FILL_BLANK_KEY_HTML.replace("**", i.toString()).replace("--", key[1]);
         ++i;
     }
     $('#KeysPanel').html(htmltext);
@@ -607,7 +618,7 @@ function updatePairOptions() {
         optionLine.append(
             H5_input_group.clone().append(
                 Label_Prepend.clone().append(
-                    op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL }).html("正确配对  " + (i + 1))
+                    op_Label.clone().attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL }).html("正确配对 " + (i + 1))
                 )
             ).append(
                 op_text.clone()

@@ -1,10 +1,7 @@
 {% extends "base_bs_style.html" %}
 {% load static %} 
 {% block title %}学生管理{% endblock %} 
-{% block jsPage %}
-<script type="text/javascript" src="{% static 'js/top_layer.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/user/student_manager.js' %}"></script>
-{% endblock %} 
+
 {% block header %}
 {% include "user/teacher_header.html" %}
 {% endblock %}
@@ -61,7 +58,9 @@
         </div>
     </div>
     </div>
-{% include "top_layer.html" %}
 {% endblock %}
 
-
+{% block jsPage %}
+    {% include "top_layer.html" %}
+    <script type="text/javascript" src="{% static 'js/user/student_manager.js' %}"></script>
+{% endblock %} 
