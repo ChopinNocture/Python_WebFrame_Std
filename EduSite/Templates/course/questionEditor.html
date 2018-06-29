@@ -51,31 +51,32 @@
 
                 <div class="border-top border-warning py-2"></div>
                 <div class="row align-content-center align-middle">
-                    <div class="input-group-prepend col-sm-4">
+                    <div class="input-group-prepend col-sm-4 rounded-circle">
                     <span class=" align-middle input-group-text pt-0 border-right">难度</span>
+                    <span class="oi oi-star" title="star" aria-hidden="false"></span>
                     </div>
                     
-                        <div class="input-group-prepend col-sm-2">
-                            <span class="input-group-text">出现位置</span>
+                    <div class="input-group-prepend col-sm-2">
+                        <span class="input-group-text">出现位置</span>
+                    </div>
+                    <div class="col-sm-3 align-middle">
+                        <div class="form-check align-middle">
+                            <input class="form-check-input form-control-sm" type="checkbox" name="appear_pos" id="id_in_pra" value="pra" checked>
+                            <label class="form-check-label form-control-sm" for="id_in_pra">
+                                练习
+                            </label>
                         </div>
-                        <div class="col-sm-3 align-middle">
-                            <div class="form-check align-middle">
-                                <input class="form-check-input form-control-sm" type="checkbox" name="appear_pos" id="id_in_pra" value="pra" checked>
-                                <label class="form-check-label form-control-sm" for="id_in_pra">
-                                    练习
-                                </label>
-                            </div>
-                            <div class="form-check align-middle">    
-                                <input class="form-check-input form-control" type="checkbox" name="appear_pos" id="id_in_exm" value="exm" checked>
-                                <label class="form-check-label form-control-sm" for="id_in_exm">
-                                    考试
-                                </label>
-                            </div>
+                        <div class="form-check align-middle">    
+                            <input class="form-check-input form-control" type="checkbox" name="appear_pos" id="id_in_exm" value="exm" checked>
+                            <label class="form-check-label form-control-sm" for="id_in_exm">
+                                考试
+                            </label>
                         </div>
-                       
-                        <div class="col-1">
-                            <button class="btn btn-success right" type="button" onclick="onSubmitCheck()" id="btn_modify">加入题库</button>
-                        </div>
+                    </div>
+                    
+                    <div class="col-1">
+                        <button class="btn btn-lg btn-success right" type="button" onclick="onSubmitCheck()" id="btn_modify">加入题库</button>
+                    </div>
                   
                 </div>
             </div>
@@ -106,7 +107,7 @@
 
 {% endblock %}
 
-{% block jsPage %}
+{% block jsPage %}        
     <script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script> 
     {% include "top_layer.html" %}
 {% endblock %} 
