@@ -2,14 +2,14 @@
 
 $(document).ready(init);
 $('a[id^=NavBtn_]').click(onNavTypeClk);
-$('a[id^=NavBtn_]').each(function(index,elem) {
+$('a[id^=NavBtn_]').each(function (index, elem) {
     elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
 });
 
 csrf_Setup();
 
-function init(){
-    $('#NavBtn_'+question_type).click();
+function init() {
+    $('#NavBtn_' + question_type).click();
     $('button[id^=course_]:first').click();
 }
 
@@ -48,7 +48,7 @@ function onNavTypeClk(event) {
     cur_list_url = event.target.dataset.qlistUrl;
     refreshOthers();
     doRefreshQList();
-    
+
     return false;
 }
 
@@ -56,14 +56,14 @@ function onNavTypeClk(event) {
 // section Part
 //=======================================================
 function onSectionClick(event) {
-    if(event.target.dataset.section!=section_id) {
+    if (event.target.dataset.section != section_id) {
         $('button[id^=course_]').removeClass('active');
         $(event.target).addClass('active');
-        section_id = event.target.dataset.section;    
+        section_id = event.target.dataset.section;
         doRefreshQList();
     }
-    
-//    $(event.target).blur();
+
+    //    $(event.target).blur();
     return true;
     //alert(event.target.dataset.section + "  ---  " );
 }
@@ -126,11 +126,11 @@ function updateQList(jsonData) {
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
         tempLine = $(QLIST_ITEM_STR)
-                    .clone()
-                    .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title":iter.desc })
-                    .html(iter.desc)
-                    .tooltip()
-                    .click(onQListBtnClick);
+            .clone()
+            .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title": iter.desc })
+            .html(iter.desc)
+            .tooltip()
+            .click(onQListBtnClick);
 
         if (curr_qid == iter.id) tempLine.addClass('active');
         qListPanel.append(tempLine);
@@ -140,7 +140,7 @@ function updateQList(jsonData) {
 }
 
 function doRefreshQList() {
-    if(section_id && cur_list_url) {        
+    if (section_id && cur_list_url) {
         $.get(cur_list_url + section_id.toString(), updateQList);
     }
     else {
@@ -170,7 +170,7 @@ function onFilterInput(event) {
 }
 
 function filterQList(words = null) {
-    if(words) {
+    if (words) {
         $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
             $(elem).attr("hidden", elem.innerHTML.indexOf(words) == -1);
         });
@@ -185,12 +185,12 @@ function onDeleteConfirm() {
     var urlStr = $("#btn_deleteQ").data('url');
     urlStr = urlStr.replace("qqqq", question_type);
     urlStr = urlStr.replace("999", curr_qid);
-    
-    $.ajax({        
+
+    $.ajax({
         url: urlStr,
         type: 'post',
         success: delSucFunc
-    });     
+    });
 }
 
 function onDeleteQuestionClick(event) {
@@ -203,7 +203,7 @@ function closeModal() {
     $('#modal_confirm').modal('hide');
 }
 
-function OpenModal(content, confirmFunc, cancelFunc=null) {
+function OpenModal(content, confirmFunc, cancelFunc = null) {
     $('#id_modal_content').html(content);
     $('#modal_confirm').modal('show');
     $('#btn_confirm').click(confirmFunc);
@@ -218,13 +218,15 @@ function updateQForm(data) {
     document.getElementById('QType_Panel').innerHTML = data;
 
     if (with_value) {
+        ic_btn("difficult").val($('#id_star').val());
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
         eval(ParseFormFunc_Prefix + question_type + "()");
         document.getElementById('btn_modify').innerHTML = "确认修改";
     }
     else {
+        ic_btn("difficult").val(1);
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
-        document.getElementById('btn_modify').innerHTML = "加入题库";
+        document.getElementById('btn_modify').innerHTML = "加入题库";        
     }
     document.getElementById('Form_QuestionEditor').submit = function () { ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
 
@@ -238,7 +240,8 @@ function checkForm() {
     ret = ret && ($('#id_description').val().length != 0);
     $('#id_sectionID').val(section_id);
     $('#id_flag').val(0x01);
-    $('#id_star').val(3);
+    alert(ic_btn("difficult").val());
+    $('#id_star').val(ic_btn("difficult").val());
 
     //------------------check type
     ret = ret && eval(CheckFunc_Prefix + question_type + "()");
@@ -274,11 +277,11 @@ function onSubmitSuccess(result) {
 
     doRefreshQList();
     refreshOthers();
-    
+
     // if(!with_value) {
     //     eval(RefreshFunc_Prefix + question_type + "()");        
     // }
-    
+
 }
 //-------------------------------------------------------
 // Question type: Choice & MultiChoice & Sort
@@ -463,13 +466,13 @@ function updateOptions() {
             H5_input_group.clone().append(
                 Label_Prepend.clone().append(
                     op_Label.clone()
-                    .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for":ID_KEYButton + i })
-                    .html("正确选项 " + String.fromCharCode(label_label + i))
+                        .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for": ID_KEYButton + i })
+                        .html("正确选项 " + String.fromCharCode(label_label + i))
                 )
             ).append(
                 op_text.clone()
-                .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
-                .val(tempContent)
+                    .attr({ "id": ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                    .val(tempContent)
             )
         );
 
@@ -508,7 +511,7 @@ var fill_key_list = [];
 //-------------- refresh --------------
 function refreshFillInBlank() {
     $('#id_description').change(refreshKeys);
-    if(with_value) {
+    if (with_value) {
         refreshKeys();
     }
 }
@@ -518,11 +521,11 @@ var FILL_BLANK_KEY_HTML = '<div class="input-group mb-1 mr-sm-1"> <div class="in
                            </div> <input type="text" id="text_option0" data-index="0" class="font-weight-bold form-control" value="--" disabled> </div>';
 
 function refreshKeys() {
-    var ques_str = $('#id_description').val();    
+    var ques_str = $('#id_description').val();
     $('#KeysPanel').empty();
     var htmltext = "";
     var key;
-    var i=1;
+    var i = 1;
     fill_key_list = [];
 
     FillInBlank_Key_Reg.lastIndex = 0;
@@ -537,8 +540,8 @@ function refreshKeys() {
 
 //-------------- check --------------
 function checkFillInBlank() {
-    if(fill_key_list.length<=0) {
-        alert("警告！答案未填写！");        
+    if (fill_key_list.length <= 0) {
+        alert("警告！答案未填写！");
         return false;
     }
 
@@ -622,8 +625,8 @@ function updatePairOptions() {
                 )
             ).append(
                 op_text.clone()
-                .attr({ "id": "left_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
-                .val(leftContent)
+                    .attr({ "id": "left_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
+                    .val(leftContent)
             ).append(op_text.clone()
                 .attr({ "id": "right_" + ID_TEXT + i, "data-index": i, "class": STYLE_CLASS_INPUT })
                 .val(rightContent)
@@ -676,3 +679,83 @@ function parseForm2JsonPair() {
 }
 
 //-------------------------------------------------------
+
+//=======================================================
+// other option
+//=======================================================
+var ic_btn = function (group = "") {
+    if (group == "") return null;
+
+    var self_obj = this;
+    this.val = function (value=null) {
+        if(value!=null) {
+            icon_btn_list.each(function (idx, elem) {
+                if(idx<value) {
+                    $(elem).attr("ic_active", true);
+                    $(elem).removeClass("text-muted").addClass("text-warning");
+                }
+                else {
+                    $(elem).attr("ic_active", false);
+                    $(elem).addClass("text-muted").removeClass("text-warning");
+                }
+                return true;
+            })
+            return self_obj;
+        }
+        else {
+            var group_value = 0;
+            icon_btn_list.each(function (idx, elem) {
+                group_value = idx;
+                return ($(this).attr("ic_active")=="true");
+            })
+            return group_value;
+        }
+    }
+
+    this.elems_active = function (elem_btn) {
+        var scan = true;
+        icon_btn_list.each(function (idx, elem) {
+            if (scan) {
+                $(elem).removeClass("text-muted").addClass("text-warning");
+            }
+            else {
+                $(elem).addClass("text-muted").removeClass("text-warning");
+            }
+            $(elem).attr("ic_active", scan);
+            if (elem_btn == elem) {
+                scan = false;
+            }
+            return true;
+        });
+    }
+
+    if (!this.bind) {
+        this.icon_group = $('[ic_group=' + group + ']');
+        this.icon_btn_list = icon_group.find("[ic_name=" + group + "]");
+
+        icon_btn_list.mouseenter(function (event) {
+            var after = false;
+            var mouse_elem = this;
+            icon_btn_list.each(function (idx, elem) {
+                if (after) {
+                    $(elem).removeClass("font-weight-bold");
+                }
+                else {
+                    $(elem).addClass("font-weight-bold");
+                }
+
+                if (elem == mouse_elem) { after = true; }
+                return true;
+            });
+        }).mouseleave(function (event) {
+            icon_btn_list.removeClass("font-weight-bold");
+        }).click(function (event) {
+            elems_active(this);
+        });
+        this.bind = true;
+    }
+
+    return this;
+}
+
+
