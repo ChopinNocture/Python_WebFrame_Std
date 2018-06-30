@@ -218,12 +218,19 @@ function updateQForm(data) {
     document.getElementById('QType_Panel').innerHTML = data;
 
     if (with_value) {
+        var flag = $('#id_flag').val();
+        $('#id_in_pra').get(0).checked = flag & 0x1;
+        $('#id_in_exm').get(0).checked = flag & 0x2;
+
         ic_btn("difficult").val($('#id_star').val());
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
         eval(ParseFormFunc_Prefix + question_type + "()");
         document.getElementById('btn_modify').innerHTML = "确认修改";
     }
     else {
+        $('#id_in_pra').get(0).checked = true;
+        $('#id_in_exm').get(0).checked = true;
+
         ic_btn("difficult").val(1);
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
         document.getElementById('btn_modify').innerHTML = "加入题库";        
@@ -239,8 +246,16 @@ function checkForm() {
 
     ret = ret && ($('#id_description').val().length != 0);
     $('#id_sectionID').val(section_id);
-    $('#id_flag').val(0x01);
-    alert(ic_btn("difficult").val());
+    var flag = 0;
+    
+    if ($('#id_in_pra').get(0).checked) {
+        flag = flag | 0x1;
+    }
+    if ($('#id_in_exm').get(0).checked) {
+        flag = flag | 0x2;
+    }
+
+    $('#id_flag').val(flag);
     $('#id_star').val(ic_btn("difficult").val());
 
     //------------------check type
