@@ -35,7 +35,7 @@ class TrueOrFalseForm(ModelForm):
             'key': CheckboxInput()
         })
         labels = Q_LABELS_SETTING
-        labels.update({'key':'答案为 正确：'})
+        labels.update({'key':'答案为 正确'})
 
 # 单项选择题
 class ChoiceForm(ModelForm):

@@ -1,0 +1,50 @@
+.boxChecker input[type='checkbox']{
+    display: inline-block;
+    display: none;
+}
+
+.boxChecker input[type='checkbox']:checked{
+    display: inline-block;
+    display: none;
+}
+
+.boxChecker input[type='checkbox'] + label {
+    font-family: inherit;
+    display: inline-block;
+    font:inherit;
+    color: gray;
+    margin-left: -2px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+    box-sizing: border-box;
+    border-width: medium;
+    border-style: solid;
+    border-radius: 0.5rem;
+    border-color: rgba(1, 41, 48, 0.178);   
+}
+
+.boxChecker input[type='checkbox']:checked + label {
+    font-family: inherit;
+    display: inline-block;
+    font:inherit;
+    color: darkred;
+
+    margin-left: -2px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+    
+    box-sizing: border-box;
+    background-color: cadetblue;
+
+    border-width: medium;
+    border-style: solid;
+    border-radius: 0.5rem;
+    border-left-color: rgb(51, 82, 83);
+    border-top-color: rgb(51, 82, 83);
+    border-right-color: rgb(203, 248, 250);
+    border-bottom-color:rgb(203, 248, 250);
+}
