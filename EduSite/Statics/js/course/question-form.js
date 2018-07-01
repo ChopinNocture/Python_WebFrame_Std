@@ -137,15 +137,18 @@ function updateQList(jsonData) {
         //alert(value.id + "  " + value.desc);
         ++i;
     });
+    $("#qlist_num").html(i.toString());
 }
 
-function doRefreshQList() {
+function doRefreshQList() {    
     if (section_id && cur_list_url) {
         $.get(cur_list_url + section_id.toString(), updateQList);
     }
     else {
         $("#Question_List").empty();
+        $("#qlist_num").html('0');
     }
+    $('#content_filer').collapse('hide');
 }
 
 function delSucFunc() {
@@ -171,12 +174,17 @@ function onFilterInput(event) {
 
 function filterQList(words = null) {
     if (words) {
-        $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
-            $(elem).attr("hidden", elem.innerHTML.indexOf(words) == -1);
-        });
+        var hidden_num = 0;
+        $("#qlist_num").html(
+            $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
+                if(elem.innerHTML.indexOf(words) == -1) {
+                    ++hidden_num;
+                    $(elem).attr("hidden", true);
+                }
+            }).length - hidden_num);
     }
     else {
-        $('button[id^=' + QLIST_BTN_ID + ']').attr("hidden", false);
+        $("#qlist_num").html($('button[id^=' + QLIST_BTN_ID + ']').attr("hidden", false).length);
     }
 }
 
