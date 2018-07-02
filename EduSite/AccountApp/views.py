@@ -59,6 +59,18 @@ def student_manager(request):
 
         return render(request, 'user/student_manager.html', {'class_list': class_list})
 
+@login_required(login_url='/user/login/')
+def student_list(request, class_id=None):
+    print("---------" + str(class_id))
+    if request.method == 'GET':
+        if class_id is None:
+            stu_list = StudentProf.objects.all().values('user', 'user__username')
+        else:
+            stu_list = StudentProf.objects.filter(class_id=class_id).values('user', 'user__username')
+            
+        print(stu_list)
+        return render(request, 'user/student_list.html', {'student_list': stu_list})
+
 
 @login_required(login_url='/user/login/')
 def get_student_prof(request, student_id):

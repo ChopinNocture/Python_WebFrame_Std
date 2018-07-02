@@ -11,19 +11,24 @@
 <div class="row">
     <div class="col-3">
         <div class="card small">
-            <div class="card-header">
-                <ul class="list-group list-group-flush">
-                    {% for cls in class_list %}
-                    <li class="list-group-item list-group-item-action list-group-item-info" style="height: 40px">{{cls.class_name}}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="card-body small">
-                <ul class="list-group list-group-flush" id="student_list">
-                    <!-- {% for course in course_list %}
-                    <li class="list-group-item">{{course.name}}</li>
-                    {% endfor %} -->
-                </ul>
+            <!-- <div class="card-header"> -->
+                <div class="btn-group">
+
+                    <button type="button" class="btn btn-block btn-dark" id="class_selector" data-toggle="dropdown" aria-haspopup="true"
+                    data-reference="parent" aria-expanded="false">选择班级</button>
+                    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-reference="parent" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+
+                    <div class="dropdown-menu btn-block p-0" aria-labelledby="class_selector">
+                        {% for cls in class_list %}
+                        <button class="btn btn-block btn-secondary my-1" type="button" id="cls_{{cls.id}}" data-cls-id="{{cls.id}}" onclick="onClassSelect(event)" data-url="{% url 'user:student_list' %}">{{cls.class_name}}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            <!-- </div> -->
+            <div class="card-body small bg-dark" id="stu_li_con">
+
             </div>
             <div class="card-footer small">
                 <p>

@@ -11,6 +11,9 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     # path('login/', auth_views.login, name='login')
     path('student_manager/', views.student_manager, name='student_manager'),
+    path('student_manager/list/', views.student_list, name='student_list'),
+    path('student_manager/list/<int:class_id>/', views.student_list, ),
+    
     path('<int:student_id>/student_prof/', views.get_student_prof, name='student_prof')
     
     # path('questions/editor/<slug:qtype>/', views.question_editor_form, name='question-editor-type'),
