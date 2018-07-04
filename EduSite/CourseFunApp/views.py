@@ -148,3 +148,10 @@ def answer_sheet(request, sectionID):
         question_dict = exam_sys.generate_question_set(lesson)
         return JsonResponse(question_dict)
     
+
+# --------------------------------------------------------
+# examination
+def exam_editor(request):
+
+    if request.method == "GET":
+        return render(request=request, template_name="course/examination_editor.html", context={})
