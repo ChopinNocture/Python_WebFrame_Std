@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.template import loader
 from django.forms import ModelForm
 
 # Create your views here.
@@ -11,10 +12,6 @@ import CourseFunApp.exam_system as exam_sys
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
 
-
-# --------------------------------------------------------
-#  
-q_type_list = questionModels.get_qType_list()
 
 # --------------------------------------------------------
 # get question list by type
@@ -41,6 +38,7 @@ def get_question_list(request, qtype, section_id=None):
     # return render(request=request, template_name="home.html" )
     return JsonResponse(quest_list, safe=False)
 
+
 # --------------------------------------------------------
 # editor main
 def question_editor(request):
@@ -49,8 +47,11 @@ def question_editor(request):
 
     for iter in lesson_list:
         course_list.append({"id":iter.id, "name":iter.description})
+
+    course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
     
-    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList":q_type_list, "course_list":course_list})
+    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
+
 
 def delete_question(request, qtype, qid):
     # sid = request
@@ -70,6 +71,7 @@ def delete_question(request, qtype, qid):
         return HttpResponse(e + "--" + type(temp_class))
 
     return HttpResponse("Succeed!", status=200)
+
 
 # form part
 def question_editor_form(request, qtype, qid=-1):
@@ -119,6 +121,7 @@ def question_editor_form(request, qtype, qid=-1):
         return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
+
 # --------------------------------------------------------
 # oprater for lesson
 def lesson_editor(request):
@@ -131,6 +134,8 @@ def lesson_content(request, lesson_id):
 
 def study(request, lesson_id):
     return HttpResponse('Lesson Study')
+
+
 # --------------------------------------------------------
 # answer sheet
 def answer_sheet(request, sectionID):

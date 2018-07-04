@@ -1,0 +1,6 @@
+{% for course in course_list %}
+<button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="course_{{course.id}}" 
+        onclick="onSectionClick(event)" onfocus="this.blur()"
+        tabindex="-1"
+        data-section={{course.id}} data-toggle="tooltip" data-placement="right" title="{{course.name}}" >{{course.name}}</button>
+{% endfor %}  

@@ -3,12 +3,14 @@ import CourseFunApp.models as QuestionModels
 
 import random
 
+
 q_type_list = QuestionModels.get_qType_list()
+
 # get question
 
 # generate a question set. Dict:{type:[]}
 def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
-    tmp_list = type_list    
+    tmp_list = type_list
     if len(tmp_list) == 0:
         tmp_list = q_type_list
 
@@ -23,18 +25,25 @@ def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
 
         count = temp_class.objects.filter(sectionID=sectionID).count()
         need_num = min(per_sum, count)
-        if count==need_num:
+        if count == need_num:
             generated_list = temp_class.objects.filter(sectionID=sectionID)
         else:
             rand_ids = random.sample(range(1, count), need_num)
             generated_list = temp_class.objects.filter(sectionID=sectionID, id__in=rand_ids)
-        
+
         print('' + str(len(generated_list)) + ':')
-        if len(generated_list)>0:            
+        if len(generated_list) > 0:
             for iter_item in generated_list:
                 question_dict = model_to_dict(iter_item)
                 question_dict['qType'] = iter_tpName
                 q_json_list.append(question_dict)
-    
-    return {'qType_list':q_type_list, 'qList':q_json_list}
-    
+
+    return {'qType_list': q_type_list, 'qList': q_json_list}
+
+
+def examination_default():
+    exam = {"duration": 0}
+    for i_type in q_type_list:
+        exam[i_type] = {'score':1, 'qList':[]}
+
+    return exam

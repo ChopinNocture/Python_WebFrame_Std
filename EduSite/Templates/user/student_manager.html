@@ -1,6 +1,6 @@
 {% extends "base_bs_style.html" %}
-{% load static %} 
-{% block title %}学生管理{% endblock %} 
+{% load static %}
+{% block title %}学生管理{% endblock %}
 
 {% block header %}
 {% include "user/teacher_header.html" %}
@@ -8,64 +8,78 @@
 
 {% block content %}
 <div class="container-fluid">
-<div class="row">
-    <div class="col-3">
-        <div class="card small">
-            <!-- <div class="card-header"> -->
+    <div class="row">
+        <div class="col-3">
+            <div class="card small">
+                <!-- <div class="card-header"> -->
                 <div class="btn-group">
 
-                    <button type="button" class="btn btn-block btn-dark" id="class_selector" data-toggle="dropdown" aria-haspopup="true"
-                    data-reference="parent" aria-expanded="false">选择班级</button>
-                    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-reference="parent" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-block btn-dark" id="class_selector" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            data-reference="parent" aria-expanded="false">选择班级
+                    </button>
+                    <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" data-reference="parent" aria-haspopup="true" aria-expanded="false">
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
 
                     <div class="dropdown-menu btn-block p-0" aria-labelledby="class_selector">
                         {% for cls in class_list %}
-                        <button class="btn btn-block btn-secondary my-1" type="button" id="cls_{{cls.id}}" data-cls-id="{{cls.id}}" onclick="onClassSelect(event)" data-url="{% url 'user:student_list' %}">{{cls.class_name}}</button>
+                        <button class="btn btn-block btn-secondary my-1" type="button" id="cls_{{cls.id}}"
+                                data-cls-id="{{cls.id}}" onclick="onClassSelect(event)"
+                                data-url="{% url 'user:student_list' %}">{{cls.class_name}}
+                        </button>
                         {% endfor %}
                     </div>
                 </div>
-            <!-- </div> -->
-            <div class="card-body small bg-dark" id="stu_li_con">
+                <div id="stu_li_con">
+                    <!-- <div class="card-body small bg-dark" id="stu_li_con"> -->
 
-            </div>
-            <div class="card-footer small">
-                <p>
-                    <button class="btn btn-success right" type="button" onclick="" id="btn_add_stu" data-toggle="modal" data-target="#exampleModalCenter">添加学生</button>
-                    <button class="btn btn-dark right" type="button" onclick="onDeleteClick(event)" id="btn_del_stu">删除学生</button>
-                </p>
+                </div>
+                <div class="card-footer small">
+
+                    <button class="btn btn-success right" type="button" onclick="" id="btn_add_stu" data-toggle="modal"
+                            data-target="#exampleModalCenter">添加学生
+                    </button>
+                    <button class="btn btn-dark right" type="button" onclick="onDeleteClick(event)" id="btn_del_stu">
+                        删除学生
+                    </button>
+
+                </div>
             </div>
         </div>
+        <div class="col-8">
+            <div id="stud_prof">
+
+            </div>
+        </div>
+        <div class="col-1"></div>
     </div>
-    <div class="col-8">
-    </div>
-    <div class="col-1"></div>
-</div>
 </div>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            ...
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
-    </div>
+</div>
 {% endblock %}
 
 {% block jsPage %}
-    {% include "top_layer.html" %}
-    <script type="text/javascript" src="{% static 'js/user/student_manager.js' %}"></script>
+{% include "top_layer.html" %}
+<script type="text/javascript" src="{% static 'js/user/student_manager.js' %}"></script>
 {% endblock %} 
