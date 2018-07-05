@@ -154,4 +154,13 @@ def answer_sheet(request, sectionID):
 def exam_editor(request):
 
     if request.method == "GET":
-        return render(request=request, template_name="course/examination_editor.html", context={})
+        course_list = list()
+        lesson_list = Lesson.objects.all()
+
+        for iter in lesson_list:
+            course_list.append({"id":iter.id, "name":iter.description})
+
+        course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
+        
+        return render(request=request, template_name="course/examination_editor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})        
+    
