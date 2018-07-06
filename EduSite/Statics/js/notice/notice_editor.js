@@ -1,14 +1,18 @@
 var PUBDATE_PREFIX = "发布日期：";
 var pub_date_str = "";
 
-$('#btn_public').click(onPublic);
-csrf_Setup();
-
 const MAX_DELAY = 100;
 var delay_day = 3;
 
-$('#id_last_day').attr({ "max": MAX_DELAY });
+$(document).ready(init);
+
+function init() {
+    $('#btn_public').click(onPublic);
+    csrf_Setup();
+
+    $('#id_last_day').attr({ "max": MAX_DELAY });
 $('#id_last_day').change(onDelayChange);
+}
 
 function onDelayChange(event) {
     var delay = Number($('#id_last_day').val());

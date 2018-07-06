@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
+from django.utils import timezone
 
-# Create your models here.
 
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
@@ -21,6 +21,7 @@ class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.DurationField()
     question_list = JSONField()
+    date = models.DateTimeField(default=timezone.datetime.today())
 
 
 # --------------------------------------------------------

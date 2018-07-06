@@ -1,14 +1,22 @@
 //$("<p><button type='button' id='Btn_KeyAdd'>Add Option</button></p>")
 
 $(document).ready(init);
-$('a[id^=NavBtn_]').click(onNavTypeClk);
-$('a[id^=NavBtn_]').each(function (index, elem) {
-    elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
-});
-
-csrf_Setup();
 
 function init() {
+    csrf_Setup();
+    $('a[id^=NavBtn_]').click(onNavTypeClk);
+    $('a[id^=NavBtn_]').each(function (index, elem) {
+        elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
+    });
+
+    $('#content_filer').on('hide.bs.collapse', function () {
+        filterQList();
+    })
+    
+    $('#content_filer').on('show.bs.collapse', function () {
+        $('#filter_input').val("");
+    })
+
     $('#NavBtn_' + question_type).click();
     $('button[id^=course_]:first').click();
 }
@@ -116,7 +124,6 @@ function refreshOthers() {
 }
 
 function updateQList(jsonData) {
-    //alert("update " + jsonData + " QList ");
     var qListPanel = $("#Question_List");
 
     qListPanel.empty();
@@ -133,7 +140,6 @@ function updateQList(jsonData) {
 
         if (curr_qid == iter.id) tempLine.addClass('active');
         qListPanel.append(tempLine);
-        //alert(value.id + "  " + value.desc);
         ++i;
     });
     $("#qlist_num").html(i.toString());
@@ -159,14 +165,6 @@ function delSucFunc() {
 
 //----------------
 // filter
-$('#content_filer').on('hide.bs.collapse', function () {
-    filterQList();
-})
-
-$('#content_filer').on('show.bs.collapse', function () {
-    $('#filter_input').val("");
-})
-
 function onFilterInput(event) {
     filterQList(event.target.value);
 }
@@ -326,7 +324,7 @@ var op_text = $('<input type="text" form="Form_OptionEditor" id=""/>');
 var ID_TEXT = 'text_option';
 
 var OPTION_KEY_HTML = '<input type="**" name="OptionKey" id="" value=""/>';
-var op_keyButton = $();
+var op_keyButton = null;
 var ID_KEYButton = 'key_option';
 
 //var KEY_TYPE_HTML_DIC = { "Choice": "radio", "MultiChoice": "checkbox" };
