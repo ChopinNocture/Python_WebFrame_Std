@@ -1,11 +1,11 @@
-from django.forms import ModelForm, HiddenInput,Textarea,CheckboxInput
+from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput
 
 from .models import *
 
 FIELD_LIST = ['description', 'sectionID', 'flag', 'star']
 Q_WIDGETS_SETTING = {
     'description': Textarea(attrs={'class': 'form-control'}),
-    'sectionID': HiddenInput(), #attrs={'id': 'Input_SectionID'}),
+    'sectionID': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
     'flag': HiddenInput(),
     'star': HiddenInput(),
 }
@@ -13,6 +13,8 @@ Q_WIDGETS_SETTING = {
 Q_LABELS_SETTING = {
     'description': '题干'
 }
+
+
 # 填空题
 class FillInBlankForm(ModelForm):
     class Meta:
@@ -23,19 +25,20 @@ class FillInBlankForm(ModelForm):
             'key': HiddenInput()
         })
         labels = Q_LABELS_SETTING
-        
+
 
 # 判断题
 class TrueOrFalseForm(ModelForm):
     class Meta:
         model = TrueOrFalseQuestion
         fields = FIELD_LIST + ['key']
-        widgets = Q_WIDGETS_SETTING 
+        widgets = Q_WIDGETS_SETTING
         widgets.update({
             'key': CheckboxInput()
         })
         labels = Q_LABELS_SETTING
-        labels.update({'key':'答案为 正确'})
+        labels.update({'key': '答案为 正确'})
+
 
 # 单项选择题
 class ChoiceForm(ModelForm):
@@ -81,6 +84,7 @@ class PairForm(ModelForm):
         })
         labels = Q_LABELS_SETTING
 
+
 # 排序题
 class SortForm(ModelForm):
     class Meta:
@@ -98,10 +102,11 @@ class SortForm(ModelForm):
 current_module = __import__(__name__)
 Q_FORM_SUFFIX = 'Form'
 
-def get_qForm_class(qType_name:str):
+
+def get_qForm_class(qType_name: str):
     try:
         formCls = getattr(current_module.forms, qType_name + Q_FORM_SUFFIX)
-    except (AttributeError) as e:        
+    except (AttributeError) as e:
         print(e)
         raise AttributeError('Forms do not have this type:' + qType_name)
 
@@ -109,4 +114,3 @@ def get_qForm_class(qType_name:str):
         raise AttributeError('ModelForm do not have this type:' + qType_name)
 
     return formCls
-    

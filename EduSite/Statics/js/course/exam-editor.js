@@ -79,7 +79,7 @@ function onGetQList(jsonData) {
     }); 
     updateExamInfo();
     updateQList();
-    alert(question_list_all[cur_type].length);
+//    alert(question_list_all[cur_type].length);
 }
 
 function updateExamination(){
