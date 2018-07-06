@@ -65,7 +65,6 @@ function onSectionClick(event) {
 
     //    $(event.target).blur();
     return true;
-    //alert(event.target.dataset.section + "  ---  " );
 }
 
 //=======================================================

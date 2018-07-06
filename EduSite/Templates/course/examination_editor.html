@@ -7,112 +7,116 @@
 {% endblock %}
 
 {% block content %}
+{% csrf_token %}
 <div class="container-fluid ">
-<!-- <div class="card border-white"> -->
-    <div class="row border rounded border-primary mx-1 py-2 bg-light">
-        <div class="col-3">
+    <div class="row py-3 bg-secondary">
+        <div class="input-group px-2 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="exma-name-label">试卷名称</span>
+            </div>
+            <input type="text" class="form-control" placeholder="请输入试卷名称" aria-label="试卷名称" aria-describedby="exma-name-label" id="exam-name">            
+            <div class="input-group-append">
+                <button class="btn btn-success" type="button" onclick="onSubmitCheck()" id="btn_modify">完成组卷</button>
+            </div>
+        </div>
+        <div class="input-group px-2 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="exam-total-score-label">试卷总分</span>
+            </div>
+        <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
+        </div>
+    </div>
+    <div class="row p-0">
+        <div class="col-4 rounded">
             <div class="row justify-content-md-center">
-                <div class="col-6 m-0 p-0 pl-1">
-                    <div class="card bg-primary border-0">
+                <div class="col-5 m-0 p-0">
+                    <div class="card bg-info border-0">
                         <div class="card-header card-header-sm">
-                            <h6 class="card-title">题型选择
-                                <span class="badge badge-dark" id="qlist_num">0</span>                                    
-                            </h6>
+                            <h5 class="card-title">题型选择
+                                <span class="badge badge-warning" id="qlist_num">0</span>                                    
+                            </h5>
                         </div>
                         {% for qType in qTypeList %}
                         {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
-                        <button class="list-group-item list-group-item-action list-group-item-primary text-truncate" 
+                        <button class="list-group-item list-group-item-action list-group-item-info text-truncate" 
                             id="NavBtn_{{ qType }}" 
                             onfocus="this.blur()"
                             tabindex="-1"
-                            data-url="{{qTypeURL}}" data-qlist-url="{{qListURL}}" data-type-name="{{ qType }}">{{qType}}</button>
+                            data-url="{{qTypeURL}}" data-qlist-url="{{qListURL}}" data-type-name="{{qType}}">
+                            {{qType}}
+                            <span class="badge badge-warning" id="qType_num_{{qType}}" data-type-name="{{qType}}">0</span>
+                        </button>
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-6 m-0 p-0 pr-1" id="selected_course">
-                    <div class="card bg-success border-0">
+                <div class="col-7 m-0 p-0" id="selected_course">
+                    <div class="card bg-danger border-0">
                         <div class="card-header card-header-sm">
-                            <h6 class="card-title">已选题目
-                                <span class="badge badge-dark" id="qlist_num">0</span>                                    
-                            </h6>
+                            <h5 class="card-title">已选题目
+                                <span class="badge badge-dark" id="sel_sum">0</span>                                    
+                            </h5>
                         </div>
-                        {% for qType in qTypeList %}
-                        {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
-                        <button class="list-group-item list-group-item-action list-group-item-success text-truncate"
-                            id="QSelected_{{qType}}" 
-                            onclick="onSelectClk(event)" onfocus="this.blur()"
-                            tabindex="-1"
-                            data-url="{{qTypeURL}}" data-qlist-url="{{qListURL}}" data-type-name="{{ qType }}">{{qType}}</button>
-                        {% endfor %}
+                        <ul class="list-group" id="selected_qlist">
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-5 border-right border-left border-primary">
+        <div class="col-4 m-0 px-1">
             <div class="row-fluid">
-                <div class="">
-                    <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
-                        {% csrf_token %}
-                        <div id="QType_Panel">
-                        </div>
-                    </form>
+                <div class="m-0 p-0 text-left" id="magic_panel">
+                    <button class="btn" type="button" onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()"
+                    tabindex="-1">加入试卷</button>
                 </div>
-
-                <div class="border-top border-warning py-2"></div>
-                <div class="row align-content-center align-middle">
-                    <div class="input-group-prepend col-sm-1 rounded-circle">
-                        <span class="align-middle input-group-text pt-0 border-right">难度</span>
-                    </div>
-                    <div class="col-sm-4 pt-1">
-                        <div class="align-items-center align-middle">
-                            <h2 ic_group="difficult">
-                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                                <span class="text-muted oi oi-star" title="star" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
-                            </h2>                    
+                <div class="row m-0 p-0">
+                    <div class="input-group my-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="per-sco-label">每小题得分</span>
                         </div>
-                    </div>                    
-
-                    
-                    <div class="col-sm-2 text-right align-baseline">
-                        <button class="btn btn-success my-2" type="button" onclick="onSubmitCheck()" id="btn_modify">完成组卷</button>
+                        <input type="number" min="0.5" max="100" value="1" class="form-control" required aria-describedby="per-sco-label" id="per-score" onchange="onPerScoreChange(event)">
+                        <input type="text" class="form-control text-right" placeholder="0" readonly id="total-score">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="total-sco-label">该类型总分</span>
+                        </div>
                     </div>
-                  
+                                      
                 </div>
             </div>
         </div>
 
-        <div class="col-2 m-0 p-0">
-            <div class="card bg-info">
-                <div class="card-header card-header-sm">
-                        <h5 class="card-title">未选题目
-                            <span class="badge badge-dark" id="qlist_num">0</span>
-                            <span class="float-right">
-                                <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
-                            </span>
-                        </h5>
-                        <div class="collapse align-content-end" id="content_filer">                        
-                            <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
-                        </div>
+        <div class="col-4">
+            <div class="row justify-content-md-center">
+                <div class="col-7 m-0 p-0">
+                    <div class="card bg-warning">
+                        <div class="card-header card-header-sm">
+                                <h5 class="card-title">未选题目
+                                    <span class="badge badge-dark" id="unsel_sum">0</span>
+                                    <span class="float-right">
+                                        <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
+                                    </span>
+                                </h5>
+                                <div class="collapse align-content-end" id="content_filer">                        
+                                    <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
+                                </div>
+                            </div>
+                            <ul class="list-group" id="unSelected_qlist">
+                            </ul>
                     </div>
-                    <ul class="list-group" id="Question_List">
-                    </ul>
-            </div>
-        </div>
-        <div class="col-2 m-0 p-0">
-            <!-- <div class="row-fluid"> -->
-            <div class="card bg-info">                
-                <div class="card bg-secondary text-white">
-                        <div class="card-header text-center">
-                            <h5 class="card-title">课程章节列表</h5>
-                        </div>
-                        <!-- <div class="card-body"> -->
-                            {{course_html}}                  
-                        <!-- </div> -->
+                </div>
+                <div class="col-5 m-0 p-0">
+                    <!-- <div class="row-fluid"> -->
+                    <div class="card bg-info">                
+                        <div class="card bg-secondary text-white">
+                                <div class="card-header text-center">
+                                    <h5 class="card-title">课程章节列表</h5>
+                                </div>
+                                <!-- <div class="card-body"> -->
+                                    {{course_html}}                  
+                                <!-- </div> -->
+                            </div>
+                
                     </div>
-        
+                </div>
             </div>
         </div>
     </div>

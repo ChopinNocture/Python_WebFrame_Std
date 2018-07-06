@@ -25,19 +25,20 @@ def get_question_list(request, qtype, section_id=None):
     if not request.is_ajax():
         return HttpResponse("Permission reject!")
 
-    flag = request.GET.get('flag')
-    
     if section_id is None:
-        quests = temp_class.objects.all()
+        quests = temp_class.objects.all().values('id', 'description', 'sectionID', 'flag')
     else:
-        quests = temp_class.objects.filter(sectionID=section_id)
-        
+        quests = temp_class.objects.filter(sectionID=section_id).values('id', 'description', 'sectionID', 'flag')
+
     quest_list = list()
 
-    for iter in quests:
-        quest_list.append({"id":iter.id, "desc":iter.description}) 
+    for qiter in quests:
+        quest_list.append({"id": qiter['id'],
+                           "desc": qiter['description'],
+                           "secID": qiter['sectionID'],
+                           "flag": qiter['flag']})
 
-    # return render(request=request, template_name="home.html" )
+        # return render(request=request, template_name="home.html" )
     return JsonResponse(quest_list, safe=False)
 
 
