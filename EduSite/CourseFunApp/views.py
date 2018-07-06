@@ -25,6 +25,8 @@ def get_question_list(request, qtype, section_id=None):
     if not request.is_ajax():
         return HttpResponse("Permission reject!")
 
+    flag = request.GET.get('flag')
+    
     if section_id is None:
         quests = temp_class.objects.all()
     else:
