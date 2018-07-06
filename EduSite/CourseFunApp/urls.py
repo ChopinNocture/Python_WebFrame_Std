@@ -15,6 +15,7 @@ urlpatterns = [
     path('lesson/<int:lesson_id>/', views.lesson_content, name='lesson_content'),
     path('study/<int:lesson_id>/', views.study, name='study'),
     path('exam/editor/', views.exam_editor, name='exam_editor'),
+    path('exam/nearest/', views.exam_ready, name='exam_ready'),
 #    path('delete/<int:notice_id>/', views.delete_notice),
 #    path('get/', views.get_notices),
 ]

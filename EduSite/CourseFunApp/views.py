@@ -167,3 +167,6 @@ def exam_editor(request):
         
         return render(request=request, template_name="course/examination_editor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})        
     
+    
+def exam_ready(request):
+    return HttpResponse('Lesson Study')

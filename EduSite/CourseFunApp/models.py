@@ -23,6 +23,8 @@ class Examination(models.Model):
     question_list = JSONField()
     date = models.DateTimeField(default=timezone.datetime.today())
 
+    def __str__(self):
+        return self.title
 
 # --------------------------------------------------------
 class Lesson(models.Model):
