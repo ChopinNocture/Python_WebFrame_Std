@@ -7,16 +7,54 @@
 {% endblock %}
 
 {% block content %}
-{% csrf_token %}
 <div class="container-fluid p-0 ">
-    <div class="row m-0 p-1 bg-secondary">    
+    <form action="." method="post" id="exam_editor" onsubmit="return checkExam()">
+    {% csrf_token %}
+    <div class="row m-0 p-1 bg-secondary">
+        {{ form.non_field_errors }} 
+            {{ form.start_time }}
+            {{ form.question_list }}
         <div class="row input-group px-2 m-0 mb-3">
+            {{ form.title.errors }}
             <div class="input-group-prepend">
-                <span class="input-group-text" id="exma-name-label">试卷名称</span>
+                <span class="input-group-text" id="{{ form.title.id_for_label }}">试卷名称</span>
             </div>
-            <input type="text" class="form-control" placeholder="请输入试卷名称" aria-label="试卷名称" aria-describedby="exma-name-label" id="exam-name">            
+            {{ form.title }}            
             <div class="input-group-append">
-                <button class="btn btn-success" type="button" onclick="onSubmitCheck()" id="btn_modify">完成组卷</button>
+                <button class="btn btn-success" type="button" id="btn_modify" onclick="onSubmitExam(event)">完成组卷</button>
+            </div>
+        </div>
+        <div class="col-3 form-group px-2 m-0 mb-3">
+            <div class=" input-group m-0 p-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="exam-total-score-label">试卷总分</span>
+                </div>
+                <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
+            </div>
+            <div class=" input-group m-0 p-0">
+                {{ form.duration.errors }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="{{ form.duration.id_for_label }}">考试时长</span>
+                </div>
+                {{ form.duration }}
+                <!-- <input type="text" class="form-control" id="exam-duration" aria-describedby="exam-duration-label"> -->
+                <div class="input-group-append">
+                    <span class="input-group-text">分钟</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 form-group px-2 m-0 mb-3">
+            <div class=" input-group m-0 p-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="exam-date-label">考试日期</span>
+                </div>
+                <input type="date" class="form-control" id="exam-date" aria-describedby="exam-date-label" >
+            </div>
+            <div class=" input-group m-0 p-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="exam-time-label">开始时间</span>
+                </div>
+                <input type="time" class="form-control" id="exam-time" aria-describedby="exam-time-label">
             </div>
         </div>
         <div class="col-3 form-group px-2 m-0 mb-3">
@@ -33,35 +71,8 @@
                 <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
             </div>
         </div>
-        <div class="col-3 form-group px-2 m-0 mb-3">
-                <div class=" input-group m-0 p-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="exam-total-score-label">考试日期</span>
-                    </div>
-                    <input type="date" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" >
-                </div>
-                <div class=" input-group m-0 p-0">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="exam-total-score-label">开始时间</span>
-                    </div>
-                    <input type="time" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label">
-                </div>
-            </div>
-            <div class="col-3 form-group px-2 m-0 mb-3">
-                    <div class=" input-group m-0 p-0">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="exam-total-score-label">试卷总分</span>
-                        </div>
-                        <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
-                    </div>
-                    <div class=" input-group m-0 p-0">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="exam-total-score-label">考试时长</span>
-                        </div>
-                        <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
-                    </div>
-                </div>
     </div>
+    </form>
     <div class="row m-1">
         <div class="col-4 rounded">
             <div class="row justify-content-md-center">
@@ -119,7 +130,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-4">
             <div class="row justify-content-md-center">
                 <div class="col-7 m-0 p-0">
@@ -143,13 +153,13 @@
                     <!-- <div class="row-fluid"> -->
                     <div class="card bg-info">                
                         <div class="card bg-secondary text-white">
-                                <div class="card-header text-center">
-                                    <h5 class="card-title">课程章节列表</h5>
-                                </div>
-                                <!-- <div class="card-body"> -->
-                                    {{course_html}}                  
-                                <!-- </div> -->
+                            <div class="card-header text-center">
+                                <h5 class="card-title">课程章节列表</h5>
                             </div>
+                            <!-- <div class="card-body"> -->
+                                {{course_html}}                  
+                            <!-- </div> -->
+                        </div>
                 
                     </div>
                 </div>

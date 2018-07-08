@@ -6,7 +6,7 @@ from django.forms import ModelForm
 # Create your views here.
 from CourseFunApp.models import Lesson
 import CourseFunApp.models as questionModels
-import CourseFunApp.forms as questionForms
+import CourseFunApp.forms as questionForms 
 import CourseFunApp.exam_system as exam_sys
 
 # from django.utils.dateformat import DateFormat
@@ -155,17 +155,25 @@ def answer_sheet(request, sectionID):
 # --------------------------------------------------------
 # examination
 def exam_editor(request):
+    if request.is_ajax() and request.method == "POST":
+        exam = None
+        exam_form = questionForms.ExaminationForm(request.POST, instance=exam)
+        exam_form.is_valid()
+        print(exam_form.cleaned_data)
 
-    if request.method == "GET":
+        return HttpResponse("Success!")
+    elif request.method == "GET":
         course_list = list()
         lesson_list = Lesson.objects.all()
 
         for iter in lesson_list:
-            course_list.append({"id":iter.id, "name":iter.description})
+            course_list.append({"id": iter.id, "name": iter.description})
 
         course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
         
-        return render(request=request, template_name="course/examination_editor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})        
+        exam_form = questionForms.ExaminationForm()
+
+        return render(request=request, template_name="course/examination_editor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, "form": exam_form })
     
     
 def exam_ready(request):

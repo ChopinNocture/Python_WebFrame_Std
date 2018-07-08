@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 
-
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
 
@@ -19,12 +18,13 @@ class Course(models.Model):
 # --------------------------------------------------------
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
-    duration = models.DurationField()
+    duration = models.PositiveSmallIntegerField()
     question_list = JSONField()
-    date = models.DateTimeField(default=timezone.datetime.today())
+    start_time = models.DateTimeField(default=timezone.datetime.now())
 
     def __str__(self):
         return self.title
+
 
 # --------------------------------------------------------
 class Lesson(models.Model):

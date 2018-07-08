@@ -11,6 +11,8 @@ function init() {
     $('button[id^=QSelected_]').click(onSelectClk); 
 
     $('#NavBtn_' + cur_type).click();
+
+    document.getElementById('exam_editor').submit = function () {     alert( '? ' + $(this).serialize()); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
    // $('button[id^=course_]:first').click();
 }
 
@@ -41,11 +43,6 @@ function onNavTypeClk(event) {
     cur_list_url = event.target.dataset.qlistUrl;
     cur_index = -1;
  
-    // curr_qid = "";
-    // with_value = false;
-    // current_url = event.target.dataset.url;
-    // cur_list_url = event.target.dataset.qlistUrl;
-    // refreshOthers();
     doRefreshQList();
 
     return false;
@@ -108,7 +105,7 @@ function updateExamination(){
 }
 
 const QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action inline-block text-truncate" \
-                    tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
+                    tabindex="-1" data-qindex=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
 
 const QLIST_ID = "qList_";
 const CSS_SEL_CLASS = "list-group-item-danger";
@@ -177,15 +174,16 @@ function updateBtn() {
     }
     else {
         $('#btn_toggle').css('visibility','visible');
+
+        if(question_list_all[cur_type][cur_index].selected) {
+            $('#magic_panel').removeClass("text-right").addClass("text-left");
+            $('#btn_toggle').removeClass("btn-warning").addClass("btn-danger").html('移出试卷 <span class="font-weight-bold text-warning oi oi-arrow-thick-right"></span>');
+        }
+        else {
+            $('#magic_panel').removeClass("text-left").addClass("text-right");
+            $('#btn_toggle').removeClass("btn-danger").addClass("btn-warning").html('<span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷');
+        }  
     }
-    if(question_list_all[cur_type][cur_index].selected){
-        $('#magic_panel').removeClass("text-right").addClass("text-left");
-        $('#btn_toggle').removeClass("btn-warning").addClass("btn-danger").html('移出试卷 <span class="font-weight-bold text-warning oi oi-arrow-thick-right"></span>');
-    }
-    else {
-        $('#magic_panel').removeClass("text-left").addClass("text-right");
-        $('#btn_toggle').removeClass("btn-danger").addClass("btn-warning").html('<span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷');
-    }  
 }
 
 function onPerScoreChange(event) {
@@ -212,4 +210,29 @@ function onSectionClick(event) {
 
     //    $(event.target).blur();
     return true;
+}
+
+function checkExam() {
+
+}
+
+function preHandle() {
+    var dateTime = $('#exam-date').val() + ' ' + $('#exam-time').val();
+    $('#id_start_time').val(dateTime);
+
+    
+}
+
+function onSubmitExam(event) {
+    preHandle();
+    //document.getElementById('exam_editor').verify();
+    document.getElementById('exam_editor').submit();
+    //$('#exam_editor').verify();
+}
+
+function onSubmitFailed(result) {
+    alert(result);
+}
+
+function onSubmitSuccess(result) {
 }

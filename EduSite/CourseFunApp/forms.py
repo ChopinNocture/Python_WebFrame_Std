@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput
+from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput
 
 from .models import *
 
@@ -114,3 +114,23 @@ def get_qForm_class(qType_name: str):
         raise AttributeError('ModelForm do not have this type:' + qType_name)
 
     return formCls
+
+
+# ---------------
+# Examination form
+class ExaminationForm(ModelForm):
+    class Meta:
+        model = Examination
+        fields = '__all__'
+        widgets = {
+            'title': TextInput(attrs={'class': 'form-control', 'placeholder': '请输入试卷名称', 'aria-label': '试卷名称', 'aria-describedby': 'exma-name-label'}),
+            'question_list': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
+            'duration': NumberInput(attrs={'class': 'form-control', 'id': 'exam-duration', 'aria-describedby': 'exam-duration-label'}),
+            'start_time': HiddenInput(),
+        }
+        
+        labels = {
+            'title': '题干',
+            'duration': '考试时长',
+            'start_time': '考试时间',
+        }
