@@ -3,14 +3,24 @@ $(document).ready(init);
 function init() {
     csrf_Setup();
 
+    // Filter
     $('#content_filer').on('hide.bs.collapse', function () {
         filterQList();
-    })
-    
-    $('#content_filer').on('show.bs.collapse', function () {
+    }).on('show.bs.collapse', function () {
         $('#filter_input').val("");
     })
-
+    
+    // 给input  date设置默认值
+    var now = new Date();
+    //格式化日，如果小于9，前面补0
+    var day = ("0" + now.getDate()).slice(-2);
+    //格式化月，如果小于9，前面补0
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    //拼装完整日期格式
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+    $('#exam-date').val(today);
+    $('#exam-date').attr({min:today});
+    
     $('button[id^=NavBtn_]').click(onNavTypeClk);
     $('button[id^=NavBtn_]').each(function (index, elem) {
         elem.innerHTML = elem.innerHTML.replace(elem.dataset.typeName,TYPE_TRANS_LIST[elem.dataset.typeName]);
@@ -23,7 +33,6 @@ function init() {
     document.getElementById('exam_editor').submit = onSubmitExam;
 
     preSetValidation();    
-
    // $('button[id^=course_]:first').click();
 }
 
@@ -35,7 +44,7 @@ function onSelectClk(event) {
 
 var cur_type = "FillInBlank";
 var examination = { "total_num": 0, "total_score": 0 };
-var question_list_all = {}
+var question_list_all = {} // "id"  "desc" "secID" "flag"
 
 
 var current_url = "";
@@ -274,6 +283,20 @@ function formCheckAndSet() {
         //checkingElem[0].checkValidity();
     }
 
+    for (var key in question_list_all) {
+        examination[key]['qlist'] = [];
+
+        question_list_all[key].forEach(function (iter, index, array) {
+            if (iter.selected) {
+                //iter.selected = false;
+                temp = examination[key].qlist.push(iter.id);
+            }
+        }); 
+    }
+    
+    alert("---- " + JSON.stringify(examination));
+    $('#id_question_list').val(JSON.stringify(examination));
+
     // checkingElem = $('#id_duration');
     // if( checkingElem.val()<=0 ) {
     //     //alert("试卷总分必须大于0，请检查试卷！");
@@ -314,7 +337,7 @@ function onSubmitExam() {
 }
 
 function onSubmitFailed(result) {
-    alert(result);
+    alert("???" + result);
 }
 
 function onSubmitSuccess(result) {

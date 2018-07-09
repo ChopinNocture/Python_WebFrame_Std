@@ -159,7 +159,9 @@ def exam_editor(request):
         exam = None
         exam_form = questionForms.ExaminationForm(request.POST, instance=exam)
         exam_form.is_valid()
+
         print(exam_form.cleaned_data)
+        exam_form.save()
 
         return HttpResponse("Success!")
     elif request.method == "GET":
