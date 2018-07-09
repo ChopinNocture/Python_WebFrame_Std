@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
 from django.template import loader
 from django.forms import ModelForm
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 # Create your views here.
-from CourseFunApp.models import Lesson
+from CourseFunApp.models import Lesson, Examination
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms 
 import CourseFunApp.exam_system as exam_sys
@@ -156,14 +157,32 @@ def answer_sheet(request, sectionID):
 # examination
 def exam_editor(request):
     if request.is_ajax() and request.method == "POST":
-        exam = None
+        exam = Examination()
+        # exam = Examination.objects.create(
+        #     title = 'test',
+        #     duration = 120,
+        #     question_list = {"email": "to1@example.com"}
+        # )
+        # exam.save()
+        
         exam_form = questionForms.ExaminationForm(request.POST, instance=exam)
-        exam_form.is_valid()
+        try:
+            if exam_form.is_valid():
+                print("???")
+                exam = exam_form.save(commit=False)
+                print(exam)
+                exam.save()
+            else:
+                print(exam_form.errors.as_data())
+        except Exception as e:
+            print("-----" + str(e))
+            print(exam_form.cleaned_data)
+            print(exam_form.errors.as_data())
+            return HttpResponseNotAllowed("F!")
 
-        print(exam_form.cleaned_data)
-        exam_form.save()
-
+            
         return HttpResponse("Success!")
+        
     elif request.method == "GET":
         course_list = list()
         lesson_list = Lesson.objects.all()

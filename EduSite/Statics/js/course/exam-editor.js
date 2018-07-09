@@ -188,7 +188,7 @@ function updateQList() {
             .html(iter.desc)
             .addClass(css_cls)
             .tooltip()
-            .click(onQListBtnClick);
+            .click(onQListBtnClick).dblclick(onQListBtnDoubleClick);
         
         qListPanel.append(tempLine);
         if (cur_index == index) { tempLine.click(); }
@@ -209,6 +209,12 @@ function onQListBtnClick(event) {
     cur_index = event.target.dataset.qindex;
     updateBtn();
 }
+
+function onQListBtnDoubleClick(event) {
+    $(event.target).tooltip('dispose');
+    onToggleAdd();
+}
+onQListBtnDoubleClick
 
 function updateBtn() {
     if(cur_index<0) {

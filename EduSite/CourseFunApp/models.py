@@ -18,8 +18,8 @@ class Course(models.Model):
 # --------------------------------------------------------
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
-    duration = models.PositiveSmallIntegerField()
-    question_list = JSONField()
+    duration = models.PositiveIntegerField()
+    question_list = models.TextField(max_length=1024) # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.now())
 
     def __str__(self):
