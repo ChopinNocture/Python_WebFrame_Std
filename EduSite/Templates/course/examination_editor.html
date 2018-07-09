@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid p-0 ">
-    <form action="." method="post" id="exam_editor" onsubmit="return checkExam()">
-    {% csrf_token %}
+{% csrf_token %}
+<div class="container-fluid p-0 rounded" style="background: linear-gradient(#ececec,#b3b2b2)">
+    <form action="." method="post" id="exam_editor" class="needs-validation" novalidate>
     <div class="row m-0 p-1 bg-secondary">
         {{ form.non_field_errors }} 
             {{ form.start_time }}
@@ -17,59 +17,64 @@
         <div class="row input-group px-2 m-0 mb-3">
             {{ form.title.errors }}
             <div class="input-group-prepend">
-                <span class="input-group-text" id="{{ form.title.id_for_label }}">试卷名称</span>
+                <span class="input-group-text bg-dark text-light border-light" id="{{ form.title.id_for_label }}">试卷名称</span>
             </div>
-            {{ form.title }}            
+            {{ form.title }}         
             <div class="input-group-append">
-                <button class="btn btn-success" type="button" id="btn_modify" onclick="onSubmitExam(event)">完成组卷</button>
+                <button class="btn btn-success rounded-right" type="button" id="btn_modify" onclick="onSubmitClick(event)">完成组卷</button>
             </div>
+            <div class="invalid-feedback">
+                请输入2个以上30个以内的文字！
+            </div>           
         </div>
-        <div class="col-3 form-group px-2 m-0 mb-3">
+
+        <div class="col-4 form-group px-2 m-0 mb-2">
             <div class=" input-group m-0 p-0">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="exam-total-score-label">试卷总分</span>
+                    <span class="input-group-text bg-dark text-light border-light" id="exam-total-score-label">试卷总分</span>
                 </div>
-                <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
+                <input type="text" class="form-control rounded-right" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
+                <div class="invalid-feedback">
+                    试卷总分必须大于0！
+                </div>  
             </div>
             <div class=" input-group m-0 p-0">
                 {{ form.duration.errors }}
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="{{ form.duration.id_for_label }}">考试时长</span>
+                <div class="input-group-prepend border-info">
+                    <span class="input-group-text bg-dark text-light border-light" id="{{ form.duration.id_for_label }}">考试时长</span>
                 </div>
                 {{ form.duration }}
                 <!-- <input type="text" class="form-control" id="exam-duration" aria-describedby="exam-duration-label"> -->
                 <div class="input-group-append">
-                    <span class="input-group-text">分钟</span>
+                    <span class="input-group-text bg-dark text-light rounded-right">分钟</span>
                 </div>
+                <div class="invalid-feedback">
+                    考试必须时间大于0小于1440分钟！
+                </div> 
+            </div>
+        </div>
+        <div class="col-4 form-group px-2 m-0 mb-2">
+            <div class=" input-group m-0 p-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-dark text-light border-light" id="exam-date-label">考试日期</span>
+                </div>
+                <input type="date" class="form-control rounded-right" id="exam-date" aria-describedby="exam-date-label" min="data.today()" required>
+                <div class="invalid-feedback">
+                    请选择今天以后的日期！
+                </div> 
+            </div>
+            <div class=" input-group m-0 p-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-dark text-light border-light" id="exam-time-label">开始时间</span>
+                </div>
+                <input type="time" class="form-control rounded-right" id="exam-time" aria-describedby="exam-time-label" required>
+                <div class="invalid-feedback">
+                    请填写考试开始时间！
+                </div> 
             </div>
         </div>
         <div class="col-3 form-group px-2 m-0 mb-3">
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="exam-date-label">考试日期</span>
-                </div>
-                <input type="date" class="form-control" id="exam-date" aria-describedby="exam-date-label" >
-            </div>
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="exam-time-label">开始时间</span>
-                </div>
-                <input type="time" class="form-control" id="exam-time" aria-describedby="exam-time-label">
-            </div>
-        </div>
-        <div class="col-3 form-group px-2 m-0 mb-3">
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="exam-total-score-label">试卷总分</span>
-                </div>
-                <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
-            </div>
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="exam-total-score-label">考试时长</span>
-                </div>
-                <input type="text" class="form-control" id="exam-total-score" aria-describedby="exam-total-score-label" readonly>
-            </div>
+
         </div>
     </div>
     </form>
@@ -111,22 +116,23 @@
         </div>
         <div class="col-4 m-0 px-1">
             <div class="row-fluid">
-                <div class="m-0 p-0 text-left" id="magic_panel">
-                    <button class="btn" type="button" onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()"
-                    tabindex="-1">加入试卷</button>
+                <div class="btnTrack mt-3" style="margin-left: -4px;margin-right: -4px">
+                    <div class="mx-2 p-0" id="magic_panel">
+                        <button class="btn btn_left_right btn-warning" style="position: relative;left: 0px;" type="button" onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()"
+                        tabindex="-1"><span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷</button>
+                    </div>
                 </div>
                 <div class="row m-0 p-0">
-                    <div class="input-group my-3">
+                    <div class="input-group my-2">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="per-sco-label">每小题得分</span>
+                            <span class="input-group-text bg-dark text-light border-secondary" id="per-sco-label">每小题得分</span>
                         </div>
-                        <input type="number" min="0.5" max="100" value="1" class="form-control" required aria-describedby="per-sco-label" id="per-score" onchange="onPerScoreChange(event)">
+                        <input type="number" min="0.5" max="100" value="1" step="0.5" class="form-control" required aria-describedby="per-sco-label" id="per-score" onchange="onPerScoreChange(event)">
                         <input type="text" class="form-control text-right" placeholder="0" readonly id="total-score">
                         <div class="input-group-append">
-                            <span class="input-group-text" id="total-sco-label">该类型总分</span>
+                            <span class="input-group-text bg-dark text-light border-secondary" id="total-sco-label">该类型总分</span>
                         </div>
-                    </div>
-                                      
+                    </div>                                      
                 </div>
             </div>
         </div>
@@ -175,5 +181,5 @@
 {% endblock %} 
 
 {% block pageInclude %}
-
+    <link rel="stylesheet" href="{% static 'css/edu/teacher.css' %}"/>
 {% endblock %} 

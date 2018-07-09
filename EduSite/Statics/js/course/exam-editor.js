@@ -3,6 +3,14 @@ $(document).ready(init);
 function init() {
     csrf_Setup();
 
+    $('#content_filer').on('hide.bs.collapse', function () {
+        filterQList();
+    })
+    
+    $('#content_filer').on('show.bs.collapse', function () {
+        $('#filter_input').val("");
+    })
+
     $('button[id^=NavBtn_]').click(onNavTypeClk);
     $('button[id^=NavBtn_]').each(function (index, elem) {
         elem.innerHTML = elem.innerHTML.replace(elem.dataset.typeName,TYPE_TRANS_LIST[elem.dataset.typeName]);
@@ -12,7 +20,10 @@ function init() {
 
     $('#NavBtn_' + cur_type).click();
 
-    document.getElementById('exam_editor').submit = function () {     alert( '? ' + $(this).serialize()); ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
+    document.getElementById('exam_editor').submit = onSubmitExam;
+
+    preSetValidation();    
+
    // $('button[id^=course_]:first').click();
 }
 
@@ -59,7 +70,6 @@ function doRefreshQList() {
         updateQList();
     }
     updateBtn();
-    $('#content_filer').collapse('hide');
 }
 
 function onGetQList(jsonData) {
@@ -102,6 +112,27 @@ function updateExamination(){
     $('#qlist_num').html(examination.total_num);
     $('#exam-total-score').val(examination.total_score);
     $('#total-score').val(examination[cur_type].sum_score);
+}
+
+//----------------
+// filter
+function onFilterInput(event) {
+    filterQList(event.target.value);
+}
+
+function filterQList(words = null) {
+    if (words) {
+        var hidden_num = 0;
+        $('button[id^=' + QLIST_ID + ']').each(function (index, elem) {
+            if(elem.innerHTML.indexOf(words) == -1) {
+                ++hidden_num;
+                $(elem).attr("hidden", true);
+            }
+        });
+    }
+    else {
+        $('button[id^=' + QLIST_ID + ']').attr("hidden", false);
+    }
 }
 
 const QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action inline-block text-truncate" \
@@ -159,6 +190,8 @@ function updateQList() {
     updateExamination();
     $("#sel_sum").html(sel_sum.toString());
     $("#unsel_sum").html(unsel_sum.toString());
+
+    $('#content_filer').collapse('hide');
 }
 
 function onQListBtnClick(event) {
@@ -176,12 +209,12 @@ function updateBtn() {
         $('#btn_toggle').css('visibility','visible');
 
         if(question_list_all[cur_type][cur_index].selected) {
-            $('#magic_panel').removeClass("text-right").addClass("text-left");
-            $('#btn_toggle').removeClass("btn-warning").addClass("btn-danger").html('移出试卷 <span class="font-weight-bold text-warning oi oi-arrow-thick-right"></span>');
+            //$('#magic_panel').removeClass("text-right").addClass("text-left");
+            $('#btn_toggle').css({'left': '0px'}).removeClass('btn_to_right').removeClass("btn-warning").addClass("btn-danger").html('移出试卷 <span class="font-weight-bold text-warning oi oi-arrow-thick-right"></span>');
         }
         else {
-            $('#magic_panel').removeClass("text-left").addClass("text-right");
-            $('#btn_toggle').removeClass("btn-danger").addClass("btn-warning").html('<span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷');
+            //$('#magic_panel').removeClass("text-left").addClass("text-right");
+            $('#btn_toggle').css({'left': 'calc( 100% - ' + $('#btn_toggle').width().toString() + 'px - 28px )' }).addClass('btn_to_right').removeClass("btn-danger").addClass("btn-warning").html('<span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷');
         }  
     }
 }
@@ -212,22 +245,72 @@ function onSectionClick(event) {
     return true;
 }
 
-function checkExam() {
-
+function preSetValidation() {
+    $('#exam-duration').attr({'min': '10', 'max': '1440'});    
 }
 
-function preHandle() {
+function formCheckAndSet() {
     var dateTime = $('#exam-date').val() + ' ' + $('#exam-time').val();
     $('#id_start_time').val(dateTime);
 
+    var result = true;
+    var checkingElem = null;
+
+    checkingElem = $('#exam_editor');    
+    if(checkingElem[0].checkValidity()) {
+        checkingElem.removeClass('was-validated');        
+    }
+    else{
+        checkingElem.addClass('was-validated');
+        result = false;
+    }
+
+    checkingElem = $('#exam-total-score');
+    if( checkingElem.val()<=0 ) {
+        //alert("试卷总分必须大于0，请检查试卷！");
+        document.getElementById('exam-total-score').checkValidity();
+        result = false;
+        //checkingElem[0].setCustomValidity("试卷总分必须大于0，请检查试卷！");
+        //checkingElem[0].checkValidity();
+    }
+
+    // checkingElem = $('#id_duration');
+    // if( checkingElem.val()<=0 ) {
+    //     //alert("试卷总分必须大于0，请检查试卷！");
+    //     //document.getElementById('exam-duration').checkValidity();
+    //     checkingElem[0].validity.rangeOverflow = false;
+    //     checkingElem[0].setCustomValidity("试卷总分必须大于0，请检查试卷！");
+    //     checkingElem[0].checkValidity();
+    //     result = false;        
+    // }
     
+    // 
+    // $('#exam-date')
+    // $('#exam-time')
+    // $('#id_title')
+
+    return result;
 }
 
-function onSubmitExam(event) {
-    preHandle();
+function onSubmitClick(event) {
+    if(formCheckAndSet()) {
+        document.getElementById('exam_editor').submit();  
+    }
+    //
+
+    
+     //document.getElementById('exam_editor').checkValidity();
     //document.getElementById('exam_editor').verify();
-    document.getElementById('exam_editor').submit();
+    //document.getElementById('exam_editor').submit();
+
+    
+    //alert(valCheck);
+
     //$('#exam_editor').verify();
+}
+
+function onSubmitExam() {
+    ajaxSubmit(this, onSubmitSuccess, onSubmitFailed);   
 }
 
 function onSubmitFailed(result) {
@@ -235,4 +318,6 @@ function onSubmitFailed(result) {
 }
 
 function onSubmitSuccess(result) {
+    alert(result);
+    ShowInfo("成功添加考试！");
 }

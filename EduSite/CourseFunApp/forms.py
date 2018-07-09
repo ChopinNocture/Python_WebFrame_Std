@@ -123,9 +123,17 @@ class ExaminationForm(ModelForm):
         model = Examination
         fields = '__all__'
         widgets = {
-            'title': TextInput(attrs={'class': 'form-control', 'placeholder': '请输入试卷名称', 'aria-label': '试卷名称', 'aria-describedby': 'exma-name-label'}),
+            'title': TextInput(attrs={'class': 'form-control', 
+                                        'placeholder': '请输入试卷名称', 
+                                        'aria-label': '试卷名称', 
+                                        'aria-describedby': 'exma-name-label', 
+                                        'pattern': '[\w\u4e00-\u9fa5, \-_<>;\'\"]{2,30}'}),
             'question_list': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
-            'duration': NumberInput(attrs={'class': 'form-control', 'id': 'exam-duration', 'aria-describedby': 'exam-duration-label'}),
+            'duration': NumberInput(attrs={'class': 'form-control', 
+                                            'id': 'exam-duration', 
+                                            'min': '10', 
+                                            'max': '1440', 
+                                            'aria-describedby': 'exam-duration-label'}),
             'start_time': HiddenInput(),
         }
         

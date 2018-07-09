@@ -19,6 +19,8 @@
     }
 
     #schedule-box {
+        border-width: 2px;
+        border-color: #333333;
         width: 320px;
         margin: 0 auto;
         padding: 35px 20px;
@@ -85,7 +87,7 @@
     }
 
     .boxshaw {
-        box-shadow: 2px 2px 15px 2px #e3e3e3;
+        box-shadow: 2px 2px 15px 2px #e0e0e0;
     }
 
     .selected-style {
@@ -104,12 +106,12 @@
 {% block content %} 
 {% csrf_token %}
 <h2 class="text-center font-weight-bold p-1 text-warning">公告发布</h2>
-<div class="container border border-dark mx-5 py-4 bg-light rounded ">    
+<div class="container border border-dark mx-5 py-4 bg-light rounded " style="background: linear-gradient(#ffffff,#a09f9f)">    
     <div class="row">
         <div class="col-8">
             <div class="row-fluid">
-                <div class="text-center p-1 boxshaw">
-                    <div class="input-group p-1 m-auto" style="height: 200px;width: 61.8%;">
+                <div class="text-center p-1 boxshaw border-dark">
+                    <div class="input-group p-1 m-auto " style="height: 200px;width: 61.8%;">
                         <div class="input-group-prepend">
                             <span class="input-group-text">公告内容</span>
                         </div>

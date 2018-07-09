@@ -48,3 +48,14 @@
     border-right-color: rgb(203, 248, 250);
     border-bottom-color:rgb(203, 248, 250);
 }
+
+.btnTrack {
+    background: linear-gradient(to right,#eb6370e0, #cea014d5)
+}
+
+.btn_left_right {
+    transition-property: color, background, left;
+    transition-duration: 0.5s;
+}
+
+
