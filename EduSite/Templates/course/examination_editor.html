@@ -89,7 +89,8 @@
                             </h5>
                         </div>
                         {% for qType in qTypeList %}
-                        {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
+                        {% url 'course:question-editor-type' qType as qTypeURL %} 
+                        {% url 'course:question-list' qType as qListURL %}
                         <button class="list-group-item list-group-item-action list-group-item-info text-truncate" 
                             id="NavBtn_{{ qType }}" 
                             onfocus="this.blur()"
@@ -116,24 +117,49 @@
         </div>
         <div class="col-4 m-0 px-1">
             <div class="row-fluid">
-                <div class="btnTrack mt-3" style="margin-left: -4px;margin-right: -4px">
+                <div class="btnTrack " style="margin-left: -4px;margin-right: -4px">
                     <div class="mx-2 p-0" id="magic_panel">
                         <button class="btn btn_left_right btn-warning" style="position: relative;left: 0px;" type="button" onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()"
                         tabindex="-1"><span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷</button>
                     </div>
                 </div>
-                <div class="row m-0 p-0">
-                    <div class="input-group my-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-dark text-light border-secondary" id="per-sco-label">每小题得分</span>
-                        </div>
-                        <input type="number" min="0.5" max="100" value="1" step="0.5" class="form-control" required aria-describedby="per-sco-label" id="per-score" onchange="onPerScoreChange(event)">
-                        <input type="text" class="form-control text-right" placeholder="0" readonly id="total-score">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-dark text-light border-secondary" id="total-sco-label">该类型总分</span>
-                        </div>
-                    </div>                                      
+                <div class="input-group-sm text-center w-100">
+                    <div class="input-group-prepend justify-content-center w-100">
+                        <span class="input-group-text bg-dark text-light border-secondary">每小题分数</span>
+                        <span class="input-group-text bg-success text-light btn_left_right justify-content-center border-secondary" style="width: 0px;" id="per-num-lb"></span>
+                        <span class="input-group-text bg-dark text-light border-secondary">该类型总分</span>
+                    </div>
                 </div>
+                <div class="row m-0 p-0">
+                    {% for qType in qTypeList %}
+                    <div class="input-group my-1 w-100">
+                        <div class="input-group-prepend" style="width: 108px">
+                            <span class="input-group-text bg-secondary text-light border-secondary w-100" id="per-sco-lb-{{qType}}">{{qType}}</span>
+                        </div>
+                        <input type="number" min="0.5" max="100" value="1" step="0.5" class="form-control" required aria-describedby="per-sco-lb-{{qType}}" id="per-score-{{qType}}" onchange="onPerScoreChange(event, '{{qType}}')">
+                        <input type="number" min="0" max="100" value="0" step="1" class="text-center btn_left_right" style="width: 0px;" disabled required id="per-num-{{qType}}" onchange="onRandomNumberChange(event, '{{qType}}')">
+                        <input type="text" class="form-control text-right" placeholder="0" readonly id="total-score-{{qType}}">
+                        <div class="input-group-append" style="width: 108px">
+                            <span class="input-group-text bg-secondary text-light border-secondary" id="total-sco-lb-{{qType}}">该类型总分</span>
+                        </div>
+                    </div>
+                    {% endfor %}                                      
+                </div>
+
+                <div class="row m-0 p-0 justify-content-center">                    
+                    <div class="collapse text-center" id="random_tips">
+                        <h4>
+                            <span class="text-success oi oi-caret-top" title="caret-top" aria-hidden="true" ic_name="difficult" ic_active="false"></span>
+                        </h4>
+                        <div class="card card-body mx-5 p-2 bg-secondary text-warning">
+                            在上方的输入框，为每个类型的题目，填入需要的题目数量 &#10;&#13; 之后点击下方“随机选题”按钮
+                        </div>
+                    </div>
+                    <button class="btn btn_left_right btn-dark" 
+                        type="button" id="btn_random" data-toggle="collapse" data-target="#random_tips"
+                        aria-expanded="false" aria-controls="random_tips">随机选题</button>
+                </div>
+
             </div>
         </div>
         <div class="col-4">
@@ -141,18 +167,18 @@
                 <div class="col-7 m-0 p-0">
                     <div class="card bg-warning">
                         <div class="card-header card-header-sm">
-                                <h5 class="card-title">未选题目
-                                    <span class="badge badge-dark" id="unsel_sum">0</span>
-                                    <span class="float-right">
-                                        <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
-                                    </span>
-                                </h5>
-                                <div class="collapse align-content-end" id="content_filer">                        
-                                    <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
-                                </div>
+                            <h5 class="card-title">未选题目
+                                <span class="badge badge-dark" id="unsel_sum">0</span>
+                                <span class="float-right">
+                                    <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
+                                </span>
+                            </h5>
+                            <div class="collapse align-content-end" id="content_filer">                        
+                                <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
                             </div>
-                            <ul class="list-group" id="unSelected_qlist">
-                            </ul>
+                        </div>
+                        <ul class="list-group" id="unSelected_qlist">
+                        </ul>
                     </div>
                 </div>
                 <div class="col-5 m-0 p-0">
@@ -163,10 +189,9 @@
                                 <h5 class="card-title">课程章节列表</h5>
                             </div>
                             <!-- <div class="card-body"> -->
-                                {{course_html}}                  
+                            {{course_html}}                  
                             <!-- </div> -->
-                        </div>
-                
+                        </div>                
                     </div>
                 </div>
             </div>

@@ -24,6 +24,20 @@ function ajaxSubmitJson(aform, sucFunc, failFunc) {
     });
 }
 
+function random_pick_list(list, num) {
+    if(Array.isArray(list)) {
+        if (num <= list.length && num >= 0) {
+            var random_list = list.sort(function(){
+                return Math.random() - 0.5;     
+            });
+            return random_list.slice(0, num);
+        }        
+    }
+    return null;
+}
+// var numArr = getNum().sort(function () {
+//     return Math.random() - 0.5;
+// });
 function tool_shuffle_list(list_len) {
     if (list_len<0) {
         return [];

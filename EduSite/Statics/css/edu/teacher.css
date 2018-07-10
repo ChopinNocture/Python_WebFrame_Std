@@ -54,7 +54,7 @@
 }
 
 .btn_left_right {
-    transition-property: color, background, left;
+    transition-property: color, background, left, width;
     transition-duration: 0.5s;
 }
 

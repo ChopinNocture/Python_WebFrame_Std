@@ -26,6 +26,11 @@ function init() {
         elem.innerHTML = elem.innerHTML.replace(elem.dataset.typeName,TYPE_TRANS_LIST[elem.dataset.typeName]);
     });
 
+    $('span[id^=per-sco-lb-]').each(function (index, elem) {
+        elem.innerHTML = elem.innerHTML.replace(elem.innerHTML, TYPE_TRANS_LIST[elem.innerHTML]);
+    });
+ 
+    $('#btn_random').on("click", onRandomBegin);
     $('button[id^=QSelected_]').click(onSelectClk); 
 
     $('#NavBtn_' + cur_type).click();
@@ -57,12 +62,17 @@ var cur_index = -1;
 function onNavTypeClk(event) {    
     $('button[id^=NavBtn_]').removeClass('active');
     $(event.target).addClass('active');
+    $('span[id^=per-sco-lb-]').removeClass('bg-info');
+    $('span[id^=total-sco-lb-]').removeClass('bg-info');
     
     cur_type = event.target.dataset["typeName"];
     current_url = event.target.dataset.url;
     cur_list_url = event.target.dataset.qlistUrl;
     cur_index = -1;
- 
+
+    $('span[id^=per-sco-lb-' + cur_type + ']').addClass('bg-info');
+    $('span[id^=total-sco-lb-' + cur_type + ']').addClass('bg-info');
+
     doRefreshQList();
 
     return false;
@@ -120,7 +130,7 @@ function updateExamination(){
 
     $('#qlist_num').html(examination.total_num);
     $('#exam-total-score').val(examination.total_score);
-    $('#total-score').val(examination[cur_type].sum_score);
+    $('#total-score-' + cur_type).val(examination[cur_type].sum_score);
 }
 
 //----------------
@@ -152,7 +162,7 @@ const CSS_SEL_CLASS = "list-group-item-danger";
 const CSS_UNSEL_CLASS = "list-group-item-warning";
 
 function updateExamInfo() {
-    $('#per-score').val(examination[cur_type].per_score);
+    $('#per-score-'+cur_type).val(examination[cur_type].per_score);
 }
 
 function updateQList() {
@@ -214,7 +224,6 @@ function onQListBtnDoubleClick(event) {
     $(event.target).tooltip('dispose');
     onToggleAdd();
 }
-onQListBtnDoubleClick
 
 function updateBtn() {
     if(cur_index<0) {
@@ -234,8 +243,8 @@ function updateBtn() {
     }
 }
 
-function onPerScoreChange(event) {
-    examination[cur_type].per_score = event.target.value;
+function onPerScoreChange(event, qtype) {
+    examination[qtype].per_score = event.target.value;
     updateExamination();
 }
 
@@ -326,8 +335,6 @@ function onSubmitClick(event) {
         document.getElementById('exam_editor').submit();  
     }
     //
-
-    
      //document.getElementById('exam_editor').checkValidity();
     //document.getElementById('exam_editor').verify();
     //document.getElementById('exam_editor').submit();
@@ -349,4 +356,43 @@ function onSubmitFailed(result) {
 function onSubmitSuccess(result) {
     alert(result);
     ShowInfo("成功添加考试！");
+}
+
+var random_num_list = {};
+
+function onRandomBegin(event) {
+    for (var key in random_num_list) {
+        random_num_list[key] = 0;
+    }
+
+    $(event.target).removeClass('btn-dark').addClass('btn-success').off("click", onRandomBegin).on("click", onRandom);
+    $('input[id^=per-num-]').css("width", "80px").attr('disabled', false).val(0);
+    $('#per-num-lb').css("width", "98px").html('设定题目数量');
+}
+
+function onRandom(event) {
+    $(event.target).addClass('btn-dark').removeClass('btn-success').off("click", onRandom).on("click", onRandomBegin);
+    $('input[id^=per-num-]').css({"width":"0px"}).attr({'disabled':true});
+    $('#per-num-lb').css("width", "0px").html('');
+    
+    for (var key in question_list_all) {
+        var rand_list = [];
+        question_list_all[key].forEach(function (elem) {
+            rand_list.push(elem);
+            elem.selected = false;
+        });
+
+        if (random_num_list[key] != null) {
+            rand_list = random_pick_list(rand_list, random_num_list[key]);
+            rand_list.forEach(function (elem) {
+                elem.selected = true;
+            });
+        }        
+    }
+    doRefreshQList();   
+}
+
+function onRandomNumberChange(event, qtype) {
+    random_num_list[qtype] = Math.max(0, Math.min(event.target.value, question_list_all[cur_type].length));
+    event.target.value = random_num_list[qtype];
 }
