@@ -9,7 +9,7 @@
 
     <div class="row mx-3">
         <div class="card border-info mb-3" style="width: 18rem;">
-            <div class="card-header">
+            <div class="card-header bg-info">
                 <h3>题库管理</h3>
             </div>
             <div class="card-body">
@@ -19,6 +19,19 @@
             </div>
             <div class="card-footer">
                 <a href={% url 'course:question-editor' %} class="btn btn-primary">进入</a>
+            </div>
+        </div>
+        <div class="card border-info mb-3" style="width: 18rem;">
+            <div class="card-header bg-secondary">
+                <h3>资料管理</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">管理每章节的教学资料。
+                    <br>添加、管理教学资料，视频、ppt、图片、录音文件，以及描述、或者文字课程。
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href={% url 'course:lesson_editor' %} class="btn btn-primary">进入</a>
             </div>
         </div>
         <div class="card border-info mb-3" style="width: 18rem;">
@@ -33,7 +46,7 @@
             </div>
         </div>
         <div class="card border-info mb-3" style="width: 18rem;">
-            <div class="card-header">
+            <div class="card-header bg-danger">
                 <h3>考试管理</h3>
             </div>
             <div class="card-body">
@@ -44,7 +57,7 @@
             </div>
         </div>
         <div class="card border-info mb-3" style="width: 18rem;">
-            <div class="card-header">
+            <div class="card-header bg-warning">
                 <h3>公告管理</h3>
             </div>
             <div class="card-body">

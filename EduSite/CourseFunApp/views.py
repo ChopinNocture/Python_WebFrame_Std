@@ -46,13 +46,7 @@ def get_question_list(request, qtype, section_id=None):
 # --------------------------------------------------------
 # editor main
 def question_editor(request):
-    course_list = list()
-    lesson_list = Lesson.objects.all()
-
-    for iter in lesson_list:
-        course_list.append({"id":iter.id, "name":iter.description})
-
-    course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
+    course_html = get_lesson_list_html()
     
     return render(request=request, template_name="course/questionEditor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
 
@@ -128,8 +122,14 @@ def question_editor_form(request, qtype, qid=-1):
 
 # --------------------------------------------------------
 # oprater for lesson
-def lesson_editor(request):
-    return HttpResponse('Lesson Editor')
+def lesson_editor(request):    
+    if request.method == "GET":
+        course_html = get_lesson_list_html()
+
+        return render(request=request,
+                        template_name="course/lesson_editor.html",
+                        context={"form": questionForms.LessonContentForm(), 
+                            "course_html": course_html, })
 
 
 def lesson_content(request, lesson_id):
@@ -181,27 +181,29 @@ def exam_editor(request):
         return HttpResponse("Success!")
 
     elif request.method == "GET":
-        course_list = list()
-        lesson_list = Lesson.objects.all()
-
-        for iter in lesson_list:
-            course_list.append({"id": iter.id, "name": iter.description})
-
         exam_list = Examination.objects.all().values('id', 'start_time', 'title')
         exam_list_html = loader.render_to_string(template_name="course/exam_list.html", context={"exam_list": exam_list})
-
-        course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
         
         exam_form = questionForms.ExaminationForm()
         return render(request=request, template_name="course/examination_editor.html", 
             context={"qTypeList": exam_sys.q_type_list, 
                 "exam_list_html" : exam_list_html,
-                "course_html": course_html, 
+                "course_html": get_lesson_list_html(),
                 "form": exam_form })
-    
+
+
 def exam_editor_hitory(request):
     return HttpResponse('hahaha')
 
 
 def exam_ready(request):
     return HttpResponse('Lesson Study')
+
+
+# --------------------------------------------------------
+# tool func
+def get_lesson_list_html():
+    lesson_list = Lesson.objects.all().values('id', 'description')
+    return loader.render_to_string(template_name="course/course_list.html", context={"lesson_list": lesson_list})
+
+    

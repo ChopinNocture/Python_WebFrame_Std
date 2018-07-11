@@ -1,119 +1,33 @@
 {% extends "base_bs_style.html" %} 
 {% load static %} 
-{% block title %}Notice Editor{% endblock %} 
-{% block jsPage %}
-<script type="text/javascript" src="{% static 'js/libs/schedule.js' %}"></script>
-<style>
-    .bg-DBlue {
-        background-color: linear-gradient(red,blue);
-    }
+{% block title %}Lesson Editor{% endblock %} 
 
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    ul {
-        list-style: none;
-    }
-
-    #schedule-box {
-        border-width: 2px;
-        border-color: #333333;
-        width: 320px;
-        margin: 0 auto;
-        padding: 35px 20px;
-        font-size: 13px;
-    }
-
-    .schedule-hd {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 15px;
-    }
-
-    .today {
-        flex: 1;
-        text-align: center;
-    }
-
-    .ul-box {
-        overflow: hidden;
-    }
-
-    .ul-box>li {
-        float: left;
-        width: 14.28%;
-        text-align: center;
-        padding: 5px 0;
-    }
-
-    .other-month {
-        color: #999999;
-    }
-
-    .current-month {
-        color: #333333;
-    }
-
-    .today-style {
-        border-radius: 50%;
-        background: #58d321;
-    }
-
-    .arrow {
-        cursor: pointer;
-    }
-
-    .dayStyle {
-        display: inline-block;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 35px;
-        cursor: pointer;
-    }
-
-    .current-month>.dayStyle:hover {
-        background: #00BDFF;
-        color: #ffffff;
-    }
-
-    .today-flag {
-        background: #00C2B1;
-        color: #fff;
-    }
-
-    .boxshaw {
-        box-shadow: 2px 2px 15px 2px #e0e0e0;
-    }
-
-    .selected-style {
-        background: #00BDFF;
-        color: #ffffff;
-    }
-
-    #h3Ele {
-        text-align: center;
-        padding: 10px;
-    }
-
-    body {
-        background-image: url('/Statics/images/BG_sm.jpg');
-        background-blend-mode:soft-light;
-        background-color: rgba(232, 246, 255, 0.685);
-        background-size: 120%;
-        background-repeat: no-repeat;
-        background-position: left top;
-        background-attachment: fixed;
-    }
-</style>
-<script type="text/javascript" src="{% static 'js/notice/notice_editor.js' %}"></script> 
-{% endblock %} 
+{% block header %} 
+{% include "user/teacher_header.html" %} 
+{% endblock %}
 
 {% block content %} 
 {% csrf_token %}
+<div class="row border border-dark mx-5 p-1 rounded " style="background: linear-gradient(#ffffffcc,#bd6c109a)">
+    <div class="col-3">
+        <div class="card bg-info">                
+            <div class="card bg-secondary text-white">
+                <div class="card-header text-center">
+                    <h5 class="card-title">课程章节列表</h5>
+                </div>
+                <!-- <div class="card-body"> -->
+                {{course_html}}                  
+                <!-- </div> -->
+            </div>                
+        </div>
+    </div>
+    <div class="col-8">
+        {{form}}
+    </div>
+</div>
+
+
+
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">公告发布</h2>
 <div class="container border border-dark mx-5 py-4  rounded " style="background: linear-gradient(#ffffffee,#a09f9fee)">    
     <div class="row">
@@ -170,9 +84,22 @@
 </div>
 
 {% endblock %}
-{% block header %} 
-{% include "user/teacher_header.html" %} 
-{% endblock %}
+
+{% block jsPage %}  
+<style>
+body {
+    background-image: url('/Statics/images/BG_sm.jpg');
+    background-blend-mode:soft-light;
+    background-color: rgba(232, 246, 255, 0.8);
+    background-size: 120%;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+}
+</style>
+<script type="text/javascript" src="{% static 'js/course/lesson_editor.js' %}"></script> 
+{% include "top_layer.html" %}
+{% endblock %} 
 
 {% block pageInclude %}
     <link rel="stylesheet" href="{% static 'css/edu/teacher.css' %}"/>

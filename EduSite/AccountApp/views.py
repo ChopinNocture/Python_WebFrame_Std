@@ -38,17 +38,13 @@ from CourseFunApp.views import Lesson
 
 @login_required(login_url='/user/login/')
 def student_main(request):
-    course_list = list()
-    lesson_list = Lesson.objects.all()
-
-    for iter in lesson_list:
-        course_list.append({"id": iter.id, "name": iter.description})
+    lesson_list = Lesson.objects.all().values('id', 'description')
 
     cur_user = request.user
     if cur_user is not None:
         cur_prof = StudentProf.objects.get(user=cur_user)
     stu_form = Student_Prof_Form(instance=cur_prof)
-    return render(request, 'user/student_main.html', {'form_student': stu_form, "course_list": course_list})
+    return render(request, 'user/student_main.html', {'form_student': stu_form, "lesson_list": lesson_list})
 
 
 # @login_required(login_url='/user/login/')

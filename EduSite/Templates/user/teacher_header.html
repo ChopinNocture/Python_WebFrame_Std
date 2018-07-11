@@ -1,9 +1,12 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark w-100">
-    <div class="collapse navbar-collapse w-50" id="navbarNav">
-    <ul class="navbar-nav">
+    <div class="collapse navbar-collapse w-100" id="navbarNav">
+    <ul class="navbar-nav w-75">
         <li class="nav-item w-50">
             <a class="nav-link" href={% url 'course:question-editor' %} draggable="false">题库管理</a>
+        </li>
+        <li class="nav-item w-50">
+            <a class="nav-link" href={% url 'course:lesson_editor' %} draggable="false">资料管理</a>
         </li>
         <li class="nav-item w-50">
             <a class="nav-link" href={% url 'user:student_manager' %} draggable="false">学生管理</a>

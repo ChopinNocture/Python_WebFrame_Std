@@ -142,3 +142,12 @@ class ExaminationForm(ModelForm):
             'duration': '考试时长',
             'start_time': '考试时间',
         }
+
+
+
+# ---------------
+# Lesson Content form
+class LessonContentForm(ModelForm):
+    class Meta:
+        model = LessonContent
+        fields = '__all__'
