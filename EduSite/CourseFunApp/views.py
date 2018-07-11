@@ -168,21 +168,18 @@ def exam_editor(request):
         exam_form = questionForms.ExaminationForm(request.POST, instance=exam)
         try:
             if exam_form.is_valid():
-                print("???")
                 exam = exam_form.save(commit=False)
-                print(exam)
                 exam.save()
             else:
                 print(exam_form.errors.as_data())
         except Exception as e:
-            print("-----" + str(e))
+            print(e)
             print(exam_form.cleaned_data)
             print(exam_form.errors.as_data())
             return HttpResponseNotAllowed("F!")
-
             
         return HttpResponse("Success!")
-        
+
     elif request.method == "GET":
         course_list = list()
         lesson_list = Lesson.objects.all()
@@ -190,12 +187,21 @@ def exam_editor(request):
         for iter in lesson_list:
             course_list.append({"id": iter.id, "name": iter.description})
 
+        exam_list = Examination.objects.all().values('id', 'start_time', 'title')
+        exam_list_html = loader.render_to_string(template_name="course/exam_list.html", context={"exam_list": exam_list})
+
         course_html = loader.render_to_string(template_name="course/course_list.html", context={"course_list": course_list})
         
         exam_form = questionForms.ExaminationForm()
+        return render(request=request, template_name="course/examination_editor.html", 
+            context={"qTypeList": exam_sys.q_type_list, 
+                "exam_list_html" : exam_list_html,
+                "course_html": course_html, 
+                "form": exam_form })
+    
+def exam_editor_hitory(request):
+    return HttpResponse('hahaha')
 
-        return render(request=request, template_name="course/examination_editor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, "form": exam_form })
-    
-    
+
 def exam_ready(request):
     return HttpResponse('Lesson Study')

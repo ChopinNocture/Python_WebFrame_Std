@@ -353,9 +353,8 @@ function onSubmitFailed(result) {
     alert("???" + result);
 }
 
-function onSubmitSuccess(result) {
-    alert(result);
-    ShowInfo("成功添加考试！");
+function onSubmitSuccess(result) {    
+    ShowInfo("成功添加考试！", 3, () => { window.location.reload(); });
 }
 
 var random_num_list = {};

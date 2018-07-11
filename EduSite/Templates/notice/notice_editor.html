@@ -99,14 +99,24 @@
         text-align: center;
         padding: 10px;
     }
+
+    body {
+        background-image: url('/Statics/images/BG_sm.jpg');
+        background-blend-mode:soft-light;
+        background-color: rgba(232, 246, 255, 0.685);
+        background-size: 120%;
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-attachment: fixed;
+    }
 </style>
 <script type="text/javascript" src="{% static 'js/notice/notice_editor.js' %}"></script> 
 {% endblock %} 
 
 {% block content %} 
 {% csrf_token %}
-<h2 class="text-center font-weight-bold p-1 text-warning">公告发布</h2>
-<div class="container border border-dark mx-5 py-4 bg-light rounded " style="background: linear-gradient(#ffffff,#a09f9f)">    
+<h2 class="text-center font-weight-bold p-1 text-warning text_outline ">公告发布</h2>
+<div class="container border border-dark mx-5 py-4  rounded " style="background: linear-gradient(#ffffffee,#a09f9fee)">    
     <div class="row">
         <div class="col-8">
             <div class="row-fluid">
@@ -164,3 +174,7 @@
 {% block header %} 
 {% include "user/teacher_header.html" %} 
 {% endblock %}
+
+{% block pageInclude %}
+    <link rel="stylesheet" href="{% static 'css/edu/teacher.css' %}"/>
+{% endblock %} 

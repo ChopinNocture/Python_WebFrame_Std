@@ -58,4 +58,21 @@
     transition-duration: 0.5s;
 }
 
+.teacher_BG {
+    background-image: url('/Statics/images/BG_sm.jpg')
+}
 
+.text_outline {
+    text-shadow:1px 0px 3px #000,-1px 0px 3px #000,0px 1px 3px #000,0px -1px 3px #000,1px 1px 3px #000,1px -1px 3px #000, -1px 1px 3px #000, -1px -1px 3px #000;
+}
+
+
+@keyframes key_text_g_l {
+    30% {text-shadow: 0px -16px 1px #40c760;}
+    100% {text-shadow: 0px -22px 1px #40c76000;}
+}
+
+.text_glow_light_anim {
+    -webkit-animation: key_text_g_l 1.5s infinite;
+    animation: key_text_g_l 1.5s infinite;
+}
