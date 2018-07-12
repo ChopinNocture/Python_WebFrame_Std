@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput
+from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, ClearableFileInput
 
 from .models import *
 
@@ -151,3 +151,14 @@ class LessonContentForm(ModelForm):
     class Meta:
         model = LessonContent
         fields = '__all__'
+        widgets = {
+            'content': Textarea(attrs={'class': 'form-control', 
+                                        'placeholder': '请输入课程文字描述', 
+                                        'aria-label': '', 
+                                        'aria-describedby': 'lesson-content-label', 
+                                        'cols':30, 'rows':4 }),
+            'lesson': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
+            'file': ClearableFileInput(attrs={'class': 'custom-file-input',
+                                            'aria-describedby': 'exam-duration-label',
+                                            'accept':'audio/*, video/*, image/*'}),
+        }

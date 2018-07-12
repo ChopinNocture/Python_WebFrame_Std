@@ -2,6 +2,9 @@ $(document).ready(init);
 
 function init() {
     csrf_Setup();
+
+    $('#id_file').click();
+
     // $('a[id^=NavBtn_]').click(onNavTypeClk);
     // $('a[id^=NavBtn_]').each(function (index, elem) {
     //     elem.innerHTML = TYPE_TRANS_LIST[elem.innerHTML];
@@ -17,6 +20,10 @@ function init() {
 
     // $('#NavBtn_' + question_type).click();
     // $('button[id^=course_]:first').click();
+}
+
+function onFileSelect() {
+    
 }
 
 //=======================================================

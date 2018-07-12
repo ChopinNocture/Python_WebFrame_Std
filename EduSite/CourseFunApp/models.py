@@ -19,7 +19,7 @@ class Course(models.Model):
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.PositiveIntegerField()
-    question_list = models.TextField(max_length=1024) # JSONField()
+    question_list = models.TextField(max_length=1024)  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.now())
 
     def __str__(self):
@@ -31,9 +31,16 @@ class Lesson(models.Model):
     description = models.CharField(max_length=MAX_CONTENT_LENGTH)
 
 
+MEDIA_CHOICES = (('image', 'image'),
+                 ('video', 'mp4, avi, wmv...'),
+                 ('audio', 'wav'),
+                 ('ppt', 'ppt'))
+
+
 class LessonContent(models.Model):
     lesson = models.OneToOneField(Lesson, unique=True, on_delete=models.CASCADE, )
-    file = models.FileField()
+    file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='image')
+    file = models.FileField(upload_to='lessons/')
     content = models.TextField()
 
 

@@ -22,11 +22,22 @@
         </div>
     </div>
     <div class="col-8">
-        {{form}}
+        {{ form.non_field_errors }} 
+
+        {{ form.lesson.errors }}
+        {{ form.lesson }}
+
+        {{ form.file_type.errors }}
+        {{ form.file_type }}
+        
+        {{ form.content.errors }}
+        {{ form.content }}
+                
         <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile">
-                <label class="custom-file-label" for="customFile">Choose file</label>
-              </div>
+            {{ form.file.errors }}
+            {{ form.file }}
+            <label class="custom-file-label" for="{{ form.file.id_for_labe }}">选择文件...</label>
+        </div>
     </div>
 </div>
 
