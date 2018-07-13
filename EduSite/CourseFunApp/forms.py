@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, ClearableFileInput
+from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, ClearableFileInput, Select
 
 from .models import *
 
@@ -157,8 +157,11 @@ class LessonContentForm(ModelForm):
                                         'aria-label': '', 
                                         'aria-describedby': 'lesson-content-label', 
                                         'cols':30, 'rows':4 }),
-            'lesson': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
+            'lesson': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),            
             'file': ClearableFileInput(attrs={'class': 'custom-file-input',
                                             'aria-describedby': 'exam-duration-label',
-                                            'accept':'audio/*, video/*, image/*'}),
+                                            'accept':'image/*'}),
         }
+        widgets.update({
+            'file_type': Select(attrs={'class': 'form-control'} ),
+        })

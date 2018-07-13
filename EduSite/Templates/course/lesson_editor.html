@@ -8,6 +8,7 @@
 
 {% block content %} 
 {% csrf_token %}
+<h2 class="text-center font-weight-bold p-1 text-warning text_outline ">学习资料上传</h2>
 <div class="row border border-dark mx-5 p-1 rounded " style="background: linear-gradient(#ffffffcc,#bd6c109a)">
     <div class="col-3">
         <div class="card bg-info">                
@@ -26,23 +27,27 @@
 
         {{ form.lesson.errors }}
         {{ form.lesson }}
-
-        {{ form.file_type.errors }}
-        {{ form.file_type }}
         
         {{ form.content.errors }}
         {{ form.content }}
-                
+
+        {{ form.file_type.errors }}
+        <div class="input-group mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="{{ form.file_type.id_for_labe }}">上传文件类型</label>
+            </div>
+            {{ form.file_type }}
+        </div>
+
+        {{ form.file.errors }}
         <div class="custom-file">
-            {{ form.file.errors }}
             {{ form.file }}
-            <label class="custom-file-label" for="{{ form.file.id_for_labe }}">选择文件...</label>
+            <label class="custom-file-label" for="{{ form.file.id_for_labe }}" id="fsel-label">选择文件...</label>
         </div>
     </div>
 </div>
 
 
-<h2 class="text-center font-weight-bold p-1 text-warning text_outline ">公告发布</h2>
 <div class="container border border-dark mx-5 py-4  rounded " style="background: linear-gradient(#ffffffee,#a09f9fee)">    
     <div class="row">
         <div class="col-8">
