@@ -281,11 +281,11 @@ function formCheckAndSet() {
     var checkingElem = null;
 
     checkingElem = $('#exam_editor');    
-    if(checkingElem[0].checkValidity()) {
+    if(checkingElem[0].reportValidity()) {
         checkingElem.removeClass('was-validated');        
     }
     else{
-        checkingElem.addClass('was-validated');
+        checkingElem.addClass('was-validated');        
         result = false;
     }
 
@@ -309,7 +309,7 @@ function formCheckAndSet() {
         }); 
     }
     
-    alert("---- " + JSON.stringify(examination));
+    //alert("---- " + JSON.stringify(examination));
     $('#id_question_list').val(JSON.stringify(examination));
 
     // checkingElem = $('#id_duration');

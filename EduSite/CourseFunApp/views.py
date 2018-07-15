@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, QueryDict
 from django.template import loader
 from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
@@ -123,16 +123,60 @@ def question_editor_form(request, qtype, qid=-1):
 # --------------------------------------------------------
 # oprater for lesson
 def lesson_editor(request):    
+    course_html = get_lesson_list_html()
+
     if request.method == "GET":
-        course_html = get_lesson_list_html()
+        lesson_id = request.GET.get("lesson")
+        
+        if lesson_id: 
+            try:
+                lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
+            except Exception as e:
+                lesson_cont = None
+                print(' --- ' + str(e))
 
+            lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont)
+            return render(request=request, template_name="course/lesson_form.html", context={"form": lesson_content_form})
+        else:
+            lesson_content_form = questionForms.LessonContentForm()
+
+            form_html = loader.render_to_string(template_name="course/lesson_form.html", context={"form": lesson_content_form})
+            return render( request=request,
+                            template_name="course/lesson_editor.html",
+                            context={"lesson_form_html" : form_html, "course_html": course_html, })
+
+    elif request.method == "POST":
+        lesson_id = request.POST.get("lesson")
+        
+        try:
+            lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
+        except Exception as e:
+            print(' --- ' + str(e))
+            lesson_cont = None
+
+        lesson_content_form =  questionForms.LessonContentForm(request.POST, request.FILES, instance=lesson_cont)
+        
+        print(str(lesson_id) + " - " + str(request.FILES))
+        try:
+            if lesson_content_form.is_valid():
+                # less_con = lesson_content_form.cleaned_data
+                less_con = lesson_content_form.save()
+            else:
+                print(lesson_content_form.errors.as_data())
+                return HttpResponseNotAllowed("Wrong!")
+        except Exception as e:
+            print(e)
+            print(lesson_content_form.cleaned_data)
+            print(lesson_content_form.errors.as_data())
+            return HttpResponseNotAllowed("F!")           
+
+        form_html = loader.render_to_string(template_name="course/lesson_form.html", context={"form": lesson_content_form})
         return render(request=request,
-                        template_name="course/lesson_editor.html",
-                        context={"form": questionForms.LessonContentForm(), 
-                            "course_html": course_html, })
+                template_name="course/lesson_editor.html",
+                context={"lesson_form_html": form_html, "course_html": course_html, })
 
 
-def lesson_content(request, lesson_id):
+def get_lesson_content(request, lesson_id):
     return HttpResponse('hello')
 
 

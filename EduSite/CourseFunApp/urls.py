@@ -12,7 +12,7 @@ urlpatterns = [
     path('questions/editor/<slug:qtype>/<int:qid>/', views.question_editor_form),
     path('answer_sheet/<int:sectionID>/', views.answer_sheet, name='answer-sheet'),
     path('lesson/editor/', views.lesson_editor, name='lesson_editor'),
-    path('lesson/<int:lesson_id>/', views.lesson_content, name='lesson_content'),
+    path('lesson/<int:lesson_id>/', views.get_lesson_content, name='lesson_content'),
     path('study/<int:lesson_id>/', views.study, name='study'),
     path('exam/editor/', views.exam_editor, name='exam_editor'),
     path('exam/editor/history/', views.exam_editor_hitory, name='exam_editor_history'),

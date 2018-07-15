@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %} 
-{% csrf_token %}
+
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">学习资料上传</h2>
 <div class="row border border-dark mx-5 p-1 rounded " style="background: linear-gradient(#ffffffcc,#bd6c109a)">
     <div class="col-3">
@@ -22,83 +22,15 @@
             </div>                
         </div>
     </div>
-    <div class="col-8">
-        {{ form.non_field_errors }} 
-
-        {{ form.lesson.errors }}
-        {{ form.lesson }}
-        
-        {{ form.content.errors }}
-        {{ form.content }}
-
-        {{ form.file_type.errors }}
-        <div class="input-group mt-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="{{ form.file_type.id_for_labe }}">上传文件类型</label>
+    <div class="col-8">        
+        <form action="." method="POST" id="lesson_con_form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="form_part">
+            {{lesson_form_html}}
             </div>
-            {{ form.file_type }}
-        </div>
-
-        {{ form.file.errors }}
-        <div class="custom-file">
-            {{ form.file }}
-            <label class="custom-file-label" for="{{ form.file.id_for_labe }}" id="fsel-label">选择文件...</label>
-        </div>
-    </div>
-</div>
-
-
-<div class="container border border-dark mx-5 py-4  rounded " style="background: linear-gradient(#ffffffee,#a09f9fee)">    
-    <div class="row">
-        <div class="col-8">
-            <div class="row-fluid">
-                <div class="text-center p-1 boxshaw border-dark">
-                    <div class="input-group p-1 m-auto " style="height: 200px;width: 61.8%;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">公告内容</span>
-                        </div>
-                        <textarea class="form-control" aria-label="With textarea" id="id_content" style="resize: none"></textarea>
-                    </div>
-                    <p>
-                        <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#date_selector" aria-expanded="false" aria-controls="date_selector"
-                            id="label_pubdate">
-                            发布日期:20--/--/--
-                        </button>
-                    </p>
-                    <div class="collapse" id="date_selector">
-                        <div id='schedule-box' class="boxshaw"></div>
-                    </div>
-                    <div class="input-group p-1 m-auto" style="width: 61.8%;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">持续时间</span>
-                        </div>
-                        <input class="form-control" type="number" min="1" max="100" value="3" id="id_last_day" required></input>
-                        <div class="input-group-append">
-                            <span class="input-group-text">天</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-danger right" type="button" id="btn_public" data-url="{% url 'notice:public' %}">发布</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 border-left border-dark">
-            <div class="card bg-warning">
-                <div class="card-header text-center">
-                    已发布公告列表
-                </div>
-                <!-- <div class="card-body"> -->
-                {% for notice in notice_list %}
-                <button class="list-group-item list-group-item-action list-group-item-warning inline-block text-truncate" data-notice={{notice.id}} id="notice_{{notice.id}}"
-                    onclick="onNoticeClick(event)">{{notice.content}}</button>
-                {% endfor %}
-                <!-- </div> -->
-                <div class="card-footer text-center">
-                    <button class="btn btn-danger" type="button" id="btn_delete" data-url="{% url 'notice:delete' notice_id=9999 %}" onclick="onDeleteNotice(event)">删除所选公告</button>
-                </div>
-            </div>
-        </div>
+            <input type="submit" value="上传" class="btn btn-primary mb-2"></input>
+        </form>
+        <button class="btn btn-dark" onclick="onPreview(event)">预览</button> 
     </div>
 </div>
 

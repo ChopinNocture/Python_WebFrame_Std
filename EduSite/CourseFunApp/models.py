@@ -31,7 +31,8 @@ class Lesson(models.Model):
     description = models.CharField(max_length=MAX_CONTENT_LENGTH)
 
 
-MEDIA_CHOICES = (('image', '图片文件'),
+MEDIA_CHOICES = (('none', '无'),
+                 ('image', '图片文件'),
                  ('video', '视频文件'),
                  ('audio', '音频文件'),
                  ('ppt', 'ppt'))
@@ -39,8 +40,8 @@ MEDIA_CHOICES = (('image', '图片文件'),
 
 class LessonContent(models.Model):
     lesson = models.OneToOneField(Lesson, unique=True, on_delete=models.CASCADE, )
-    file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='image')
-    file = models.FileField(upload_to='lessons/')
+    file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
+    file = models.FileField(upload_to='lessons/', null=True, blank=True )
     content = models.TextField()
 
 
