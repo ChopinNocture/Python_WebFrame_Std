@@ -1,4 +1,5 @@
-from django.forms import ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, FileInput, Select
+from django.forms import CharField, ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, FileInput, \
+    Select
 
 from .models import *
 
@@ -8,6 +9,7 @@ Q_WIDGETS_SETTING = {
     'sectionID': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
     'flag': HiddenInput(),
     'star': HiddenInput(),
+    'case_analyse': HiddenInput(),
 }
 
 Q_LABELS_SETTING = {
@@ -97,6 +99,30 @@ class SortForm(ModelForm):
         labels = Q_LABELS_SETTING
 
 
+# 案例、简答题
+class CaseAnalyseForm(ModelForm):
+    class Meta:
+        model = CaseAnalyseQuestion
+        fields = FIELD_LIST + ['subQuestions']
+        widgets = Q_WIDGETS_SETTING
+        widgets.update({
+            'subQuestions': HiddenInput(),
+        })
+        labels = Q_LABELS_SETTING
+
+# 语音题
+class VoiceForm(ModelForm):
+    class Meta:
+        model = VoiceQuestion
+        fields = FIELD_LIST + ['qVoice']
+        widgets = Q_WIDGETS_SETTING
+        widgets.update({
+            'qVoice': FileInput(attrs={'class': 'custom-file-input',
+                            'aria-describedby': 'title-audio-label',
+                            'accept': 'audio/*'})
+        })
+        labels = Q_LABELS_SETTING
+
 # ---------------
 # 题目Form方法
 current_module = __import__(__name__)
@@ -123,20 +149,20 @@ class ExaminationForm(ModelForm):
         model = Examination
         fields = '__all__'
         widgets = {
-            'title': TextInput(attrs={'class': 'form-control', 
-                                        'placeholder': '请输入试卷名称', 
-                                        'aria-label': '试卷名称', 
-                                        'aria-describedby': 'exma-name-label', 
-                                        'pattern': '[\w\u4e00-\u9fa5, \-_<>;\'\"]{2,30}'}),
+            'title': TextInput(attrs={'class': 'form-control',
+                                      'placeholder': '请输入试卷名称',
+                                      'aria-label': '试卷名称',
+                                      'aria-describedby': 'exma-name-label',
+                                      'pattern': '[\w\u4e00-\u9fa5, \-_<>;\'\"]{2,30}'}),
             'question_list': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
-            'duration': NumberInput(attrs={'class': 'form-control', 
-                                            'id': 'exam-duration', 
-                                            'min': '10', 
-                                            'max': '1440', 
-                                            'aria-describedby': 'exam-duration-label'}),
+            'duration': NumberInput(attrs={'class': 'form-control',
+                                           'id': 'exam-duration',
+                                           'min': '10',
+                                           'max': '1440',
+                                           'aria-describedby': 'exam-duration-label'}),
             'start_time': HiddenInput(),
         }
-        
+
         labels = {
             'title': '题干',
             'duration': '考试时长',
@@ -147,20 +173,22 @@ class ExaminationForm(ModelForm):
 # ---------------
 # Lesson Content form
 class LessonContentForm(ModelForm):
+    file_name = CharField(widget=HiddenInput, required=False)
+
     class Meta:
         model = LessonContent
         fields = '__all__'
         widgets = {
-            'content': Textarea(attrs={'class': 'form-control', 
-                                        'placeholder': '请输入课程文字描述', 
-                                        'aria-label': '', 
-                                        'aria-describedby': 'lesson-content-label', 
-                                        'cols':30, 'rows':4 }),
+            'content': Textarea(attrs={'class': 'form-control',
+                                       'placeholder': '请输入课程文字描述',
+                                       'aria-label': '',
+                                       'aria-describedby': 'lesson-content-label',
+                                       'cols': 30, 'rows': 4}),
             'lesson': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),            
             'file': FileInput(attrs={'class': 'custom-file-input',
-                                        'aria-describedby': 'exam-duration-label',
-                                        'accept':'image/*'}),
+                                     'aria-describedby': 'exam-duration-label',
+                                     'accept': 'image/*'}),
         }
         widgets.update({
-            'file_type': Select(attrs={'class': 'form-control'} ),
+            'file_type': Select(attrs={'class': 'form-control'}),
         })

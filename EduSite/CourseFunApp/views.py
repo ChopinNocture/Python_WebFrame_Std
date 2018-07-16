@@ -7,8 +7,9 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 # Create your views here.
 from CourseFunApp.models import Lesson, Examination
 import CourseFunApp.models as questionModels
-import CourseFunApp.forms as questionForms 
+import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
+
 
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
@@ -47,8 +48,9 @@ def get_question_list(request, qtype, section_id=None):
 # editor main
 def question_editor(request):
     course_html = get_lesson_list_html()
-    
-    return render(request=request, template_name="course/questionEditor.html", context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
+
+    return render(request=request, template_name="course/questionEditor.html",
+                  context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
 
 
 def delete_question(request, qtype, qid):
@@ -97,7 +99,7 @@ def question_editor_form(request, qtype, qid=-1):
             return HttpResponse(e + "Multiply objects get from:" + type(temp_class))
 
     if request.method == "POST":
-        print(" -- "+requestData["sectionID"])
+        print(" -- " + requestData["sectionID"])
         newQuestForm = formClass(requestData, instance=quest_in_DB)
 
         if newQuestForm.is_valid():
@@ -116,46 +118,51 @@ def question_editor_form(request, qtype, qid=-1):
 
     elif request.method == "GET":
         retForm = formClass(instance=quest_in_DB)
-        return render(request=request, template_name="course/QTypeForm.html", context={"form": retForm, "questionType": qtype})
+        return render(request=request, template_name="course/QTypeForm.html",
+                      context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
 
 
 # --------------------------------------------------------
 # oprater for lesson
-def lesson_editor(request):    
+def lesson_editor(request):
     course_html = get_lesson_list_html()
 
     if request.method == "GET":
         lesson_id = request.GET.get("lesson")
-        
-        if lesson_id: 
+
+        if lesson_id:
             try:
                 lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
+                lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont,
+                                                                      initial={'file_name': lesson_cont.file})
+
             except Exception as e:
-                lesson_cont = None
+                lesson_content_form = questionForms.LessonContentForm(instance=None, initial={'lesson': lesson_id})
                 print(' --- ' + str(e))
 
-            lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont)
-            return render(request=request, template_name="course/lesson_form.html", context={"form": lesson_content_form})
+            return render(request=request, template_name="course/lesson_form.html",
+                          context={"form": lesson_content_form})
         else:
             lesson_content_form = questionForms.LessonContentForm()
 
-            form_html = loader.render_to_string(template_name="course/lesson_form.html", context={"form": lesson_content_form})
-            return render( request=request,
-                            template_name="course/lesson_editor.html",
-                            context={"lesson_form_html" : form_html, "course_html": course_html, })
+            form_html = loader.render_to_string(template_name="course/lesson_form.html",
+                                                context={"form": lesson_content_form})
+            return render(request=request,
+                          template_name="course/lesson_editor.html",
+                          context={"lesson_form_html": form_html, "course_html": course_html, })
 
     elif request.method == "POST":
         lesson_id = request.POST.get("lesson")
-        
+
         try:
             lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
         except Exception as e:
             print(' --- ' + str(e))
             lesson_cont = None
 
-        lesson_content_form =  questionForms.LessonContentForm(request.POST, request.FILES, instance=lesson_cont)
-        
+        lesson_content_form = questionForms.LessonContentForm(request.POST, request.FILES, instance=lesson_cont)
+
         print(str(lesson_id) + " - " + str(request.FILES))
         try:
             if lesson_content_form.is_valid():
@@ -168,12 +175,13 @@ def lesson_editor(request):
             print(e)
             print(lesson_content_form.cleaned_data)
             print(lesson_content_form.errors.as_data())
-            return HttpResponseNotAllowed("F!")           
+            return HttpResponseNotAllowed("F!")
 
-        form_html = loader.render_to_string(template_name="course/lesson_form.html", context={"form": lesson_content_form})
+        form_html = loader.render_to_string(template_name="course/lesson_form.html",
+                                            context={"form": lesson_content_form})
         return render(request=request,
-                template_name="course/lesson_editor.html",
-                context={"lesson_form_html": form_html, "course_html": course_html, })
+                      template_name="course/lesson_editor.html",
+                      context={"lesson_form_html": form_html, "course_html": course_html, })
 
 
 def get_lesson_content(request, lesson_id):
@@ -190,12 +198,13 @@ def answer_sheet(request, sectionID):
     lesson = Lesson.objects.get(id=sectionID)
     if request.method == "GET":
         print(request.method)
-        return render(request=request, template_name="course/AnswerSheet.html", context={"section_name": lesson.description, "questionType": ""})
+        return render(request=request, template_name="course/AnswerSheet.html",
+                      context={"section_name": lesson.description, "questionType": ""})
     else:
-        print("-`-`-`-`"+request.method)
+        print("-`-`-`-`" + request.method)
         question_dict = exam_sys.generate_question_set(lesson)
         return JsonResponse(question_dict)
-    
+
 
 # --------------------------------------------------------
 # examination
@@ -208,7 +217,7 @@ def exam_editor(request):
         #     question_list = {"email": "to1@example.com"}
         # )
         # exam.save()
-        
+
         exam_form = questionForms.ExaminationForm(request.POST, instance=exam)
         try:
             if exam_form.is_valid():
@@ -221,19 +230,20 @@ def exam_editor(request):
             print(exam_form.cleaned_data)
             print(exam_form.errors.as_data())
             return HttpResponseNotAllowed("F!")
-            
+
         return HttpResponse("Success!")
 
     elif request.method == "GET":
         exam_list = Examination.objects.all().values('id', 'start_time', 'title')
-        exam_list_html = loader.render_to_string(template_name="course/exam_list.html", context={"exam_list": exam_list})
-        
+        exam_list_html = loader.render_to_string(template_name="course/exam_list.html",
+                                                 context={"exam_list": exam_list})
+
         exam_form = questionForms.ExaminationForm()
-        return render(request=request, template_name="course/examination_editor.html", 
-            context={"qTypeList": exam_sys.q_type_list, 
-                "exam_list_html" : exam_list_html,
-                "course_html": get_lesson_list_html(),
-                "form": exam_form })
+        return render(request=request, template_name="course/examination_editor.html",
+                      context={"qTypeList": exam_sys.q_type_list,
+                               "exam_list_html": exam_list_html,
+                               "course_html": get_lesson_list_html(),
+                               "form": exam_form})
 
 
 def exam_editor_hitory(request):
@@ -249,5 +259,3 @@ def exam_ready(request):
 def get_lesson_list_html():
     lesson_list = Lesson.objects.all().values('id', 'description')
     return loader.render_to_string(template_name="course/course_list.html", context={"lesson_list": lesson_list})
-
-    

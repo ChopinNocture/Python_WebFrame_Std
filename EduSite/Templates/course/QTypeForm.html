@@ -5,6 +5,27 @@
 <div id="KeysPanel" class="border-top border-warning pt-1 rounded">
 </div>
 <br>
+{% elif questionType == "CaseAnalyse" %}
+<div id="SubQ_Panel" class="border-top border-warning pt-3 rounded">
+    <div class="input-group m-0">
+        <div class="input-group-prepend">
+            <select class="custom-select bg-light text-primary" id="sub_type_sel">
+                <option selected>选择子题类型...</option>
+                <option value="FillInBlank">填空题</option>
+                <option value="TrueOrFalse">判断题</option>
+                <option value="Choice">单项选择题</option>
+                <option value="MultiChoice">多项选择题</option>
+                <option value="Pair">配对题</option>
+                <option value="Sort">排序题</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+        <button type="button" class="btn btn-dark" id="btn_sub_add">确认添加</button>
+    </div>
+</div>
+<br>
+{% elif questionType == "Voice" %}
+<br>
 {% else %}
 <div id="OptionPanel" class="border-top border-warning pt-3 rounded">
     <p id="BtnLine">

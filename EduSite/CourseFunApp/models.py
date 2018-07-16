@@ -45,32 +45,19 @@ class LessonContent(models.Model):
     content = models.TextField()
 
 
-SINGLE_SELECTION = 'SS'
-MULTI_SELECTION = 'MS'
-JUDGEMENT = 'YN'
-FILL_EMPTY = 'FE'
-SORT_QUESTION = 'SQ'
-ANALISE_Q = 'AN'
-VOICE_Q = 'VC'
-
-QUESTION_TYPE_CHOICES = (
-    (SINGLE_SELECTION, 'Single Selection'),
-    (MULTI_SELECTION, 'Multiply Selection'),
-    (JUDGEMENT, 'Judgement'),
-    (FILL_EMPTY, 'Fill Empty'),
-    (SORT_QUESTION, 'Sort'),
-    (ANALISE_Q, 'Analise'),
-    (VOICE_Q, 'Voice'),
-)
-
-
 # --------------------------------------------------------
 # 题目基类
 class Question(models.Model):
     description = models.TextField()
     sectionID = models.ForeignKey(Lesson, on_delete=models.CASCADE, )
     flag = models.PositiveSmallIntegerField()
-    star = models.PositiveSmallIntegerField()
+    star = models.PositiveSmallIntegerField()    
+    case_analyse = models.ForeignKey(
+        'CaseAnalyseQuestion',
+        models.SET_NULL,
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         abstract = True
@@ -113,6 +100,16 @@ class PairQuestion(Question):
 class SortQuestion(Question):
     options = models.TextField()
     # key = models.TextField()
+
+
+# 案例、简答题
+class CaseAnalyseQuestion(Question):
+    subQuestions = models.TextField(max_length=1024)  # JSONField()
+    
+
+# 语音题
+class VoiceQuestion(Question):
+    qVoice = models.FileField(upload_to='VoiceQuestion/', null=True, blank=True)
 
 
 # ---------------

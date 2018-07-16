@@ -202,19 +202,6 @@ function onDeleteQuestionClick(event) {
     OpenModal("确认要删除选中的题目吗？删除后不可恢复！", onDeleteConfirm);
 }
 
-function closeModal() {
-    $('#btn_confirm').click(null);
-    $('#btn_cancel').click(null);
-    $('#modal_confirm').modal('hide');
-}
-
-function OpenModal(content, confirmFunc, cancelFunc = null) {
-    $('#id_modal_content').html(content);
-    $('#modal_confirm').modal('show');
-    $('#btn_confirm').click(confirmFunc);
-    $('#btn_cancel').click(cancelFunc);
-}
-
 //=======================================================
 // form framework
 //=======================================================
@@ -265,7 +252,7 @@ function checkForm() {
 
     //------------------check type
     ret = ret && eval(CheckFunc_Prefix + question_type + "()");
-    ret = ret && document.getElementById('Form_QuestionEditor').checkValidity();
+    ret = ret && document.getElementById('Form_QuestionEditor').reportValidity();
     return ret;
 }
 
@@ -274,7 +261,7 @@ function onSubmitCheck() {
         //alert("checkForm!");
         document.getElementById('Form_QuestionEditor').submit();
     } else {
-        alert("提交失败，请检查题目填写是否正确。");
+        ShowInfo("提交失败，请检查题目填写是否正确。", 2, function(){document.getElementById('Form_QuestionEditor').reportValidity();}, 'danger');        
     }
 }
 
@@ -292,8 +279,8 @@ function onSubmitSuccess(result) {
     else {
         infostr = "题目成功添加入题库！";
     }
-    $('#info_window_content').html(infostr);
-    $('#info_window').modal('show');
+
+    ShowInfo(infostr);
 
     doRefreshQList();
     refreshOthers();
@@ -587,6 +574,32 @@ function checkTrueOrFalse() { return true; }
 //-------------- parseForm2Json ---------------
 function parseForm2JsonTrueOrFalse() { }
 
+
+//-------------------------------------------------------
+// Question type: CaseAnalyse
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshCaseAnalyse() { }
+
+//-------------- check --------------
+function checkCaseAnalyse() { return true; }
+
+//-------------- parseForm2Json ---------------
+function parseForm2JsonCaseAnalyse() { }
+
+
+//-------------------------------------------------------
+// Question type: Voice
+//-------------------------------------------------------
+//-------------- refresh --------------
+function refreshVoice() { }
+
+//-------------- check --------------
+function checkVoice() { return true; }
+
+//-------------- parseForm2Json ---------------
+function parseForm2JsonVoice() { }
+
 //-------------------------------------------------------
 // Question type: Pair
 //-------------------------------------------------------
@@ -712,11 +725,11 @@ var ic_btn = function (group = "") {
             icon_btn_list.each(function (idx, elem) {
                 if(idx<value) {
                     $(elem).attr("ic_active", true);
-                    $(elem).removeClass("text-muted").addClass("text-warning");
+                    $(elem).removeClass("text-dark").addClass("text-warning");
                 }
                 else {
                     $(elem).attr("ic_active", false);
-                    $(elem).addClass("text-muted").removeClass("text-warning");
+                    $(elem).addClass("text-dark").removeClass("text-warning");
                 }
                 return true;
             })
@@ -736,10 +749,10 @@ var ic_btn = function (group = "") {
         var scan = true;
         icon_btn_list.each(function (idx, elem) {
             if (scan) {
-                $(elem).removeClass("text-muted").addClass("text-warning");
+                $(elem).removeClass("text-dark").addClass("text-warning");
             }
             else {
-                $(elem).addClass("text-muted").removeClass("text-warning");
+                $(elem).addClass("text-dark").removeClass("text-warning");
             }
             $(elem).attr("ic_active", scan);
             if (elem_btn == elem) {

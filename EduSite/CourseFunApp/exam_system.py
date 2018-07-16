@@ -23,20 +23,22 @@ def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
         except (AttributeError) as e:
             raise e
 
-        count = temp_class.objects.filter(sectionID=sectionID).count()
+        query_filter = temp_class.objects.filter(sectionID=sectionID, case_analyse=None)
+        count = query_filter.count()
         need_num = min(per_sum, count)
-        if count == need_num:
-            generated_list = temp_class.objects.filter(sectionID=sectionID)
-        else:
-            rand_ids = random.sample(range(1, count), need_num)
-            generated_list = temp_class.objects.filter(sectionID=sectionID, id__in=rand_ids)
+        
+        if need_num>0:
+            if count == need_num:
+                generated_list = list(query_filter)
+            else:
+                generated_list = random.sample(list(query_filter), need_num)
 
-        print('' + str(len(generated_list)) + ':')
-        if len(generated_list) > 0:
-            for iter_item in generated_list:
-                question_dict = model_to_dict(iter_item)
-                question_dict['qType'] = iter_tpName
-                q_json_list.append(question_dict)
+            print('' + str(len(generated_list)) + ':')
+            if len(generated_list) > 0:
+                for iter_item in generated_list:
+                    question_dict = model_to_dict(iter_item)
+                    question_dict['qType'] = iter_tpName
+                    q_json_list.append(question_dict)
 
     return {'qType_list': q_type_list, 'qList': q_json_list}
 
