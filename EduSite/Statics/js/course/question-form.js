@@ -579,10 +579,66 @@ function parseForm2JsonTrueOrFalse() { }
 // Question type: CaseAnalyse
 //-------------------------------------------------------
 //-------------- refresh --------------
-function refreshCaseAnalyse() { }
+var subQuestions = [];
+
+function refreshCaseAnalyse() {
+    $('#sub_type_sel').change(onSubTypeChange);
+    $('#sub_question_sel').change(onSubQuestionChange);
+    $('button[id^=course_]').off('click', handleSubSectionChange).on('click', handleSubSectionChange);
+    $('#btn_sub_add').click(onAddSubQuestion);
+    refreshSubQList();
+}
+
+var SUB_QUEST = '<div class="input-group">**</div>';
+var SUB_TYPE_HTML = '<span class="bg-info" style="width:10%">**</span>';
+
+function onAddSubQuestion() {
+    var newSubQ = {'qType':$('#sub_type_sel').val(), 'qid':$('#sub_question_sel').val()};
+    subQuestions.push(newSubQ);
+    $('#SubQ_Panel').append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[newSubQ.qType] )+ $('#sub_question_sel').find("option:selected").text()));
+    alert(JSON.stringify(subQuestions));
+}
+
+function handleSubSectionChange(event) {
+    if(question_type != 'CaseAnalyse') {
+        $('button[id^=course_]').off('click', handleSubSectionChange);
+        return;
+    }
+    refreshSubQList();
+}
+
+function onSubTypeChange(event) {
+    refreshSubQList();
+}
+
+function onSubQuestionChange(event) {
+
+}
+
+function refreshSubQList() {
+    var sub_list_url = $('#NavBtn_' + $('#sub_type_sel').val()).data('qlistUrl');
+    $.get(sub_list_url + section_id.toString(), updateSubQList);
+}
+
+function updateSubQList(jsonData) {
+    var qListPanel = $("#sub_question_sel");
+
+    qListPanel.empty();
+
+    var tempLine;
+    jsonData.forEach(function (iter, index, array) {
+        tempLine = $('<option class="form-control text-truncate" value="" style="width:80%;"></option>')
+            .clone()
+            .val(iter.id)
+            .html(iter.desc);
+
+        qListPanel.append(tempLine);
+    });
+}    
+
 
 //-------------- check --------------
-function checkCaseAnalyse() { return true; }
+function checkCaseAnalyse() { return false; }
 
 //-------------- parseForm2Json ---------------
 function parseForm2JsonCaseAnalyse() { }
@@ -595,7 +651,7 @@ function parseForm2JsonCaseAnalyse() { }
 function refreshVoice() { }
 
 //-------------- check --------------
-function checkVoice() { return true; }
+function checkVoice() { return false; }
 
 //-------------- parseForm2Json ---------------
 function parseForm2JsonVoice() { }
