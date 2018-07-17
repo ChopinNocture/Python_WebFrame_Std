@@ -41,7 +41,31 @@ body {
 }
 
 
+#id_username, #id_username:active, #id_password, .text-input-1 {
+    width: auto;
+    height: auto;
+    font-size: 24px;
+    padding: 4px; 
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    border-color: rgb(51,115,145);
+    box-shadow: 0px 0px 4px #3d6370;
+    background-color: #d1eef8;
+}
 
+label {
+    font-size: 24px;
+    color: azure;
+    text-shadow:1px 0px 2px rgb(51,115,145),
+                -1px 0px 2px rgb(51,115,145),
+                0px -1px 2px rgb(51,115,145),
+                0px 1px 2px rgb(51,115,145),
+                1px 1px 2px rgb(51,115,145),
+                1px -1px 2px rgb(51,115,145),
+                -1px -1px 2px rgb(51,115,145),
+                -1px 1px 2px rgb(51,115,145);   
+}
 
 .text-outline-deepblue {
     text-shadow:1px 0px 1px rgb(26,98,133), 
