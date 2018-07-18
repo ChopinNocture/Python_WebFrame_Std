@@ -13,15 +13,16 @@
 
 
 {% block content %}
-<div id="main-panel">
-    <h1 id="login-title" class="text-outline-deepblue">登 录</h1>
+<div id="main-panel" class="blur-clear">    
+    <p>
+        <span id="login-title-outline" class="text-outline-deepblue-3px">登 录</span>
+        <span id="login-title">登 录</span>
+    </p>
     <div id="panel-bg" class="row-fluid text-center">
-        
-        <p>Input user name.</p>
-        <form class="form-horizontal" action="." method="post" id="Form_Login">
+        <form action="." method="post" id="Form_Login">
             {% csrf_token %}
             {{ form.as_p}}
-            <input type="submit" value="Login">
+            <input type="submit" value="登 录">
             <!--input class="form-control" type="submit" value="Add" form="Form_QuestionEditor"-->
         </form>
     </div>

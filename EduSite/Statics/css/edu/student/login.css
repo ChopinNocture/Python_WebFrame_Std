@@ -1,6 +1,11 @@
+@import url(./font_inc.css);
+*{
+    font-family: HK_Yuan;    
+}
+
 body {
     background-image: url('/Statics/images/BG_sm.jpg');
-    background-blend-mode: soft-light;
+    background-blend-mode: lighten;
     background-color: rgba(232, 246, 255, 0.685);
     background-size: 100%;
     background-repeat: no-repeat;
@@ -10,6 +15,10 @@ body {
     /*background-clip:border-box*/
 }
 
+.blur-clear {
+    transition-delay: 3s;
+    transition-property: all;
+}
 
 #main-panel {
     width: 462px;
@@ -20,11 +29,24 @@ body {
 }
 
 #login-title {
-    font-size: 250%;
+    font-size: 52px;
+    font-weight: 600;
     position: relative;
-    top: 48px;
+    left:-58px;
+    top:42px;
     color: aliceblue;
-    text-shadow: 3px 3px 3px rgb(51,115,145)
+    z-index:1;
+    text-shadow: 4px 8px 8px rgb(22, 58, 73)
+}
+
+#login-title-outline {
+    position:relative;
+    left:80px;
+    top:42px;        
+    font-size: 52px;
+    font-weight: 900;    
+
+    color: rgb(26,98,133);
 }
 
 #panel-bg {
@@ -36,15 +58,15 @@ body {
     border-color: #56aad1;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
-    border-radius: 18px;
-    box-shadow: 3px 3px 3px rgb(51,115,145);
+    border-radius: 24px;
+    box-shadow: 6px 8px 1px rgb(51,115,145);
 }
 
 
 #id_username, #id_username:active, #id_password, .text-input-1 {
-    width: auto;
+    width: 286px;
     height: auto;
-    font-size: 24px;
+    font-size: 28px;
     padding: 4px; 
     border-style: solid;
     border-width: 3px;
@@ -55,8 +77,9 @@ body {
 }
 
 label {
-    font-size: 24px;
+    font-size: 28px;
     color: azure;
+    width: 250px;
     text-shadow:1px 0px 2px rgb(51,115,145),
                 -1px 0px 2px rgb(51,115,145),
                 0px -1px 2px rgb(51,115,145),
@@ -76,4 +99,26 @@ label {
                 1px -1px 1px rgb(26,98,133), 
                 -1px 1px 1px rgb(26,98,133), 
                 -1px -1px 1px rgb(26,98,133);
+}
+
+.text-outline-deepblue-3px {
+    text-shadow:3px 0px 1px rgb(26,98,133), 
+                -3px 0px 1px rgb(26,98,133),
+                0px 3px 1px rgb(26,98,133),
+                0px -3px 1px rgb(26,98,133),
+                3px 3px 1px rgb(26,98,133),
+                3px -3px 1px rgb(26,98,133), 
+                -3px 3px 1px rgb(26,98,133), 
+                -3px -3px 1px rgb(26,98,133);
+}
+
+#Form_Login {
+    position: relative;
+    top: 68px;
+}
+
+#Form_Login>p {
+    width: 424px;
+    text-align: right;
+    margin-right: 20px;
 }
