@@ -1,12 +1,22 @@
-{% extends "base_bs_style.html" %}
+{% extends "base.html" %}
 {% load static %} 
-{% block title %}Question Editor{% endblock %} 
-{% block jsPage %}
-<script type="text/javascript" src="{% static 'js/user/student_main.js' %}"></script> 
-{% endblock %} 
-{% block content %}
+
+{% block title %}学生主页{% endblock %} 
+
+{% block jsFunctionLib %}
+    <link rel="stylesheet" href="{% static 'css/edu/student/student_main.css' %}"/>
+
+    <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
 {% endblock %}
+
+
+
 {% block header %}
+{% endblock %}
+
+{% block content %}
 <div class="container mx-6">
     <div class="row">
         <div class="col-2 p-3 mb-2 bg-secondary text-white" id="stud_prof">
@@ -60,4 +70,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block jsPage %}
+<script type="text/javascript" src="{% static 'js/user/student_main.js' %}"></script> 
 {% endblock %}

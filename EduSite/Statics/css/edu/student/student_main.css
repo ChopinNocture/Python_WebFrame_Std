@@ -1,0 +1,79 @@
+body {
+    background-image: url('/Statics/images/BG_sm.jpg');
+    background-blend-mode: soft-light;
+    background-color: rgba(232, 246, 255, 0.685);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-origin: content-box;
+    /*background-clip:border-box*/
+}
+
+
+#main-panel {
+    width: 462px;
+    height: 330px;
+    margin: auto;
+    /*border: 3px solid;*/
+    text-align: center;
+}
+
+#login-title {
+    font-size: 250%;
+    position: relative;
+    top: 48px;
+    color: aliceblue;
+    text-shadow: 3px 3px 3px rgb(51,115,145)
+}
+
+#panel-bg {
+    width: 100%;
+    height: 290px;
+    background-color: #78c5e1;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #56aad1;
+    /* border-right-color: #207aa3;
+    border-bottom-color: #207aa3; */
+    border-radius: 18px;
+    box-shadow: 3px 3px 3px rgb(51,115,145);
+}
+
+
+#id_username, #id_username:active, #id_password, .text-input-1 {
+    width: auto;
+    height: auto;
+    font-size: 24px;
+    padding: 4px; 
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    border-color: rgb(51,115,145);
+    box-shadow: 0px 0px 4px #3d6370;
+    background-color: #d1eef8;
+}
+
+label {
+    font-size: 24px;
+    color: azure;
+    text-shadow:1px 0px 2px rgb(51,115,145),
+                -1px 0px 2px rgb(51,115,145),
+                0px -1px 2px rgb(51,115,145),
+                0px 1px 2px rgb(51,115,145),
+                1px 1px 2px rgb(51,115,145),
+                1px -1px 2px rgb(51,115,145),
+                -1px -1px 2px rgb(51,115,145),
+                -1px 1px 2px rgb(51,115,145);   
+}
+
+.text-outline-deepblue {
+    text-shadow:1px 0px 1px rgb(26,98,133), 
+                -1px 0px 1px rgb(26,98,133),
+                0px 1px 1px rgb(26,98,133),
+                0px -1px 1px rgb(26,98,133),
+                1px 1px 1px rgb(26,98,133),
+                1px -1px 1px rgb(26,98,133), 
+                -1px 1px 1px rgb(26,98,133), 
+                -1px -1px 1px rgb(26,98,133);
+}
