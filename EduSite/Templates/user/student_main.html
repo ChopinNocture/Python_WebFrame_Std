@@ -17,59 +17,65 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mx-6">
-    <div class="row">
-        <div class="col-2 p-3 mb-2 bg-secondary text-white" id="stud_prof">
-            <div class="row-fluid">
-                {{form_student.as_p}}
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="row-fluid text-center" id="exam_part">
-                <h4>试炼场</h4>
-                <p>
-                    开放时间：xxxxxxx <br>
-                </p>
-                <button class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</button> 
-            </div>
-            <div class="row-fluid" id="class_list">
-                <ul class="list-group list-group-flush">
-                    {% for lesson in lesson_list %}
-                    <li class="list-group-item">
-                        {{lesson.description}}
-                        <a href="#" class="btn btn-info align-right" id="btn_enter_learn">课程</a> 
-                        <a href="{% url 'course:answer-sheet' sectionID=lesson.id %}" class="btn btn-warning right" id="btn_enter_practise">修炼</a> 
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <div class="col-2 p-3 mb-2 bg-secondary text-white">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-header">
-                    <h3>公告</h3>
-                </div>
-                <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
-                    公布一些内容
-                </div>
-            </div>
-            <br>
-            <div class="card text-white bg-info mb-3">
-                <div class="card-header text-center">
-                    <h3>排行榜</h3>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">萧峰</li>
-                        <li class="list-group-item">令狐冲</li>
-                        <li class="list-group-item">武大郎</li>
-                        <li class="list-group-item">小二郎</li>
-                    </ul>                    
-                </div>
-            </div>            
+<div id="root_panel">
+
+    <div class="col-2 p-3 mb-2 bg-secondary text-white" id="stud_prof">
+        <div class="row-fluid">
+            <label>{{stud_info.user}}</label>
+            {{ stud_info.student_number }}
+            {{ stud_info.class_id }}
+            {{ stud_info.gold }}
+            {{ stud_info.progress }}
+            {{ stud_info.rank }}
+            {{ stud_info.level }}
         </div>
     </div>
+    <div class="col-8">
+        <div class="row-fluid text-center" id="exam_entrance">
+            <h4>试炼场</h4>
+            <p>
+                开放时间：xxxxxxx <br>
+            </p>
+            <button class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</button> 
+        </div>
+        <div class="row-fluid" id="class_list">
+            <ul class="list-group list-group-flush">
+                {% for lesson in lesson_list %}
+                <li class="list-group-item">
+                    {{lesson.description}}
+                    <a href="#" class="btn btn-info align-right" id="btn_enter_learn">课程</a> 
+                    <a href="{% url 'course:answer-sheet' sectionID=lesson.id %}" class="btn btn-warning right" id="btn_enter_practise">修炼</a> 
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-2 p-3 mb-2 bg-secondary text-white">
+        <div class="card text-white bg-warning mb-3" id="notice_panel">
+            <div class="card-header">
+                <h3>公告</h3>
+            </div>
+            <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
+                公布一些内容
+            </div>
+        </div>
+        <br>
+        <div class="card text-white bg-info mb-3" id="billboard_panel">
+            <div class="card-header text-center">
+                <h3>排行榜</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">萧峰</li>
+                    <li class="list-group-item">令狐冲</li>
+                    <li class="list-group-item">武大郎</li>
+                    <li class="list-group-item">小二郎</li>
+                </ul>                    
+            </div>
+        </div>            
+    </div>
 </div>
+
 {% endblock %}
 
 {% block jsPage %}

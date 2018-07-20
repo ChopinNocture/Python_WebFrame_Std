@@ -1,4 +1,7 @@
 @import url(./font_inc.css);
+@import url(./common_lib.css);
+
+
 *{
     font-family: HK_Yuan;    
 }

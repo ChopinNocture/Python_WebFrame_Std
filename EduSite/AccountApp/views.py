@@ -43,8 +43,9 @@ def student_main(request):
     cur_user = request.user
     if cur_user is not None:
         cur_prof = StudentProf.objects.get(user=cur_user)
-    stu_form = Student_Prof_Form(instance=cur_prof)
-    return render(request, 'user/student_main.html', {'form_student': stu_form, "lesson_list": lesson_list})
+    # stu_form = Student_Prof_Form(instance=cur_prof) 
+
+    return render(request, 'user/student_main.html', {'stud_info':cur_prof, "lesson_list": lesson_list})
 
 
 # @login_required(login_url='/user/login/')

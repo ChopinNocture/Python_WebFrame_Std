@@ -1,22 +1,52 @@
+@import url(./font_inc.css);
+@import url(./common_lib.css);
+
 body {
-    background-image: url('/Statics/images/BG_sm.jpg');
-    background-blend-mode: soft-light;
-    background-color: rgba(232, 246, 255, 0.685);
-    background-size: 100%;
+    background-image: url('/Statics/images/classroom2-bg.jpg');
+    background-blend-mode: normal;
+    /* background-size: 100%; */
     background-repeat: no-repeat;
     background-position: left top;
     background-attachment: fixed;
-    background-origin: content-box;
+    background-origin: inherit;
     /*background-clip:border-box*/
 }
 
 
-#main-panel {
-    width: 462px;
-    height: 330px;
+#root_panel {
+    position: fixed;
+    left: 10%;
+    top: 1%;
+    width: 1120px;
+    height: 630px;
     margin: auto;
-    /*border: 3px solid;*/
+    border: 3px solid;
     text-align: center;
+}
+
+#stud_prof {
+    text-align: inherit;
+    border: 1px dashed;
+}
+
+#exam_entrance {
+    text-align: inherit;
+    border: 1px dashed;
+}
+
+#class_list {
+    text-align: inherit;
+    border: 1px dashed;
+}
+
+#notice_panel {
+    text-align: inherit;
+    border: 1px dashed;
+}
+
+#billboard_panel {
+    text-align: inherit;
+    border: 1px dashed;
 }
 
 #login-title {
@@ -65,15 +95,4 @@ label {
                 1px -1px 2px rgb(51,115,145),
                 -1px -1px 2px rgb(51,115,145),
                 -1px 1px 2px rgb(51,115,145);   
-}
-
-.text-outline-deepblue {
-    text-shadow:1px 0px 1px rgb(26,98,133), 
-                -1px 0px 1px rgb(26,98,133),
-                0px 1px 1px rgb(26,98,133),
-                0px -1px 1px rgb(26,98,133),
-                1px 1px 1px rgb(26,98,133),
-                1px -1px 1px rgb(26,98,133), 
-                -1px 1px 1px rgb(26,98,133), 
-                -1px -1px 1px rgb(26,98,133);
 }

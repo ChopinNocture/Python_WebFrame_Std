@@ -1,0 +1,12 @@
+
+
+.text-outline-deepblue {
+    text-shadow:1px 0px 1px rgb(26,98,133), 
+                -1px 0px 1px rgb(26,98,133),
+                0px 1px 1px rgb(26,98,133),
+                0px -1px 1px rgb(26,98,133),
+                1px 1px 1px rgb(26,98,133),
+                1px -1px 1px rgb(26,98,133), 
+                -1px 1px 1px rgb(26,98,133), 
+                -1px -1px 1px rgb(26,98,133);
+}
