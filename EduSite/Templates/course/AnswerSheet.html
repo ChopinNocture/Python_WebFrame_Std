@@ -1,6 +1,6 @@
-{% extends "base_bs_style.html" %}
+{% extends "base.html" %}
 {% load static %} 
-{% block title %}Answer Sheet{% endblock %} 
+{% block title %}答题卡{% endblock %} 
 {% block jsPage %}
 <script type="text/javascript" src="{% static 'js/course/answer-sheet.js' %}"></script> 
 {% endblock %} 
@@ -8,8 +8,8 @@
 <form method="post" action="." id="qlist_form">
 {% csrf_token %}
 </form>
-<div class="row m-5">
-    <div class="col-3">
+<div id="root_panel">
+    <div id="info_panel" class="col-3">
         <div class="card" id="statistic_frame">
             <div class="card-header" id="statistic_main">
                 <h5>
@@ -22,30 +22,50 @@
             <img class="card-img-bottom float-xl-right" src="{% static 'images/teacher.png' %}" alt="Card image cap">
         </div>
     </div>
-    <div class="col-9">
-        <div class="card" id="quesion_desc_main">
-            <h3 class="card-header" id="section_title">{{section_name}}</h3>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
-                    <label id="question_type"></label>
-                </h4>
-                <p id="q_description">                    
-                </p>
+    <div id="sheet_panel" class="col-9">
+        <div id="sheet_bg_out">             
+
+            <div id="sheet_bg_in"> 
+                <div id="sheet_edge">
+                </div>
+                
+                <div class="card" id="quesion_desc_main">
+                    <h3 class="card-header" id="section_title">{{section_name}}</h3>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
+                            <label id="question_type"></label>
+                        </h4>
+                        <p id="q_description">                    
+                        </p>
+                    </div>
+                </div>
+                
+                <br/>
+                <div class="card">
+                    <div class="card-body" id="q_type_sheet">                
+                    </div>
+                    <div class="card-footer text-right">
+                        <p id="q_type_tips" class="align-content-center">foot
+                            <button id="btn_submit" class="btn btn-success btn-lg align-bottom">提交</button>
+                            <button id="btn_next" class="btn btn-outline-primary btn-sm align-bottom">Next</button>
+                            <button id="btn_Prev" class="btn btn-outline-primary btn-sm align-bottom">Preview</button>
+                        </p>
+                    </div>
+                </div>
+
+                
             </div>
-        </div>
-        <br/>
-        <div class="card">
-            <div class="card-body" id="q_type_sheet">                
-            </div>
-            <div class="card-footer text-right">
-                <p id="q_type_tips" class="align-content-center">foot
-                    <button id="btn_submit" class="btn btn-success btn-lg align-bottom">提交</button>
-                    <button id="btn_next" class="btn btn-outline-primary btn-sm align-bottom">Next</button>
-                    <button id="btn_Prev" class="btn btn-outline-primary btn-sm align-bottom">Preview</button>
-                </p>
-            </div>
+
         </div>
     </div>
 </div> 
+{% endblock %}
+
+{% block jsFunctionLib %}
+    <link rel="stylesheet" href="{% static 'css/edu/student/answer_sheet.css' %}"/>
+
+    <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
 {% endblock %}
