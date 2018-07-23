@@ -85,7 +85,7 @@ function update() {
 
         if (cur_idx >= 0 && cur_idx < qList_obj.qList.length) {
             $('#question_count').html('/' + qList_obj.qList.length);
-            $('#question_type').html(qList_obj.qList[cur_idx].qType);
+            $('#question_type').html(TYPE_TRANS_LIST[qList_obj.qList[cur_idx].qType]);
 
             $('#q_type_sheet').empty();
             if (qType_list.indexOf(qList_obj.qList[cur_idx].qType) != -1) {

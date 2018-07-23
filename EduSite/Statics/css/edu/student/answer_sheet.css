@@ -2,9 +2,9 @@
 @import url(./common_lib.css);
 
 body {
-    background-image: url('/Statics/images/classroom2-bg.jpg');
+    background-image: url('/Statics/images/classroom6-bg.jpg');
     background-blend-mode: normal;
-    /* background-size: 100%; */
+    background-size: cover; 
     background-repeat: no-repeat;
     background-position: left top;
     background-attachment: fixed;
@@ -16,8 +16,8 @@ body {
     position: fixed;
     left: 6%;
     top: 1%;
-    width: 668px;
-    height: 787px;
+    width: 802px;
+    height: 944px;
     margin: auto;
     border: 2px dashed;
 
@@ -25,31 +25,31 @@ body {
 
 #info_panel {
     border: 1px dotted;
-    width: 159px;
+    width: 192px;
     position: absolute;
     left: 0px;
 }
 
 #sheet_panel {
     border: 1px dotted;
-    width: 508px;
-    left: 160px;
+    width: 610px;
+    left: 192px;
     position: absolute;
 }
 
 #sheet_bg_out {
     position: relative;
     width: 95%;    
-    padding: 3px 6px 8px 3px;
+    padding: 4px 8px 10px 4px;
     /* padding-bottom: 2%; */
     background-color: #59aace;
     border-style: solid;
-    border-width: 1px 5px 5px 1px;
+    border-width: 2px 6px 6px 2px;
     border-color: #207aa3;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
     border-radius: 22px;
-    box-shadow: 2px 3px 1px #20333a;
+    box-shadow: 3px 4px 1px #20333a;
 }
 
 #sheet_bg_in {
@@ -59,21 +59,102 @@ body {
     height: 290px; */
     background-color: #ffefdf;
     border-style: solid;
-    border-width: 1px 5px 5px 1px;
+    border-width: 2px 6px 6px 2px;
     border-color: #e0bd9b;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
     border-radius: 16px;
-    box-shadow: 1px 3px 4px #b18f6f;
+    box-shadow: 2px 4px 4px #b18f6f;
 }
 
 #sheet_edge {
     position: absolute;
-    width: 108%;
+    width: 106%;
     height: 100%;
 
     background-image: url('/Statics/images/sheet_edge.png');   
     background-repeat: repeat-y; 
-    background-position: right;
+    background-position: right top;
     
+    pointer-events: none;
+}
+
+#quesion_desc_main {
+    font-family: HK_Yuan7;
+    margin: 0px 40px 0px 28px;
+}
+
+#section_title {
+    font-family: HK_Yuan9;
+    font-size: 180%;
+    color: gray;
+    border-bottom-style: dashed;
+    padding-bottom: 4px;
+    margin: 8px 2px 0px 0px;
+}
+
+#desc_panel {
+    margin: 4px -2px 0px -32px;
+    padding: 0px 0px 0px 18px;
+
+    padding: 20px 2px 2px 36px;
+    background: linear-gradient(#ffe5cb,#ffd7af);
+
+    border-radius: 12px;
+    box-shadow: 3px 3px 2px #b18f6f;
+}
+
+#question_type {
+    font-family: HK_Yuan7;
+    font-size: 130%;
+    font-weight: 600;
+    color: #863f19;
+}
+
+#q_description {    
+    min-height: 9.6em;
+    text-indent: 2em;
+    line-height: 1.2em;
+    margin: 18px 14px 12px 8px;
+    font-size: 110%;
+    font-weight: 500;
+    color: #96471c;
+    border-bottom-style: dashed;
+    border-bottom-width: 3px;
+    border-bottom-color: #ff9d7fa0;
+    background-image: url('/Statics/images/house-icon.png');
+    background-repeat: no-repeat; 
+    background-position: right bottom;
+    padding-bottom: 0px;
+}
+
+span[class="top_icon"] {
+    position: absolute;
+    right: 48px;
+    top: 7px;
+    width: 90px;
+    height: 32px;
+    content: url('/Statics/images/sheet_img1.png');
+    margin: 0px;
+}
+
+span[class="spin_icon"] {
+    position: absolute;
+    left: -15px;
+    top: 80px;
+    width: 70px;
+    height: 50px;
+    content: url('/Statics/images/S-Spin.png');
+    margin: 0px;
+}
+
+
+span[class="house_icon"] {
+    position: absolute;
+    left: -15px;
+    top: 80px;
+    width: 70px;
+    height: 77px;
+    content: url('/Statics/images/house-icon.png');
+    margin: 0px;
 }
