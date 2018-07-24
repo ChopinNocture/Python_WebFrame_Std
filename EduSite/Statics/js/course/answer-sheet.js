@@ -47,7 +47,7 @@ function checkAnswer() {
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
 
     updateStat();
-    //showKey();
+    showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
 }
 
 function updateStat() {
@@ -95,6 +95,7 @@ function update() {
                 eval('refresh' + qtype + '(qList_obj.qList[cur_idx])');
                 // 设置check函数
                 eval('checkAnswerFunc = check' + qtype);
+                eval('showKeyFunc = showKey' + qtype);                
             }
             //
         }
@@ -319,7 +320,7 @@ function checkSort(key_str) {
 
     var result_json = { 'complete': true };
 
-    result_json['answer'] = $('div[id^=' + SORT_OP_ID + ']').map(function(){return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
+    result_json['answer'] = $('div[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
     result_json['result'] = suc;
 
     return result_json;
@@ -341,3 +342,30 @@ const QTYPE_TIPS_MAP = {
 }
 
 
+//=======================================================
+// key display part
+//-----------
+function showKeyFillInBlank(result, keyObject) {
+    alert("---");
+}
+
+function showKeyTrueOrFalse(result, keyObject) {
+    alert("---");
+}
+
+function showKeyChoice(result, keyObject) {
+    alert("---" + result.result);
+
+}
+
+function showKeyMultiChoice(result, keyObject) {
+    alert("---");
+}
+
+function showKeyPair(result, keyObject) {
+    alert("---");
+}
+
+function showKeySort(result, keyObject) {
+    alert("---");
+}

@@ -60,20 +60,38 @@
     padding-bottom: 0.375em;
     padding-left: 0.5em;
 
-    background: linear-gradient(179deg, #f1f1f1 , #f1f1f1 50%, #cccbcb 60%, #bababa 100% );
-
-    border-width: thin;
+    border-width: 0.125rem;
     border-style: solid;
     border-radius: 0.25rem;
     border-color: rgba(1, 41, 48, 0.178);   
+    box-shadow: 0.0625rem 0.0625rem 0.25rem gray;
 }
+
+.control-group input[type='checkbox'] + label,
+.control-group input[type='radio'] + label {
+    background: linear-gradient(179deg, #ebebeb , #e2e2e2 46%, #c5c5c5 54%, #b1b1b1 100% );
+}
+
 
 .control-group input[type='checkbox']:hover + label,
 .control-group input[type='radio']:hover + label {
-    background: linear-gradient(-1deg, #f1f1f1 , #f1f1f1 50%, #cccbcb 60%, #bababa 100% );
+    transition-duration: 2s;
+    transition-property: background-image;
+    background: linear-gradient(179deg, #f1f1f1 , #ffffff 50%, #ececec 58%, #d3d3d3 100% );
 }
 
 .control-group input[type='checkbox']:checked + label,
 .control-group input[type='radio']:checked + label {
+    color: #ffffff;
+    background: linear-gradient(179deg, #73c9e9 , #73c9e9 46%, #38a4d6 54%, #2b96c7 100% );
+}
+
+.control-group input[type='checkbox']:checked:hover + label,
+.control-group input[type='radio']:checked:hover + label {
+    color: #ffffff;
+    background: linear-gradient(179deg, #94e3ff , #84d2ee 50%, #57bbe9 58%, #42a6d4 100% );
+}
+
+.control-group .judged-right {
     background: linear-gradient(179deg, #9cd37f , #7dc658 50%, #70a657 60%, #5d9a41 100% );
 }
