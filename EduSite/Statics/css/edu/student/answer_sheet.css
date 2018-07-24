@@ -1,7 +1,9 @@
 @import url(./font_inc.css);
-@import url(./common_lib.css);
 
-body {
+html {
+}
+
+body {    
     background-image: url('/Statics/images/classroom6-bg.jpg');
     background-blend-mode: normal;
     background-size: cover; 
@@ -16,62 +18,62 @@ body {
     position: fixed;
     left: 6%;
     top: 1%;
-    width: 802px;
-    height: 944px;
+    width: 50.1rem;
+    height: 59rem;
     margin: auto;
-    border: 2px dashed;
+    border: 0.125rem dashed;
 
 }
 
 #info_panel {
-    border: 1px dotted;
-    width: 192px;
+    border: 0.0625rem dotted;
+    width: 12rem;
     position: absolute;
-    left: 0px;
+    left: 0rem;
 }
 
 #sheet_panel {
-    border: 1px dotted;
-    width: 610px;
-    left: 192px;
+    border: 0.0625rem dotted;
+    width: 38.125rem;
+    left: 12rem;
     position: absolute;
 }
 
 #sheet_bg_out {
     position: relative;
     width: 95%;    
-    padding: 4px 8px 10px 4px;
+    padding: 0.25rem 0.5rem 0.625rem 0.25rem;
     /* padding-bottom: 2%; */
     background-color: #59aace;
     border-style: solid;
-    border-width: 2px 6px 6px 2px;
+    border-width: 0.125rem 0.375rem 0.375rem 0.125rem;
     border-color: #207aa3;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
-    border-radius: 22px;
-    box-shadow: 3px 4px 1px #20333a;
+    border-radius: 1.375rem;
+    box-shadow: 0.19rem 0.25rem 0.125rem #20333a;
 }
 
 #sheet_bg_in {
     position: relative;
     /* height: 97%; */
     /* width: 100%;
-    height: 290px; */
+    height: 25.625rem; */
     background-color: #ffefdf;
     border-style: solid;
-    border-width: 2px 6px 6px 2px;
+    border-width: 0.125rem 0.375rem 0.375rem 0.125rem;
     border-color: #e0bd9b;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
-    border-radius: 16px;
-    box-shadow: 2px 4px 4px #b18f6f;
+    border-radius: 1rem;
+    box-shadow: 0.125rem 0.25rem 0.25rem #b18f6f;
 }
 
 #sheet_edge {
     position: absolute;
     width: 106%;
     height: 100%;
-
+    background-size: 3.8125rem 4.375rem;
     background-image: url('/Statics/images/sheet_edge.png');   
     background-repeat: repeat-y; 
     background-position: right top;
@@ -81,7 +83,7 @@ body {
 
 #quesion_desc_main {
     font-family: HK_Yuan7;
-    margin: 0px 40px 0px 28px;
+    margin: 0rem 2.5rem 0rem 1.75rem;
 }
 
 #section_title {
@@ -89,19 +91,19 @@ body {
     font-size: 180%;
     color: gray;
     border-bottom-style: dashed;
-    padding-bottom: 4px;
-    margin: 8px 2px 0px 0px;
+    padding-bottom: 0.25rem;
+    margin: 0.5rem 0.125rem 0rem 0rem;
 }
 
 #desc_panel {
-    margin: 4px -2px 0px -32px;
-    padding: 0px 0px 0px 18px;
+    margin: 0.25rem -0.125rem 0rem -2rem;
+    padding: 0rem 0rem 0rem 1.125rem;
 
-    padding: 20px 2px 2px 36px;
+    padding: 1.25rem 0.125rem 0.125rem 2.25rem;
     background: linear-gradient(#ffe5cb,#ffd7af);
 
-    border-radius: 12px;
-    box-shadow: 3px 3px 2px #b18f6f;
+    border-radius: 0.75rem;
+    box-shadow: 0.1875rem 0.1875rem 0.125rem #b18f6f;
 }
 
 #question_type {
@@ -115,46 +117,68 @@ body {
     min-height: 9.6em;
     text-indent: 2em;
     line-height: 1.2em;
-    margin: 18px 14px 12px 8px;
+    margin: 1.125rem 0.875rem 0.75rem 0.5rem;
     font-size: 110%;
     font-weight: 500;
     color: #96471c;
     border-bottom-style: dashed;
-    border-bottom-width: 3px;
+    border-bottom-width: 0.1875rem;
     border-bottom-color: #ff9d7fa0;
     background-image: url('/Statics/images/house-icon.png');
     background-repeat: no-repeat; 
     background-position: right bottom;
-    padding-bottom: 0px;
+    padding-bottom: 0rem;
 }
 
 span[class="top_icon"] {
     position: absolute;
-    right: 48px;
-    top: 7px;
-    width: 90px;
-    height: 32px;
+    right: 3rem;
+    top: 0.5rem;
+    width: 5.625rem;
+    height: 2rem;
     content: url('/Statics/images/sheet_img1.png');
-    margin: 0px;
+    margin: 0rem;
 }
 
 span[class="spin_icon"] {
     position: absolute;
-    left: -15px;
-    top: 80px;
-    width: 70px;
-    height: 50px;
+    left: -0.9375rem;
+    top: 5rem;
+    width: 4.175rem;
+    height: 2.825rem;
     content: url('/Statics/images/S-Spin.png');
-    margin: 0px;
+    margin: 0rem;
 }
 
 
 span[class="house_icon"] {
     position: absolute;
-    left: -15px;
-    top: 80px;
-    width: 70px;
-    height: 77px;
+    left: -0.9375rem;
+    top: 5rem;
+    width: 4.375rem;
+    height: 3.8125rem;
     content: url('/Statics/images/house-icon.png');
-    margin: 0px;
+    margin: 0rem;
+}
+
+#answer_panel {
+    font-family: HK_Yuan7;
+    margin: 0rem 2.625rem 0rem 1.75rem;
+    border-style: dashed;        
+}
+
+#q_type_tips {
+    margin-top: 1.5em;
+    font-family: HK_Yuan7;
+    font-size: 90%;
+    text-align: center;
+    border-bottom-style: dashed;
+    border-bottom-width: 0.0625rem;
+    border-bottom-color: silver;
+    color: tomato;
+}
+
+.full-line {
+    width: 31rem;
+    margin-left: -0.5rem;
 }

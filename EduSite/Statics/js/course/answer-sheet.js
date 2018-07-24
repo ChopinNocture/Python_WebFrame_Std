@@ -84,15 +84,17 @@ function update() {
         $('#question_index').html(cur_idx + 1);
 
         if (cur_idx >= 0 && cur_idx < qList_obj.qList.length) {
+            var qtype = qList_obj.qList[cur_idx].qType;
             $('#question_count').html('/' + qList_obj.qList.length);
-            $('#question_type').html(TYPE_TRANS_LIST[qList_obj.qList[cur_idx].qType]);
+            $('#question_type').html(TYPE_TRANS_LIST[qtype]);
+            $('#q_type_tips').html(QTYPE_TIPS_MAP[qtype]);
 
             $('#q_type_sheet').empty();
-            if (qType_list.indexOf(qList_obj.qList[cur_idx].qType) != -1) {
+            if (qType_list.indexOf(qtype) != -1) {
                 // framework [set:check answer] and [refresh page]                
-                eval('refresh' + qList_obj.qList[cur_idx].qType + '(qList_obj.qList[cur_idx])');
+                eval('refresh' + qtype + '(qList_obj.qList[cur_idx])');
                 // 设置check函数
-                eval('checkAnswerFunc = check' + qList_obj.qList[cur_idx].qType);
+                eval('checkAnswerFunc = check' + qtype);
             }
             //
         }
@@ -156,11 +158,11 @@ function refreshTrueOrFalse(question) {
 
     html_str = '<div class="form-check form-check-inline">\
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="TF_Right" value="Right">\
-                <label class="form-check-label" for="TF_Right">Right</label>\
+                <label class="full-line" for="TF_Right">Right</label>\
                 </div>\
                 <div class="form-check form-check-inline">\
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong">\
-                <label class="form-check-label" for="TF_Wrong">Wrong</label>\
+                <label class="full-line" for="TF_Wrong">Wrong</label>\
                 </div>'
 
     $('#q_type_sheet').html(html_str);
@@ -187,7 +189,7 @@ function checkTrueOrFalse(key_bool) {
 //---- refresh ----
 var OPTION_HTML = '<div class="form-check">\
                         <input class="form-check-input" type="$$" name="QuestionOptions" id="@@" value="^^">\
-                        <label class="form-check-label" for="@@">\
+                        <label class="full-line" for="@@">\
                             ##\
                         </label>\
                     </div>';
@@ -322,3 +324,20 @@ function checkSort(key_str) {
 
     return result_json;
 }
+
+
+//=======================================================
+// tips part
+//-----------
+const QTYPE_TIPS_MAP = {
+    "FillInBlank": "请把你的答案，输入在输入框中哦！觉得没问题了，就点击“确定”",
+    "TrueOrFalse": "觉得上面的描述是对还是错呢，点相应的按钮哦。回答完毕就“确定”",
+    "Choice": "上面的选项哪一个是正确的呢？",
+    "MultiChoice": "上面的选项会有至少一个正确，要全选出来哦。",
+    "Pair": "点击最右边的上移、下移按钮，来让右边选项和左边的配对。",
+    "Sort": "点击最右边的上移、下移来安排正确的顺序噢！",
+    "CaseAnalyse": "案例与简答题",
+    "Voice": "语音题"
+}
+
+

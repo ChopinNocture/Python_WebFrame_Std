@@ -35,11 +35,11 @@ body {
     font-size: 52px;
     font-weight: 600;
     position: relative;
-    left:-58px;
+    left:0px;
     top:42px;
     color: aliceblue;
     z-index:1;
-    text-shadow: 4px 8px 8px rgb(22, 58, 73)
+    text-shadow: 4px 6px 8px rgb(22, 58, 73)
 }
 
 #login-title-outline {
@@ -55,7 +55,7 @@ body {
 #panel-bg {
     width: 100%;
     height: 290px;
-    background-color: #78c5e1;
+    background: linear-gradient(#86dfff, #71bfdb);
     border-style: solid;
     border-width: 2px;
     border-color: #56aad1;
@@ -124,4 +124,19 @@ label {
     width: 424px;
     text-align: right;
     margin-right: 20px;
+}
+
+#Form_Login>input[type=submit] {
+    width: 8em;
+    font-family: inherit;
+    font-size: 1.8em;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    margin-top: 0.8em;
+    padding: 0.3em 1em 0.3em 1em;
+
+    color: aliceblue;
+    border-color: #e33030;
+    background: linear-gradient(176deg, #f36262 , #f36262 50%, #e33030 60%, #e33030 100% )    
 }

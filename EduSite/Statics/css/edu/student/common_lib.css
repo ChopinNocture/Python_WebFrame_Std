@@ -10,3 +10,70 @@
                 -1px 1px 1px rgb(26,98,133), 
                 -1px -1px 1px rgb(26,98,133);
 }
+
+.btn-round-orange, .btn-round-red, .btn-round-wine {
+    font-family: inherit;
+    font-size: 1.5em;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 4px;
+
+    padding: 0.3em 1em 0.3em 1em;
+    box-shadow: #3d2410 2px 2px 2px;
+}
+
+.btn-round-orange {
+    color: aliceblue;
+    border-color: #3d2410;
+    background: linear-gradient(176deg, #f59541 , #b66f30 45%, #9c571a 55%, #aa5a13 90% );
+}
+
+.btn-round-wine {
+    color: aliceblue;
+    border-color: #e33030;
+    background: linear-gradient(174deg, #f36262 , #f36262 50%, #e33030 60%, #e33030 100% );
+}
+
+
+.control-group input[type='checkbox'],
+.control-group input[type='checkbox']:checked,
+.control-group input[type='radio'],
+.control-group input[type='radio']:checked {
+    display: inline-block;
+    display: none;
+}
+
+.control-group input[type='checkbox'] + label,
+.control-group input[type='checkbox']:checked + label,
+.control-group input[type='radio'] + label, 
+.control-group input[type='radio']:checked + label {
+
+    font-family: inherit;
+    font-size: 1.2em;
+    display: inline-block;
+    color: #626262;
+    line-height: 1.2em;
+
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-top: 0.375em;
+    padding-bottom: 0.375em;
+    padding-left: 0.5em;
+
+    background: linear-gradient(179deg, #f1f1f1 , #f1f1f1 50%, #cccbcb 60%, #bababa 100% );
+
+    border-width: thin;
+    border-style: solid;
+    border-radius: 0.25rem;
+    border-color: rgba(1, 41, 48, 0.178);   
+}
+
+.control-group input[type='checkbox']:hover + label,
+.control-group input[type='radio']:hover + label {
+    background: linear-gradient(-1deg, #f1f1f1 , #f1f1f1 50%, #cccbcb 60%, #bababa 100% );
+}
+
+.control-group input[type='checkbox']:checked + label,
+.control-group input[type='radio']:checked + label {
+    background: linear-gradient(179deg, #9cd37f , #7dc658 50%, #70a657 60%, #5d9a41 100% );
+}
