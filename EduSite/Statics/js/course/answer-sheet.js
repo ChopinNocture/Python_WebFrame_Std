@@ -159,13 +159,13 @@ function refreshTrueOrFalse(question) {
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Right" value="Right"/><label>Right</label>';
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Wrong" value="Wrong"/><label>Wrong</label>';
 
-    html_str = '<div class="control-group">\
+    html_str = '<div class="option-group">\
                     <span id="span_r"/><input type="radio" name="inlineRadioOptions" id="TF_Right" value="Right">\
-                    <label for="TF_Right" class="full-line">Right</label>\
+                    <label for="TF_Right" class="full-line">正 确</label>\
                 </div>\
-                <div class="control-group">\
+                <div class="option-group">\
                     <span id="span_w"/><input type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong">\
-                    <label for="TF_Wrong" class="full-line">Wrong</label> </div>';
+                    <label for="TF_Wrong" class="full-line">错 误</label> </div>';
 
     $('#q_type_sheet').html(html_str);
 }
@@ -189,7 +189,7 @@ function checkTrueOrFalse(key_bool) {
 // Question type: Choice MultiChoice
 //-------------------------------------------------------
 //---- refresh ----
-var OPTION_HTML = '<div class="control-group">\
+var OPTION_HTML = '<div class="option-group">\
                         <span id="id_span_^^"/>\
                         <input type="$$" name="QuestionOptions" id="id_option_^^" value="^^">\
                         <label class="full-line" for="id_option_^^">##</label>\
@@ -252,7 +252,7 @@ function checkPair(key_str) { }
 // Question type: Sort
 //-------------------------------------------------------
 
-var SORTABLE_OPTION_HTML = '<div class="control-group" id="id_option_^^" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
+var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_^^" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
                                 <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="drag_item_^^" data-opidx="~~"> \
                                         ##\
                                 </div>\

@@ -73,7 +73,7 @@ body {
 #sheet_edge {
     position: absolute;
     width: 106%;
-    height: 100%;
+    height: 96%;
     background-size: 3.8125rem 4.375rem;
     background-image: url('/Statics/images/sheet_edge.png');   
     background-repeat: repeat-y; 
@@ -161,7 +161,7 @@ body {
     margin: 0rem;
 }
 
-#answer_panel {
+#answer_panel {    
     font-family: HK_Yuan7;
     margin: 0.5rem 2.625rem 0rem 0rem;     
 }
@@ -183,11 +183,10 @@ body {
     margin-left: 0.5rem;
 }
 
-.control-group span {
+.option-group span {
     margin-top: 0.3em;
     margin-left: 0.25em;
-    margin-right: -0.375em;
-
+    margin-right: -0.375em;    
     text-align: center;
     position: relative;
     float: left;    
@@ -197,7 +196,14 @@ body {
     white-space: nowrap;
 }
 
-.icon-checked-key {        
+.icon-checked-no {
+    transition-duration: 1s;
+    transition-property: transform;
+    transition-timing-function: ease;
+    transform: rotate(360deg);    
+}
+
+.icon-checked-key {
     content: url('/Statics/images/icon-correct.png');
 }
 
@@ -211,4 +217,10 @@ body {
 
 .icon-no-no {
     content: '';
+}
+
+#stat_panel {
+    margin-left: 2.125rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
