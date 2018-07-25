@@ -141,3 +141,13 @@
 .option-group input[type='radio']:disabled.no-no + label {    
     box-shadow: 0rem 0rem 0rem #000000;
 }
+
+.blank-input {
+    font-size: inherit;
+    font-family: inherit;
+    background-color: snow;
+    border-style: solid;
+    border-radius : 0.25em;
+    border-width: 0.125rem;
+    border-color : #ff9d7f;
+}
