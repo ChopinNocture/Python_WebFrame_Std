@@ -9,9 +9,9 @@
 {% csrf_token %}
 </form>
 <div id="root_panel">
-    <div id="info_panel" class="col-3">
-        <div class="card" id="statistic_frame">
-            <div class="card-header" id="statistic_main">
+    <div id="info_panel">
+        <div id="statistic_frame">
+            <div id="statistic_main">
                     <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
                 <h5>
                 答对<span class="badge badge-pill badge-success" id="stat_right">0</span>  
@@ -20,40 +20,34 @@
                 <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
                 <a href="{% url 'user:student' %}" id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</a>
             </div>
-            <img class="card-img-bottom float-xl-right" src="{% static 'images/teacher.png' %}" alt="Card image cap">
+            <img src="{% static 'images/teacher.png' %}" alt="Card image cap">
         </div>
     </div>
-    <div id="sheet_panel" class="col-9">
+    <div id="sheet_panel" >
         <div id="sheet_bg_out">             
-
             <div id="sheet_bg_in"> 
                 <div id="sheet_edge">
-                </div>
-                
-                <div class="card" id="quesion_desc_main">
-                    <div class="card-header" id="section_title">{{section_name}}<span class="top_icon"/></div>
-                    <div class="card-body" id="desc_panel">
+                </div>                
+                <div id="quesion_desc_main">
+                    <div id="section_title">{{section_name}}<span class="top_icon"/></div>
+                    <div id="desc_panel">
                         <span class="spin_icon"></span>
                         <div id="question_type"></div>                        
                         <p id="q_description">                    
                         </p>
                     </div>
                 </div>
-                <div class="control-group" id="answer_panel">
-                    <div class="card-body" id="q_type_sheet">                
+                <div id="answer_panel">
+                    <div id="q_type_sheet">
                     </div>
-                    <div class="card-footer text-right">
-                        <p id="q_type_tips" class="align-content-center">foot</p>
-                            <button id="btn_submit" class="btn btn-success btn-lg align-bottom">提交</button>
-                            <button id="btn_next" class="btn btn-outline-primary btn-sm align-bottom">Next</button>
-                            <button id="btn_Prev" class="btn btn-outline-primary btn-sm align-bottom">Preview</button>
-                        
+                    <div>
+                        <p id="q_type_tips"></p>
+                            <button id="btn_submit">提交</button>
+                            <button id="btn_next">Next</button>
+                            <button id="btn_Prev">Preview</button>                        
                     </div>
-                </div>
-
-                
+                </div>                
             </div>
-
         </div>
     </div>
 </div> 

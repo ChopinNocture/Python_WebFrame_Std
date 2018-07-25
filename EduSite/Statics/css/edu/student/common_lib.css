@@ -34,11 +34,16 @@
     background: linear-gradient(174deg, #f36262 , #f36262 50%, #e33030 60%, #e33030 100% );
 }
 
+.control-group {
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 .control-group input[type='checkbox'],
 .control-group input[type='checkbox']:checked,
 .control-group input[type='radio'],
 .control-group input[type='radio']:checked {
+    width: 0px;
     display: inline-block;
     display: none;
 }
@@ -49,7 +54,7 @@
 .control-group input[type='radio']:checked + label {
 
     font-family: inherit;
-    font-size: 1.2em;
+    font-size: 1.0em;
     display: inline-block;
     color: #626262;
     line-height: 1.2em;
@@ -72,11 +77,8 @@
     background: linear-gradient(179deg, #ebebeb , #e2e2e2 46%, #c5c5c5 54%, #b1b1b1 100% );
 }
 
-
 .control-group input[type='checkbox']:hover + label,
 .control-group input[type='radio']:hover + label {
-    transition-duration: 2s;
-    transition-property: background-image;
     background: linear-gradient(179deg, #f1f1f1 , #ffffff 50%, #ececec 58%, #d3d3d3 100% );
 }
 
@@ -92,6 +94,33 @@
     background: linear-gradient(179deg, #94e3ff , #84d2ee 50%, #57bbe9 58%, #42a6d4 100% );
 }
 
-.control-group .judged-right {
-    background: linear-gradient(179deg, #9cd37f , #7dc658 50%, #70a657 60%, #5d9a41 100% );
+.control-group input[type='checkbox']:disabled + label,
+.control-group input[type='radio']:disabled + label {
+    background: linear-gradient(179deg, #dbdbdb , #c2c2c2 46%, #aaaaaa 54%, #a5a5a5 100% );
+}
+
+
+.control-group input[type='checkbox']:disabled.checked-key + label,
+.control-group input[type='radio']:disabled.checked-key + label {
+    background: linear-gradient(179deg, #9cd37f , #58c65d 50%, #57a65b 60%, #419a4d 100% );
+    box-shadow: 0rem 0rem 0.5rem rgb(0, 255, 64);
+}
+
+.control-group input[type='checkbox']:disabled.checked-no + label,
+.control-group input[type='radio']:disabled.checked-no + label {
+    background: linear-gradient(179deg, #f59898 , #f17575 50%, #d15e5e 60%, #cd4e4e 100% );
+    box-shadow: 0rem 0rem 0.5rem #ff7070;
+}
+
+.control-group input[type='checkbox']:disabled.no-key + label,
+.control-group input[type='radio']:disabled.no-key + label {
+    border-width: 0.125rem;
+    border-style: solid;
+    border-color: #f17575; 
+    box-shadow: 0rem 0rem 0.75rem #ff7070;
+}
+
+.control-group input[type='checkbox']:disabled.no-no + label,
+.control-group input[type='radio']:disabled.no-no + label {    
+    box-shadow: 0rem 0rem 0rem #000000;
 }

@@ -46,8 +46,10 @@ function checkAnswer() {
     result_list[cur_idx] = result_json;    
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
 
-    updateStat();
-    showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
+    if(result_json.complete) {
+        updateStat();
+        showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
+    }
 }
 
 function updateStat() {
@@ -157,14 +159,13 @@ function refreshTrueOrFalse(question) {
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Right" value="Right"/><label>Right</label>';
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Wrong" value="Wrong"/><label>Wrong</label>';
 
-    html_str = '<div class="form-check form-check-inline">\
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="TF_Right" value="Right">\
-                <label class="full-line" for="TF_Right">Right</label>\
+    html_str = '<div class="control-group">\
+                    <span id="span_r"/><input type="radio" name="inlineRadioOptions" id="TF_Right" value="Right">\
+                    <label for="TF_Right" class="full-line">Right</label>\
                 </div>\
-                <div class="form-check form-check-inline">\
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong">\
-                <label class="full-line" for="TF_Wrong">Wrong</label>\
-                </div>'
+                <div class="control-group">\
+                    <span id="span_w"/><input type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong">\
+                    <label for="TF_Wrong" class="full-line">Wrong</label> </div>';
 
     $('#q_type_sheet').html(html_str);
 }
@@ -188,13 +189,11 @@ function checkTrueOrFalse(key_bool) {
 // Question type: Choice MultiChoice
 //-------------------------------------------------------
 //---- refresh ----
-var OPTION_HTML = '<div class="form-check">\
-                        <input class="form-check-input" type="$$" name="QuestionOptions" id="@@" value="^^">\
-                        <label class="full-line" for="@@">\
-                            ##\
-                        </label>\
+var OPTION_HTML = '<div class="control-group">\
+                        <span id="id_span_^^"/>\
+                        <input type="$$" name="QuestionOptions" id="id_option_^^" value="^^">\
+                        <label class="full-line" for="id_option_^^">##</label>\
                     </div>';
-var OPTION_ID = 'ID_Option';
 
 function generateOptions(question, CheckOrRadio = 'radio') {
     var html_str = '';
@@ -202,10 +201,8 @@ function generateOptions(question, CheckOrRadio = 'radio') {
 
     for (var i = 0; i < option_list.length; ++i) {
         html_str += OPTION_HTML.replace('$$', CheckOrRadio)
-            .replace('@@', OPTION_ID + (i))
-            .replace('@@', OPTION_ID + (i))
+            .replace('^^', i).replace('^^', i).replace('^^', i).replace('^^', i)
             .replace('##', option_list[i])
-            .replace('^^', i)
     }
     return html_str;
 }
@@ -255,8 +252,8 @@ function checkPair(key_str) { }
 // Question type: Sort
 //-------------------------------------------------------
 
-var SORTABLE_OPTION_HTML = '<div class="" id="@@" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
-                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="^^" data-opidx="~~"> \
+var SORTABLE_OPTION_HTML = '<div class="control-group" id="id_option_^^" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
+                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="drag_item_^^" data-opidx="~~"> \
                                         ##\
                                 </div>\
                             </div>';
@@ -300,10 +297,9 @@ function refreshSort(question) {
     
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
-        html_str += SORTABLE_OPTION_HTML.replace('@@', OPTION_ID + (i))
+        html_str += SORTABLE_OPTION_HTML.replace('^^', i).replace('^^', i)
                                         .replace('##', option_list[shuffled_op[i]])
-                                        .replace('~~', shuffled_op[i])
-                                        .replace('^^', SORT_OP_ID + i);
+                                        .replace('~~', shuffled_op[i]);
     }
     $('#q_type_sheet').html(html_str);
     //alert(shuffled_op);
@@ -331,10 +327,10 @@ function checkSort(key_str) {
 // tips part
 //-----------
 const QTYPE_TIPS_MAP = {
-    "FillInBlank": "请把你的答案，输入在输入框中哦！觉得没问题了，就点击“确定”",
-    "TrueOrFalse": "觉得上面的描述是对还是错呢，点相应的按钮哦。回答完毕就“确定”",
-    "Choice": "上面的选项哪一个是正确的呢？",
-    "MultiChoice": "上面的选项会有至少一个正确，要全选出来哦。",
+    "FillInBlank": "请把你的答案，输入在输入框中哦！回答完毕点“确定”",
+    "TrueOrFalse": "上面的描述是“正确”还是“错误”呢，点相应按钮哦。回答完毕点“确定”",
+    "Choice": "在上面的选项中选一个正确的，回答完毕点“确定”",
+    "MultiChoice": "上面的选项会有至少一个正确，要全选出来哦。回答完毕点“确定”",
     "Pair": "点击最右边的上移、下移按钮，来让右边选项和左边的配对。",
     "Sort": "点击最右边的上移、下移来安排正确的顺序噢！",
     "CaseAnalyse": "案例与简答题",
@@ -350,16 +346,21 @@ function showKeyFillInBlank(result, keyObject) {
 }
 
 function showKeyTrueOrFalse(result, keyObject) {
-    alert("---");
+    //alert("???????????");
+    refreshOptionByResult($('#TF_Right'), keyObject, $('#span_r'));
+    refreshOptionByResult($('#TF_Wrong'), !keyObject, $('#span_w'));    
 }
 
 function showKeyChoice(result, keyObject) {
-    alert("---" + result.result);
-
+    $('input[id^=id_option_]').each(function(idx, elem){
+        refreshOptionByResult($(elem), keyObject == elem.value, $('#id_span_'+idx));
+    });
 }
 
 function showKeyMultiChoice(result, keyObject) {
-    alert("---");
+    $('input[id^=id_option_]').each(function(idx, elem){
+        refreshOptionByResult($(elem), keyObject.indexOf(elem.value)!=-1, $('#id_span_'+idx));
+    });
 }
 
 function showKeyPair(result, keyObject) {
@@ -368,4 +369,17 @@ function showKeyPair(result, keyObject) {
 
 function showKeySort(result, keyObject) {
     alert("---");
+}
+
+//-----------------------------------------------------
+// 答案揭晓，更新选项框
+function refreshOptionByResult(jq_elem, isKey, jq_icon) {
+    jq_elem.attr("disabled", true);
+
+    var cssName = jq_elem.prop('checked') ? 'checked' : 'no';
+    cssName += '-';
+    cssName += isKey ? 'key' : 'no';
+
+    jq_elem.addClass(cssName);
+    jq_icon.addClass('icon-' + cssName);
 }

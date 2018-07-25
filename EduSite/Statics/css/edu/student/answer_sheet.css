@@ -1,6 +1,7 @@
 @import url(./font_inc.css);
 
 html {
+    font-size: 20px;
 }
 
 body {    
@@ -130,7 +131,7 @@ body {
     padding-bottom: 0rem;
 }
 
-span[class="top_icon"] {
+.top_icon {
     position: absolute;
     right: 3rem;
     top: 0.5rem;
@@ -140,7 +141,7 @@ span[class="top_icon"] {
     margin: 0rem;
 }
 
-span[class="spin_icon"] {
+.spin_icon {
     position: absolute;
     left: -0.9375rem;
     top: 5rem;
@@ -150,7 +151,7 @@ span[class="spin_icon"] {
     margin: 0rem;
 }
 
-span[class="house_icon"] {
+.house_icon {
     position: absolute;
     left: -0.9375rem;
     top: 5rem;
@@ -162,11 +163,12 @@ span[class="house_icon"] {
 
 #answer_panel {
     font-family: HK_Yuan7;
-    margin: 0.5rem 2.625rem 0rem 1.75rem;     
+    margin: 0.5rem 2.625rem 0rem 0rem;     
 }
 
 #q_type_tips {
     margin-top: 1.5em;
+    margin-left: 2.125rem;
     font-family: HK_Yuan7;
     font-size: 90%;
     text-align: center;
@@ -179,4 +181,34 @@ span[class="house_icon"] {
 .full-line {
     width: 29.5rem;
     margin-left: 0.5rem;
+}
+
+.control-group span {
+    margin-top: 0.3em;
+    margin-left: 0.25em;
+    margin-right: -0.375em;
+
+    text-align: center;
+    position: relative;
+    float: left;    
+    /* left: -4rem; */
+    width: 2.1em;
+    height: 2.1em;
+    white-space: nowrap;
+}
+
+.icon-checked-key {        
+    content: url('/Statics/images/icon-correct.png');
+}
+
+.icon-checked-no {
+    content: url('/Statics/images/icon-wrong.png');
+}
+
+.icon-no-key {
+    content: url('/Statics/images/icon-missed.png');
+}
+
+.icon-no-no {
+    content: '';
 }
