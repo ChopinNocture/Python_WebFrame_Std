@@ -170,6 +170,9 @@ function refreshFillInBlank(question) {
     });
 
     $('#q_description').html(fill_desc);
+
+    html_str = '<div id="FIB-key-panel"></div>';
+    $('#q_type_sheet').html(html_str);
 }
 
 function checkFillInBlank(key_str) {
@@ -374,7 +377,7 @@ const QTYPE_TIPS_MAP = {
     "Sort": "点击最右边的上移、下移来安排正确的顺序噢！",
     "CaseAnalyse": "案例与简答题",
     "Voice": "语音题",
-    "ERROR": "❌回答错误, 正确的答案是这样噢！",
+    "ERROR": "回答错误, 正确的答案是这样噢！",
     "SUCCEED": "恭喜你回答正确！"
 }
 
@@ -382,7 +385,18 @@ const QTYPE_TIPS_MAP = {
 //=======================================================
 // key display part
 //-----------
+var FIB_KEY_HTML = '<font class="correct-text">**</font>';
 function showKeyFillInBlank(result, keyObject) {
+    var keyArray = keyObject.split(KEY_SPLITER_SYMBOL)
+    $('input[id^=blank_]').each(function (idx, elem) {
+        $(elem).addClass(($(elem).val() == keyArray[idx]) ? 'correct' : 'wrong');
+    });
+
+    key_desc = qList_obj.qList[cur_idx].description.replace(FillInBlank_Key_Reg, function ($0, $1) {
+        return FIB_KEY_HTML.replace("**", $1);;
+    });
+
+    $('#FIB-key-panel').html(key_desc);   
     //alert("xxx");
 }
 

@@ -123,12 +123,14 @@
 
 .option-group input[type='checkbox']:disabled.checked-key + label,
 .option-group input[type='radio']:disabled.checked-key + label {
+    border-color: #34b946; 
     background: linear-gradient(179deg, #9cd37f , #58c65d 50%, #57a65b 60%, #419a4d 100% );
     box-shadow: 0rem 0rem 0.75rem #00ff40ff;
 }
 
 .option-group input[type='checkbox']:disabled.checked-no + label,
 .option-group input[type='radio']:disabled.checked-no + label {
+    border-color: #f17575; 
     background: linear-gradient(179deg, #f59898 , #f17575 50%, #d15e5e 60%, #cd4e4e 100% );
     box-shadow: 0rem 0rem 0.625rem #ff707000;
     animation: anim-alarm 1s infinite;
@@ -163,4 +165,20 @@
     border-radius : 0.25em;
     border-width: 0.125rem;
     border-color : #ff9d7f;
+}
+
+.correct-text,
+.correct {
+    color: #09921b;
+}
+
+.correct {    
+    border-color: #389c45;
+    box-shadow: 0rem 0rem 0.75rem #00ff40ff;
+}
+
+.wrong {
+    color: #af2323;
+    border-color: #f17575aa;
+    animation: anim-alarm 1s infinite;
 }

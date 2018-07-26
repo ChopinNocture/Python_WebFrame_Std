@@ -276,3 +276,10 @@ body {
         box-shadow:0rem 0rem 6.0rem rgb(255, 0, 0);
     }
 }
+
+#FIB-key-panel{
+    line-height: 1.5em;
+    text-indent: 2em;
+    font-family: inherit;
+    margin: 1.5rem 2.25rem 0rem 2.75rem;
+}
