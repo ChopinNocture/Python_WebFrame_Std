@@ -11,7 +11,7 @@
                 -1px -1px 1px rgb(26,98,133);
 }
 
-.btn-round-orange, .btn-round-red, .btn-round-wine {
+.btn-round-orange, .btn-round-sky, .btn-round-wine {
     font-family: inherit;
     font-size: 1.2rem;
     font-weight: 500;
@@ -42,6 +42,19 @@
     background: linear-gradient(174deg, #ec8585 , #e98282 50%, #e76666 60%, #e26161 100% );
 }
 
+.btn-round-sky {
+    color: white;
+    border-color: #467b94;
+    box-shadow: #20333a 0.07em 0.07em 0.125em;
+    background: linear-gradient(174deg, #67a6c2 , #64aece 50%, #449fc9 60%, #3895c0 100% );
+}
+
+.btn-round-sky:hover {
+    color: white;
+    border-color: #2b82aa;
+    box-shadow: #578b9e 0em 0em 0.625em;
+    background: linear-gradient(174deg, #4dc0f1 , #32b8f1 50%, #128ec7 60%, #0b88c2 100% );
+}
 
 .option-group {
     white-space: nowrap;

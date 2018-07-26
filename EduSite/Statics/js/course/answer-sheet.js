@@ -45,14 +45,13 @@ function checkAnswer() {
     var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
     result_list[cur_idx] = result_json;    
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
-
-    if(result_json.complete) {
-        updateStat();
+    if( result_json.complete ) {        
+        updateStat(result_json.result);
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
     }
 }
 
-function updateStat() {
+function updateStat(isCorrect) {
     var right_sum=0, wrong_sum = 0;
     result_list.forEach(function(value,index,array) {
         if (value['complete']) {
@@ -66,10 +65,47 @@ function updateStat() {
     });
     $('#stat_right').html(right_sum);
     $('#stat_wrong').html(wrong_sum);
+    
+    showEffect(isCorrect);
+}
+
+function showEffect(isCorrect) {
+    $('#show_panel').show();
+    var effectTime = 3;
+    var finisheFunc = null;
+
+    if(isCorrect) {
+        $('#effect_right').show();
+        effectTime = 3;
+        finisheFunc = ()=> {
+            onNextClk();
+        };
+        $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
+    }
+    else {
+        effectTime = 1.2;
+        $('#btn_submit').hide();
+        $('#btn_next').show();
+        $('#effect_wrong').show();
+        $('#sheet_bg_in').addClass('effect-wrong');
+
+        $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+    }
+    
+    setTimeout(() => {
+        $('#effect_right').hide();
+        $('#effect_wrong').hide();
+        $('#show_panel').hide();
+        $('#sheet_bg_in').removeClass('effect-wrong');
+
+        if(finisheFunc!=null) {
+            finisheFunc();
+        }
+        //$('#sheet_bg_out').removeClass('effect-wrong');
+    }, effectTime * 1000);    
 }
 
 function onQuestionListGet(jsonData) {
-    //alert(typeof(jsonData));
     //alert('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
     qType_list = jsonData.qType_list;
     qList_obj = jsonData;
@@ -86,6 +122,9 @@ function update() {
         $('#question_index').html(cur_idx + 1);
 
         if (cur_idx >= 0 && cur_idx < qList_obj.qList.length) {
+            $('#btn_submit').show();
+            $('#btn_next').hide();
+
             var qtype = qList_obj.qList[cur_idx].qType;
             $('#question_count').html('/' + qList_obj.qList.length);
             $('#question_type').html(TYPE_TRANS_LIST[qtype]);
@@ -135,10 +174,11 @@ function refreshFillInBlank(question) {
 
 function checkFillInBlank(key_str) {
     var result_json = { 'complete': false };
-    
-    var answer_str = $('input[id^=blank_]').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+    var blank_num = -1;
+    var answer_str = $('input[id^=blank_]').map(function () { ++blank_num; return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
 
-    result_json.complete = (answer_str.length>0);
+    result_json.complete = (answer_str.length>blank_num);
+
     if (result_json.complete) {
         result_json['answer'] = answer_str;
         result_json['result'] = (answer_str == key_str);
@@ -333,7 +373,9 @@ const QTYPE_TIPS_MAP = {
     "Pair": "点击最右边的上移、下移按钮，来让右边选项和左边的配对。",
     "Sort": "点击最右边的上移、下移来安排正确的顺序噢！",
     "CaseAnalyse": "案例与简答题",
-    "Voice": "语音题"
+    "Voice": "语音题",
+    "ERROR": "❌回答错误, 正确的答案是这样噢！",
+    "SUCCEED": "恭喜你回答正确！"
 }
 
 
@@ -341,7 +383,7 @@ const QTYPE_TIPS_MAP = {
 // key display part
 //-----------
 function showKeyFillInBlank(result, keyObject) {
-    alert("---");
+    //alert("xxx");
 }
 
 function showKeyTrueOrFalse(result, keyObject) {

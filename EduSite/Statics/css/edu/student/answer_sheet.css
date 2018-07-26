@@ -22,19 +22,18 @@ body {
     width: 50.1rem;
     height: 59rem;
     margin: auto;
-    border: 0.125rem dashed;
-
+    /* border: 0.125rem dashed; */
 }
 
 #info_panel {
-    border: 0.0625rem dotted;
+    /* border: 0.0625rem dotted; */
     width: 12rem;
     position: absolute;
     left: 0rem;
 }
 
 #sheet_panel {
-    border: 0.0625rem dotted;
+    /* border: 0.0625rem dotted; */
     width: 38.125rem;
     left: 12rem;
     position: absolute;
@@ -221,6 +220,59 @@ body {
 
 #stat_panel {
     margin-left: 2.125rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
     text-align: center;
+}
+
+#show_panel {
+    position: relative;
+    left: 10rem;
+    width: 40rem;
+    height: 40rem;
+}
+
+#effect_right {
+    position: relative;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url('/Statics/images/shinning-bg.png');
+    /* background: radial-gradient(circle, #c9772dcc, #dabc2a20); */
+    animation: anim-show 5s infinite;  
+    
+    text-align: center;
+}
+
+@keyframes anim-show {
+    50% {
+        transform: rotate(360deg);
+    }
+}
+
+.icon-reward {
+    margin: auto;
+    display: block;
+    /* text-align: center; */
+    margin-top: calc(50% - 8rem);
+    width: 16rem;
+    height: 16rem;
+    content: url('/Statics/images/icon-reward.png');
+}
+
+.text-wrong {
+    color:red;
+}
+
+.effect-wrong {
+    animation: anim-wrong 0.3s infinite;
+}
+
+@keyframes anim-wrong {
+    50% {        
+        border-color: rgb(241, 80, 80); 
+        box-shadow:0rem 0rem 6.0rem rgb(255, 0, 0);
+    }
 }

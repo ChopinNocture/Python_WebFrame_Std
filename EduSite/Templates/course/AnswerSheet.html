@@ -12,7 +12,7 @@
     <div id="info_panel">
         <div id="statistic_frame">
             <div id="statistic_main">
-                    <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
+                <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
                 <h5>
                 答对<span class="badge badge-pill badge-success" id="stat_right">0</span>  
                 答错<span class="badge badge-pill badge-danger" id="stat_wrong">0</span>
@@ -20,7 +20,7 @@
                 <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
                 <a href="{% url 'user:student' %}" id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</a>
             </div>
-            <img src="{% static 'images/teacher.png' %}" alt="Card image cap">
+            <img src="{% static 'images/teacher.png' %}" style="width: 16rem; height: 40rem;" alt="Card image cap">
         </div>
     </div>
     <div id="sheet_panel" >
@@ -42,16 +42,25 @@
                     </div>                    
                     <p id="q_type_tips"></p>
                     <div id="stat_panel">
-                        <button id="btn_submit" class="btn-round-wine">提 交</button>
-                        <br>
-                        <button id="btn_next">Next</button>
-                        <button id="btn_Prev">Preview</button>                        
+                        <button id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>
+                        <button id="btn_next" class="btn-round-wine" onfocus="this.blur()" tabindex="-1">继 续</button>
+                        <button id="btn_Prev" hidden>Preview</button>                        
                     </div>
                 </div>                
             </div>
         </div>
     </div>
-</div> 
+
+    <div id="show_panel" hidden>
+        <div id="effect_right" hidden>
+            <span class="icon-reward"></span>
+        </div>
+        <div id="effect_wrong" hidden>
+        </div>    
+    </div>
+</div>
+
+
 {% endblock %}
 
 {% block jsFunctionLib %}
