@@ -368,7 +368,7 @@ function checkOptions() {
 
 
     if (with_key) {
-        var keyValue = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+        var keyValue = $('input[id^='+ ID_KEYButton + ']:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
         //alert(keyValue);
 
         ret = ret && !(keyValue == '');
