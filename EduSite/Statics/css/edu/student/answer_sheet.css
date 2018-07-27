@@ -15,21 +15,19 @@ body {
     /*background-clip:border-box*/
 }
 
-.panel-root {
+#root_panel {
     position: absolute;
     left: 6%;
     top: 1%;
     width: 50.1rem;
-    height: 59rem;
     margin: auto;
-    /* border: 0.125rem dashed; */
 }
 
 #info_panel {
-    /* border: 0.0625rem dotted; */
-    width: 12rem;
-    position: absolute;
-    left: 0rem;
+    position: fixed;
+    border: 0.0625rem dotted;
+    width: 20rem;
+    left: 0.25rem;
 }
 
 #sheet_panel {
@@ -225,10 +223,11 @@ body {
 }
 
 #show_panel {
-    position: relative;
+    position: absolute;
     left: 10rem;
     width: 40rem;
     height: 40rem;
+    border: 0.0625rem dotted;
 }
 
 #effect_right {

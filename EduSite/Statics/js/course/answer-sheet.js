@@ -389,7 +389,7 @@ var FIB_KEY_HTML = '<font class="correct-text">**</font>';
 function showKeyFillInBlank(result, keyObject) {
     var keyArray = keyObject.split(KEY_SPLITER_SYMBOL)
     $('input[id^=blank_]').each(function (idx, elem) {
-        $(elem).addClass(($(elem).val() == keyArray[idx]) ? 'correct' : 'wrong');
+        $(elem).attr("disabled", true).addClass(($(elem).val() == keyArray[idx]) ? 'correct' : 'wrong');
     });
 
     key_desc = qList_obj.qList[cur_idx].description.replace(FillInBlank_Key_Reg, function ($0, $1) {

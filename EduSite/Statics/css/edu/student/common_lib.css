@@ -172,12 +172,14 @@
     color: #09921b;
 }
 
-.correct {    
+.correct { 
+    background-color: #00ff4040;
     border-color: #389c45;
     box-shadow: 0rem 0rem 0.75rem #00ff40ff;
 }
 
 .wrong {
+    background-color: #f1757540;
     color: #af2323;
     border-color: #f17575aa;
     animation: anim-alarm 1s infinite;
