@@ -15,8 +15,8 @@ body {
     /*background-clip:border-box*/
 }
 
-#root_panel {
-    position: fixed;
+.panel-root {
+    position: absolute;
     left: 6%;
     top: 1%;
     width: 50.1rem;
