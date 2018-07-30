@@ -202,7 +202,7 @@ def answer_sheet(request, sectionID):
                       context={"section_name": lesson.description, "questionType": ""})
     else:
         print("-`-`-`-`" + request.method)
-        question_dict = exam_sys.generate_question_set(lesson)
+        question_dict = exam_sys.generate_question_set(lesson, 1, ['Pair','Sort'])
         return JsonResponse(question_dict)
 
 

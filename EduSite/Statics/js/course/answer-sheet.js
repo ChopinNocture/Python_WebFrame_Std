@@ -244,7 +244,7 @@ function generateOptions(question, CheckOrRadio = 'radio') {
     for (var i = 0; i < option_list.length; ++i) {
         html_str += OPTION_HTML.replace('$$', CheckOrRadio)
             .replace('^^', i).replace('^^', i).replace('^^', i).replace('^^', i)
-            .replace('##', option_list[i])
+            .replace('##', getOptionLabelChar(i) + " " + option_list[i]);
     }
     return html_str;
 }
@@ -286,9 +286,48 @@ function checkMultiChoice(key_str) {
 //-------------------------------------------------------
 // Question type: Pair
 //-------------------------------------------------------
+var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc"> \
+                            <span id="id_span_cc"/>\
+                            <label class="option-pair pair-left" id="pair_l_cc">##</label>\
+                            <label class="option-pair pair-right" id="pair_r_cc" data-opidx="~~">$$</label>\
+                            <div class="pair-button-group">\
+                                <button class="pair-button-up" id="up_cc" data-id="cc" onclick="onUpClick(event)">up</button>\
+                                <button class="pair-button-down" id="down_cc" data-id="cc" onclick="onDownClick(event)">down</button>\
+                            </div>\
+                        </div>';
+
+function onUpClick(event) {
+
+}
+         
+function onDownClick(event) {
+
+}
+
 function refreshPair(question) {
     $('#q_description').html(question.description);
+    question['key'] = question.rightOptions;
+
+    var option_list_l = question.leftOptions.split(OPTION_SPLITER_SYMBOL);
+    var option_list_r = question.rightOptions.split(OPTION_SPLITER_SYMBOL);
+
+    var shuffled_op = tool_shuffle_list(option_list_r.length);
+
+    var reg = new RegExp( 'cc' , "g" );
+    var html_str = '';
+    for (var i = 0; i < shuffled_op.length; ++i) {
+        html_str += PAIR_OPTION_HTML.replace(reg, i)
+                                    .replace('##', option_list_l[i])
+                                    .replace('$$', option_list_r[shuffled_op[i]])
+                                    .replace('~~', shuffled_op[i]);
+    }
+    $('#q_type_sheet').html(html_str);
+    $('#up_0').css('visibility','hidden');
+    $('#down_'+(option_list_r.length-1)).css('visibility','hidden');
+    
+    alert("-----"+ question.leftOptions + '      ' + question.rightOptions);
 }
+
 function checkPair(key_str) { }
 //-------------------------------------------------------
 // Question type: Sort

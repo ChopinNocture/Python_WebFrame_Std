@@ -70,6 +70,7 @@
     display: none;
 }
 
+.option-pair,
 .option-group input[type='checkbox'] + label,
 .option-group input[type='checkbox']:checked + label,
 .option-group input[type='radio'] + label, 
@@ -121,6 +122,8 @@
     background: linear-gradient(179deg, #dbdbdb , #c2c2c2 46%, #aaaaaa 54%, #a5a5a5 100% );
 }
 
+
+.option-pair.checked-key,
 .option-group input[type='checkbox']:disabled.checked-key + label,
 .option-group input[type='radio']:disabled.checked-key + label {
     border-color: #34b946; 
@@ -128,6 +131,7 @@
     box-shadow: 0rem 0rem 0.75rem #00ff40ff;
 }
 
+.option-pair.checked-no,
 .option-group input[type='checkbox']:disabled.checked-no + label,
 .option-group input[type='radio']:disabled.checked-no + label {
     border-color: #f17575; 
@@ -136,6 +140,7 @@
     animation: anim-alarm 1s infinite;
 }
 
+.option-pair.no-key,
 .option-group input[type='checkbox']:disabled.no-key + label,
 .option-group input[type='radio']:disabled.no-key + label {
     border-width: 0.125rem;
