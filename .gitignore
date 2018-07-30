@@ -105,3 +105,10 @@ EduSite/NoticeApp/migrations/0001_initial.py
 EduSite/CourseFunApp/migrations/0002_auto_20180604_0146.py
 EduSite/NoticeApp/migrations/0002_auto_20180604_0146.py
 EduSite/NoticeApp/migrations/0002_auto_20180613_1745.py
+EduSite/AccountApp/migrations/0001_initial.py
+EduSite/CourseFunApp/migrations/0002_auto_20180622_0241.py
+EduSite/CourseFunApp/migrations/0003_auto_20180622_0252.py
+EduSite/NoticeApp/migrations/0002_auto_20180622_0241.py
+EduSite/NoticeApp/migrations/0003_auto_20180622_0252.py
+EduSite/NoticeApp/migrations/0002_auto_20180709_0131.py
+EduSite/CourseFunApp/migrations/0002_auto_20180709_0131.py

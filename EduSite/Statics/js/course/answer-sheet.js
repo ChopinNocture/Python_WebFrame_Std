@@ -232,9 +232,9 @@ function checkTrueOrFalse(key_bool) {
 //-------------------------------------------------------
 //---- refresh ----
 var OPTION_HTML = '<div class="option-group">\
-                        <span id="id_span_^^"/>\
-                        <input type="$$" name="QuestionOptions" id="id_option_^^" value="^^">\
-                        <label class="full-line" for="id_option_^^">##</label>\
+                        <span id="id_span_cc"/>\
+                        <input type="$$" name="QuestionOptions" id="id_option_cc" value="cc">\
+                        <label class="full-line" for="id_option_cc">##</label>\
                     </div>';
 
 function generateOptions(question, CheckOrRadio = 'radio') {
@@ -243,7 +243,7 @@ function generateOptions(question, CheckOrRadio = 'radio') {
 
     for (var i = 0; i < option_list.length; ++i) {
         html_str += OPTION_HTML.replace('$$', CheckOrRadio)
-            .replace('^^', i).replace('^^', i).replace('^^', i).replace('^^', i)
+            .replace('cc', i).replace('cc', i).replace('cc', i).replace('cc', i)
             .replace('##', getOptionLabelChar(i) + " " + option_list[i]);
     }
     return html_str;
@@ -286,22 +286,34 @@ function checkMultiChoice(key_str) {
 //-------------------------------------------------------
 // Question type: Pair
 //-------------------------------------------------------
-var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc"> \
-                            <span id="id_span_cc"/>\
+var id_replace_reg = new RegExp( 'cc' , "g" );
+
+var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc">\
+                            <span id="id_span_cc"></span>\
                             <label class="option-pair pair-left" id="pair_l_cc">##</label>\
-                            <label class="option-pair pair-right" id="pair_r_cc" data-opidx="~~">$$</label>\
-                            <div class="pair-button-group">\
-                                <button class="pair-button-up" id="up_cc" data-id="cc" onclick="onUpClick(event)">up</button>\
-                                <button class="pair-button-down" id="down_cc" data-id="cc" onclick="onDownClick(event)">down</button>\
-                            </div>\
+                            <label class="option-pair pair-right" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~">$$</label>\
                         </div>';
 
-function onUpClick(event) {
+function swapData(curidx, taridx) {
+    var curhtml = $('#sort_item_' + curidx).html();
+    var curdata = $('#sort_item_' + curidx).get(0).dataset['opidx'];
+    
+    var tarhtml = $('#sort_item_' + taridx).html();
+    var tardata = $('#sort_item_' + taridx).get(0).dataset['opidx'];   
 
+    $('#sort_item_' + curidx).html(tarhtml);
+    $('#sort_item_' + curidx).get(0).dataset['opidx'] = tardata;
+    $('#sort_item_' + taridx).html(curhtml).get(0).dataset['opidx'] = curdata;
+}
+
+function onUpClick(event) {
+    var curidx = parseInt(event.target.dataset['sortid']);
+    swapData(curidx, curidx-1);
 }
          
 function onDownClick(event) {
-
+    var curidx = parseInt(event.target.dataset['sortid']);    
+    swapData(curidx, curidx+1);
 }
 
 function refreshPair(question) {
@@ -312,11 +324,10 @@ function refreshPair(question) {
     var option_list_r = question.rightOptions.split(OPTION_SPLITER_SYMBOL);
 
     var shuffled_op = tool_shuffle_list(option_list_r.length);
-
-    var reg = new RegExp( 'cc' , "g" );
+    
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
-        html_str += PAIR_OPTION_HTML.replace(reg, i)
+        html_str += PAIR_OPTION_HTML.replace(id_replace_reg, i)
                                     .replace('##', option_list_l[i])
                                     .replace('$$', option_list_r[shuffled_op[i]])
                                     .replace('~~', shuffled_op[i]);
@@ -328,38 +339,36 @@ function refreshPair(question) {
     alert("-----"+ question.leftOptions + '      ' + question.rightOptions);
 }
 
-function checkPair(key_str) { }
+function checkPair(key_str) { 
+    return checkSort(key_str);
+}
 //-------------------------------------------------------
 // Question type: Sort
 //-------------------------------------------------------
 
-var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_^^" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">\
-                                <div class="form-check" draggable="true" ondragstart="drag(event)" width="336" height="69" id="drag_item_^^" data-opidx="~~"> \
+var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
+                                <span id="id_span_cc"></span>\
+                                <label class="option-pair full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
                                         ##\
-                                </div>\
+                                </label>\
                             </div>';
 
 function drag(event) {
-    event.dataTransfer.setData('text', $(event.target).parent().attr('id'));// parentNode.id);
+    if(event.target.dataset['sortid']==null) return false;
+    event.dataTransfer.setData('sortid', event.target.dataset['sortid']);// parentNode.id);
     event.dataTransfer.effectAllowed = 'copy'; 
 }
 
-function drop(event) {
-    
+function drop(event) {    
     event.preventDefault();
 
+    if(event.target.dataset['sortid']== null) return false;
     //alert(event.target);
-    var id = event.dataTransfer.getData("text");
+    var id = event.dataTransfer.getData("sortid");
 
-    var orin = $('#'+id);
-    var orinNode = orin.children('div');
-    var targetNode = $(event.target).children('div');
+    if(id==''||id==null) return false;
 
-    orin.empty();
-    $(event.target).empty();//target.innerHTML = '';//.removeChild(targetNode);
-
-    $(event.target).append(orinNode);
-    orin.append(targetNode);
+    swapData(id, event.target.dataset['sortid']);
 }
 
 function allowDrop(event){
@@ -368,7 +377,7 @@ function allowDrop(event){
     return false;
 }
 
-var SORT_OP_ID = 'drag_item';
+var SORT_OP_ID = 'sort_item';
 
 function refreshSort(question) {
     $('#q_description').html(question.description);
@@ -378,7 +387,7 @@ function refreshSort(question) {
     
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
-        html_str += SORTABLE_OPTION_HTML.replace('^^', i).replace('^^', i)
+        html_str += SORTABLE_OPTION_HTML.replace(id_replace_reg, i)
                                         .replace('##', option_list[shuffled_op[i]])
                                         .replace('~~', shuffled_op[i]);
     }
@@ -389,7 +398,7 @@ function refreshSort(question) {
 function checkSort(key_str) { 
     //alert("hgaha");
     var suc = true;
-    $('div[id^=' + SORT_OP_ID + ']').each(function (index) {
+    $('label[id^=' + SORT_OP_ID + ']').each(function (index) {
         //alert('  0  ' + index + '  ' + this.dataset['opidx']);
         suc = (index == this.dataset['opidx']);
         return suc;
@@ -397,7 +406,7 @@ function checkSort(key_str) {
 
     var result_json = { 'complete': true };
 
-    result_json['answer'] = $('div[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
+    result_json['answer'] = $('label[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
     result_json['result'] = suc;
 
     return result_json;

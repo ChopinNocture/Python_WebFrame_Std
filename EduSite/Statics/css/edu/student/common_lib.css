@@ -188,4 +188,5 @@
     color: #af2323;
     border-color: #f17575aa;
     animation: anim-alarm 1s infinite;
+    text-decoration: line-through;
 }

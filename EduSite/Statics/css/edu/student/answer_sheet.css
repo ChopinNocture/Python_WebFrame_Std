@@ -160,7 +160,7 @@ body {
 
 #answer_panel {    
     font-family: HK_Yuan7;
-    margin: 0.5rem 2.625rem 0rem 0rem;     
+    margin: 0.5rem 1.625rem 0rem 0rem;     
 }
 
 #q_type_tips {
@@ -286,28 +286,28 @@ body {
 
 .pair-left {
     width: 13.5rem;
-    margin-left: 2rem;
+    margin-left: 0.5rem;
     display: inline-block;
 }
 
 .pair-right {
     width: 13.5rem;
-    margin-left: 0.25rem;
+    margin-left: 0.3rem;
     display: inline-block;
 }
 
 .pair-button-group {
-    position: relative;
-    top: 0.5rem;
+    position: relative;    
     margin-top: 0rem;
     margin-bottom: 0rem;
     padding-top: 0rem;
     padding-bottom: 0rem;
+
+    top: 0.5rem;
     right: 0.25rem;
-    width: 1rem;
-    height: 2.5em;
+    width: 2.5em;
+    height: 2.75em;
     display: inline-block;
-    border-style: dotted;
 }
 
 .pair-line{
@@ -322,9 +322,15 @@ body {
 }
 
 .pair-button-up {
+    display: block;
+    height: 48%;
+    width: 2em;
     top: 0rem;
 }
 
 .pair-button-down {
+    display: block;
+    height: 48%;
+    width: 2em;
     bottom: 0rem;
 }
