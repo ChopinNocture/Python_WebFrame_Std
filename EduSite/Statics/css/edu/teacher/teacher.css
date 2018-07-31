@@ -58,10 +58,6 @@
     transition-duration: 0.5s;
 }
 
-.teacher_BG {
-    background-image: url('/Statics/images/BGs/BG_sm.jpg')
-}
-
 .text_outline {
     text-shadow:1px 0px 3px #000,-1px 0px 3px #000,0px 1px 3px #000,0px -1px 3px #000,1px 1px 3px #000,1px -1px 3px #000, -1px 1px 3px #000, -1px -1px 3px #000;
 }
@@ -78,13 +74,13 @@
 }
 
 .bg_gray_d2u {
-    background: linear-gradient(rgba(255, 255, 255, 0.882),rgba(139, 139, 139, 0.898)); /* 标准的语法 */
+    background: linear-gradient(rgba(255, 255, 255, 0.897),rgba(139, 139, 139, 0.918)); /* 标准的语法 */
 }
 
 .bg_black_d2u {
-    background: linear-gradient(rgba(255, 255, 255, 0.616),rgba(63, 63, 63, 0.769));
+    background: linear-gradient(rgba(255, 255, 255, 0.76),rgba(97, 97, 97, 0.836));
 }
 
 .bg_black_u2d {
-    background: linear-gradient(rgba(32, 32, 32, 0.706),rgba(255, 255, 255, 0.78));
+    background: linear-gradient(rgba(128, 128, 128, 0.795),rgba(255, 255, 255, 0.904));
 }

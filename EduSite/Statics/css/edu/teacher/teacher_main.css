@@ -1,0 +1,11 @@
+body {
+    background-image: url('/Statics/images/BGs/polygon-10.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;    
+}
+
+#banner {
+    opacity: 0.7;
+}

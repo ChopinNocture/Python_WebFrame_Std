@@ -3,7 +3,7 @@
 {% block title %}Teacher Main Page{% endblock %} 
 {% block content %}
 <div class="container-fluid">
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-primary" id="banner" role="alert">
             老师好！
     </div>
 
@@ -71,3 +71,7 @@
 
 </div>
 {% endblock %}
+
+{% block pageInclude %}
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher_main.css' %}"/>
+{% endblock %} 
