@@ -1,0 +1,7 @@
+body {
+    background-image: url('/Statics/images/BGs/color-03.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: fixed;
+}

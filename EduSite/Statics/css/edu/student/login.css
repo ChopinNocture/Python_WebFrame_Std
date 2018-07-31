@@ -7,10 +7,10 @@
 }
 
 body {
-    background-image: url('/Statics/images/BG_sm.jpg');
-    background-blend-mode: lighten;
+    background-image: url('/Statics/images/BGs/BG_sm.jpg');
+    background-blend-mode: normal;
     background-color: rgba(232, 246, 255, 0.685);
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
     background-attachment: fixed;

@@ -2,7 +2,7 @@
 @import url(./common_lib.css);
 
 body {
-    background-image: url('/Statics/images/classroom2-bg.jpg');
+    background-image: url('/Statics/images/BGs/classroom2-bg.jpg');
     background-blend-mode: normal;
     /* background-size: 100%; */
     background-repeat: no-repeat;

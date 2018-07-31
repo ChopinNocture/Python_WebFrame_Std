@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid " style="background: linear-gradient(#ffffff85,#333333ab)">
+<div class="container-fluid bg_black_d2u">
 <!-- <div class="card border-white"> -->
     <div class="row-fluid " >
     <!-- <div class="card-header"> -->
@@ -22,7 +22,7 @@
             </ul>
         <!-- </div> -->
     </div>    
-    <div class="row border rounded border-primary mx-1 py-4" style="background: linear-gradient(#202020a8,#ffffffbd)">
+    <div class="row border rounded border-primary mx-1 py-4" style="">
         <div class="col-2">
             <div class="card bg-secondary text-white">
                 <div class="card-header text-center">
@@ -111,21 +111,11 @@
 {% endblock %}
 
 {% block jsPage %}  
-    <style>
-    body {
-        background-image: url('/Statics/images/BG_sm.jpg');
-        background-blend-mode:soft-light;
-        background-color: rgba(232, 246, 255, 0.8);
-        background-size: 120%;
-        background-repeat: no-repeat;
-        background-position: left top;
-        background-attachment: fixed;
-    }
-    </style>
     <script type="text/javascript" src="{% static 'js/course/question-form.js' %}"></script>     
     {% include "top_layer.html" %}
 {% endblock %} 
 
 {% block pageInclude %}
-    <link rel="stylesheet" href="{% static 'css/edu/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/question-form.css' %}"/>
 {% endblock %} 
