@@ -45,28 +45,39 @@ function checkAnswer() {
     var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
     result_list[cur_idx] = result_json;    
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
-    if( result_json.complete ) {        
-        updateStat(result_json.result);
+    if( result_json.complete ) {
+        showEffect(result_json.result); 
+        updateStat();
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
     }
 }
 
-function updateStat(isCorrect) {
+const LI_HTML_SUC = '<li><span class="gold-icon"/></li>';
+const LI_HTML_UNFIN = '<li><span class="unfinished"/></li>';
+const LI_HTML_FAIL = '<li><span class="gold-icon-failed"/></li>';
+
+function updateStat() {
     var right_sum=0, wrong_sum = 0;
+    var list_html = "";
     result_list.forEach(function(value,index,array) {
         if (value['complete']) {
             if(value['result']) {
                 ++right_sum;
+                list_html += LI_HTML_SUC;
             }
             else {
                 ++wrong_sum;
+                list_html += LI_HTML_FAIL;
             }
-        }        
+        }
+        else {
+            list_html += LI_HTML_UNFIN;
+        }
     });
+    $('#progress_list').html(list_html);
+
     $('#stat_right').html(right_sum);
     $('#stat_wrong').html(wrong_sum);
-    
-    showEffect(isCorrect);
 }
 
 function showEffect(isCorrect) {
@@ -110,10 +121,11 @@ function onQuestionListGet(jsonData) {
     qType_list = jsonData.qType_list;
     qList_obj = jsonData;
     
-    question_sum = qList_obj.qList.length;
-    answer_list = new Array(question_sum);
+    question_sum = qList_obj.qList.length;    
+    result_list = Array.apply(null, Array(question_sum)).map(() => {return {'complete':false};});
     
     cur_idx = 0;
+    updateStat();
     update();
 }
 
@@ -334,9 +346,7 @@ function refreshPair(question) {
     }
     $('#q_type_sheet').html(html_str);
     $('#up_0').css('visibility','hidden');
-    $('#down_'+(option_list_r.length-1)).css('visibility','hidden');
-    
-    alert("-----"+ question.leftOptions + '      ' + question.rightOptions);
+    $('#down_'+(option_list_r.length-1)).css('visibility','hidden');    
 }
 
 function checkPair(key_str) { 

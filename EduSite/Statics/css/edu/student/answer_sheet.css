@@ -21,18 +21,18 @@ body {
     top: 0.5rem;
     width: 50.1rem;
     margin: auto;
-    border: 0.12rem dotted;
+    /* border: 0.12rem dotted; */
 }
 
 #info_panel {
     position: fixed;
-    border: 0.0625rem dotted;
+    /* border: 0.0625rem dotted; */
     width: 18rem;
     left: 0.75rem;
 }
 
 #statistic_main {
-    border: 0.12rem dotted;
+    /* border: 0.12rem dotted; */
 }
 
 #q_progress {
@@ -40,17 +40,17 @@ body {
     top: 0rem;
     right: 0rem;
     width: 2rem;
-    border: 0.12rem dotted;
+    /* border: 0.12rem dotted; */
 }
 
-#q_progress li::before {
-    content: "";
-    display: none;
+#q_progress ul {
+    padding-left: 0;
+    list-style: none;
 }
 
 #sheet_panel {
     position: absolute;
-    border: 0.0625rem solid;
+    /* border: 0.0625rem solid; */
     width: 38.125rem;
     left: 18rem;    
 }
@@ -351,4 +351,21 @@ body {
     height: 48%;
     width: 2em;
     bottom: 0rem;
+}
+
+.gold-icon, .unfinished, .gold-icon-failed {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.gold-icon {
+    content: url('/Statics/images/gold_coin.png');    
+}
+
+.unfinished {
+    content: url('/Statics/images/gold_coin_dis.png');    
+}
+
+.gold-icon-failed {
+    content: url('/Statics/images/failed.png');    
 }

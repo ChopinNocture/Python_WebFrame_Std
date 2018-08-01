@@ -145,15 +145,15 @@
 .option-group input[type='radio']:disabled.no-key + label {
     border-width: 0.125rem;
     border-style: solid;
-    border-color: #f17575aa; 
-    box-shadow: 0rem 0rem 0.625rem #ff707000;
+    border-color: rgba(241, 117, 117, 0.667); 
+    box-shadow: 0rem 0rem 0.625rem rgba(255, 112, 112, 0);
     animation: anim-alarm 1s infinite;
 }
 
 @keyframes anim-alarm {
     50% {
-        border-color: #f17575ff; 
-        box-shadow:0rem 0rem 0.625rem #ff7070ff;
+        border-color: rgb(241, 117, 117, 1); 
+        box-shadow:0rem 0rem 0.625rem rgba(255, 112, 112, 1);
     }
 }
 
