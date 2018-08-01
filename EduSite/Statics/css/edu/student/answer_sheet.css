@@ -17,28 +17,46 @@ body {
 
 #root_panel {
     position: absolute;
-    left: 6%;
-    top: 1%;
+    left: 0.75rem;
+    top: 0.5rem;
     width: 50.1rem;
     margin: auto;
+    border: 0.12rem dotted;
 }
 
 #info_panel {
     position: fixed;
     border: 0.0625rem dotted;
-    width: 20rem;
-    left: 0.25rem;
+    width: 18rem;
+    left: 0.75rem;
+}
+
+#statistic_main {
+    border: 0.12rem dotted;
+}
+
+#q_progress {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    width: 2rem;
+    border: 0.12rem dotted;
+}
+
+#q_progress li::before {
+    content: "";
+    display: none;
 }
 
 #sheet_panel {
-    /* border: 0.0625rem dotted; */
-    width: 38.125rem;
-    left: 12rem;
     position: absolute;
+    border: 0.0625rem solid;
+    width: 38.125rem;
+    left: 18rem;    
 }
 
 #sheet_bg_out {
-    position: relative;
+    position: absolute;
     width: 95%;    
     padding: 0.25rem 0.5rem 0.625rem 0.25rem;
     /* padding-bottom: 2%; */

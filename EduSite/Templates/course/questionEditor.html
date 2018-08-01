@@ -16,13 +16,13 @@
                 {% for qType in qTypeList %}
                 <li class="nav-item" style="width: 150px;">
                     {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
-                    <a class="nav-link" href="#" id="NavBtn_{{ qType }}" data-url="{{qTypeURL}}" data-type-name="{{ qType }}" data-qlist-url="{{qListURL}}" draggable="false">{{qType}}</a>
+                    <a class="nav-link font-weight-bold" href="#" id="NavBtn_{{ qType }}" data-url="{{qTypeURL}}" data-type-name="{{ qType }}" data-qlist-url="{{qListURL}}" draggable="false">{{qType}}</a>
                 </li>
                 {% endfor %}
             </ul>
         <!-- </div> -->
     </div>    
-    <div class="row border rounded border-primary mx-1 py-4" style="">
+    <div class="row border rounded border-info mx-1 py-4 bg_black_u2d" >
         <div class="col-2">
             <div class="card bg-secondary text-white">
                 <div class="card-header text-center">
@@ -33,7 +33,7 @@
                 <!-- </div> -->
             </div>
         </div>
-        <div class="col-7 border-right border-left border-primary">
+        <div class="col-7 border-right border-left border-info">
             <div class="row-fluid">
                 <div class="">
                     <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
@@ -86,7 +86,7 @@
         </div>
         <div class="col-3">
             <!-- <div class="row-fluid"> -->
-            <div class="card bg-info">
+            <div class="card bg-warning">
                 <div class="card-header card-header-sm">
                     <h5 class="card-title">题目列表
                         <span class="badge badge-dark" id="qlist_num">0</span>

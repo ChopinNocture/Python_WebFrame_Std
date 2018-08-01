@@ -78,7 +78,7 @@ function onSectionClick(event) {
 //=======================================================
 // Update question list
 //=======================================================
-var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" \
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-warning inline-block text-truncate" \
                     tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
 
 var QLIST_BTN_ID = "qlist_id";

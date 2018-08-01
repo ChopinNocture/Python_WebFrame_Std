@@ -5,3 +5,12 @@ body {
     background-position: left top;
     background-attachment: fixed;
 }
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #17a2b8;
+}
+
+.nav-pills a {
+    color: #1593a7;
+}
