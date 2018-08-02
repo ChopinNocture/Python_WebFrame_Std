@@ -9,6 +9,7 @@ from CourseFunApp.models import Lesson, Examination
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
+import CourseFunApp.database_tool as DB_tool
 
 
 # from django.utils.dateformat import DateFormat
@@ -121,6 +122,11 @@ def question_editor_form(request, qtype, qid=-1):
         return render(request=request, template_name="course/QTypeForm.html",
                       context={"form": retForm, "questionType": qtype})
     # return HttpResponse(temp_class.get_url_name())
+
+
+def question_import(request):
+    DB_tool.update_DB_from_excel('D:/Temp/DB_1.xlsm')    
+    return HttpResponse('hhahahahaha')
 
 
 # --------------------------------------------------------
