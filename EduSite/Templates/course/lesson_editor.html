@@ -9,7 +9,7 @@
 {% block content %} 
 
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">学习资料上传</h2>
-<div class="row border border-dark mx-5 p-1 rounded " style="background: linear-gradient(#ffffffcc,#bd6c109a)">
+<div class="row border border-dark mx-5 p-1 rounded bg_black_u2d">
     <div class="col-3">
         <div class="card bg-info">                
             <div class="card bg-secondary text-white">
@@ -40,21 +40,11 @@
 {% endblock %}
 
 {% block jsPage %}  
-<style>
-body {
-    background-image: url('/Statics/images/BG_sm.jpg');
-    background-blend-mode:soft-light;
-    background-color: rgba(232, 246, 255, 0.8);
-    background-size: 120%;
-    background-repeat: no-repeat;
-    background-position: left top;
-    background-attachment: fixed;
-}
-</style>
 <script type="text/javascript" src="{% static 'js/course/lesson_editor.js' %}"></script> 
 {% include "top_layer.html" %}
 {% endblock %} 
 
 {% block pageInclude %}
-    <link rel="stylesheet" href="{% static 'css/edu/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/lesson_editor.css' %}"/>
 {% endblock %} 

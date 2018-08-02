@@ -78,7 +78,7 @@ function onSectionClick(event) {
 //=======================================================
 // Update question list
 //=======================================================
-var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" \
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-warning inline-block text-truncate" \
                     tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
 
 var QLIST_BTN_ID = "qlist_id";
@@ -297,7 +297,7 @@ var MAX_OPTION_NUMBER = 20;
 var MIN_OP_N = 1;
 var Label_Prepend = $('<div class="input-group-prepend"></div>')
 var op_Label = $('<label id="" style="width:98px"></label>');
-var label_label = 65; // A:65  1:49
+var IS_Char_Label = true;
 var ID_LABEL = 'lb_option';
 
 var LINE_HTML = '<div class="form-inline w-100" id=""></div>';
@@ -329,7 +329,7 @@ var Options_Json = [];
 function refreshChoice() {
     key_type = "radio";
     with_key = true;
-    label_label = 65; // A
+    IS_Char_Label = true;
     optionsUpdateFunc = updateOptions;
     refresh_option_part();
 }
@@ -337,7 +337,7 @@ function refreshChoice() {
 function refreshMultiChoice() {
     key_type = "checkbox";
     with_key = true;
-    label_label = 65; // A
+    IS_Char_Label = true;
     optionsUpdateFunc = updateOptions;
     refresh_option_part();
 }
@@ -345,7 +345,7 @@ function refreshMultiChoice() {
 function refreshSort() {
     key_type = "hidden";
     with_key = false;
-    label_label = 49; // 1
+    IS_Char_Label = false;
     optionsUpdateFunc = updateOptions;
     refresh_option_part();
 }
@@ -474,7 +474,7 @@ function updateOptions() {
                 Label_Prepend.clone().append(
                     op_Label.clone()
                         .attr({ "id": ID_LABEL + i, "class": STYLE_CLASS_LABEL, "for": ID_KEYButton + i })
-                        .html("正确选项 " + String.fromCharCode(label_label + i))
+                        .html("正确选项 " + getOptionLabelChar(i, IS_Char_Label))
                 )
             ).append(
                 op_text.clone()

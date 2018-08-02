@@ -85,3 +85,11 @@ function csrf_Setup() {
         }
     });
 }
+
+
+//---------------------------------------------
+// A:65  1:49
+function getOptionLabelChar(idx, isChar=true) {
+    var label_label = isChar ? 65: 49;
+    return String.fromCharCode(label_label + idx);
+}

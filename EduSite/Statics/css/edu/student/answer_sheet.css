@@ -5,7 +5,7 @@ html {
 }
 
 body {    
-    background-image: url('/Statics/images/classroom6-bg.jpg');
+    background-image: url('/Statics/images/BGs/classroom6-bg.jpg');
     background-blend-mode: normal;
     background-size: cover; 
     background-repeat: no-repeat;
@@ -15,32 +15,48 @@ body {
     /*background-clip:border-box*/
 }
 
-.panel-root {
+#root_panel {
     position: absolute;
-    left: 6%;
-    top: 1%;
+    left: 0.75rem;
+    top: 0.5rem;
     width: 50.1rem;
-    height: 59rem;
     margin: auto;
-    /* border: 0.125rem dashed; */
+    /* border: 0.12rem dotted; */
 }
 
 #info_panel {
+    position: fixed;
     /* border: 0.0625rem dotted; */
-    width: 12rem;
+    width: 18rem;
+    left: 0.75rem;
+}
+
+#statistic_main {
+    /* border: 0.12rem dotted; */
+}
+
+#q_progress {
     position: absolute;
-    left: 0rem;
+    top: 0rem;
+    right: 0rem;
+    width: 2rem;
+    /* border: 0.12rem dotted; */
+}
+
+#q_progress ul {
+    padding-left: 0;
+    list-style: none;
 }
 
 #sheet_panel {
-    /* border: 0.0625rem dotted; */
-    width: 38.125rem;
-    left: 12rem;
     position: absolute;
+    /* border: 0.0625rem solid; */
+    width: 38.125rem;
+    left: 18rem;    
 }
 
 #sheet_bg_out {
-    position: relative;
+    position: absolute;
     width: 95%;    
     padding: 0.25rem 0.5rem 0.625rem 0.25rem;
     /* padding-bottom: 2%; */
@@ -162,7 +178,7 @@ body {
 
 #answer_panel {    
     font-family: HK_Yuan7;
-    margin: 0.5rem 2.625rem 0rem 0rem;     
+    margin: 0.5rem 1.625rem 0rem 0rem;     
 }
 
 #q_type_tips {
@@ -225,10 +241,11 @@ body {
 }
 
 #show_panel {
-    position: relative;
+    position: absolute;
     left: 10rem;
     width: 40rem;
     height: 40rem;
+    border: 0.0625rem dotted;
 }
 
 #effect_right {
@@ -282,4 +299,73 @@ body {
     text-indent: 2em;
     font-family: inherit;
     margin: 1.5rem 2.25rem 0rem 2.75rem;
+}
+
+
+.pair-left {
+    width: 13.5rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+}
+
+.pair-right {
+    width: 13.5rem;
+    margin-left: 0.3rem;
+    display: inline-block;
+}
+
+.pair-button-group {
+    position: relative;    
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+
+    top: 0.5rem;
+    right: 0.25rem;
+    width: 2.5em;
+    height: 2.75em;
+    display: inline-block;
+}
+
+.pair-line{
+}
+
+.pair-button-up, .pair-button-down {
+    position: relative;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+}
+
+.pair-button-up {
+    display: block;
+    height: 48%;
+    width: 2em;
+    top: 0rem;
+}
+
+.pair-button-down {
+    display: block;
+    height: 48%;
+    width: 2em;
+    bottom: 0rem;
+}
+
+.gold-icon, .unfinished, .gold-icon-failed {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.gold-icon {
+    content: url('/Statics/images/gold_coin.png');    
+}
+
+.unfinished {
+    content: url('/Statics/images/gold_coin_dis.png');    
+}
+
+.gold-icon-failed {
+    content: url('/Statics/images/failed.png');    
 }

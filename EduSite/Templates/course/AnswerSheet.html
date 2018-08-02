@@ -8,20 +8,28 @@
 <form method="post" action="." id="qlist_form">
 {% csrf_token %}
 </form>
-<div id="root_panel" class="panel-root"> 
+<div id="root_panel"> 
     <div id="info_panel">
-        <div id="statistic_frame">
-            <div id="statistic_main">
-                <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
-                <h5>
-                答对<span class="badge badge-pill badge-success" id="stat_right">0</span>  
-                答错<span class="badge badge-pill badge-danger" id="stat_wrong">0</span>
-                </h5>
-                <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
-                <a href="{% url 'user:student' %}" id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</a>
-            </div>
-            <img src="{% static 'images/teacher.png' %}" style="width: 16rem; height: 40rem;" alt="Card image cap">
+        <div id="statistic_main">
+            <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span>
+            <h5>
+            答对<span class="badge badge-pill badge-success" id="stat_right">0</span>  
+            答错<span class="badge badge-pill badge-danger" id="stat_wrong">0</span>
+            </h5>
+            <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
+            <a href="{% url 'user:student' %}" id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</a>
         </div>
+        <div id='q_progress'>
+            <ul id="progress_list">
+                <li><span class="gold_icon"></li>
+                <li><span class="gold_icon"></li>
+                <li><span class="gold_icon"></li>
+                <li><span class="gold_icon"></li>                    
+                <li><span class="gold_icon"></li>
+                <li><span class="gold_icon"></li>
+            </ul>
+        </div>
+        <img src="{% static 'images/teacher.png' %}" style="width: 16rem; height: 40rem;" alt="Card image cap">
     </div>
     <div id="sheet_panel" >
         <div id="sheet_bg_out">             
