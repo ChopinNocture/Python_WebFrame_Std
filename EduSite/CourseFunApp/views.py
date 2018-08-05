@@ -125,7 +125,9 @@ def question_editor_form(request, qtype, qid=-1):
 
 
 def question_import(request):
-    DB_tool.update_DB_from_excel('D:/Temp/DB_1.xlsm')    
+    if request.method == "POST":
+        DB_tool.update_DB_from_excel('D:/Temp/DB_1.xlsm')
+        
     return HttpResponse('hhahahahaha')
 
 
