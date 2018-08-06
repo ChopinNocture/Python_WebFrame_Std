@@ -55,7 +55,7 @@ def parse_Choice(sheet, row, desc, lesson):
     option_list = []
     option = sheet.cell(column=idx, row=row).value
 
-    while option is not None:
+    while option:
         option_list.append(option)
         idx += 1
         option = sheet.cell(column=idx, row=row).value        
@@ -83,7 +83,7 @@ def parse_MultiChoice(sheet, row, desc, lesson):
     option_list = []
     option = sheet.cell(column=idx, row=row).value
 
-    while option is not None:
+    while option:
         option_list.append(option)
         idx += 1
         option = sheet.cell(column=idx, row=row).value
@@ -109,7 +109,7 @@ def parse_Pair(sheet, row, desc, lesson):
     option_l = sheet.cell(column=10+idx<<1, row=row).value
     option_r = sheet.cell(column=11+idx<<1, row=row).value
 
-    while option_l is not None:
+    while option_l:
         option_l_list.append(option_l)
         option_r_list.append(option_r)
         idx += 1
@@ -134,7 +134,7 @@ def parse_Sort(sheet, row, desc, lesson):
     option_list = []
     option = sheet.cell(column=idx, row=row).value
 
-    while option is not None:
+    while option:
         option_list.append(option)
         idx += 1
         option = sheet.cell(column=idx, row=row).value        
@@ -163,7 +163,7 @@ def parse_Subject(sheet, row, desc, lesson):
 
 def update_DB_from_excel(excel_url):
     lesson_list = questionModels.Lesson.objects.all()
-
+    
     wb = openpyxl.load_workbook(filename=excel_url, read_only=True, data_only=True)
     # sectionID
     # description
@@ -174,34 +174,29 @@ def update_DB_from_excel(excel_url):
 
         print("----" + str(qTypeName))
         cur_sht = wb[qTypeName]
-        if cur_sht is not None: 
+        if cur_sht: 
             row_idx = 3
+            ques_desc = cur_sht['G' + str(row_idx)].value
 
-            while True:
-                idx_str = str(row_idx)
-                ques_desc = cur_sht['G' + idx_str].value
-                ques_type = cur_sht['F' + idx_str].value
-
-                if ques_desc is not None and len(ques_desc)>0:                    
-                    try:
-                        print(ques_type)
-                        lesson_desc = cur_sht['A' + idx_str].value                        
-                        lesson = lesson_list.get(description=lesson_desc)
-                        
-                        parsefunc = getattr(sys.modules[__name__], "parse_" + ques_type)
-                        quest = parsefunc(cur_sht, row_idx, ques_desc, lesson)
-                        print(quest)
-                        # quest.save()
-
-                    except (AttributeError) as e:
-                        print("---- " + e)
-                    except (excepts.ObjectDoesNotExist) as e:
-                        print("??? " + str(e))
-
-                else:
-                    break
+            while ques_desc:
+                try:
+                    ques_type = cur_sht['F' + str(row_idx)].value
+                    lesson_desc = cur_sht['A' + str(row_idx)].value                        
+                    lesson = lesson_list.get(description=lesson_desc)
+                    
+                    parsefunc = getattr(sys.modules[__name__], "parse_" + ques_type)
+                    quest = parsefunc(cur_sht, row_idx, ques_desc, lesson)                    
+                    # quest.save()
+                    print(ques_type, quest)
+                except (AttributeError) as e:
+                    print("---- " + e)
+                except (excepts.ObjectDoesNotExist) as e:
+                    print("??? " + str(e))
 
                 row_idx += 1
+                ques_desc = cur_sht['G' + str(row_idx)].value
+
+                
 
 
 # database_tool.

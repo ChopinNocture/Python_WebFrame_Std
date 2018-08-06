@@ -3,6 +3,8 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, Quer
 from django.template import loader
 from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+from django.core.files.uploadhandler import TemporaryFileUploadHandler
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 # Create your views here.
 from CourseFunApp.models import Lesson, Examination
@@ -124,11 +126,42 @@ def question_editor_form(request, qtype, qid=-1):
     # return HttpResponse(temp_class.get_url_name())
 
 
+@csrf_exempt
 def question_import(request):
     if request.method == "POST":
-        DB_tool.update_DB_from_excel('D:/Temp/DB_1.xlsm')
-        
-    return HttpResponse('hhahahahaha')
+        temp_file_loader = TemporaryFileUploadHandler(request)
+        request.upload_handlers = [temp_file_loader]
+
+    return _question_import(request)
+
+
+@csrf_protect
+def _question_import(request):
+    if request.method == "POST":        
+        file = request.FILES['excel']
+        print(file.temporary_file_path())
+        try:
+            DB_tool.update_DB_from_excel(file.temporary_file_path())
+        except Exception as e:
+            print(e)
+            return render(
+                request=request, 
+                template_name="course/Question_Importer.html", 
+                context={"suc_info" : "hidden", 'fail_info' : ""}
+            )    
+
+        return render(
+            request=request, 
+            template_name="course/Question_Importer.html", 
+            context={"suc_info" : "", 'fail_info':"hidden"}
+        )
+
+    elif request.method == "GET":        
+        return render(
+            request=request, 
+            template_name="course/Question_Importer.html", 
+            context={"suc_info" : "hidden", 'fail_info' : "hidden"}
+        )
 
 
 # --------------------------------------------------------
