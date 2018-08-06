@@ -163,7 +163,7 @@ def parse_Subject(sheet, row, desc, lesson):
 
 def update_DB_from_excel(excel_url):
     lesson_list = questionModels.Lesson.objects.all()
-    
+
     wb = openpyxl.load_workbook(filename=excel_url, read_only=True, data_only=True)
     # sectionID
     # description
@@ -186,7 +186,7 @@ def update_DB_from_excel(excel_url):
                     
                     parsefunc = getattr(sys.modules[__name__], "parse_" + ques_type)
                     quest = parsefunc(cur_sht, row_idx, ques_desc, lesson)                    
-                    # quest.save()
+                    quest.save()
                     print(ques_type, quest)
                 except (AttributeError) as e:
                     print("---- " + e)

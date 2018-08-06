@@ -16,3 +16,8 @@ function onFileSelect(event) {
         $('#import_btn').prop('disabled', true);
     }
 }
+
+function onBtnClk(event) {
+    $('#import_btn').prop('disabled', true);
+    $('#quest_importer_fm').submit();
+}
