@@ -52,28 +52,39 @@ function checkAnswer() {
     }
 }
 
+const LI_HTML = '<li><span class="gold-icon **"/></li>';
+
 const LI_HTML_SUC = '<li><span class="gold-icon"/></li>';
 const LI_HTML_UNFIN = '<li><span class="unfinished"/></li>';
 const LI_HTML_FAIL = '<li><span class="gold-icon-failed"/></li>';
+const LI_HTML_CURRENT = '<li><span class="current"/></li>';
 
 function updateStat() {
     var right_sum=0, wrong_sum = 0;
     var list_html = "";
     result_list.forEach(function(value,index,array) {
+        var state_string = "";
+
         if (value['complete']) {
-            if(value['result']) {
+            if (value['result']) {
                 ++right_sum;
-                list_html += LI_HTML_SUC;
-            }
-            else {
+                state_string = "succeed";
+            } else {
                 ++wrong_sum;
-                list_html += LI_HTML_FAIL;
+                state_string = "failed";
             }
         }
         else {
-            list_html += LI_HTML_UNFIN;
+            state_string = "unfinished";
         }
+
+        if (index == cur_idx) {
+            state_string += " current";
+        }
+
+        list_html += LI_HTML.replace("**", state_string);
     });
+
     $('#progress_list').html(list_html);
 
     $('#stat_right').html(right_sum);
@@ -125,11 +136,11 @@ function onQuestionListGet(jsonData) {
     result_list = Array.apply(null, Array(question_sum)).map(() => {return {'complete':false};});
     
     cur_idx = 0;
-    updateStat();
+    //updateStat();
     update();
 }
 
-function update() {
+function update() {    
     if (qList_obj != null && qList_obj.qList != null) {
         $('#question_index').html(cur_idx + 1);
 
@@ -153,6 +164,7 @@ function update() {
             //
         }
     }
+    updateStat();
 }
 
 //=======================================================
