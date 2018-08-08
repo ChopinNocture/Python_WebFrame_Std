@@ -9,7 +9,7 @@ q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{type:[]}
-def generate_question_set(sectionID=[], per_sum=4, type_list=[]):
+def generate_question_set(sectionID=[], per_sum=2, type_list=[]):
     tmp_list = type_list
     if not tmp_list:
         tmp_list = q_type_list

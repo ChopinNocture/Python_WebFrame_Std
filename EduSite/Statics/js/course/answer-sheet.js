@@ -13,7 +13,7 @@ var cur_idx = -1;
 var question_sum = 0;
 
 function onInit(event) {  
-    ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc)
+    ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
 function onSubmitClk(event) {
@@ -97,15 +97,17 @@ function showEffect(isCorrect) {
     var finisheFunc = null;
 
     if(isCorrect) {
-        $('#effect_right').show();
-        effectTime = 3;
+        $('#effect_right').show().addClass("bg-scale-out");
+        $('.icon-reward').addClass('win-effect');
+        
+        effectTime = 1.8;
         finisheFunc = ()=> {
             onNextClk();
         };
         $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
     }
     else {
-        effectTime = 1.2;
+        effectTime = 1;
         $('#btn_submit').hide();
         $('#btn_next').show();
         $('#effect_wrong').show();
@@ -115,7 +117,8 @@ function showEffect(isCorrect) {
     }
     
     setTimeout(() => {
-        $('#effect_right').hide();
+        $('.icon-reward').removeClass('win-effect');
+        $('#effect_right').hide().removeClass('bg-scale-out');
         $('#effect_wrong').hide();
         $('#show_panel').hide();
         $('#sheet_bg_in').removeClass('effect-wrong');
@@ -370,7 +373,7 @@ function checkPair(key_str) {
 
 var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
                                 <span id="id_span_cc"></span>\
-                                <label class="option-pair full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
+                                <label class="option-pair option-sort full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
                                         ##\
                                 </label>\
                             </div>';

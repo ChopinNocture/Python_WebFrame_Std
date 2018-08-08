@@ -11,22 +11,30 @@
                 -1px -1px 1px rgb(26,98,133);
 }
 
+.btn-circle-orange,
 .btn-round-orange, .btn-round-sky, .btn-round-wine {
     font-family: inherit;
     font-size: 1.2rem;
     font-weight: 500;
     border-style: solid;
     border-width: 0.125em;
-    border-radius: 0.25em;
-
+    
     padding: 0.3em 0.8em 0.3em 0.8em;
     box-shadow: #3d2410 0.07em 0.07em 0.125em;
 }
 
-.btn-round-orange {
+.btn-round-orange, .btn-round-sky, .btn-round-wine {
+    border-radius: 0.25em;
+}
+
+.btn-circle-orange {
+    border-radius: 1em;
+}
+
+.btn-round-orange, .btn-circle-orange {
     color: aliceblue;
     border-color: #3d2410;
-    background: linear-gradient(176deg, #f59541 , #b66f30 45%, #9c571a 55%, #aa5a13 90% );
+    background: linear-gradient(176deg, #ef9f8d , #f19681 45%, #e06044 55%, #cc573d 90% );
 }
 
 .btn-round-wine:hover {

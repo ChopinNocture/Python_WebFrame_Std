@@ -25,14 +25,35 @@ body {
 }
 
 #info_panel {
+    text-align: center;    
     position: fixed;
     /* border: 0.0625rem dotted; */
     width: 17.5rem;
     left: 0.75rem;
 }
 
-#statistic_main {
-    /* border: 0.12rem dotted; */
+#statistic_main {  
+    width: 12rem;
+    background: linear-gradient(#ffffff,#cccccc);
+    border-style: solid;
+    border-width: 0.05rem;
+    border-radius: 0.35rem;
+    border-color: white;
+
+    border-image-source: url('/Statics/images/dialog.png');
+    border-image-slice: 40% 40% 40% 40%;
+    border-image-width: 4rem 4rem;
+    border-image-outset: 0rem 0.1rem 1.55rem 0rem;
+    border-image-repeat: fill;
+
+    margin-left: auto;
+    margin-right: 2.5rem;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+#btn_back {
+    text-decoration: none;
 }
 
 #q_progress {
@@ -166,6 +187,22 @@ body {
     margin: 0rem;
 }
 
+.arrow-left, .arrow-right, .arrow-up, .arrow-down {
+    content: url('/Statics/images/arrow-left.png');    
+}
+
+.arrow-up {
+    transform: rotate(90deg);
+}
+
+.arrow-right {
+    transform: rotate(180deg);
+}
+
+.arrow-down {
+    transform: rotate(270deg);
+}
+
 .house_icon {
     position: absolute;
     left: -0.9375rem;
@@ -246,25 +283,37 @@ body {
 
 #show_panel {
     position: absolute;
-    left: 10rem;
-    width: 40rem;
-    height: 40rem;
+    left: 7rem;
+    width: 50rem;
+    height: 50rem;
     border: 0.0625rem dotted;
 }
 
+#effect_wrong,
 #effect_right {
-    position: relative;
-    left: 10%;
+    position: absolute;
+    top: 0%;
+    left: 20%;
     width: 80%;
     height: 80%;
     border-radius: 50%;
+}
+
+#effect_right {
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 1%;
+    background-position: 50% 50%;
     background-image: url('/Statics/images/shinning-bg.png');
-    /* background: radial-gradient(circle, #c9772dcc, #dabc2a20); */
-    animation: anim-rot360 5s infinite;  
-    
-    text-align: center;
+    /* border: 0.12rem dotted; */
+}
+
+.bg-scale-out {
+    animation: keyf-scale 1.0s;
+}
+
+@keyframes keyf-scale {
+    from {background-size: 100%;}
+    to {background-size: 60%;}    
 }
 
 @keyframes anim-rot360 {
@@ -277,13 +326,74 @@ body {
 }
 
 .icon-reward {
-    margin: auto;
-    display: block;
+    position: absolute;
+    display: block;    
     /* text-align: center; */
-    margin-top: calc(50% - 8rem);
+    margin: calc(50% - 8rem) calc(50% - 8rem); 
+    top: -100%;
     width: 16rem;
     height: 16rem;
-    content: url('/Statics/images/icon-reward.png');
+    content: url('/Statics/images/gold_coin.png');        
+}
+
+.win-effect {
+    top: 1%;
+    animation: keyf-win 2.5s;
+}
+
+@keyframes keyf-win {
+    0% { top: -100%; }
+    6% { top: 0%; }
+    30% { top: 0%; left: 0%; width: 16rem; height: 16rem; }
+    75% { top: -23.6%; left: -54.2%;  width: 2.5rem; height: 2.5rem; opacity:1;}
+    100% { top: -23.6%; left: -54.2%;  width: 2.5rem; height: 2.5rem; opacity: 0.5;}
+}
+
+
+.icon-fail {
+    position: absolute;
+    display: block;    
+    /* text-align: center; */
+    margin: calc(50% - 8rem) calc(50% - 8rem); 
+    top: 0%;
+    width: 16rem;
+    height: 16rem;
+    content: url('/Statics/images/failed.png');     
+    animation: drop-in 0.3s ease-in;   
+}
+
+@keyframes drop-in {
+    from { top: -100%; }
+    to { top: 0%; }
+}
+
+.icon-shinning {
+    position: absolute;    
+    display: block;
+    opacity: 0;
+    top: 0rem;
+    /* text-align: center; */
+    width: 100%;
+    height: 100%;
+    background-image: url('/Statics/images/shinning.png');
+    background-repeat: no-repeat;
+    background-size: 200% 600%;
+    background-position: 0% 50%;
+    animation: anim-keyframe-2x8 1.2s infinite steps(1,end);
+    animation-delay: 0.1s;
+    animation-iteration-count:1;
+}
+
+@keyframes anim-keyframe-2x8 {
+    0% { background-position: 0% 0%; opacity: 0.5;}
+    12.5% { background-position: 0% 12.5%; opacity: 1;}    
+    25% { background-position: 0% 25%; opacity: 0.52;}
+    37.5% { background-position: 0% 37.5%; opacity: 0.3;}
+    50% { background-position: 0% 50%;opacity: 0.9;}
+    62.5% { background-position: 0% 62.5%; opacity: 1;}
+    75% { background-position: 0%  75%; opacity: 1;}    
+    87.5% { background-position: 0%  87.5%;opacity: 0.7;} 
+    100% { background-position: 0%  100%;opacity: 0.5;} 
 }
 
 .text-wrong {
@@ -308,17 +418,23 @@ body {
     margin: 1.5rem 2.25rem 0rem 2.75rem;
 }
 
-
 .pair-left {
     width: 13.5rem;
     margin-left: 0.5rem;
     display: inline-block;
+    border-color: rgb(76, 133, 168);
+    background: linear-gradient(178.5deg, #ddecf5 , #c5ddec 46%, #9ebbce 54%, #97b7cc 100% );
+}
+
+.pair-right, .option-sort {
+    margin-left: 0.3rem;
+    display: inline-block;
+    border-color: #e79879;
+    background: linear-gradient(178.5deg, #e9d8ca , #e6cbb1 46%, #dbb093 54%, #ddb899 100% );
 }
 
 .pair-right {
     width: 13.5rem;
-    margin-left: 0.3rem;
-    display: inline-block;
 }
 
 .pair-button-group {
@@ -370,7 +486,6 @@ body {
     height: 1.5rem;
 }
 
-
 .unfinished {
     content: url('/Statics/images/gold_coin_dis.png');    
 }
@@ -395,4 +510,9 @@ body {
     50% {
         opacity: 0.4;
     }
+}
+
+#stat_right {
+    color: goldenrod;
+    font-size: 2rem;
 }
