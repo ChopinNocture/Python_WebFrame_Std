@@ -2,9 +2,6 @@
 
 $(document).ready(onInit);
 
-$('#btn_submit').click(onSubmitClk);
-$('#btn_next').click(onNextClk);
-$('#btn_Prev').click(onPrevClk);
 
 var qType_list = [];
 var result_list = [];   // complete, result, answer
@@ -13,6 +10,11 @@ var cur_idx = -1;
 var question_sum = 0;
 
 function onInit(event) {  
+    csrf_Setup();
+    $('#btn_submit').click(onSubmitClk);
+    $('#btn_next').click(onNextClk);
+    $('#btn_Prev').click(onPrevClk);
+    $('#btn_back_main').click(onBackMain);
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
@@ -25,6 +27,9 @@ function onNextClk(event) {
     cur_idx = Math.min(cur_idx + 1, question_sum - 1);
     if (lastnextidx != cur_idx) {
         update();
+    }
+    else {
+        showFinalResult();
     }
 }
 
@@ -43,21 +48,16 @@ function failFunc() {
 var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
 function checkAnswer() {
     var result_json = checkAnswerFunc(qList_obj.qList[cur_idx].key);
-    result_list[cur_idx] = result_json;    
+    result_list[cur_idx] = result_json;
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
     if( result_json.complete ) {
         showEffect(result_json.result); 
         updateStat();
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
-    }
+    } 
 }
 
 const LI_HTML = '<li><span class="gold-icon **"/></li>';
-
-const LI_HTML_SUC = '<li><span class="gold-icon"/></li>';
-const LI_HTML_UNFIN = '<li><span class="unfinished"/></li>';
-const LI_HTML_FAIL = '<li><span class="gold-icon-failed"/></li>';
-const LI_HTML_CURRENT = '<li><span class="current"/></li>';
 
 function updateStat() {
     var right_sum=0, wrong_sum = 0;
@@ -123,7 +123,7 @@ function showEffect(isCorrect) {
         $('#show_panel').hide();
         $('#sheet_bg_in').removeClass('effect-wrong');
 
-        if(finisheFunc!=null) {
+        if(finisheFunc != null) {
             finisheFunc();
         }
         //$('#sheet_bg_out').removeClass('effect-wrong');
@@ -317,8 +317,8 @@ var id_replace_reg = new RegExp( 'cc' , "g" );
 
 var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc">\
                             <span id="id_span_cc"></span>\
-                            <label class="option-pair pair-left" id="pair_l_cc">##</label>\
-                            <label class="option-pair pair-right" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~">$$</label>\
+                            <label class="option-item pair-left" id="pair_l_cc">##</label>\
+                            <label class="option-item pair-right" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~">$$</label>\
                         </div>';
 
 function swapData(curidx, taridx) {
@@ -373,7 +373,7 @@ function checkPair(key_str) {
 
 var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
                                 <span id="id_span_cc"></span>\
-                                <label class="option-pair option-sort full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
+                                <label class="option-item full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
                                         ##\
                                 </label>\
                             </div>';
@@ -406,6 +406,7 @@ var SORT_OP_ID = 'sort_item';
 
 function refreshSort(question) {
     $('#q_description').html(question.description);
+    question['key'] = question.options;
 
     var option_list = question.options.split(OPTION_SPLITER_SYMBOL);    
     var shuffled_op = tool_shuffle_list(option_list.length);
@@ -446,8 +447,8 @@ const QTYPE_TIPS_MAP = {
     "TrueOrFalse": "上面的描述是“正确”还是“错误”呢，点相应按钮哦。回答完毕点“确定”",
     "Choice": "在上面的选项中选一个正确的，回答完毕点“确定”",
     "MultiChoice": "上面的选项会有至少一个正确，要全选出来哦。回答完毕点“确定”",
-    "Pair": "点击最右边的上移、下移按钮，来让右边选项和左边的配对。",
-    "Sort": "点击最右边的上移、下移来安排正确的顺序噢！",
+    "Pair": "拖拽右边的选项，来和左边选项的配对。",
+    "Sort": "拖拽选项到正确的位置，进行顺序！",
     "CaseAnalyse": "案例与简答题",
     "Voice": "语音题",
     "ERROR": "回答错误, 正确的答案是这样噢！",
@@ -492,11 +493,29 @@ function showKeyMultiChoice(result, keyObject) {
 }
 
 function showKeyPair(result, keyObject) {
-    alert("---");
+    var key_list = keyObject.split(OPTION_SPLITER_SYMBOL);
+    $('label[id^=' + SORT_OP_ID + ']').each(function (index, elem) {
+        //alert('  0  ' + index + '  ' + this.dataset['opidx']);
+        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_'+index), key_list[index]);
+    });
 }
 
 function showKeySort(result, keyObject) {
-    alert("---");
+    var key_list = keyObject.split(OPTION_SPLITER_SYMBOL);
+
+    $('label[id^=' + SORT_OP_ID + ']').each(function (index, elem) {
+        //alert('  0  ' + index + '  ' + this.dataset['opidx']);
+        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_'+index), key_list[index]);
+    });    
+}
+
+function refreshSortByResult(jq_elem, isKey, jq_icon, key_html) {
+    jq_elem.attr("draggable", false);
+    var cssName = isKey ? 'checked-key': 'no-key';
+    jq_elem.addClass(cssName);
+    cssName = isKey ? 'checked-key': 'checked-no';
+    jq_icon.addClass('icon-' + cssName);
+    jq_elem.html(key_html);
 }
 
 //-----------------------------------------------------
@@ -510,4 +529,29 @@ function refreshOptionByResult(jq_elem, isKey, jq_icon) {
 
     jq_elem.addClass(cssName);
     jq_icon.addClass('icon-' + cssName);
+}
+
+
+//-----------------------------------------------------
+// 最后统计
+function showFinalResult() {
+    $('#btn_submit').hide();
+    $('#btn_next').hide();
+
+    $('#final_panel').show();
+}
+
+function onBackMain(event) {
+    $.ajax({
+        url: event.target.dataset['url'],
+        type: 'post',
+        data: { "gold": $('#stat_right').html() },
+        dataType: 'json',
+        success: SucFunc
+    });
+    $(location).attr('href', $('#btn_back').attr('href') );
+}
+
+function SucFunc(){
+
 }

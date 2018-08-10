@@ -13,7 +13,7 @@
         <div id="statistic_main">
             <!-- <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span> -->
             <h5>
-            <span class="badge badge-pill badge-success" id="stat_right">0</span> <span class="gold-icon-big succeed" ></span> 
+            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span class="badge badge-pill badge-success" style="vertical-align:middle;" id="stat_right">0</span>
             <span class="badge badge-pill badge-danger" id="stat_wrong" hidden>0</span> <span class="gold-icon-big failed" hidden></span>
             </h5>
             <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
@@ -47,7 +47,7 @@
                     <div id="stat_panel">
                         <button id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>
                         <button id="btn_next" class="btn-round-wine" onfocus="this.blur()" tabindex="-1">继 续</button>
-                        <button id="btn_Prev" hidden>Preview</button>                        
+                        <button id="btn_Prev" hidden>Preview</button>
                     </div>
                 </div>                
             </div>
@@ -61,6 +61,12 @@
         <div id="effect_wrong" hidden>
             <span class="icon-fail"></span>
         </div>    
+    </div>
+    <div id="final_panel" hidden>
+        <h1>
+            全部结束啦，回到主页查看你的进步吧！
+        </h1>
+        <button id="btn_back_main" class="btn-round-sky" data-url="{% url 'user:award_score' %}">知道啦!</button>
     </div>
 </div>
 

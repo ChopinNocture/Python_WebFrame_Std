@@ -78,7 +78,7 @@
     display: none;
 }
 
-.option-pair,
+.option-item,
 .option-group input[type='checkbox'] + label,
 .option-group input[type='checkbox']:checked + label,
 .option-group input[type='radio'] + label, 
@@ -100,7 +100,7 @@
     border-style: solid;
     border-radius: 0.25rem;
     border-color: rgba(1, 41, 48, 0.178);   
-    box-shadow: 0.0625rem 0.0625rem 0.25rem gray;
+    box-shadow: 0.125rem 0.125rem 0.25rem gray;
 }
 
 .option-group input[type='checkbox'] + label,
@@ -131,7 +131,7 @@
 }
 
 
-.option-pair.checked-key,
+.option-item.checked-key,
 .option-group input[type='checkbox']:disabled.checked-key + label,
 .option-group input[type='radio']:disabled.checked-key + label {
     border-color: #34b946; 
@@ -139,7 +139,7 @@
     box-shadow: 0rem 0rem 0.75rem #00ff40ff;
 }
 
-.option-pair.checked-no,
+.option-item.checked-no,
 .option-group input[type='checkbox']:disabled.checked-no + label,
 .option-group input[type='radio']:disabled.checked-no + label {
     border-color: #f17575; 
@@ -148,20 +148,27 @@
     animation: anim-alarm 1s infinite;
 }
 
-.option-pair.no-key,
-.option-group input[type='checkbox']:disabled.no-key + label,
-.option-group input[type='radio']:disabled.no-key + label {
-    border-width: 0.125rem;
-    border-style: solid;
-    border-color: rgba(241, 117, 117, 0.667); 
-    box-shadow: 0rem 0rem 0.625rem rgba(255, 112, 112, 0);
-    animation: anim-alarm 1s infinite;
-}
-
 @keyframes anim-alarm {
     50% {
         border-color: rgb(241, 117, 117, 1); 
         box-shadow:0rem 0rem 0.625rem rgba(255, 112, 112, 1);
+    }
+}
+
+.option-item.no-key,
+.option-group input[type='checkbox']:disabled.no-key + label,
+.option-group input[type='radio']:disabled.no-key + label {
+    border-width: 0.125rem;
+    border-style: solid;
+    border-color: rgb(43, 130, 170, 1); 
+    box-shadow: 0rem 0rem 0.625rem rgba(40, 155, 209, 0.5);
+    animation: anim-missed 1s infinite;
+}
+
+@keyframes anim-missed {
+    50% {
+        border-color: rgb(43, 130, 170, 1); 
+        box-shadow:0rem 0rem 0.625rem 0.1rem rgb(41, 161, 216);
     }
 }
 

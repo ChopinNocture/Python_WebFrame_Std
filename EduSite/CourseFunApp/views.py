@@ -237,12 +237,10 @@ def study(request, lesson_id):
 def answer_sheet(request, sectionID):
     lesson = Lesson.objects.get(id=sectionID)
     if request.method == "GET":
-        print(request.method)
         return render(request=request, template_name="course/AnswerSheet.html",
                       context={"section_name": lesson.description, "questionType": ""})
     else:
-        print("-`-`-`-`" + request.method)
-        question_dict = exam_sys.generate_question_set(lesson, 1, ['Pair','Sort'])
+        question_dict = exam_sys.generate_question_set(lesson, 1, ['Choice'])
         return JsonResponse(question_dict)
 
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, get_user
+from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp.forms import LoginForm, Student_Prof_Form
@@ -86,3 +86,24 @@ def get_student_prof(request, student_id):
         stu_form = Student_Prof_Form(instance=stu_prof)
     
         return render(request, 'user/student_prof.html', {'form_student': stu_form})
+
+
+# 
+def award_score(request):    
+    if request.method == "POST":        
+        cur_user = get_user(request)
+        if isinstance(cur_user, AnonymousUser):
+            return HttpResponse("failed!")
+        try:
+            cur_prof = StudentProf.objects.get(user=cur_user)
+            gold_award = int(request.POST.get('gold'))
+            print(gold_award)
+            cur_prof.gold = cur_prof.gold + gold_award
+
+        except Exception as e:
+            print(e)
+
+        # return HttpResponseRedirect('/user/student/')
+        return HttpResponse("Succeed!", status=200)
+    else:
+        return HttpResponse("failed!")
