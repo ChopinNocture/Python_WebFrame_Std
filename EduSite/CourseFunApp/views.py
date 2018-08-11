@@ -228,6 +228,8 @@ def get_lesson_content(request, lesson_id):
     return HttpResponse('hello')
 
 
+# --------------------------------------------------------
+# study lesson
 def study(request, lesson_id):
     return HttpResponse('Lesson Study')
 
