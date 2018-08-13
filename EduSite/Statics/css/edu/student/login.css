@@ -8,8 +8,6 @@
 
 body {
     background-image: url('/Statics/images/BGs/BG_sm.jpg');
-    background-blend-mode: normal;
-    background-color: rgba(232, 246, 255, 0.685);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
@@ -18,17 +16,26 @@ body {
     /*background-clip:border-box*/
 }
 
-.blur-clear {
-    transition-delay: 3s;
-    transition-property: all;
-}
+#main-panel {    
+    position: relative;
+    width: 28.875rem;
+    height: 20.625rem;
+    top: 8rem;
 
-#main-panel {
-    width: 462px;
-    height: 330px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     /*border: 3px solid;*/
     text-align: center;
+}
+
+.half-alpha {
+    opacity: 0.4;
+}
+
+.blur-clear {
+    transition-duration: 1.5s;
+    transition-property: opacity;
+    opacity: 1;
 }
 
 #login-title {

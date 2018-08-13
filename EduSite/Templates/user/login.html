@@ -9,11 +9,17 @@
     <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
+    <script> 
+        $(document).ready(onInit);
+        function onInit(event) { 
+            $('#main-panel').addClass('blur-clear');            
+        }
+    </script>
 {% endblock %}
 
 
 {% block content %}
-<div id="main-panel" class="blur-clear">    
+<div id="main-panel" class="half-alpha">
     <p>
         <span id="login-title">登 录</span>
     </p>
@@ -27,3 +33,4 @@
     </div>
 </div>
 {% endblock %}
+

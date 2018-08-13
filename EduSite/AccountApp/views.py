@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf
+from CourseFunApp.views import Lesson
 
 
 def user_login(request):
@@ -31,9 +32,6 @@ def user_login(request):
     if request.method == 'GET':
         login_form = LoginForm()
         return render(request, 'user/login.html', {'form': login_form})
-
-
-from CourseFunApp.views import Lesson
 
 
 @login_required(login_url='/user/login/')
