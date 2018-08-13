@@ -88,7 +88,7 @@ function updateStat() {
     $('#progress_list').html(list_html);
 
     $('#stat_right').html(right_sum);
-    $('#stat_wrong').html(wrong_sum);
+    $('#stat_wrong').html(wrong_sum);    
 }
 
 function showEffect(isCorrect) {
@@ -97,6 +97,7 @@ function showEffect(isCorrect) {
     var finisheFunc = null;
 
     if(isCorrect) {
+        $('#teacher').addClass('teacher-right');
         $('#effect_right').show().addClass("bg-scale-out");
         $('.icon-reward').addClass('win-effect');
         
@@ -107,6 +108,7 @@ function showEffect(isCorrect) {
         $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
     }
     else {
+        $('#teacher').addClass('teacher-wrong');
         effectTime = 1;
         $('#btn_submit').hide();
         $('#btn_next').show();
@@ -144,6 +146,7 @@ function onQuestionListGet(jsonData) {
 }
 
 function update() {    
+    $('#teacher').removeClass('teacher-right').removeClass('teacher-wrong');
     if (qList_obj != null && qList_obj.qList != null) {
         $('#question_index').html(cur_idx + 1);
 
