@@ -1,10 +1,15 @@
 @import url(./font_inc.css);
 @import url(./common_lib.css);
 
+html {
+    font-size: 20px;
+    font-family: HK_Yuan7;
+}
+
 body {
-    background-image: url('/Statics/images/BGs/classroom2-bg.jpg');
+    background-image: url('/Statics/images/BGs/stu_main_BG.jpg');
     background-blend-mode: normal;
-    /* background-size: 100%; */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: left top;
     background-attachment: fixed;
@@ -12,40 +17,136 @@ body {
     /*background-clip:border-box*/
 }
 
-
 #root_panel {
-    position: fixed;
-    left: 10%;
-    top: 1%;
-    width: 1120px;
-    height: 630px;
+    position: absolute;
+    left: 0rem;
+    top: 0rem;
+    width: 70rem;
+    height: 39.375rem;
     margin: auto;
     border: 3px solid;
-    text-align: center;
+    background-color: rgb(240, 255, 255, 0.5);
 }
 
+
+/*-------------------------------------------------------------*/
 #stud_prof {
-    text-align: inherit;
-    border: 1px dashed;
+    position: absolute;
+    left: 0rem;
+    top: 0rem;
+    width: 64rem;
+    height: 6rem;    
+    /* text-align: center; */
+    border-style: solid;
+    border-width: 0.05rem;
+    border-radius: 0.35rem;
+    border-color: white;
+    border-image-source: url('/Statics/images/stu_frame.png');
+    border-image-slice: 40% 40% 40% 40%;
+    border-image-width: 4rem 4rem;
+    border-image-outset: 0rem 0.1rem 1.55rem 0rem;
+    border-image-repeat: fill;
+
+}
+
+#id_username, #id_username:active, #id_password, .text-input-1 {
+    width: auto;
+    height: auto;
+    font-size: 24px;
+    padding: 4px; 
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 10px;
+    border-color: rgb(51,115,145);
+    box-shadow: 0px 0px 4px #3d6370;
+    background-color: #d1eef8;
+}
+
+
+
+/*-------------------------------------------------------------*/
+#lesson_panel {
+    left: 0rem;
+    top: 6rem;
+ 
+    position: absolute;
+    border: 3px dashed;
+}
+
+#girl_panel {
+    left: 0rem;
+    top: 0rem;
+    width: 13.9375rem;
+    height: 33.25rem;
+    position: absolute;    
+    border: 1px dotted;
 }
 
 #exam_entrance {
+    left: 13.9375rem;
+    top: 0rem;
+    width: 13.9375rem;
+    height: 8rem;
+    position: absolute;
     text-align: inherit;
     border: 1px dashed;
 }
 
 #class_list {
+    left: 13.9375rem;
+    top: 8rem;
+    width: 36rem;
+    position: absolute;
     text-align: inherit;
-    border: 1px dashed;
+    border: 1px solid;
+}
+
+
+/*-------------------------------------------------------------*/
+#hanging_panel {    
+    left: 50rem;
+    top: 6rem;
+    position: absolute;
 }
 
 #notice_panel {
-    text-align: inherit;
-    border: 1px dashed;
+    width: 18rem;
+    background-color: #6ebddb;
+    border-style: solid;
+    border-width: 0.075rem 0.125rem 0.125rem 0.075rem;
+    border-color: #e6f0f3;
+    /* border-right-color: #207aa3;
+    border-bottom-color: #207aa3; */
+    border-radius: 1rem;
+    box-shadow: 0.125rem 0.25rem 0.25rem #207aa3;
+    text-align: center;
+}
+
+#notice_panel #inner_panel {
+    height: 14rem;
+    margin: 0.35rem 0.75rem 0.5rem 0.5rem;
+    padding: 0.125rem 0.125rem 0.125rem 0.125rem;
+    background-color: white;
+    border-style: solid;
+    border-radius: 0.75rem;
+    border-top-color: #d1dfe3;
+    border-bottom-color: #8793bf;
+    border-width: 1.75rem 0rem 0.25rem 0rem;
+    box-shadow: 0.25rem 0.125rem 0.1rem #8793bf;
+    text-align: center;
+}
+
+#notice_panel #inner_panel h3 {
+    color: #628db2;
+    font-weight: 900;
+    position: absolute;
+    top: -0.4rem;
+    width: 92%;
+    text-align: center;
 }
 
 #billboard_panel {
-    text-align: inherit;
+    text-align: center;
     border: 1px dashed;
 }
 
@@ -71,18 +172,6 @@ body {
 }
 
 
-#id_username, #id_username:active, #id_password, .text-input-1 {
-    width: auto;
-    height: auto;
-    font-size: 24px;
-    padding: 4px; 
-    border-style: solid;
-    border-width: 3px;
-    border-radius: 10px;
-    border-color: rgb(51,115,145);
-    box-shadow: 0px 0px 4px #3d6370;
-    background-color: #d1eef8;
-}
 
 label {
     font-size: 24px;
