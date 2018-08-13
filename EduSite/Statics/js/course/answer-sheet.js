@@ -318,7 +318,7 @@ var id_replace_reg = new RegExp( 'cc' , "g" );
 var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc">\
                             <span id="id_span_cc"></span>\
                             <label class="option-item pair-left" id="pair_l_cc">##</label>\
-                            <label class="option-item pair-right" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~">$$</label>\
+                            <label class="option-item pair-right" ondragenter="dragenter(event)" ondragleave="dragleave(event)" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~">$$</label>\
                         </div>';
 
 function swapData(curidx, taridx) {
@@ -373,10 +373,18 @@ function checkPair(key_str) {
 
 var SORTABLE_OPTION_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
                                 <span id="id_span_cc"></span>\
-                                <label class="option-item full-line" draggable="true" ondragstart="drag(event)" width="336" height="69" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
+                                <label class="option-item full-line" draggable="true" ondragstart="drag(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
                                         ##\
                                 </label>\
                             </div>';
+
+function dragenter(event) {
+    $(event.target).addClass('dropable');
+}
+
+function dragleave(event) {
+    $(event.target).removeClass('dropable');
+}
 
 function drag(event) {
     if(event.target.dataset['sortid']==null) return false;
@@ -386,7 +394,7 @@ function drag(event) {
 
 function drop(event) {    
     event.preventDefault();
-
+    $(event.target).removeClass('dropable');
     if(event.target.dataset['sortid']== null) return false;
     //alert(event.target);
     var id = event.dataTransfer.getData("sortid");
@@ -510,12 +518,11 @@ function showKeySort(result, keyObject) {
 }
 
 function refreshSortByResult(jq_elem, isKey, jq_icon, key_html) {
-    jq_elem.attr("draggable", false);
     var cssName = isKey ? 'checked-key': 'no-key';
     jq_elem.addClass(cssName);
     cssName = isKey ? 'checked-key': 'checked-no';
     jq_icon.addClass('icon-' + cssName);
-    jq_elem.html(key_html);
+    jq_elem.html(key_html).attr("draggable", false).addClass('option-item-disabled');
 }
 
 //-----------------------------------------------------

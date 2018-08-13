@@ -432,6 +432,51 @@ body {
     margin: 1.5rem 2.25rem 0rem 2.75rem;
 }
 
+/* .option-item:hover {
+    background: linear-gradient(179deg, #f1d3be , #f3ceab 23%, #e4ae8b 27%, #ca9467 50%, #e4ae8b 73%, #f3ceab 77%, #f1d3be 100%);
+    animation: grad-color-swap 0.5s infinite linear;
+    background-size: 100% 200%;
+} */
+
+@keyframes grad-color-swap {
+    0% {
+        background-position-y: 0%;
+    }
+    20% {    
+        background-position-y: 40%;
+    }
+    40% {
+        background-position-y: 80%;
+    }
+    60% {
+        background-position-y: 120%;
+    }
+    80% {
+        background-position-y: 160%;
+    }
+    100% {
+        background-position-y: 200%;
+    }
+}
+
+.pair-button-group {
+    position: relative;    
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+
+    top: 0.5rem;
+    right: 0.25rem;
+    width: 2.5em;
+    height: 2.75em;
+    display: inline-block;
+}
+
+.pair-right {
+    width: 13.5rem;
+}
+
 .pair-right, .option-item {
     margin-left: 0.3rem;
     display: inline-block;
@@ -448,22 +493,26 @@ body {
     box-shadow: none;
 }
 
-.pair-right {
-    width: 13.5rem;
+.option-item:hover {
+    position: relative;
+    top: -0.05rem;
+    left: -0.05rem;
+    box-shadow: 0.225rem 0.225rem 0.75rem gray;
 }
 
-.pair-button-group {
-    position: relative;    
-    margin-top: 0rem;
-    margin-bottom: 0rem;
-    padding-top: 0rem;
-    padding-bottom: 0rem;
+.pair-left:hover {
+    position: inherit;
+    box-shadow: none;
+}
 
-    top: 0.5rem;
-    right: 0.25rem;
-    width: 2.5em;
-    height: 2.75em;
-    display: inline-block;
+.option-item-disabled {
+    box-shadow: none;
+    pointer-events: none;
+}
+
+.dropable {
+    border-color: #b86d4f;
+    box-shadow: 0rem 0rem 1rem #f57644;
 }
 
 .pair-line{
@@ -509,7 +558,7 @@ body {
     content: url('/Statics/images/current.png');
     width: 2rem;
     height: 2rem;   
-    animation: anim-opacity 2s infinite linear;    
+    animation: anim-opacity 2s infinite linear;
 }
 
 .succeed {

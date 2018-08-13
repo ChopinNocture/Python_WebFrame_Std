@@ -242,7 +242,7 @@ def answer_sheet(request, sectionID):
         return render(request=request, template_name="course/AnswerSheet.html",
                       context={"section_name": lesson.description, "questionType": ""})
     else:
-        question_dict = exam_sys.generate_question_set(lesson, 1, ['Choice'])
+        question_dict = exam_sys.generate_question_set(lesson, 1, ['Pair', 'Sort'])
         return JsonResponse(question_dict)
 
 
