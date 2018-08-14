@@ -50,20 +50,17 @@
         </div>
     </div>
     <div class="" id="hanging_panel">
-        <div class="card text-white bg-warning mb-3" id="notice_panel">
+        <div class="card text-white bg-warning mb-3" id="notice_panel">  
+            <img src="{% static 'images\tree.png' %}" id="tree_img"/>
             <div id="inner_panel">
                 <h3>公  告</h3>
                 <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
                     公布一些内容
                 </div>
-            </div>
+            </div>            
         </div>
-        <br>
         <div class="card text-white bg-info mb-3" id="billboard_panel">
-            <div class="card-header text-center">
-                <h3>排行榜</h3>
-            </div>
-            <div class="card-body">
+            <div class="card-body" id="billboard_content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">萧峰</li>
                     <li class="list-group-item">令狐冲</li>

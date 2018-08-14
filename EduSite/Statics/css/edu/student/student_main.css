@@ -63,7 +63,6 @@ body {
 }
 
 
-
 /*-------------------------------------------------------------*/
 #lesson_panel {
     left: 0rem;
@@ -75,11 +74,12 @@ body {
 
 #girl_panel {
     left: 0rem;
-    top: 0rem;
-    width: 13.9375rem;
-    height: 33.25rem;
-    position: absolute;    
+    top: 6rem;
+    width: 19rem;
+    height: 38rem;  
+    position: fixed;
     border: 1px dotted;
+    content: url('/Statics/images/yoyo4.png');    
 }
 
 #exam_entrance {
@@ -122,41 +122,75 @@ body {
     text-align: center;
 }
 
+#tree_img {
+    z-index: 0;
+    top: 8.5rem;
+    right: 0.2rem;
+    position: absolute;
+    opacity: 0.9;
+}
+
 #notice_panel #inner_panel {
-    height: 14rem;
-    margin: 0.35rem 0.75rem 0.5rem 0.5rem;
+    z-index: 2;
+    height: 10rem;
+    margin: 0.8rem 0.75rem 0.5rem 0.5rem; 
     padding: 0.125rem 0.125rem 0.125rem 0.125rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     border-style: solid;
     border-radius: 0.75rem;
     border-top-color: #d1dfe3;
     border-bottom-color: #8793bf;
-    border-width: 1.75rem 0rem 0.25rem 0rem;
+    border-width: 2rem 0rem 0.25rem 0rem;
     box-shadow: 0.25rem 0.125rem 0.1rem #8793bf;
-    text-align: center;
 }
 
 #notice_panel #inner_panel h3 {
-    color: #628db2;
+    color: #6898c2;
+    font-size: 1.4rem;
     font-weight: 900;
     position: absolute;
-    top: -0.4rem;
+    top: -0.3rem;
     width: 92%;
     text-align: center;
+    text-indent: 0em;
+    text-shadow: 0.125rem 0.125rem 0.5rem #32515c;
 }
+
+#notice_show {
+    padding: 0.1rem 0.8rem 0.5rem 0.8rem;
+    font-size: 1.1rem;
+    color: #dd6755;
+    position: relative;
+    top: 0.4rem;
+    line-height: 1.3em;
+    text-align: left;
+    text-indent: 2em;
+    text-shadow: 0rem 0rem 0.05rem #64281f;
+}
+
 
 #billboard_panel {
-    text-align: center;
-    border: 1px dashed;
+    text-align: left;
+    height: 16.4rem;
+    background-image: url('/Statics/images/BGs/billboard-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-#login-title {
-    font-size: 250%;
+#billboard_content {
     position: relative;
-    top: 48px;
-    color: aliceblue;
-    text-shadow: 3px 3px 3px rgb(51,115,145)
+    top: 4rem;
+    line-height: 1.4em;
 }
+
+#billboard_content li {
+    position: relative;
+    left: -0.8rem;
+    width: 96%;
+    list-style-type:none;
+    border: 1px dotted;
+}
+
 
 #panel-bg {
     width: 100%;
