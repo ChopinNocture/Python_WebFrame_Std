@@ -82,6 +82,25 @@ body {
     content: url('/Statics/images/yoyo4.png');    
 }
 
+#lesson_list_panel {
+    position: absolute;
+    left: 14rem;
+    top: 2rem;
+    width: 8rem;
+    height: 10rem;      
+    content: url('/Statics/images/book-close.png');    
+}
+
+#cur_lesson_panel {
+    position: absolute;
+    left: 18rem;
+    top: 0rem;
+    width: 35rem;
+    height: 32rem;      
+    content: url('/Statics/images/book-open.png');    
+}
+
+
 #exam_entrance {
     left: 13.9375rem;
     top: 0rem;
