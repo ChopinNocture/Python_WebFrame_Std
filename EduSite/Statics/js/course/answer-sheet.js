@@ -11,7 +11,14 @@ var question_sum = 0;
 
 function onInit(event) {  
     csrf_Setup();
-    $('#btn_submit').click(onSubmitClk);
+    $('#btn_submit').click(onSubmitClk)
+                    .mouseover(()=>{
+                        $('#pen_icon').addClass('pen_finish').removeClass('pen_doing');
+                    })
+                    .mouseout(()=>{
+                        $('#pen_icon').removeClass('pen_finish').addClass('pen_doing');
+                    });
+
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
     $('#btn_back_main').click(onBackMain);

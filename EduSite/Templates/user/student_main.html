@@ -16,14 +16,19 @@
 {% block content %}
 <div id="root_panel">
     <div class="" id="stud_prof">
-        <div class="row-fluid">
-            <label>{{stud_info.user}}</label>
-            {{ stud_info.student_number }}
-            {{ stud_info.class_id }}
-            {{ stud_info.gold }}
-            {{ stud_info.progress }}
-            {{ stud_info.rank }}
-            {{ stud_info.level }}
+        <div class="row-fluid" id="prof_inner">
+            <div id="prof_bg"></div>
+            <div id="user_info">
+                <span id="icon_user"></span>
+                <label id="id_user">{{stud_info.user}}</label>
+                <label id="id_student_number">{{ stud_info.student_number }}</label>
+                <label id="id_class_id">{{ stud_info.class_id }}</label>
+            </div>
+            <label id="id_gold">{{ stud_info.gold }}</label>
+            <label id="id_progress">{{ stud_info.progress }}</label>
+            <label id="id_rank">{{ stud_info.rank }}</label>
+            <label id="id_level">{{ stud_info.level }}</label>
+            
         </div>
     </div>
     <div class="col-8" id="lesson_panel">
@@ -36,14 +41,14 @@
         <div id="cur_lesson_panel">
 
         </div>
-        <div class="row-fluid text-center" id="exam_entrance">
+        <div class="row-fluid text-center" id="exam_entrance" hidden>
             <h4>试炼场</h4>
             <p>
                 开放时间：xxxxxxx <br>
             </p>
             <button class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</button> 
         </div>
-        <div class="row-fluid" id="class_list">
+        <div class="row-fluid" id="class_list" hidden>
             <ul class="list-group list-group-flush">
                 {% for lesson in lesson_list %}
                 <li class="list-group-item">
