@@ -24,23 +24,38 @@
                 <label id="id_student_number">{{ stud_info.student_number }}</label>
                 <label id="id_class_id">{{ stud_info.class_id }}</label>
             </div>
-            <label id="id_gold">{{ stud_info.gold }}</label>
-            <label id="id_progress">{{ stud_info.progress }}</label>
-            <label id="id_rank">{{ stud_info.rank }}</label>
-            <label id="id_level">{{ stud_info.level }}</label>
-            
+            <div id="user_add"> 
+                <span id="icon_gold"></span>
+                <label id="id_gold">{{ stud_info.gold }}</label>
+                <label id="id_progress">{{ stud_info.progress }}</label>
+                <label id="id_rank">{{ stud_info.rank }}</label>
+                <label id="id_level">{{ stud_info.level }}</label>
+            </div>            
         </div>
     </div>
     <div class="col-8" id="lesson_panel">
-        <div id="girl_panel">
-
-        </div>
-        <div id="lesson_list_panel">
-
-        </div>
+        <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
 
-        </div>
+            </div>
+
+        <div id="lesson_list_panel">            
+            <button id="move_prev" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>
+            <div id="lesson_ctrl">
+                <div id="lesson_inner" class="">
+                    <li id="l_uu" class="lesson-book"><span class="lesson-book-u"></span></li>
+                    <li id="l_u" class="lesson-book"><div class="lesson_label">asdasdaasdasdsd</div><span class="lesson-book-u"></span></li>
+                    <li id="l_m" class="lesson-book">
+                        <span class="lesson-book-b" style="background-size:100% 0%; opacity:0;"></span>
+                        <span class="lesson-book-u" style="background-size:100% 0%; opacity:0; top:-100%;"></span>                        
+                    </li>
+                    <li id="l_b" class="lesson-book"><span class="lesson-book-b"></span></li>
+                    <li id="l_bb" class="lesson-book"><span class="lesson-book-b"></span></li>                  
+                </div>
+            </div>
+            <button id="move_next" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>  
+        </div>         
+
         <div class="row-fluid text-center" id="exam_entrance" hidden>
             <h4>试炼场</h4>
             <p>
@@ -88,3 +103,4 @@
 {% block jsPage %}
 <script type="text/javascript" src="{% static 'js/user/student_main.js' %}"></script> 
 {% endblock %}
+

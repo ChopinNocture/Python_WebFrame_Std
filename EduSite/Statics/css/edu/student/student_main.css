@@ -26,7 +26,8 @@ body {
     height: 39.375rem;
     margin: auto;
     border: 3px solid;
-    background-color: rgba(238, 129, 78, 0.932);
+    border-radius: 1rem;
+    background-color: rgba(238, 129, 78, 0.63);
 }
 
 
@@ -34,11 +35,11 @@ body {
 #stud_prof {
     position: absolute;
     left: 0rem;
-    top: 0rem;
+    top: 0.4rem;
     width: 64rem;
-    height: 6rem;    
+    height: 4rem;    
     /* text-align: center; */
-    border-style: solid;
+    border-style: none;
     border-width: 0.05rem;
     border-radius: 0.35rem;
     border-color: white;
@@ -49,42 +50,29 @@ body {
     border-image-repeat: fill; */
 }
 
-#user_info {
-    display: inline-block;
+#prof_inner {    
+    vertical-align: middle;
     position: relative;
-    top: 0.5rem;
-    left: 1rem;
-    height: 3rem;
-    border-style: solid;
-    border-width: 0.3rem;
-    border-radius: 0.4rem;
-    border-color: #abcbd4;    
-    background-color: #ffffff;    
+    left: 0rem;
+    top: 0.2rem;
+    padding-top: 0%;
+    /* border: 3px dashed; */
 }
 
 #prof_bg {
     z-index: -1;
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     position: absolute;
     float: left;
     width: 60rem;
-    height: 2.5rem; 
+    height: 1.6rem; 
     background-color: #ffebd1;    
-}
-
-#prof_inner {    
-    vertical-align: middle;
-    position: relative;
-    left: 0.75rem;
-    top: 1rem;
-    padding-top: 0%;
-    border: 3px dashed;
 }
 
 #prof_inner label {
     position: relative; 
-    top: -3rem;
-    font-size: 24px;
+    top: -2.2rem;
+    font-size: 20px;
     color: azure;
     text-shadow:1px 0px 2px rgb(51,115,145),
                 -1px 0px 2px rgb(51,115,145),
@@ -96,31 +84,70 @@ body {
                 -1px 1px 2px rgb(51,115,145);   
 }
 
-#id_user {    
+#user_info, #user_add {
+    display: inline-block;
+    position: absolute;
+    top: 0.3rem;
+    height: 2rem;
+    padding-left: 0.2rem;
+    padding-right: 0.4rem;
+
+    border-style: solid;
+    border-width: 0.3rem;
+    border-radius: 0.4rem;
+    border-color: #abcbd4;    
+    background-color: #ffffff; 
+ /* border: 3px dashed; */        
+}
+
+#user_info {
+    left: 1.2rem;
+}
+
+#user_add {
+    left: 15.2rem;
+    border-color: goldenrod;
+}
+
+#user_add label {
+    top: -1.6rem;
+}
 
 
+#id_user {}
+
+#icon_user, #icon_gold {
+    position: relative;
+    display: inline-block;
+    top: -0.8rem;
+    left: 0rem;
+    align-content: center;
+     
 }
 
 #icon_user {
-    position: relative;
-    top: -0.9rem;
-    left: 0.4rem;
     content: url('/Statics/images/info-icon.png');
-    align-content: center;
-    width: 4.2rem;
-    height: 4.2rem;
+    width: 3rem;
+    height: 3rem;
     border-style: solid;
     border-width: 0.3rem;
-    border-radius: 0.5rem;    
+    border-radius: 0.5rem;  
     border-color: #8d999b;    
-    background-color: #d1dfe3;      
+    background-color: #d1dfe3;   
+}
+
+#icon_gold {
+    top: -0.5rem;
+    width: 3rem;
+    height: 3rem;
+    content: url('/Statics/images/gold/num-9.png');
 }
 
 
 /*-------------------------------------------------------------*/
 #lesson_panel {
     left: 0rem;
-    top: 6rem;
+    top: 4rem;
  
     position: absolute;
     border: 3px dashed;
@@ -128,7 +155,7 @@ body {
 
 #girl_panel {
     left: 0rem;
-    top: 6rem;
+    top: 5rem;
     width: 19rem;
     height: 38rem;  
     position: fixed;
@@ -137,12 +164,100 @@ body {
 }
 
 #lesson_list_panel {
+    text-align: center;
+    align-content: center;
+    
     position: absolute;
-    left: 14rem;
-    top: 2rem;
+    left: 13rem;
+    top: 0rem;
     width: 8rem;
-    height: 10rem;      
-    content: url('/Statics/images/book-close.png');    
+    height: 32rem;      
+    /* border: 1px dotted;  */
+}
+
+.lesson-book-b, .lesson-book-u, .lesson-book { 
+    width: 8rem;
+    height: 10rem;
+    background-repeat: no-repeat; 
+}
+
+.lesson-book-b {
+    position: absolute;
+    background-position: center 4%;
+    background-size: 80% 70%;
+    background-image: url('/Statics/images/book-edge-b.png');
+}
+.lesson-book-u {
+    position: absolute;
+    background-position: center 96%;
+    background-size: 80% 70%;
+    background-image: url('/Statics/images/book-edge-u.png');
+}
+.lesson-book {
+    background-position: center 50%;
+    background-size: 80% 70%;
+    background-image: url('/Statics/images/book-close-m.png');    
+}
+
+.btn-up {
+    width: 3rem;
+    height: 2rem;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);    
+    background-image: url('/Statics/images/arrow-up.png');
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+}
+
+.btn-up:hover{
+    background-image: url('/Statics/images/arrow-up-over.png');
+}
+
+#lesson_ctrl span {
+    display: inline-block;
+    position: relative;
+    top: 0rem;
+    left: 0rem;
+    width: 8rem;
+    height: 10rem;
+}
+
+#move_prev {
+    position: relative;
+}
+
+#move_next {
+    position: relative;
+    bottom: 0%;
+    transform: rotate(180deg);
+}
+
+#lesson_ctrl {
+    position: relative;
+    top: 0rem;
+    width: 8rem;
+    height: 30.2rem; 
+    /* border: 1px dashed;  */
+    overflow: hidden;   
+}
+
+#lesson_ctrl li{
+    list-style-type: none;
+}
+
+#lesson_inner {
+    position: absolute;
+    top: -10rem;
+}
+
+.anim-move {    
+    transition-property: all;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+}
+
+.lesson_label {
+    position: absolute;
 }
 
 #cur_lesson_panel {
@@ -151,7 +266,8 @@ body {
     top: 0rem;
     width: 35rem;
     height: 32rem;      
-    content: url('/Statics/images/book-open.png');    
+    content: url('/Statics/images/book-open.png');   
+    border: 1px dashed; 
 }
 
 
