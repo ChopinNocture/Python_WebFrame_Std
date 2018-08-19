@@ -1,5 +1,6 @@
 $(document).ready(onInit);
 
+
 function onInit(event) {
     $.ajax({
         url: $('#notice_show').data('url'),
@@ -12,6 +13,8 @@ function onInit(event) {
     $('#l_m').css('background-size', '100% 100%');
     $('#move_prev').click(onPrev);
     $('#move_next').click(onNext);
+
+    listData
 }
 
 function movingAnim() {
@@ -31,7 +34,7 @@ function movingAnim() {
         $('#l_u span').css({'background-size':'80% 70%', 'opacity':'1'});
         $('#l_b span').css({'background-size':'80% 70%', 'opacity':'1'});
         $('#l_m').css('background-size', '100% 100%');
-        $('#l_m span').css({'background-size': '100% 100%','opacity':'0'});
+        $('#l_m span').css({'background-size': '100% 100%','opacity':'0.01'});
     }, 400);     
 }
 
@@ -39,7 +42,7 @@ function onPrev(event) {
     movingAnim();
     $('#l_m .lesson-book-u').css({'background-size': '80% 70%','opacity':'1'});
     $('#l_b').css('background-size', '100% 100%');
-    $('#l_b span').css({'background-size':'100% 0%', 'opacity':'0'});
+    $('#l_b span').css({'background-size':'100% 0%', 'opacity':'0.01'});
     $('#lesson_inner').css('top', '-20rem');    
 }
 
@@ -47,9 +50,13 @@ function onNext(event) {
     movingAnim();
     $('#l_m .lesson-book-b').css({'background-size': '80% 70%','opacity':'1'});
     $('#l_u').css('background-size', '100% 100%');
-    $('#l_u span').css({'background-size':'100% 0%', 'opacity':'0'});
+    $('#l_u span').css({'background-size':'100% 0%', 'opacity':'0.01'});
     $('#lesson_inner').css('top', '0rem');
 }
+
+var listData = [];
+
+
 
 
 var notices_list = [];

@@ -43,14 +43,15 @@
             <button id="move_prev" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>
             <div id="lesson_ctrl">
                 <div id="lesson_inner" class="">
-                    <li id="l_uu" class="lesson-book"><span class="lesson-book-u"></span></li>
-                    <li id="l_u" class="lesson-book"><div class="lesson_label">asdasdaasdasdsd</div><span class="lesson-book-u"></span></li>
+                    <li id="l_uu" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-u"></span></li>
+                    <li id="l_u" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-u"></span></li>
                     <li id="l_m" class="lesson-book">
+                        <div class="lesson_label">qwdqwdqwd</div>
                         <span class="lesson-book-b" style="background-size:100% 0%; opacity:0;"></span>
                         <span class="lesson-book-u" style="background-size:100% 0%; opacity:0; top:-100%;"></span>                        
                     </li>
-                    <li id="l_b" class="lesson-book"><span class="lesson-book-b"></span></li>
-                    <li id="l_bb" class="lesson-book"><span class="lesson-book-b"></span></li>                  
+                    <li id="l_b" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-b"></span></li>
+                    <li id="l_bb" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-b"></span></li>                  
                 </div>
             </div>
             <button id="move_next" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>  
@@ -69,7 +70,7 @@
                 <li class="list-group-item">
                     {{lesson.description}}
                     <a href="#" class="btn btn-info align-right" id="btn_enter_learn">课程</a> 
-                    <a href="{% url 'course:answer-sheet' sectionID=lesson.id %}" class="btn btn-warning right" id="btn_enter_practise">修炼</a> 
+                    <a href="{% url 'course:answer-sheet' sectionID=lesson.id %}" id="btn_enter_practise">修炼</a> 
                 </li>
                 {% endfor %}
             </ul>

@@ -194,6 +194,7 @@ body {
     background-image: url('/Statics/images/book-edge-u.png');
 }
 .lesson-book {
+    position: relative;
     background-position: center 50%;
     background-size: 80% 70%;
     background-image: url('/Statics/images/book-close-m.png');    
@@ -258,6 +259,9 @@ body {
 
 .lesson_label {
     position: absolute;
+    top: 4rem;
+    left: 2rem;
+    color: #ffebd1;
 }
 
 #cur_lesson_panel {
