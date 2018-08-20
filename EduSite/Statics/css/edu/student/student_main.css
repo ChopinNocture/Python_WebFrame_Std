@@ -22,12 +22,12 @@ body {
     position: absolute;
     left: 0rem;
     top: 0rem;
-    width: 70rem;
+    width: 100%;
     height: 39.375rem;
     margin: auto;
-    border: 3px solid;
+    /* border: 3px solid;
     border-radius: 1rem;
-    background-color: rgba(238, 129, 78, 0.63);
+    background-color: rgba(238, 129, 78, 0.63); */
 }
 
 
@@ -36,12 +36,14 @@ body {
     position: absolute;
     left: 0rem;
     top: 0.4rem;
-    width: 64rem;
+    width: 100%;
     height: 4rem;    
     /* text-align: center; */
+
+    background-color: rgba(240, 255, 255, 0.5);
     border-style: none;
     border-width: 0.05rem;
-    border-radius: 0.35rem;
+
     border-color: white;
     /* border-image-source: url('/Statics/images/stu_frame.png');
     border-image-slice: 40% 40% 40% 40%;
@@ -64,7 +66,7 @@ body {
     margin-top: 0.8rem;
     position: absolute;
     float: left;
-    width: 60rem;
+    width: 100%;
     height: 1.6rem; 
     background-color: #ffebd1;    
 }
@@ -121,8 +123,7 @@ body {
     display: inline-block;
     top: -0.8rem;
     left: 0rem;
-    align-content: center;
-     
+    align-content: center;     
 }
 
 #icon_user {
@@ -146,11 +147,9 @@ body {
 
 /*-------------------------------------------------------------*/
 #lesson_panel {
+    position: absolute;
     left: 0rem;
     top: 4rem;
- 
-    position: absolute;
-    border: 3px dashed;
 }
 
 #girl_panel {
@@ -165,11 +164,10 @@ body {
 
 #lesson_list_panel {
     text-align: center;
-    align-content: center;
-    
+    align-content: center;    
     position: absolute;
-    left: 13rem;
-    top: 0rem;
+    left: 14.6rem;
+    top: 1rem;
     width: 8rem;
     height: 32rem;      
     /* border: 1px dotted;  */
@@ -195,6 +193,7 @@ body {
 }
 .lesson-book {
     position: relative;
+    align-content: center;
     background-position: center 50%;
     background-size: 80% 70%;
     background-image: url('/Statics/images/book-close-m.png');    
@@ -225,11 +224,12 @@ body {
 
 #move_prev {
     position: relative;
+    top: 50%;
 }
 
 #move_next {
     position: relative;
-    bottom: 0%;
+    bottom: 50%;
     transform: rotate(180deg);
 }
 
@@ -258,21 +258,64 @@ body {
 }
 
 .lesson_label {
-    position: absolute;
-    top: 4rem;
-    left: 2rem;
-    color: #ffebd1;
+    position: absolute;    
+    text-align: center;
+    font-size: 60%;
+    top: 6em;
+    left: 3.8em;
+    width: 5em;
+    height: 4em;
+    line-height: 120%;
+    color: #fffcce; 
 }
 
+
+/* --------------------- 课程 --------------------- */
 #cur_lesson_panel {
     position: absolute;
-    left: 18rem;
+    left: 20rem;
     top: 0rem;
     width: 35rem;
-    height: 32rem;      
-    content: url('/Statics/images/book-open.png');   
-    border: 1px dashed; 
+    height: 32rem;
 }
+
+.icon_book {
+    position: absolute;
+    left: 0rem;
+    top: 0rem;
+    width: 35rem;
+    height: 32rem;       
+    content: url('/Statics/images/book-open.png');
+}
+
+#btn_lesson {
+    position: absolute;
+    left: 10rem;
+    top: 5rem;
+}
+
+#btn_practise {
+    position: absolute;
+    top: 18rem;
+    left: 16rem;    
+    width: 15rem;
+    height: 17rem;  
+    background-image: url('/Statics/images/book-prac.png');
+    background-repeat: no-repeat;
+    background-size: contain; 
+}
+
+.icon_locker {
+    position: absolute;
+    top: 0.6rem;
+    left: 1rem;    
+    width: 14rem;
+    height: 14rem;  
+    z-index: 3;
+    content: url('/Statics/images/locker.png');
+
+}
+
 
 
 #exam_entrance {
@@ -285,26 +328,16 @@ body {
     border: 1px dashed;
 }
 
-#class_list {
-    left: 13.9375rem;
-    top: 8rem;
-    width: 36rem;
-    position: absolute;
-    text-align: inherit;
-    border: 1px solid;
-}
-
-
 /*-------------------------------------------------------------*/
 #hanging_panel {    
-    left: 50rem;
+    left: 54rem;
     top: 6rem;
     position: absolute;
 }
 
 #notice_panel {
     width: 18rem;
-    background-color: #6ebddb;
+    background-color: rgb(112, 188, 219);
     border-style: solid;
     border-width: 0.075rem 0.125rem 0.125rem 0.075rem;
     border-color: #e6f0f3;

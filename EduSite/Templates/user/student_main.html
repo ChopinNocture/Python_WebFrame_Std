@@ -36,22 +36,26 @@
     <div class="col-8" id="lesson_panel">
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
+            <span class="icon_book"></span>
+            
+            <a id="btn_lesson">lesson</a> 
 
-            </div>
+            <a id="btn_practise"><span class="icon_locker"></span></a>            
+        </div>
 
         <div id="lesson_list_panel">            
             <button id="move_prev" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>
             <div id="lesson_ctrl">
                 <div id="lesson_inner" class="">
-                    <li id="l_uu" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-u"></span></li>
-                    <li id="l_u" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-u"></span></li>
+                    <li id="l_uu" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-u"></span></li>
+                    <li id="l_u" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-u"></span></li>
                     <li id="l_m" class="lesson-book">
-                        <div class="lesson_label">qwdqwdqwd</div>
+                        <div class="lesson_label"></div>
                         <span class="lesson-book-b" style="background-size:100% 0%; opacity:0;"></span>
                         <span class="lesson-book-u" style="background-size:100% 0%; opacity:0; top:-100%;"></span>                        
                     </li>
-                    <li id="l_b" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-b"></span></li>
-                    <li id="l_bb" class="lesson-book"><div class="lesson_label">qwdqwdqwd</div><span class="lesson-book-b"></span></li>                  
+                    <li id="l_b" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-b"></span></li>
+                    <li id="l_bb" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-b"></span></li>                  
                 </div>
             </div>
             <button id="move_next" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>  
@@ -67,10 +71,10 @@
         <div class="row-fluid" id="class_list" hidden>
             <ul class="list-group list-group-flush">
                 {% for lesson in lesson_list %}
-                <li class="list-group-item">
-                    {{lesson.description}}
-                    <a href="#" class="btn btn-info align-right" id="btn_enter_learn">课程</a> 
-                    <a href="{% url 'course:answer-sheet' sectionID=lesson.id %}" id="btn_enter_practise">修炼</a> 
+                <li class="list-group-item" 
+                    data-desc="{{ lesson.description }}"
+                    data-curl=""
+                    data-purl="{% url 'course:answer-sheet' sectionID=lesson.id %}" >
                 </li>
                 {% endfor %}
             </ul>
