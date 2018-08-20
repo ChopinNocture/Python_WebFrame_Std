@@ -27,7 +27,7 @@
             <div id="user_add"> 
                 <span id="icon_gold"></span>
                 <label id="id_gold">{{ stud_info.gold }}</label>
-                <label id="id_progress">{{ stud_info.progress }}</label>
+                <span id="id_progress" data-progress="{{ stud_info.progress }}" hidden></span>
                 <label id="id_rank">{{ stud_info.rank }}</label>
                 <label id="id_level">{{ stud_info.level }}</label>
             </div>            
@@ -36,11 +36,11 @@
     <div class="col-8" id="lesson_panel">
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
-            <span class="icon_book"></span>
+            <!-- <span class="icon_book"></span> -->
             
-            <a id="btn_lesson">lesson</a> 
+            <a id="btn_lesson"><span class="icon_locker bg_lesson"></span></a> 
 
-            <a id="btn_practise"><span class="icon_locker"></span></a>            
+            <a id="btn_practise"><span class="icon_locker bg_prac"></span></a>            
         </div>
 
         <div id="lesson_list_panel">            

@@ -129,8 +129,8 @@ body {
 #sheet_edge {
     position: absolute;
     width: 106%;
-    height: 96%;
-    background-size: 3.8125rem 4.375rem;
+    height: 92%;
+    background-size: 3.8125rem 4.125rem;
     background-image: url('/Statics/images/sheet_edge.png');   
     background-repeat: repeat-y; 
     background-position: right top;

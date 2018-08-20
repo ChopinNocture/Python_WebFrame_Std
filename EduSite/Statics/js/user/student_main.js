@@ -1,7 +1,11 @@
 $(document).ready(onInit);
 
+var progress = 0;
 
 function onInit(event) {
+    progress = $("#id_progress").data('progress');
+    alert(progress);
+
     $.ajax({
         url: $('#notice_show').data('url'),
         type: "GET",       

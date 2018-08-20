@@ -290,14 +290,19 @@ body {
 
 #btn_lesson {
     position: absolute;
-    left: 10rem;
-    top: 5rem;
+    left: 4rem;
+    top: 4rem;
+    width: 15rem;
+    height: 17rem;  
+    background-image: url('/Statics/images/book-learn.png');
+    background-repeat: no-repeat;
+    background-size: contain;         
 }
 
 #btn_practise {
     position: absolute;
-    top: 18rem;
-    left: 16rem;    
+    top: 20rem;
+    left: 18rem;    
     width: 15rem;
     height: 17rem;  
     background-image: url('/Statics/images/book-prac.png');
@@ -313,9 +318,28 @@ body {
     height: 14rem;  
     z-index: 3;
     content: url('/Statics/images/locker.png');
-
 }
 
+.bg_lesson, .bg_prac {
+    border-style: none;
+    border-radius: 50%;
+    opacity: 1;
+    background-position: 70% 70%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    animation: anim-opacity 2s infinite linear;
+}
+.bg_lesson {
+    background-image: radial-gradient( rgba(183, 167, 255, 0.9) 40%, rgba(187, 168, 255, 0.01) 70%);
+}
+.bg_prac {
+    background-image: radial-gradient( rgba(240, 167, 255, 0.9) 35%, rgba(248, 168, 255, 0.01) 70%);
+}
+@keyframes anim-opacity {
+    50% {
+        background-size: 70% 70%;
+    }
+}
 
 
 #exam_entrance {
