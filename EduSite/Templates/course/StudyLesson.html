@@ -16,7 +16,19 @@
 
 {% block content %}
 <div id="main-panel" class="">
-{{form}}
+    {{ form.non_field_errors }} 
+    {{ form.lesson.errors }}
+    {{ form.lesson }}
+
+    {{ form.content.errors }}
+    {{ form.content }}
+
+    {{ form.file_type.errors }}    
+    {{ form.file_type }}
+
+    {{ form.file_name.errors }}
+    {{ form.file_name }}
+    <button id="btn_back" class="btn-round-orange">秘籍完成</button>
 </div>
 {% endblock %}
 

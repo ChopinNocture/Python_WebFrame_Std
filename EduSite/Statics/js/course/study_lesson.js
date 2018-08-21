@@ -4,6 +4,15 @@ var type_HTML = {
     'audio': '<img src="***" alt="图片文件，需要支持HTML5 的浏览器" id="prev_control"/>'
 }
 
+$(document).ready(init);
+
+function init() {
+    csrf_Setup();
+    reBindEvent();
+}
+
+function reBindEvent() {
+}
 
 function refreshUI() {    
     if( $('#id_file_name').val()=="" ) {
