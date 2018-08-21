@@ -1,10 +1,19 @@
 $(document).ready(onInit);
 
+//================================================================
+// 进度
 var progress = 0;
+function isLessonLock(idx) {    
+    return (idx<<1 > progress);
+}
+function isPracLock(idx) {
+    return (idx<<1 >= progress);
+}
 
+//================================================================
 function onInit(event) {
     progress = $("#id_progress").data('progress');
-    alert(progress);
+    
 
     $.ajax({
         url: $('#notice_show').data('url'),
@@ -115,10 +124,28 @@ function refreshBookList() {
     refreshCurrent();
 }
 
+//================================================================
+// 当前
 function refreshCurrent() {
-    $('#btn_lesson').prop('href', listData[middle_idx]['curl']);
-    $('#btn_practise').prop('href', listData[middle_idx]['purl']);
+    if (isLessonLock(middle_idx)) {        
+        $('#btn_lesson').removeAttr('href');
+        $('#btn_lesson .icon_locker').removeClass("fade-out");
+    }
+    else {
+        $('#btn_lesson').prop('href', listData[middle_idx]['curl']);        
+        $('#btn_lesson .icon_locker').addClass("fade-out");
+    }
+    
+    if (isPracLock(middle_idx)) {
+        $('#btn_practise').removeAttr('href');
+        $('#btn_practise .icon_locker').removeClass("fade-out");
+    }
+    else {
+        $('#btn_practise').prop('href', listData[middle_idx]['purl']);
+        $('#btn_practise .icon_locker').addClass("fade-out");
+    }    
 }
+
 
 //================================================================
 // 公告部分

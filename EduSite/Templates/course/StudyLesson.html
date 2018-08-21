@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block title %}课程学习{% endblock %} 
+
+{% block jsFunctionLib %}
+    <link rel="stylesheet" href="{% static 'css/edu/student/study_lesson.css' %}"/>
+
+    <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
+{% endblock %}
+
+{% block jsPage %}  
+<script type="text/javascript" src="{% static 'js/course/study_lesson.js' %}"></script> 
+{% endblock %} 
+
+{% block content %}
+<div id="main-panel" class="">
+{{form}}
+</div>
+{% endblock %}
+

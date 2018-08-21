@@ -318,6 +318,9 @@ body {
     height: 14rem;  
     z-index: 3;
     content: url('/Statics/images/locker.png');
+    transition-property: opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out;
 }
 
 .bg_lesson, .bg_prac {
@@ -327,7 +330,7 @@ body {
     background-position: 70% 70%;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    animation: anim-opacity 2s infinite linear;
+    animation: anim-blin 2s infinite linear;
 }
 .bg_lesson {
     background-image: radial-gradient( rgba(183, 167, 255, 0.9) 40%, rgba(187, 168, 255, 0.01) 70%);
@@ -335,10 +338,13 @@ body {
 .bg_prac {
     background-image: radial-gradient( rgba(240, 167, 255, 0.9) 35%, rgba(248, 168, 255, 0.01) 70%);
 }
-@keyframes anim-opacity {
+@keyframes anim-blin {
     50% {
         background-size: 70% 70%;
     }
+}
+.fade-out {
+    opacity: 0;
 }
 
 

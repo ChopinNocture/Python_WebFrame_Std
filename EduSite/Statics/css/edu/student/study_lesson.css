@@ -1,0 +1,30 @@
+@import url(./font_inc.css);
+@import url(./common_lib.css);
+
+
+html {
+    font-size: 20px;
+    font-family: HK_Yuan7;
+}
+
+body {
+    background-image: url('/Statics/images/BGs/teacher-stage.jpg');
+    background-size: 68rem 51rem;
+    background-repeat: no-repeat;
+    background-position: 1rem 1rem;
+    background-attachment: fixed;
+    background-origin: inherit;
+    /*background-clip:border-box*/
+}
+
+#main-panel {    
+    position: relative;
+    width: 28.875rem;
+    height: 20.625rem;
+    top: 8rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    /*border: 3px solid;*/
+    text-align: center;
+}

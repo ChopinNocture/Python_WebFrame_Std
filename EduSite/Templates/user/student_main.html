@@ -73,7 +73,7 @@
                 {% for lesson in lesson_list %}
                 <li class="list-group-item" 
                     data-desc="{{ lesson.description }}"
-                    data-curl=""
+                    data-curl="{% url 'course:study' lesson_id=lesson.id %}"
                     data-purl="{% url 'course:answer-sheet' sectionID=lesson.id %}" >
                 </li>
                 {% endfor %}
