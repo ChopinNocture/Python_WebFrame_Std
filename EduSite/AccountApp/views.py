@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf
-from CourseFunApp.views import Lesson
+from CourseFunApp.models import Lesson, UNLOCK_NUMBER
 
 
 def user_login(request):
@@ -43,7 +43,10 @@ def student_main(request):
         cur_prof = StudentProf.objects.get(user=cur_user)
     # stu_form = Student_Prof_Form(instance=cur_prof) 
 
-    return render(request, 'user/student_main.html', {'stud_info':cur_prof, "lesson_list": lesson_list})
+    return render(request, 'user/student_main.html', 
+                    {'stud_info':cur_prof, 
+                    "lesson_list": lesson_list,
+                    "unlock_number": UNLOCK_NUMBER})
 
 
 # @login_required(login_url='/user/login/')
@@ -97,6 +100,7 @@ def award_score(request):
             gold_award = int(request.POST.get('gold'))
             print(gold_award)
             cur_prof.gold = cur_prof.gold + gold_award
+            cur_prof.save()
 
         except Exception as e:
             print(e)
@@ -105,3 +109,24 @@ def award_score(request):
         return HttpResponse("Succeed!", status=200)
     else:
         return HttpResponse("failed!")
+
+
+def update_progress(request):
+    if request.method == "POST":    
+        cur_user = get_user(request)
+        if isinstance(cur_user, AnonymousUser):
+            return HttpResponse("failed!")
+
+        try:
+            progress = int(request.POST.get('progress'))
+            cur_prof = StudentProf.objects.get(user=cur_user)
+            cur_prof.progress = progress
+            cur_prof.save()            
+
+        except Exception as e:
+            print(e)
+
+        # return HttpResponseRedirect('/user/student/')
+        return HttpResponse("Succeed!", status=200)
+    else:
+        return HttpResponse("failed!")            

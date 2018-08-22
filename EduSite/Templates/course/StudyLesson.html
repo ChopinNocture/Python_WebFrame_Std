@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/edu/student/study_lesson.css' %}"/>
 
     <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
 {% endblock %}
 
@@ -15,6 +16,7 @@
 {% endblock %} 
 
 {% block content %}
+{% csrf_token %}
 <div id="main-panel" class="">
     {{ form.non_field_errors }} 
     {{ form.lesson.errors }}
@@ -28,7 +30,10 @@
 
     {{ form.file_name.errors }}
     {{ form.file_name }}
-    <button id="btn_back" class="btn-round-orange">秘籍完成</button>
+    <button id="btn_back" class="btn-round-orange" onclick="onBackClick(event)"
+        data-progurl="{% url 'user:update_progress' %}" 
+        data-progress="{{progress}}"
+        data-url="{% url 'user:student' %}">秘籍完成</button>
 </div>
 {% endblock %}
 

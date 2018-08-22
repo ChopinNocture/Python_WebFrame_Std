@@ -71,7 +71,7 @@ body {
     background-color: #ffebd1;    
 }
 
-#prof_inner label {
+#user_info label {
     position: relative; 
     top: -2.2rem;
     font-size: 20px;
@@ -83,7 +83,8 @@ body {
                 1px 1px 2px rgb(51,115,145),
                 1px -1px 2px rgb(51,115,145),
                 -1px -1px 2px rgb(51,115,145),
-                -1px 1px 2px rgb(51,115,145);   
+                -1px 1px 2px rgb(51,115,145); 
+    margin-right: 0.5em;                  
 }
 
 #user_info, #user_add {
@@ -106,17 +107,33 @@ body {
     left: 1.2rem;
 }
 
+#id_user {}
+#id_student_number {}
+#id_class_id {}
+
 #user_add {
-    left: 15.2rem;
+    left: 20.2rem;
+    height: 2rem;
     border-color: goldenrod;
+    background-color: rgb(221, 221, 221);
 }
 
 #user_add label {
+    position: relative; 
+    font-size: 22px;
+    color: azure;
+    text-shadow:1px 0px 2px gold,
+                -1px 0px 2px gold,
+                0px -1px 2px gold,
+                0px 1px 2px gold,
+                1px 1px 2px gold,
+                1px -1px 2px gold,
+                -1px -1px 2px gold,
+                -1px 1px 2px gold;
     top: -1.6rem;
+    margin-right: 0.5em;
 }
 
-
-#id_user {}
 
 #icon_user, #icon_gold {
     position: relative;
@@ -347,7 +364,63 @@ body {
     opacity: 0;
 }
 
+#lesson_info {
+    position: absolute;
+    left: 4rem;
+    top: 3rem;
+    width: 11rem;
+    height: 8rem;  
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1.2em;
+    color: rgb(168, 76, 156);
+    text-shadow: 0rem 0rem 0.4rem rgba(191, 192, 231, 0.925);  
+    background: linear-gradient(to right, rgba(255, 151, 241, 0), rgba(255, 151, 241, 0.1) 60%, rgba(255, 138, 239, 0.4));
+    border-radius: 2rem;
+    padding: 1rem;
+    padding-left: 12rem;
+}
 
+#lesson_info span {
+    opacity: 0.6;
+    z-index: -1;
+    position: absolute;
+    left: 14rem;
+    top: 2rem;
+    width: 6rem;
+    height: 6rem;      
+    content: url('/Statics/images/key.png');
+}
+
+#practise_info {
+    position: absolute;
+    left: -12rem;
+    top: 3rem;
+    width: 12rem;
+    height: 5.4rem; 
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1.2em;
+    color: #da5fc9;
+    text-shadow: 0rem 0rem 0.4rem rgba(162, 164, 255, 0.952); 
+    background: linear-gradient(to left, rgba(255, 151, 241, 0), rgba(255, 151, 241, 0.1) 40%, rgba(255, 138, 239, 0.4));
+    border-radius: 2rem;
+    padding: 1rem;
+    padding-top: 3rem;
+}
+
+#practise_info span {
+    opacity: 0.8;
+    z-index: -1;
+    position: absolute;
+    left: 3rem;
+    top: 2rem;
+    width: 6rem;
+    height: 6rem;      
+    content: url('/Statics/images/key.png');
+}
+
+/*-------------------------------------------------------------*/
 #exam_entrance {
     left: 13.9375rem;
     top: 0rem;

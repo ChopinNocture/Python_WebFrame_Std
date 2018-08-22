@@ -21,26 +21,34 @@
             <div id="user_info">
                 <span id="icon_user"></span>
                 <label id="id_user">{{stud_info.user}}</label>
-                <label id="id_student_number">{{ stud_info.student_number }}</label>
-                <label id="id_class_id">{{ stud_info.class_id }}</label>
+                <label id="id_student_number"> 学号：{{ stud_info.student_number }} </label>
+                <label id="id_class_id"> {{ stud_info.class_id }}</label>
             </div>
             <div id="user_add"> 
                 <span id="icon_gold"></span>
                 <label id="id_gold">{{ stud_info.gold }}</label>
                 <span id="id_progress" data-progress="{{ stud_info.progress }}" hidden></span>
-                <label id="id_rank">{{ stud_info.rank }}</label>
-                <label id="id_level">{{ stud_info.level }}</label>
+                <label id="id_rank" hidden>{{ stud_info.rank }}</label>
+                <label id="id_level" hidden>{{ stud_info.level }}</label>
             </div>            
         </div>
     </div>
     <div class="col-8" id="lesson_panel">
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
-            <!-- <span class="icon_book"></span> -->
-            
-            <a id="btn_lesson"><span class="icon_locker bg_lesson"></span></a> 
-
-            <a id="btn_practise"><span class="icon_locker bg_prac"></span></a>            
+            <!-- <span class="icon_book"></span> -->            
+            <a id="btn_lesson">
+                <span class="icon_locker bg_lesson"></span>
+                <div id="lesson_info">在上一课的试炼中，一次获得{{unlock_number}}枚以上的星币，就可以解锁这一课的秘籍噢！
+                    <span></span>
+                </div>
+            </a>
+            <a id="btn_practise">
+                <span class="icon_locker bg_prac"></span>
+                <div id="practise_info">先去看完上面的秘籍，再来试炼吧！
+                    <span></span>
+                </div>
+            </a>
         </div>
 
         <div id="lesson_list_panel">            
@@ -86,7 +94,7 @@
             <div id="inner_panel">
                 <h3>公  告</h3>
                 <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
-                    公布一些内容
+                    暂时没有新的公告
                 </div>
             </div>            
         </div>

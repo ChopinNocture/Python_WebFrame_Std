@@ -32,7 +32,7 @@
                 <div id="sheet_edge">
                 </div>                
                 <div id="quesion_desc_main">
-                    <div id="section_title">{{section_name}}<span class="top_icon"/></div>
+                    <div id="section_title">{{section_name}}<span class="top_icon"></span></div>
                     <div id="desc_panel">
                         <span class="spin_icon"></span>
                         <div id="question_type"></div>                        
@@ -63,11 +63,14 @@
             <span class="icon-fail"></span>
         </div>    
     </div>
-    <div id="final_panel" hidden>
+    <div id="final_panel" data-unlock="{{unlock_number}}" hidden>
         <h1>
             全部结束啦，回到主页查看你的进步吧！
         </h1>
-        <button id="btn_back_main" class="btn-round-sky" data-url="{% url 'user:award_score' %}">知道啦!</button>
+        <button id="btn_back_main" class="btn-round-sky" 
+                data-url="{% url 'user:award_score' %}" 
+                data-progurl="{% url 'user:update_progress' %}" 
+                data-progress="{{progress}}">知道啦!</button>
     </div>
 </div>
 

@@ -242,7 +242,8 @@ def study(request, lesson_id):
 
         return render(request=request,
                     template_name="course/StudyLesson.html",
-                    context={"form": lesson_content_form} )
+                    context = {"form": lesson_content_form, 
+                                "progress":request.GET.get("progress")})
 
     return HttpResponse('hello')
 
@@ -253,7 +254,10 @@ def answer_sheet(request, sectionID):
     lesson = Lesson.objects.get(id=sectionID)
     if request.method == "GET":
         return render(request=request, template_name="course/AnswerSheet.html",
-                      context={"section_name": lesson.description, "questionType": ""})
+                    context = {"section_name": lesson.description, 
+                                "questionType": "",
+                                "unlock_number": questionModels.UNLOCK_NUMBER,
+                                "progress": request.GET.get("progress")})
     else:
         question_dict = exam_sys.generate_question_set(lesson, 3)
         return JsonResponse(question_dict)

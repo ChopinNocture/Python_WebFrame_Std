@@ -13,7 +13,8 @@ function isPracLock(idx) {
 //================================================================
 function onInit(event) {
     progress = $("#id_progress").data('progress');
-    
+
+    middle_idx = (progress>>1);
 
     $.ajax({
         url: $('#notice_show').data('url'),
@@ -26,6 +27,8 @@ function onInit(event) {
     $('#l_m').css('background-size', '100% 100%');
     $('#move_prev').click(onNext);
     $('#move_next').click(onPrev);
+    $('#lesson_list_panel').on('mousewheel', onWheeling).on('DOMMouseScroll', onWheeling);
+    
 
     $('#class_list li').each(function (index, elem) {        
         listData.push({'desc': elem.dataset.desc,
@@ -48,6 +51,17 @@ function movingAnim() {
                                 'top': '6em',
                                 'left': '3.8em'});    
     setTimeout(refreshBookList, 400);     
+}
+
+function onWheeling(event) {
+    event.preventDefault();
+    var value = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+    if(value>0) {
+        onNext();        
+    }
+    else if(value<0) {
+        onPrev();
+    }
 }
 
 function onPrev(event) {
@@ -130,19 +144,23 @@ function refreshCurrent() {
     if (isLessonLock(middle_idx)) {        
         $('#btn_lesson').removeAttr('href');
         $('#btn_lesson .icon_locker').removeClass("fade-out");
+        $('#lesson_info').show();
     }
     else {
-        $('#btn_lesson').prop('href', listData[middle_idx]['curl']);        
+        $('#btn_lesson').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress+1, (middle_idx<<1+1)).toString() );
         $('#btn_lesson .icon_locker').addClass("fade-out");
+        $('#lesson_info').hide();
     }
     
     if (isPracLock(middle_idx)) {
         $('#btn_practise').removeAttr('href');
         $('#btn_practise .icon_locker').removeClass("fade-out");
+        $('#practise_info').show();
     }
     else {
-        $('#btn_practise').prop('href', listData[middle_idx]['purl']);
+        $('#btn_practise').prop('href', listData[middle_idx]['purl'] + "?progress=" + Math.max(progress+1, (middle_idx<<1+2)).toString() );
         $('#btn_practise .icon_locker').addClass("fade-out");
+        $('#practise_info').hide();
     }    
 }
 

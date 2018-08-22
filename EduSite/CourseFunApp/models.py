@@ -4,6 +4,7 @@ from django.utils import timezone
 
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
+UNLOCK_NUMBER = 3;
 
 
 class Course(models.Model):

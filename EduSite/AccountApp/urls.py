@@ -15,7 +15,8 @@ urlpatterns = [
     path('student_manager/list/<int:class_id>/', views.student_list, ),
     
     path('<int:student_id>/student_prof/', views.get_student_prof, name='student_prof'),
-    path('award_score/', views.award_score, name='award_score')
+    path('award_score/', views.award_score, name='award_score'),
+    path('progress/', views.update_progress, name='update_progress')
     
     # path('questions/editor/<slug:qtype>/', views.question_editor_form, name='question-editor-type'),
     # path('questions/editor/<slug:qtype>/<int:qid>/', views.question_editor_form),

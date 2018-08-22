@@ -556,6 +556,18 @@ function showFinalResult() {
     $('#btn_next').hide();
 
     $('#final_panel').show();
+    
+    right_sum = int($('#stat_right').html());
+    unlock_number = $('#final_panel').data("unlock");
+    if( right_sum >= unlock_number ) {
+        $.ajax({
+            url: $('#btn_back_main').data('progurl'),
+            type: 'post',
+            data: { "progress":  $('#btn_back_main').data('progress') },
+            dataType: 'json',
+            success: SucFunc
+        });
+    }    
 }
 
 function onBackMain(event) {

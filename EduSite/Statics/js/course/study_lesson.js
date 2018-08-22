@@ -8,10 +8,18 @@ $(document).ready(init);
 
 function init() {
     csrf_Setup();
-    reBindEvent();
 }
 
-function reBindEvent() {
+function onBackClick(event) {
+    alert("------------" + event.target.dataset['progress']);
+    $.ajax({
+        url: event.target.dataset['progurl'],
+        type: 'post',
+        data: { "progress": event.target.dataset['progress'] },
+        dataType: 'json',
+        success: SucFunc
+    });
+    $(location).attr('href', event.target.dataset['url'] );    
 }
 
 function refreshUI() {    
@@ -24,4 +32,8 @@ function refreshUI() {
         var temp_html = type_HTML[$('#id_file_type').val()].replace('***', '/uploaded/'+$('#id_file_name').val());
         $('#prev_part').html(temp_html);
     }
+}
+
+function SucFunc() {
+
 }
