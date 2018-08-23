@@ -8,6 +8,7 @@ $(document).ready(init);
 
 function init() {
     csrf_Setup();
+    refreshUI();
 }
 
 function onBackClick(event) {
@@ -23,14 +24,15 @@ function onBackClick(event) {
 }
 
 function refreshUI() {    
-    if( $('#id_file_name').val()=="" ) {
-        $('#btn_preview').prop('disabled', true);
-        $('#prev_part').html('');
+    var fileType = $('#file_panel').data('fileType');
+    var fileUrl = $('#file_panel').data('fileUrl');
+
+    if( fileType=="" ) {
+        $('#file_panel').html('');
     }
     else {
-        $('#btn_preview').prop('disabled', false);
-        var temp_html = type_HTML[$('#id_file_type').val()].replace('***', '/uploaded/'+$('#id_file_name').val());
-        $('#prev_part').html(temp_html);
+        var temp_html = type_HTML[fileType].replace('***', '/uploaded/'+fileUrl);
+        $('#file_panel').html(temp_html);
     }
 }
 

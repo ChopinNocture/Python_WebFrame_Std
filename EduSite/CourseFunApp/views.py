@@ -233,17 +233,20 @@ def get_lesson_content(request, lesson_id):
 def study(request, lesson_id):
     if request.method == "GET":
         try:
-            lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
-            lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont, initial={'file_name': lesson_cont.file})
-
+            lesson = Lesson.objects.get(id=lesson_id)
+            description = lesson.description
+            lesson_content = questionForms.LessonContent.objects.get(lesson=lesson_id)
+            
         except Exception as e:
-            lesson_content_form = questionForms.LessonContentForm(instance=None, initial={'lesson': lesson_id})
+            description = lesson.description
+            lesson_content = None
             print(' --- ' + str(e))
 
         return render(request=request,
                     template_name="course/StudyLesson.html",
-                    context = {"form": lesson_content_form, 
-                                "progress":request.GET.get("progress")})
+                    context = {"lesson_content": lesson_content,
+                            "section_name": description,  
+                            "progress":request.GET.get("progress")})
 
     return HttpResponse('hello')
 

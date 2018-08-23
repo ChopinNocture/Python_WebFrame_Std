@@ -141,13 +141,15 @@ function refreshBookList() {
 //================================================================
 // 当前
 function refreshCurrent() {
+    $('#chapter_title').html(listData[middle_idx].desc);
+
     if (isLessonLock(middle_idx)) {        
         $('#btn_lesson').removeAttr('href');
         $('#btn_lesson .icon_locker').removeClass("fade-out");
         $('#lesson_info').show();
     }
     else {
-        $('#btn_lesson').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress+1, (middle_idx<<1+1)).toString() );
+        $('#btn_lesson').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString() );
         $('#btn_lesson .icon_locker').addClass("fade-out");
         $('#lesson_info').hide();
     }
@@ -158,7 +160,7 @@ function refreshCurrent() {
         $('#practise_info').show();
     }
     else {
-        $('#btn_practise').prop('href', listData[middle_idx]['purl'] + "?progress=" + Math.max(progress+1, (middle_idx<<1+2)).toString() );
+        $('#btn_practise').prop('href', listData[middle_idx]['purl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+2)).toString() );
         $('#btn_practise .icon_locker').addClass("fade-out");
         $('#practise_info').hide();
     }    

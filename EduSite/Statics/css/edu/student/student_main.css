@@ -2,7 +2,7 @@
 @import url(./common_lib.css);
 
 html {
-    font-size: 20px;
+    font-size: 18px;
     font-family: HK_Yuan7;
 }
 
@@ -23,7 +23,7 @@ body {
     left: 0rem;
     top: 0rem;
     width: 100%;
-    height: 39.375rem;
+    height: 45rem;
     margin: auto;
     /* border: 3px solid;
     border-radius: 1rem;
@@ -31,18 +31,30 @@ body {
 }
 
 
+#bottom_panel {
+    position: absolute;
+    background-color: rgba(204, 236, 255, 0.8);
+    border-style: solid none solid none;
+    border-width: 0.125rem;
+    height: 0.6rem;
+    left: 0rem;
+    top: 48rem;
+    width: 100%;
+    border-color: white;
+}
 /*-------------------------------------------------------------*/
 #stud_prof {
     position: absolute;
+    padding-top: 0.3rem;
     left: 0rem;
-    top: 0.4rem;
+    top: 0.2rem;
     width: 100%;
-    height: 4rem;    
+    height: 3.9rem;    
     /* text-align: center; */
 
-    background-color: rgba(240, 255, 255, 0.5);
-    border-style: none;
-    border-width: 0.05rem;
+    background-color: rgba(204, 236, 255, 0.8);
+    border-style: solid none solid none;
+    border-width: 0.125rem;
 
     border-color: white;
     /* border-image-source: url('/Statics/images/stu_frame.png');
@@ -62,13 +74,13 @@ body {
 }
 
 #prof_bg {
-    z-index: -1;
+    z-index: 0;
     margin-top: 0.8rem;
     position: absolute;
     float: left;
     width: 100%;
     height: 1.6rem; 
-    background-color: #ffebd1;    
+    background-color: #fac785;    
 }
 
 #user_info label {
@@ -104,7 +116,7 @@ body {
 }
 
 #user_info {
-    left: 1.2rem;
+    left: 0.8rem;
 }
 
 #id_user {}
@@ -112,7 +124,7 @@ body {
 #id_class_id {}
 
 #user_add {
-    left: 20.2rem;
+    left: 21rem;
     height: 2rem;
     border-color: goldenrod;
     background-color: rgb(221, 221, 221);
@@ -165,15 +177,15 @@ body {
 /*-------------------------------------------------------------*/
 #lesson_panel {
     position: absolute;
-    left: 0rem;
-    top: 4rem;
+    left: 4rem;
+    top: 8rem;
 }
 
 #girl_panel {
     left: 0rem;
-    top: 5rem;
-    width: 19rem;
-    height: 38rem;  
+    top: 8rem;
+    width: 20rem;
+    height: 40rem;  
     position: fixed;
     /* border: 1px dotted; */
     content: url('/Statics/images/yoyo4.png');    
@@ -183,7 +195,7 @@ body {
     text-align: center;
     align-content: center;    
     position: absolute;
-    left: 14.6rem;
+    left: 12.6rem;
     top: 1rem;
     width: 8rem;
     height: 32rem;      
@@ -290,10 +302,17 @@ body {
 /* --------------------- 课程 --------------------- */
 #cur_lesson_panel {
     position: absolute;
-    left: 20rem;
+    left: 24rem;
     top: 0rem;
     width: 35rem;
     height: 32rem;
+}
+
+#chapter_title {
+    font-size: 1.8rem;
+    font-weight: bolder;
+    text-shadow: 0.15rem 0.15rem 0.25rem #144e69;
+    color: rgb(55, 142, 182);    
 }
 
 .icon_book {
@@ -307,8 +326,8 @@ body {
 
 #btn_lesson {
     position: absolute;
-    left: 4rem;
-    top: 4rem;
+    left: 1rem;
+    top: 5rem;
     width: 15rem;
     height: 17rem;  
     background-image: url('/Statics/images/book-learn.png');
@@ -433,7 +452,7 @@ body {
 
 /*-------------------------------------------------------------*/
 #hanging_panel {    
-    left: 54rem;
+    left: 64rem;
     top: 6rem;
     position: absolute;
 }

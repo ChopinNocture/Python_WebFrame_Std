@@ -17,23 +17,29 @@
 
 {% block content %}
 {% csrf_token %}
-<div id="main-panel" class="">
-    {{ form.non_field_errors }} 
-    {{ form.lesson.errors }}
-    {{ form.lesson }}
+<div id="root_panel">
+    <div id="teacher"></div>
+    <div id="main_panel" class="">
+        <div id="text_panel">
+            <div id="section_title">
+                {{section_name}}
+            </div>
+            <p id="q_description">
+                {{ lesson_content.content }}
+            </p>            
+        </div>
+        <div id="file_panel" 
+            data-file-type="{{ lesson_content.file_type }}"
+            data-file-url="{{ lesson_content.file }}">
 
-    {{ form.content.errors }}
-    {{ form.content }}
-
-    {{ form.file_type.errors }}    
-    {{ form.file_type }}
-
-    {{ form.file_name.errors }}
-    {{ form.file_name }}
-    <button id="btn_back" class="btn-round-orange" onclick="onBackClick(event)"
-        data-progurl="{% url 'user:update_progress' %}" 
-        data-progress="{{progress}}"
-        data-url="{% url 'user:student' %}">秘籍完成</button>
+        </div>
+        
+        
+        <button id="btn_back" class="btn-round-orange" onclick="onBackClick(event)"
+            data-progurl="{% url 'user:update_progress' %}" 
+            data-progress="{{progress}}"
+            data-url="{% url 'user:student' %}">秘籍完成</button>
+    </div>
 </div>
 {% endblock %}
 

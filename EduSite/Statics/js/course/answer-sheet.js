@@ -557,7 +557,7 @@ function showFinalResult() {
 
     $('#final_panel').show();
     
-    right_sum = int($('#stat_right').html());
+    right_sum = $('#stat_right').html();
     unlock_number = $('#final_panel').data("unlock");
     if( right_sum >= unlock_number ) {
         $.ajax({
