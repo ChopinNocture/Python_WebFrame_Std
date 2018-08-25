@@ -170,7 +170,37 @@ body {
     top: -0.5rem;
     width: 3rem;
     height: 3rem;
-    content: url('/Statics/images/gold/num-9.png');
+}
+
+.num-0 { 
+    content: url('/Statics/images/gold/num-0.png'); 
+}
+.num-1 { 
+    content: url('/Statics/images/gold/num-1.png'); 
+}
+.num-2 { 
+    content: url('/Statics/images/gold/num-2.png'); 
+}
+.num-3 { 
+    content: url('/Statics/images/gold/num-3.png'); 
+}
+.num-4 { 
+    content: url('/Statics/images/gold/num-4.png'); 
+}
+.num-5 { 
+    content: url('/Statics/images/gold/num-5.png'); 
+}
+.num-6 { 
+    content: url('/Statics/images/gold/num-6.png'); 
+}
+.num-7 { 
+    content: url('/Statics/images/gold/num-7.png'); 
+}
+.num-8 { 
+    content: url('/Statics/images/gold/num-8.png'); 
+}
+.num-9 { 
+    content: url('/Statics/images/gold/num-9.png'); 
 }
 
 

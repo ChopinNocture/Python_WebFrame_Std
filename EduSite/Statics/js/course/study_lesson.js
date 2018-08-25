@@ -12,7 +12,7 @@ function init() {
 }
 
 function onBackClick(event) {
-    alert("------------" + event.target.dataset['progress']);
+    // alert("------------" + event.target.dataset['progress']);
     $.ajax({
         url: event.target.dataset['progurl'],
         type: 'post',

@@ -12,6 +12,10 @@ function isPracLock(idx) {
 
 //================================================================
 function onInit(event) {
+    var gold = $("#id_gold").html();
+    gold = Math.floor(gold / 20);
+    $("#icon_gold").addClass("num-"+gold.toString());
+
     progress = $("#id_progress").data('progress');
 
     middle_idx = (progress>>1);
