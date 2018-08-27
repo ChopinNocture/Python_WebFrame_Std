@@ -18,6 +18,7 @@ urlpatterns = [
     path('exam/editor/', views.exam_editor, name='exam_editor'),
     path('exam/editor/history/', views.exam_editor_hitory, name='exam_editor_history'),
     path('exam/nearest/', views.exam_ready, name='exam_ready'),
+    path('exam/<int:exam_id>/', views.exam_examination, name='exam_current'),
 #    path('delete/<int:notice_id>/', views.delete_notice),
 #    path('get/', views.get_notices),
 ]

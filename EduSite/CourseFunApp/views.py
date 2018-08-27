@@ -258,7 +258,6 @@ def answer_sheet(request, sectionID):
     if request.method == "GET":
         return render(request=request, template_name="course/AnswerSheet.html",
                     context = {"section_name": lesson.description, 
-                                "questionType": "",
                                 "unlock_number": questionModels.UNLOCK_NUMBER,
                                 "progress": request.GET.get("progress")})
     else:
@@ -268,6 +267,20 @@ def answer_sheet(request, sectionID):
 
 # --------------------------------------------------------
 # examination
+def exam_examination(request, exam_id):
+    if request.method == "GET":
+        try:
+            exam = Examination.objects.get(id=exam_id)
+        except Exception as e:
+            print(e)
+            exam = Examination()
+
+        return render(request=request, template_name="course/Examination.html",
+                    context = { "exam": exam })
+    else:
+        return HttpResponse('Lesson Study')
+
+
 def exam_editor(request):
     if request.is_ajax() and request.method == "POST":
         exam = Examination()
