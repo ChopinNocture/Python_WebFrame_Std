@@ -11,23 +11,16 @@
 </form>
 <div id="root_panel"> 
     <div id="info_panel">
-        <div id="statistic_main">
-            <!-- <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span> -->
-            <h5>
-            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span class="badge badge-pill badge-success" style="vertical-align:middle;" id="stat_right">0</span>
-            <span class="badge badge-pill badge-danger" id="stat_wrong" hidden>0</span> <span class="gold-icon-big failed" hidden></span>
-            </h5>
+        <div id="time_panel">
+            <span id="clock_icon">1</span> <span id="clock_time">12:32:12</span>
+            <br/>
+            <br/>
             <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
             <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a>
         </div>
-        <div id='q_progress'>
-            <ul id="progress_list">
-                <li><span class="gold_icon"></li>
-            </ul>
-        </div>
-        <div id="teacher" class="teacher-normal" alt="Card image cap"></div>
-    </div>
-    {{exam}}
+
+        <div id="teacher" alt="Card image cap"></div>
+    </div>    
     <div id="sheet_panel" >
         <div id="sheet_bg_out">             
             <div id="sheet_bg_in">            
@@ -44,10 +37,17 @@
                     </div>                    
                     <p id="q_type_tips"></p>
                     <div id="stat_panel">
-                        <button id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>
-                        <button id="btn_next" class="btn-round-wine" onfocus="this.blur()" tabindex="-1">继 续</button>
-                        <button id="btn_Prev" hidden>Preview</button>
-                        <img id="corner_icon" src="{% static 'images/corner.png' %}"/>
+                        <button id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>                    
+                    </div>
+                    
+                    <div id="prev_panel">
+                        <label id="prev_tips">上一题</label>
+                        <img id="btn_Prev" src="{% static 'images/corner.png' %}" draggable="false"/>
+                    </div>
+                    <div id="next_panel">
+                        <label id="next_index"></label>
+                        <label id="next_tips">下一题</label>
+                        <img id="btn_next" src="{% static 'images/corner.png' %}" draggable="false"/>
                     </div>
                 </div>                
             </div>
