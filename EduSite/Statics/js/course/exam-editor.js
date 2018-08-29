@@ -1,14 +1,17 @@
 $(document).ready(init);
 
+var type_list = [];
+var cur_type = "FillInBlank";
+var examination = { "total_num": 0, "total_score": 0 };
+var question_list_all = {} // "id"  "desc" "secID" "flag"
+
+var section_id = null;
+var cur_index = -1;
+
 function init() {
     csrf_Setup();
-
     // Filter
-    $('#content_filer').on('hide.bs.collapse', function () {
-        filterQList();
-    }).on('show.bs.collapse', function () {
-        $('#filter_input').val("");
-    })
+    $('#content_filer').on('hide.bs.collapse', resetWordFilter).on('show.bs.collapse', resetWordFilter);
     
     // 给input  date设置默认值
     var now = new Date();
@@ -20,10 +23,13 @@ function init() {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     $('#exam-date').val(today);
     $('#exam-date').attr({min:today});
-    
-    $('button[id^=NavBtn_]').click(onNavTypeClk);
-    $('button[id^=NavBtn_]').each(function (index, elem) {
-        elem.innerHTML = elem.innerHTML.replace(elem.dataset.typeName,TYPE_TRANS_LIST[elem.dataset.typeName]);
+
+    $('button[id^=NavBtn_]').click(onNavTypeClk).each(function (index, elem) {
+        var typeName = elem.dataset.typeName;
+        type_list.push(typeName);         
+        examination[typeName] = { 'per_score': 1, 'num': 0, 'sum_score': 0 };    // 数据结构
+        question_list_all[typeName] = [];
+        elem.innerHTML = elem.innerHTML.replace(typeName,TYPE_TRANS_LIST[typeName]);
     });
 
     $('span[id^=per-sco-lb-]').each(function (index, elem) {
@@ -33,11 +39,12 @@ function init() {
     $('#btn_random').on("click", onRandomBegin);
     $('button[id^=QSelected_]').click(onSelectClk); 
 
-    $('#NavBtn_' + cur_type).click();
-
     document.getElementById('exam_editor').submit = onSubmitExam;
-
+    
+    updateChapterFilter();
     preSetValidation();    
+
+    getAllQuestion();
    // $('button[id^=course_]:first').click();
 }
 
@@ -45,17 +52,6 @@ function onSelectClk(event) {
     $('button[id^=QSelected_]').removeClass('active');
     $(this).addClass('active');
 }
-
-
-var cur_type = "FillInBlank";
-var examination = { "total_num": 0, "total_score": 0 };
-var question_list_all = {} // "id"  "desc" "secID" "flag"
-
-
-var current_url = "";
-var cur_list_url = "";
-var section_id = null;
-var cur_index = -1;
 
 //-----------------------------------------
 // 类型选择
@@ -66,8 +62,6 @@ function onNavTypeClk(event) {
     $('span[id^=total-sco-lb-]').removeClass('bg-info');
     
     cur_type = event.target.dataset["typeName"];
-    current_url = event.target.dataset.url;
-    cur_list_url = event.target.dataset.qlistUrl;
     cur_index = -1;
 
     $('span[id^=per-sco-lb-' + cur_type + ']').addClass('bg-info');
@@ -78,75 +72,91 @@ function onNavTypeClk(event) {
     return false;
 }
 
-function doRefreshQList() {
-    if (null == question_list_all[cur_type]) {
-        if (cur_list_url) {
-            $.get(cur_list_url, onGetQList);
-        }
-    }
-    else {
-        updateExamInfo();
-        updateQList();
-    }
+function getAllQuestion() {
+    var jsonObj = JSON.stringify({ "typelist":type_list });
+
+    $.ajax({
+        url: $('#exam_editor').data("url"),
+        type: "POST",
+        data: {"jsonObj":jsonObj},
+        dataType: "json",
+        success: onGetQList,
+    });
+}
+
+function doRefreshQList() {    
+    updateQList();
+    updateExamination();
     updateBtn();
 }
 
 function onGetQList(jsonData) {
-    examination[cur_type] = { 'per_score': 1, 'num': 0, 'sum_score': 0 };    // 数据结构
-    question_list_all[cur_type] = [];
-
-    var temp;
-    jsonData.forEach(function (iter, index, array) {
-        if (iter.flag & 0x2) {
-            //iter.selected = false;
-            temp = question_list_all[cur_type].push(iter);
-            temp.selected = false;
-        }
-    }); 
-    updateExamInfo();
+    for( var typeName in jsonData ) {
+        jsonData[typeName].forEach(function (iter, index, array) {
+            if (iter.flag & 0x2) {
+                //iter.selected = false;
+                question_list_all[typeName].push(iter).selected = false;                
+            }
+        });
+    } 
+    updateExamination();
     updateQList();
 //    alert(question_list_all[cur_type].length);
 }
 
-function updateExamination(){
-    examination[cur_type].sum_score = examination[cur_type].per_score * examination[cur_type].num;
-
-    var t_num = 0, t_score = 0;
-    $('button[id^=NavBtn_]').each(function (index, elem) {
-        if( examination[elem.dataset.typeName]) {
-            t_num += examination[elem.dataset.typeName].num;
-            t_score += examination[elem.dataset.typeName].sum_score;
-        }
-    });
-
-    $('span[id^=qType_num_]').each(function (index, elem) {
-        if( examination[elem.dataset.typeName]) {
-            elem.innerHTML = examination[elem.dataset.typeName].num;
-        }
-    });
-    
-    examination.total_num = t_num;
-    examination.total_score = t_score;
-
+function updateExamInfo() {
+    for( var iter in type_list ) {
+        typeIter = type_list[iter];
+        $('#per-score-' + typeIter).val(examination[typeIter].per_score);
+        $('#total-score-' + typeIter).val(examination[typeIter].sum_score);
+        $('#qType_num_' + typeIter).html(examination[typeIter].num);
+    }
     $('#qlist_num').html(examination.total_num);
     $('#exam-total-score').val(examination.total_score);
-    $('#total-score-' + cur_type).val(examination[cur_type].sum_score);
+}
+
+function updateExamination() {
+    var t_num = 0, t_score = 0;
+    for( var iter in type_list ) {
+        typeIter = type_list[iter];
+        var sel_list = question_list_all[typeIter].filter(function(item,index,array){
+            return item.selected;
+        });
+
+        examination[typeIter].num = sel_list.length;
+        examination[typeIter].sum_score = examination[typeIter].per_score * examination[typeIter].num;
+        t_num += examination[typeIter].num;
+        t_score += examination[typeIter].sum_score;        
+    }
+
+    examination.total_num = t_num;
+    examination.total_score = t_score;
+    updateExamInfo();
 }
 
 //----------------
 // filter
 function onFilterInput(event) {
-    filterQList(event.target.value);
+    filterQList();
 }
 
-function filterQList(words = null) {
-    if (words) {
-        var hidden_num = 0;
+function filterQList() {
+    filteQuestions($('#filter_input').val(), section_id);
+}
+
+function filteQuestions(words = null, section = null) {
+    if (words || section) {
         $('button[id^=' + QLIST_ID + ']').each(function (index, elem) {
-            if(elem.innerHTML.indexOf(words) == -1) {
-                ++hidden_num;
-                $(elem).attr("hidden", true);
+            var hidden = false;
+            if (words) {
+                hidden = hidden || (elem.innerHTML.indexOf(words) == -1);
             }
+
+            if (section) {
+                hidden = hidden || (elem.dataset.secid != section);
+            }            
+            
+            $(elem).attr("hidden", hidden);
         });
     }
     else {
@@ -155,19 +165,15 @@ function filterQList(words = null) {
 }
 
 const QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action inline-block text-truncate" \
-                    tabindex="-1" data-qindex=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
+                    tabindex="-1" data-qindex=-1 data-toggle="tooltip" data-placement="left" data-secid="" onfocus="this.blur()" id="" title=""></button>';
 
 const QLIST_ID = "qList_";
 const CSS_SEL_CLASS = "list-group-item-danger";
 const CSS_UNSEL_CLASS = "list-group-item-warning";
 
-function updateExamInfo() {
-    $('#per-score-'+cur_type).val(examination[cur_type].per_score);
-}
 
 function updateQList() {
-    //alert("update " + jsonData + " QList ");
-    var jsonData = question_list_all[cur_type];
+    var curTypeList = question_list_all[cur_type];
 
     var SL_Elem = $("#selected_qlist");
     var uSL_Elem = $("#unSelected_qlist");
@@ -180,7 +186,7 @@ function updateQList() {
     var css_cls = "";
     var sel_sum = 0, unsel_sum = 0;
 
-    jsonData.forEach(function (iter, index, array) {
+    curTypeList.forEach(function (iter, index, array) {
         if (iter['selected']) {
             qListPanel = SL_Elem;
             css_cls = CSS_SEL_CLASS;
@@ -194,23 +200,21 @@ function updateQList() {
 
         tempLine = $(QLIST_ITEM_STR)
             .clone()
-            .attr({ "data-qindex": index, "id": QLIST_ID + index, "title": iter.desc })
+            .attr({ "data-qindex": index, "id": QLIST_ID + index, "title": iter.desc, "data-secID": iter.secID })
             .html(iter.desc)
             .addClass(css_cls)
             .tooltip()
             .click(onQListBtnClick).dblclick(onQListBtnDoubleClick);
         
         qListPanel.append(tempLine);
-        if (cur_index == index) { tempLine.click(); }
-        //alert(value.id + "  " + value.desc);
     });
 
-    examination[cur_type].num = sel_sum;
-    updateExamination();
+    $("#" + QLIST_ID + cur_index).click();    
     $("#sel_sum").html(sel_sum.toString());
     $("#unsel_sum").html(unsel_sum.toString());
-
     $('#content_filer').collapse('hide');
+
+    updateExamination();
 }
 
 function onQListBtnClick(event) {
@@ -258,15 +262,17 @@ function onToggleAdd(event) {
 // section Part
 //=======================================================
 function onSectionClick(event) {
-    if (event.target.dataset.section != section_id) {
-        $('button[id^=course_]').removeClass('active');
-        $(event.target).addClass('active');
-        section_id = event.target.dataset.section;
-        doRefreshQList();
+    if( $('#chapter_filter').prop('checked') ) {
+        if (event.target.dataset.section != section_id) {
+            $('button[id^=course_]').removeClass('active');
+            $(event.target).addClass('active');
+            section_id = event.target.dataset.section;
+            filterQList();
+        }
+        return true;
     }
 
-    //    $(event.target).blur();
-    return true;
+    return false;
 }
 
 function preSetValidation() {
@@ -334,15 +340,6 @@ function onSubmitClick(event) {
     if(formCheckAndSet()) {
         document.getElementById('exam_editor').submit();  
     }
-    //
-     //document.getElementById('exam_editor').checkValidity();
-    //document.getElementById('exam_editor').verify();
-    //document.getElementById('exam_editor').submit();
-
-    
-    //alert(valCheck);
-
-    //$('#exam_editor').verify();
 }
 
 function onSubmitExam() {
@@ -394,4 +391,21 @@ function onRandom(event) {
 function onRandomNumberChange(event, qtype) {
     random_num_list[qtype] = Math.max(0, Math.min(event.target.value, question_list_all[cur_type].length));
     event.target.value = random_num_list[qtype];
+}
+
+function resetWordFilter() {
+    $('#filter_input').val("");
+    filterQList();
+}
+//----------------------------------------------
+function updateChapterFilter() {
+    if( $('#chapter_filter').prop('checked') ) {
+        $('#chapter_list').show();
+    }
+    else {
+        $('#chapter_list').hide();
+        section_id = null;
+    }    
+    $('button[id^=course_]').removeClass('active');    
+    filterQList();
 }

@@ -9,7 +9,7 @@
 {% block content %}
 {% csrf_token %}
 <div class="container-fluid p-0 rounded bg_black_u2d">
-    <form action="." method="post" id="exam_editor" class="needs-validation" novalidate>
+    <form action="." method="post" id="exam_editor" data-url="{% url 'course:question-all'%}" class="needs-validation" novalidate>
     <div class="row m-0 p-1 bg-secondary">
         {{ form.non_field_errors }} 
             {{ form.start_time }}
@@ -88,18 +88,17 @@
                                 <span class="badge badge-warning" id="qlist_num">0</span>                                    
                             </h5>
                         </div>
-                        {% for qType in qTypeList %}
-                        {% url 'course:question-editor-type' qType as qTypeURL %} 
+                    {% for qType in qTypeList %}
                         {% url 'course:question-list' qType as qListURL %}
                         <button class="list-group-item list-group-item-action list-group-item-info text-truncate" 
                             id="NavBtn_{{ qType }}" 
                             onfocus="this.blur()"
                             tabindex="-1"
-                            data-url="{{qTypeURL}}" data-qlist-url="{{qListURL}}" data-type-name="{{qType}}">
+                            data-type-name="{{qType}}">
                             {{qType}}
                             <span class="badge badge-warning" id="qType_num_{{qType}}" data-type-name="{{qType}}">0</span>
                         </button>
-                        {% endfor %}
+                    {% endfor %}
                     </div>
                 </div>
                 <div class="col-7 m-0 p-0" id="selected_course">
@@ -186,11 +185,14 @@
                     <div class="card bg-info">                
                         <div class="card bg-secondary text-white">
                             <div class="card-header text-center">
-                                <h5 class="card-title">课程章节列表</h5>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="chapter_filter" onchange="updateChapterFilter()">
+                                    <label class="form-check-label" for="chapter_filter">按章节筛选</label>
+                                </div>
+                            </div>    
+                            <div id="chapter_list">
+                            {{course_html}}                            
                             </div>
-                            <!-- <div class="card-body"> -->
-                            {{course_html}}                  
-                            <!-- </div> -->
                         </div>                
                     </div>
                 </div>

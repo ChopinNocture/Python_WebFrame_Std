@@ -12,13 +12,41 @@ import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
-
+import json
 
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
 
-
 # --------------------------------------------------------
+# get all type
+def get_all_list(request):
+    if request.method == "POST" and request.is_ajax():
+        jsonObj = request.POST.get("jsonObj")
+        typeListObj = json.loads(s=jsonObj)
+
+        print(typeListObj, "-----------")
+
+        quest_all = dict()
+        for qtype in typeListObj["typelist"]:
+            try:
+                temp_class = questionModels.get_qType_class(qtype)
+                quest_list = list()
+                quests = temp_class.objects.all().values('id', 'description', 'sectionID', 'flag')           
+
+                for qiter in quests:
+                    quest_list.append({"id": qiter['id'],
+                                    "desc": qiter['description'],
+                                    "secID": qiter['sectionID'],
+                                    "flag": qiter['flag']})
+                quest_all[qtype] = quest_list;
+            except (AttributeError) as e:
+                print(e)
+                continue
+        return JsonResponse(quest_all, safe=False)
+
+    return HttpResponse("Permission reject!")
+
+
 # get question list by type
 def get_question_list(request, qtype, section_id=None):
     try:

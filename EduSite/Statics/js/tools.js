@@ -26,12 +26,11 @@ function ajaxSubmitJson(aform, sucFunc, failFunc) {
 
 function random_pick_list(list, num) {
     if(Array.isArray(list)) {
-        if (num <= list.length && num >= 0) {
-            var random_list = list.sort(function(){
-                return Math.random() - 0.5;     
-            });
-            return random_list.slice(0, num);
-        }        
+        var randNum = Math.max(0, Math.min(list.length, num));
+        var random_list = list.sort(function(){
+            return Math.random() - 0.5;     
+        });
+        return random_list.slice(0, randNum);  
     }
     return null;
 }
