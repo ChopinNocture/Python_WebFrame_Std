@@ -353,6 +353,7 @@ def exam_editor_hitory(request):
 
 
 def exam_ready(request):
+    exam_sys.checkNearestExam()
     return HttpResponse('Lesson Study')
 
 

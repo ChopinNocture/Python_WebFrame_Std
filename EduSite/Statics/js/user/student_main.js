@@ -28,6 +28,15 @@ function onInit(event) {
         error: failFunc
     });
 
+    $.ajax({
+        url: $('#exam_entrance').data('url'),
+        type: "GET",       
+        dataType: "json",
+        success: onExamReadyGet,
+        error: failFunc
+    });
+    
+
     $('#l_m').css('background-size', '100% 100%');
     $('#move_prev').click(onNext);
     $('#move_next').click(onPrev);
@@ -197,4 +206,11 @@ function refresh_notice() {
 
 function failFunc() {
     alert('失败');
+}
+
+
+//================================================================
+// 公告部分
+function onExamReadyGet(jsonData) {
+    
 }

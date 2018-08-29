@@ -1,5 +1,6 @@
+from django.utils import timezone
 from django.forms.models import model_to_dict
-import CourseFunApp.models as QuestionModels
+import CourseFunApp.models as QuestionModels 
 
 import random
 
@@ -48,4 +49,12 @@ def examination_default():
     for i_type in q_type_list:
         exam[i_type] = {'score':1, 'qList':[]}
 
+    return exam
+
+
+current_exam = None
+
+
+def checkNearestExam():
+    exam = QuestionModels.Examination.objects.filter(start_time__lte=timezone.now())
     return exam
