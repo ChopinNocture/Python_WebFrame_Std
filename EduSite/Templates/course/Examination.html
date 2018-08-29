@@ -6,7 +6,8 @@
 <script type="text/javascript" src="{% static 'js/course/exam-sheet.js' %}"></script> 
 {% endblock %} 
 {% block content %}
-<form method="post" action="." id="qlist_form">
+<form method="post" action="." id="exam_form" hidden>
+{{form.as_p}}
 {% csrf_token %}
 </form>
 <div id="root_panel"> 
@@ -25,7 +26,7 @@
         <div id="sheet_bg_out">             
             <div id="sheet_bg_in">            
                 <div id="quesion_desc_main">
-                    <div id="section_title">{{exam.title}}</div>
+                    <div id="section_title"></div>
                     <div id="desc_panel">
                         <div id="question_type"></div>                        
                         <p id="q_description">                    
@@ -57,7 +58,6 @@
     <div id="show_panel" hidden>
     </div>
 </div>
-
 
 {% endblock %}
 

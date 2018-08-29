@@ -6,14 +6,18 @@ var result_list = [];   // complete, result, answer
 var qList_obj = null;
 var cur_idx = -1;
 var question_sum = 10;
+var examination = null;
 
 function onInit(event) {  
     csrf_Setup();
 
+    $('#section_title').html($('#id_title').val());
+
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
-    $('#btn_back_main').click(onBackMain);
-    ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
+    examination = $.parseJSON( $('#id_question_list').val() );
+    alert(examination.total_num);
+    // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
 var cur_idx = -1;

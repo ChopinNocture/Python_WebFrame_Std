@@ -302,9 +302,10 @@ def exam_examination(request, exam_id):
         except Exception as e:
             print(e)
             exam = Examination()
+        exam_form = questionForms.ExaminationForm(instance=exam)
 
         return render(request=request, template_name="course/Examination.html",
-                    context = { "exam": exam })
+                    context = { "form": exam_form })
     else:
         return HttpResponse('Lesson Study')
 
