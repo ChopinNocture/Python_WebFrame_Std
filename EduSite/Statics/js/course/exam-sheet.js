@@ -16,12 +16,12 @@ function onInit(event) {
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
     examination = $.parseJSON( $('#id_question_list').val() );
-    alert(examination.total_num);
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
-var cur_idx = -1;
 
+//---------------------------------------------------------------------------
+// exam part
 function onNextClk(event) {
     var lastnextidx = cur_idx;
     cur_idx = Math.min(cur_idx + 1, question_sum - 1);
