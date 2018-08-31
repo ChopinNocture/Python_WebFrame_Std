@@ -33,7 +33,6 @@ function onInit(event) {
         type: "GET",       
         dataType: "json",
         success: onExamReadyGet,
-        error: failFunc
     });
     
 
@@ -212,5 +211,5 @@ function failFunc() {
 //================================================================
 // 公告部分
 function onExamReadyGet(jsonData) {
-    
+    alert("-------------" + jsonData);
 }

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.utils import timezone
 from django.forms.models import model_to_dict
 import CourseFunApp.models as QuestionModels 
@@ -52,9 +53,17 @@ def examination_default():
     return exam
 
 
-current_exam = None
-
-
 def checkNearestExam():
-    exam = QuestionModels.Examination.objects.filter(start_time__lte=timezone.now())
-    return exam
+    try:
+        td = timedelta(hours=3)
+        exam = QuestionModels.Examination.objects.filter(start_time__lte=(timezone.now()+td), start_time__gte=(timezone.now()-td))       
+        td = timedelta(exam.duration)
+        if exam.start_time + td < timezone.now():
+            return None
+        else:
+            return exam
+    except:
+        print("no exam")
+        return None
+
+    return None

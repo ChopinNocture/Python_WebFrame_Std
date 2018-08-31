@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.forms.models import model_to_dict
 
 # Create your views here.
 from CourseFunApp.models import Lesson, Examination
@@ -353,8 +354,11 @@ def exam_editor_hitory(request):
 
 
 def exam_ready(request):
-    exam_sys.checkNearestExam()
-    return HttpResponse('Lesson Study')
+    exam = exam_sys.checkNearestExam()
+    if exam:
+        return JsonResponse(model_to_dict(exam), safe=False)
+
+    return HttpResponse('hahaha')
 
 
 # --------------------------------------------------------
