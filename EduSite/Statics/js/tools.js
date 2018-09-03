@@ -1,5 +1,6 @@
 var OPTION_SPLITER_SYMBOL = "|-|";
 var KEY_SPLITER_SYMBOL = ",";
+var FillInBlank_Key_Reg = /{@([\…\w\u4e00-\u9fa5]+)@}/g;
 
 function ajaxSubmit(aform, sucFunc, failFunc) {
     //alert($(aform).serialize());

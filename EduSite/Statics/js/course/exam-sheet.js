@@ -4,7 +4,8 @@ $(document).ready(onInit);
 var qType_list = [];
 var result_list = [];   // complete, result, answer
 var qList_obj = null;
-var cur_idx = -1;
+var cur_type = "FillInBlank";
+var cur_idx = 0;
 var question_sum = 0;
 var examination = null;
 
@@ -26,26 +27,53 @@ function initQuestion() {
     $(".qtype").each(function (index, elem) { 
         var typestr = $(elem).data("qtype");
         qType_list.push(typestr); 
-        $(elem).html(TYPE_TRANS_LIST[typestr]);
-        $(elem).click(onTypeChanged);
+        $(elem).html(TYPE_TRANS_LIST[typestr]).click(onTypeChanged);        
     });
 
     if(examination) {
         question_sum = examination.total_num;
-        for (var iter in qType_list) {
-
+        for (var i in qType_list) {
+            if(examination[qType_list[i]]) {
+                examination[qType_list[i]]["index"] = 0;
+            }
         }
     }
 }
 
 //---------------------------------------------------------------------------
 // exam part
-// { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, qlist }    }
+// { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, index, qlist }    }
 function onTypeChanged(event) {
-    $(event.target).prop("checked", true);
+    examination[cur_type]["index"] = cur_idx;
+        
+    $(".qtype").removeClass("actived");
+    cur_type = $(event.target).addClass("actived").data("qtype");
+    cur_idx = examination[cur_type]["index"];
+    question_sum = examination[cur_type]["num"];
+
+    if(examination[cur_type]["questions"] == null) {
+        var jsonlist = JSON.stringify({'qlist':examination[cur_type]['qlist']});
+
+        $.ajax({        
+            url: $("#exam_form").data("typelisturl"),
+            type: 'post',
+            data: { "qtype": cur_type, "jsonlist":jsonlist },
+            dataType: "json",
+            success: onQuestionGet,
+        });
+    }
+    else {
+        update();
+    }    
     //qtype
 }
 
+function onQuestionGet(jsonData) {
+    var getType = jsonData['qtype'];
+    examination[getType]["questions"] = jsonData['questions']
+
+    update();
+}
 
 //---------------------------------------------------------------------------
 // page
@@ -67,6 +95,7 @@ function onPrevClk(event) {
 
 function update() {
     updateStat();
+    updateQuestion();
 }
 
 function updateStat() {
@@ -84,4 +113,10 @@ function updateStat() {
     else {
         $('#next_panel').hide();
     }
+}
+
+
+function updateQuestion() {
+    //alert(examination[cur_type].qlist[cur_idx]);
+    eval('refresh' + cur_type + '(examination[cur_type]["questions"][cur_idx])');
 }

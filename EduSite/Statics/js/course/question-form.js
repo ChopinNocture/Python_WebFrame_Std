@@ -513,7 +513,6 @@ function onDeleteOptionClick(event) {
 //-------------------------------------------------------
 // Question type: FillInBlank
 //-------------------------------------------------------
-var FillInBlank_Key_Reg = /{@([\w\u4e00-\u9fa5]+)@}/g;
 var fill_key_list = [];
 //-------------- refresh --------------
 function refreshFillInBlank() {

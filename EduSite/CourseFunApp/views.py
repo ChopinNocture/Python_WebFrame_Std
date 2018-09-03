@@ -39,7 +39,7 @@ def get_all_list(request):
                                     "desc": qiter['description'],
                                     "secID": qiter['sectionID'],
                                     "flag": qiter['flag']})
-                quest_all[qtype] = quest_list;
+                quest_all[qtype] = quest_list
             except (AttributeError) as e:
                 print(e)
                 continue
@@ -49,7 +49,7 @@ def get_all_list(request):
 
 
 # get question list by type
-def get_question_list(request, qtype, section_id=None):
+def get_type_question_list(request, qtype, section_id=None):
     try:
         temp_class = questionModels.get_qType_class(qtype)
     except (AttributeError) as e:
@@ -74,6 +74,19 @@ def get_question_list(request, qtype, section_id=None):
 
         # return render(request=request, template_name="home.html" )
     return JsonResponse(quest_list, safe=False)
+
+
+# get question list by type from id list
+def get_question_list_by_ids(request):
+    if request.method == "POST" and request.is_ajax():
+        try:            
+            typeListObj = json.loads(s=request.POST.get("jsonlist"))
+            # print(typeListObj, " ---  ", request.POST.get("qtype"), )
+            jsondata = exam_sys.get_questions_by_id_list(request.POST.get("qtype"), typeListObj['qlist'])
+            return JsonResponse(jsondata, safe=False)
+        except (AttributeError) as e:
+            print(e)
+            return HttpResponse(e)
 
 
 # --------------------------------------------------------

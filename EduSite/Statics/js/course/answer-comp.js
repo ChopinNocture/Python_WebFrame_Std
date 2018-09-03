@@ -8,7 +8,6 @@
 //---- refresh ----
 var BLANK_HTML = '<input type="text" class="blank-input" id="blank_**" placeholder=""></input>';
 
-var FillInBlank_Key_Reg = /{@([\w\u4e00-\u9fa5]+)@}/g;
 var fill_desc = "";
 
 var blank_key_list = [];

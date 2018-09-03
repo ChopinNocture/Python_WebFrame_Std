@@ -6,8 +6,9 @@ app_name = 'CourseFunApp'
 urlpatterns = [
     path('questions/remooove/<slug:qtype>/<int:qid>/', views.delete_question, name='question-delete'),
     path('questions/list/all/', views.get_all_list, name='question-all'),
-    path('questions/list/<slug:qtype>/', views.get_question_list, name='question-list'),
-    path('questions/list/<slug:qtype>/<int:section_id>/', views.get_question_list, name='question-list-section'),
+    path('questions/list/ids/', views.get_question_list_by_ids, name='question-list-ids'),
+    path('questions/list/<slug:qtype>/', views.get_type_question_list, name='question-list'),
+    path('questions/list/<slug:qtype>/<int:section_id>/', views.get_type_question_list, name='question-list-section'),
     path('questions/editor/', views.question_editor, name='question-editor' ),
     path('questions/editor/<slug:qtype>/', views.question_editor_form, name='question-editor-type'),
     path('questions/editor/<slug:qtype>/<int:qid>/', views.question_editor_form),

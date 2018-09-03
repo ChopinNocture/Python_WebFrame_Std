@@ -86,6 +86,7 @@ body {
 }
 
 #sheet_bg_out {
+    margin-top: 0%;
     position: absolute;
     width: 95%;    
 }
@@ -633,8 +634,9 @@ body {
 }
 
 /*************************************************************************/
-#type_navbar {
+#type_navbar, #type_navbar li {
     margin-bottom: 0rem;
+    padding-bottom: 0rem;
 }
 
 #type_navbar li {  
@@ -642,22 +644,24 @@ body {
 }
 
 .qtype {
-    opacity: 0.8;
-    font-size: 0.8rem;
+    color: dimgray; 
+    opacity: 0.7;
+    font-size: 0.9rem;
     font-family: HK_Yuan7;
-    bottom: 0em;    
+    bottom: -0.1em;    
 
+    margin-left: -0.5rem;
     padding: 0.4em 0.2em 0.1em 0.3em;
     border-radius: 0.5em 0.5em 0em 0em;
-    border-style: solid;
+    border-style: none;
     border-width: 0em;
     background-color: lightblue;
     position: relative;
-    box-shadow: -0.1em 0.1em 0.075em black;
+    box-shadow: -0.1em 0em 0.0em rgba(0, 0, 0, 0.582);
 }
 
 .qtype::before {
-    opacity: 0.8;
+    opacity: 0.7;
     content: "";
     right: -0.36em;
 
@@ -676,12 +680,42 @@ body {
 .qtype:hover {
     opacity: 1;
 }
-
 .qtype::before:hover {
     opacity: 1;
 }
 
-.qtype:checked {
-    font-size: 1rem;
+.actived, .actived::before { 
+    color: rgb(36, 24, 24);   
+    font-weight: bold;
+    opacity: 1;
+    font-size: 1.2rem;
+    z-index: 1;
 }
+.actived {
+    border-style:none;
+}
+
+#nav_FillInBlank { background-color: lightblue; }
+#nav_FillInBlank::before {     border-bottom-color: lightblue;}
+
+#nav_TrueOrFalse{    background-color: lightpink; }
+#nav_TrueOrFalse::before{   border-bottom-color: lightpink;}
+
+#nav_Choice{    background-color: lightgrey; }
+#nav_Choice::before {    border-bottom-color: lightgrey;}
+
+#nav_MultiChoice {    background-color: lightgoldenrodyellow; }
+#nav_MultiChoice::before{   border-bottom-color: lightgoldenrodyellow; }
+
+#nav_Pair {    background-color: lightgreen; }
+#nav_Pair::before{    border-bottom-color: lightgreen; }
+
+#nav_Sort {    background-color: lightsalmon; }
+#nav_Sort::before{    border-bottom-color: lightsalmon;}
+
+#nav_CaseAnalyse {    background-color: lightskyblue;  }
+#nav_CaseAnalyse::before {  border-bottom-color: lightskyblue;}
+
+#nav_Voice {    background-color: lightcoral;    }
+#nav_Voice::before {    border-bottom-color: lightcoral;}
 /*************************************************************************/

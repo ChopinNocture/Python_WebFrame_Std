@@ -6,7 +6,7 @@
 <script type="text/javascript" src="{% static 'js/course/exam-sheet.js' %}"></script> 
 {% endblock %} 
 {% block content %}
-<form method="post" action="." id="exam_form" hidden>
+<form method="post" action="." id="exam_form" data-typelisturl="{% url 'course:question-list-ids' %}" hidden>
 {{form.as_p}}
 {% csrf_token %}
 </form>
@@ -26,7 +26,9 @@
     <div id="sheet_panel" >
         <ul id="type_navbar">
             {% for qType in qTypeList %}
-                <li><button type="radio" name="btn_type" class="qtype" data-qtype="{{qType}}"></button></li>
+                <li><button type="radio" name="btn_type" class="qtype" 
+                    id="nav_{{qType}}"
+                    data-qtype="{{qType}}" onfocus="this.blur()" tabindex="-1" ></button></li>
             {% endfor %} 
         </ul>        
         <div id="sheet_bg_out">             
@@ -44,7 +46,7 @@
                     </div>                    
                     <p id="q_type_tips"></p>
                     <div id="stat_panel">
-                        <button id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>                    
+                        <button hidden id="btn_submit" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >提 交</button>                    
                     </div>
                     
                     <div id="prev_panel">
