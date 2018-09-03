@@ -70,12 +70,14 @@
             <button id="move_next" class="btn-up" onfocus="this.blur()" tabindex="-1"></button>  
         </div>         
 
-        <div class="row-fluid text-center" id="exam_entrance" data-url="{% url 'course:exam_ready'%}" hidden>
+        <div class="row-fluid text-center" id="exam_entrance" 
+            data-examurl="{% url 'course:exam_current' exam_id=0 %}"
+            data-url="{% url 'course:exam_ready'%}">
             <h4>试炼场</h4>
             <p>
-                开放时间：xxxxxxx <br>
+                开放时间：<span id="exam_starttime">xxxxxxx</span> <br>
             </p>
-            <button class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</button> 
+            <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</a> 
         </div>
         <div class="row-fluid" id="class_list" hidden>
             <ul class="list-group list-group-flush">

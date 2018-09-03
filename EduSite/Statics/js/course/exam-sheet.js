@@ -5,7 +5,7 @@ var qType_list = [];
 var result_list = [];   // complete, result, answer
 var qList_obj = null;
 var cur_idx = -1;
-var question_sum = 10;
+var question_sum = 0;
 var examination = null;
 
 function onInit(event) {  
@@ -15,13 +15,40 @@ function onInit(event) {
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
-    examination = $.parseJSON( $('#id_question_list').val() );
+    
+    initQuestion();
+    //examination.
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
+}
+
+function initQuestion() {
+    examination = $.parseJSON( $('#id_question_list').val() );
+    $(".qtype").each(function (index, elem) { 
+        var typestr = $(elem).data("qtype");
+        qType_list.push(typestr); 
+        $(elem).html(TYPE_TRANS_LIST[typestr]);
+        $(elem).click(onTypeChanged);
+    });
+
+    if(examination) {
+        question_sum = examination.total_num;
+        for (var iter in qType_list) {
+
+        }
+    }
+}
+
+//---------------------------------------------------------------------------
+// exam part
+// { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, qlist }    }
+function onTypeChanged(event) {
+    $(event.target).prop("checked", true);
+    //qtype
 }
 
 
 //---------------------------------------------------------------------------
-// exam part
+// page
 function onNextClk(event) {
     var lastnextidx = cur_idx;
     cur_idx = Math.min(cur_idx + 1, question_sum - 1);

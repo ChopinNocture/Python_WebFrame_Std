@@ -209,7 +209,14 @@ function failFunc() {
 
 
 //================================================================
-// 公告部分
+// 考试部分 ('id', 'title', 'duration', 'start_time')
+var examination = null;
+
 function onExamReadyGet(jsonData) {
-    alert("-------------" + jsonData);
+    examination = jsonData;
+    if (examination) {
+        
+        $('#btn_enter_exam').prop('href', $('#exam_entrance').data('examurl').replace('0', examination.id));
+        $('#exam_starttime').html(examination.start_time);
+    }
 }

@@ -306,7 +306,7 @@ def exam_examination(request, exam_id):
         exam_form = questionForms.ExaminationForm(instance=exam)
 
         return render(request=request, template_name="course/Examination.html",
-                    context = { "form": exam_form })
+                    context = { "form": exam_form, "qTypeList": exam_sys.q_type_list })
     else:
         return HttpResponse('Lesson Study')
 
@@ -356,9 +356,9 @@ def exam_editor_hitory(request):
 def exam_ready(request):
     exam = exam_sys.checkNearestExam()
     if exam:
-        return JsonResponse(model_to_dict(exam), safe=False)
+        return JsonResponse(exam, safe=False)
 
-    return HttpResponse('hahaha')
+    return HttpResponse('No Exam')
 
 
 # --------------------------------------------------------

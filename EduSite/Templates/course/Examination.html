@@ -22,7 +22,13 @@
 
         <div id="teacher" alt="Card image cap"></div>
     </div>    
+
     <div id="sheet_panel" >
+        <ul id="type_navbar">
+            {% for qType in qTypeList %}
+                <li><button type="radio" name="btn_type" class="qtype" data-qtype="{{qType}}"></button></li>
+            {% endfor %} 
+        </ul>        
         <div id="sheet_bg_out">             
             <div id="sheet_bg_in">            
                 <div id="quesion_desc_main">

@@ -8,6 +8,7 @@ import random
 
 q_type_list = QuestionModels.get_qType_list()
 
+
 # get question
 
 # generate a question set. Dict:{type:[]}
@@ -56,14 +57,17 @@ def examination_default():
 def checkNearestExam():
     try:
         td = timedelta(hours=3)
-        exam = QuestionModels.Examination.objects.filter(start_time__lte=(timezone.now()+td), start_time__gte=(timezone.now()-td))       
-        td = timedelta(exam.duration)
-        if exam.start_time + td < timezone.now():
-            return None
-        else:
-            return exam
-    except:
-        print("no exam")
+        exams = QuestionModels.Examination.objects.filter(start_time__range=(timezone.now()-td, timezone.now()+td)).values('id', 'title', 'duration', 'start_time')
+        
+        exam = exams[0]
+        if exam:
+            td = timedelta(exam["duration"])
+            if exam['start_time'] + td < timezone.now():
+                return None
+            else:
+                return exam
+    except Exception as e:
+        print("no exam", e)
         return None
 
     return None

@@ -119,7 +119,7 @@ function updateExamination() {
     var t_num = 0, t_score = 0;
     for( var iter in type_list ) {
         typeIter = type_list[iter];
-        var sel_list = question_list_all[typeIter].filter(function(item,index,array){
+        var sel_list = question_list_all[typeIter].filter(function(item, index, array){
             return item.selected;
         });
 
