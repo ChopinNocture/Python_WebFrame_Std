@@ -264,15 +264,29 @@ body {
     bottom: 0rem;
 }
 
+#current_panel {
+    font-size: 1.2em;
+    color: #b18f6f;
+    bottom: 0.5rem;
+    text-align: center;
+    left: 50%;
+}
+
 #prev_panel { left: 0rem; }
 #next_panel { right: 0rem; }
 
-#next_index {
-    font-size: 1.2em;
+#next_index, #current_index {    
     font-weight: bolder;
-    position: absolute;
-    bottom: 0.3rem;
+    bottom: 0.3rem;    
+}
+#current_index {    
+    color: tomato;
+}
+
+#next_index {
     color: #b18f6f;
+    font-size: 1.2em;
+    position: absolute;
     right: 0.6em; 
 }
 

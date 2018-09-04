@@ -37,13 +37,9 @@ function checkFillInBlank(key_str) {
 
     result_json.complete = (answer_str.length>blank_num);
 
-    if (result_json.complete) {
-        result_json['answer'] = answer_str;
-        result_json['result'] = (answer_str == key_str);
-    }
-    else {
-        alert('提交之前请完成题目!');
-    }
+    result_json['answer'] = answer_str;
+    result_json['result'] = (answer_str == key_str);
+
     return result_json;
 }
 
@@ -71,13 +67,10 @@ function checkTrueOrFalse(key_bool) {
     var result_json = { 'complete': false }
 
     result_json.complete = $('#TF_Right').prop('checked') || $('#TF_Wrong').prop('checked');
-    if (!result_json.complete) {
-        alert('提交之前请完成题目!');
-        return result_json;
-    }
-
-    result_json['answer'] = $('#TF_Right').prop('checked');
-    result_json['result'] = (key_bool == result_json['answer']);
+    if(result_json.complete) {
+        result_json['answer'] = $('#TF_Right').prop('checked');
+        result_json['result'] = (key_bool == result_json['answer']);
+    }   
 
     return result_json;
 }
@@ -120,13 +113,9 @@ function chk_Opt(key_str, key_type) {
     var answer_str = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
 
     result_json.complete = (answer_str.length>0);
-    if (result_json.complete) {
-        result_json['answer'] = answer_str;
-        result_json['result'] = (answer_str == key_str);
-    }
-    else {
-        alert('提交之前请完成题目!');
-    }
+    result_json['answer'] = answer_str;
+    result_json['result'] = (answer_str == key_str);
+
     return result_json;
 }
 

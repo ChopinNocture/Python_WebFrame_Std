@@ -62,7 +62,10 @@ function checkAnswer() {
         showEffect(result_json.result); 
         updateStat();
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
-    } 
+    }
+    else{
+        alert('提交之前请完成题目!');
+    }
 }
 
 const LI_HTML = '<li><span class="gold-icon **"/></li>';
