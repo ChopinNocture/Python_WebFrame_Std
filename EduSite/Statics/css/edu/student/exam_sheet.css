@@ -58,7 +58,9 @@ body {
     top: 0.4em;
     width: 1.5em;
     height: 1.5em;    
-    content: url('/Statics/images/clock.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/clock.png');
 }
 
 #clock_time {
@@ -75,7 +77,9 @@ body {
     left: 1rem;
     width: 16rem;
     height: 37rem;    
-    content: url('/Statics/images/nikki4.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/nikki4.png');
 }
 
 #sheet_panel {
@@ -162,7 +166,9 @@ body {
     top: 0.5rem;
     width: 5.625rem;
     height: 2rem;
-    content: url('/Statics/images/sheet_img1.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/sheet_img1.png');
     margin: 0rem;
 }
 
@@ -172,12 +178,16 @@ body {
     top: 5rem;
     width: 4.175rem;
     height: 2.825rem;
-    content: url('/Statics/images/S-Spin.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/S-Spin.png');
     margin: 0rem;
 }
 
 .arrow-left, .arrow-right, .arrow-up, .arrow-down {
-    content: url('/Statics/images/arrow-left.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/arrow-left.png');    
 }
 
 .arrow-up {
@@ -198,7 +208,9 @@ body {
     top: 5rem;
     width: 4.375rem;
     height: 3.8125rem;
-    content: url('/Statics/images/house-icon.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/house-icon.png');
     margin: 0rem;
 }
 
@@ -384,7 +396,9 @@ body {
     top: -100%;
     width: 16rem;
     height: 16rem;
-    content: url('/Statics/images/gold_coin.png');        
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin.png');        
 }
 
 .win-effect {
@@ -409,7 +423,9 @@ body {
     top: 0%;
     width: 16rem;
     height: 16rem;
-    content: url('/Statics/images/failed.png');     
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/failed.png');     
     animation: drop-in 0.3s ease-in;   
 }
 
@@ -588,22 +604,30 @@ body {
 }
 
 .unfinished {
-    content: url('/Statics/images/gold_coin_dis.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin_dis.png');    
 }
 
 .current {    
-    content: url('/Statics/images/current.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/current.png');
     width: 2rem;
     height: 2rem;   
     animation: anim-opacity 2s infinite linear;
 }
 
 .succeed {
-    content: url('/Statics/images/gold_coin.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin.png');    
 }
 
 .failed {
-    content: url('/Statics/images/failed.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/failed.png');    
 }
 
 

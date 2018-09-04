@@ -78,15 +78,21 @@ body {
 }
 
 .teacher-normal {
-    content: url('/Statics/images/t-normal.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/t-normal.png');
 }
 
 .teacher-right {
-    content: url('/Statics/images/t-right.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/t-right.png');
 }
 
 .teacher-wrong {
-    content: url('/Statics/images/t-wrong.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/t-wrong.png');
 }
 
 #sheet_panel {
@@ -193,7 +199,9 @@ body {
     top: 0.5rem;
     width: 5.625rem;
     height: 2rem;
-    content: url('/Statics/images/sheet_img1.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/sheet_img1.png');
     margin: 0rem;
 }
 
@@ -203,12 +211,16 @@ body {
     top: 5rem;
     width: 4.175rem;
     height: 2.825rem;
-    content: url('/Statics/images/S-Spin.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/S-Spin.png');
     margin: 0rem;
 }
 
 .arrow-left, .arrow-right, .arrow-up, .arrow-down {
-    content: url('/Statics/images/arrow-left.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/arrow-left.png');    
 }
 
 .arrow-up {
@@ -229,7 +241,9 @@ body {
     top: 5rem;
     width: 4.375rem;
     height: 3.8125rem;
-    content: url('/Statics/images/house-icon.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/house-icon.png');
     margin: 0rem;
 }
 
@@ -260,6 +274,7 @@ body {
 }
 
 .option-group span {
+    content: "";
     margin-top: 0.3em;
     margin-left: 0.25em;
     margin-right: -0.375em;    
@@ -280,19 +295,27 @@ body {
 }
 
 .icon-checked-key {
-    content: url('/Statics/images/icon-correct.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-correct.png');
 }
 
 .icon-checked-no {
-    content: url('/Statics/images/icon-wrong.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-wrong.png');
 }
 
 .icon-no-key {
-    content: url('/Statics/images/icon-missed.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-missed.png');
 }
 
 .icon-no-no {
-    content: '';
+    content: "";
+    background-size: 100% 100%;
+    background-image: '';
 }
 
 #stat_panel {
@@ -382,14 +405,16 @@ body {
 }
 
 .icon-reward {
-    position: absolute;
+    position: relative;
     display: block;    
     /* text-align: center; */
     margin: calc(50% - 8rem) calc(50% - 8rem); 
     top: -100%;
     width: 16rem;
     height: 16rem;
-    content: url('/Statics/images/gold_coin.png');        
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin.png');        
 }
 
 .win-effect {
@@ -414,7 +439,9 @@ body {
     top: 0%;
     width: 16rem;
     height: 16rem;
-    content: url('/Statics/images/failed.png');     
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/failed.png');     
     animation: drop-in 0.3s ease-in;   
 }
 
@@ -583,32 +610,44 @@ body {
 }
 
 .gold-icon-big {
+    position: relative;
+    display: inline-block;    
     width: 2.5rem;
     height: 2.5rem;
 }
 
 .gold-icon {
+    position: relative;
+    display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
 }
 
 .unfinished {
-    content: url('/Statics/images/gold_coin_dis.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin_dis.png');    
 }
 
 .current {    
-    content: url('/Statics/images/current.png');
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/current.png');
     width: 2rem;
     height: 2rem;   
     animation: anim-opacity 2s infinite linear;
 }
 
 .succeed {
-    content: url('/Statics/images/gold_coin.png');    
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/gold_coin.png');    
 }
 
-.failed {
-    content: url('/Statics/images/failed.png');    
+.failed { 
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/failed.png');    
 }
 
 

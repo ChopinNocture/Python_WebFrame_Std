@@ -156,7 +156,8 @@ body {
 }
 
 #icon_user {
-    content: url('/Statics/images/info-icon.png');
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/info-icon.png');
     width: 3rem;
     height: 3rem;
     border-style: solid;
@@ -170,37 +171,38 @@ body {
     top: -0.5rem;
     width: 3rem;
     height: 3rem;
+    background-size: 100% 100%;
 }
 
 .num-0 { 
-    content: url('/Statics/images/gold/num-0.png'); 
+    background-image: url('/Statics/images/gold/num-0.png'); 
 }
 .num-1 { 
-    content: url('/Statics/images/gold/num-1.png'); 
+    background-image: url('/Statics/images/gold/num-1.png'); 
 }
 .num-2 { 
-    content: url('/Statics/images/gold/num-2.png'); 
+    background-image: url('/Statics/images/gold/num-2.png'); 
 }
 .num-3 { 
-    content: url('/Statics/images/gold/num-3.png'); 
+    background-image: url('/Statics/images/gold/num-3.png'); 
 }
 .num-4 { 
-    content: url('/Statics/images/gold/num-4.png'); 
+    background-image: url('/Statics/images/gold/num-4.png'); 
 }
 .num-5 { 
-    content: url('/Statics/images/gold/num-5.png'); 
+    background-image: url('/Statics/images/gold/num-5.png'); 
 }
 .num-6 { 
-    content: url('/Statics/images/gold/num-6.png'); 
+    background-image: url('/Statics/images/gold/num-6.png'); 
 }
 .num-7 { 
-    content: url('/Statics/images/gold/num-7.png'); 
+    background-image: url('/Statics/images/gold/num-7.png'); 
 }
 .num-8 { 
-    content: url('/Statics/images/gold/num-8.png'); 
+    background-image: url('/Statics/images/gold/num-8.png'); 
 }
 .num-9 { 
-    content: url('/Statics/images/gold/num-9.png'); 
+    background-image: url('/Statics/images/gold/num-9.png'); 
 }
 
 
@@ -218,7 +220,9 @@ body {
     height: 40rem;  
     position: fixed;
     /* border: 1px dotted; */
-    content: url('/Statics/images/yoyo4.png');    
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/yoyo4.png');   
+    alt: "cc";
 }
 
 #lesson_list_panel {
@@ -283,12 +287,12 @@ body {
 
 #move_prev {
     position: relative;
-    top: 50%;
+    top: 0%;
 }
 
 #move_next {
     position: relative;
-    bottom: 50%;
+    bottom: 0%;
     transform: rotate(180deg);
 }
 
@@ -351,7 +355,8 @@ body {
     top: 0rem;
     width: 35rem;
     height: 32rem;       
-    content: url('/Statics/images/book-open.png');
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/book-open.png');
 }
 
 #btn_lesson {
@@ -383,13 +388,19 @@ body {
     width: 14rem;
     height: 14rem;  
     z-index: 3;
-    content: url('/Statics/images/locker.png');
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/locker.png');
     transition-property: opacity;
     transition-duration: 0.4s;
     transition-timing-function: ease-out;
 }
 
 .bg_lesson, .bg_prac {
+    position: absolute;
+    top: 0.6rem;
+    left: 1rem;    
+    width: 14rem;
+    height: 14rem;
     border-style: none;
     border-radius: 50%;
     opacity: 1;
@@ -397,6 +408,7 @@ body {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     animation: anim-blin 2s infinite linear;
+    content: "";
 }
 .bg_lesson {
     background-image: radial-gradient( rgba(183, 167, 255, 0.9) 40%, rgba(187, 168, 255, 0.01) 70%);
@@ -438,7 +450,9 @@ body {
     top: 2rem;
     width: 6rem;
     height: 6rem;      
-    content: url('/Statics/images/key.png');
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/key.png');
+    content: "";
 }
 
 #practise_info {
@@ -466,7 +480,9 @@ body {
     top: 2rem;
     width: 6rem;
     height: 6rem;      
-    content: url('/Statics/images/key.png');
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/key.png');
+    content: "";
 }
 
 /*-------------------------------------------------------------*/
