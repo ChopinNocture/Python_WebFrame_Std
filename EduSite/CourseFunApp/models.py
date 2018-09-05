@@ -7,15 +7,6 @@ MAX_CONTENT_LENGTH = 250
 UNLOCK_NUMBER = 3
 
 
-class Course(models.Model):
-    treeData = models.BinaryField()
-    # teacherID = models.ForeignKey('Teacher', on_delete=models.CASCADE, )
-    description = models.TextField(max_length=MAX_CONTENT_LENGTH)
-
-    def __str__(self):
-        return "this is course" + self.description
-
-
 # --------------------------------------------------------
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
@@ -45,7 +36,6 @@ class LessonContent(models.Model):
     file = models.FileField(upload_to='lessons/', null=True, blank=True )
     content = models.TextField()
 
-
 # --------------------------------------------------------
 # 题目基类
 class Question(models.Model):
@@ -63,10 +53,11 @@ class Question(models.Model):
     class Meta:
         abstract = True
 
+
     @classmethod
     def get_url_name(cls):
         return cls.__name__.replace('Question', '', 1)
-
+        
 
 # 填空题
 class FillInBlankQuestion(Question):
@@ -106,7 +97,7 @@ class SortQuestion(Question):
 # 案例、简答题
 class CaseAnalyseQuestion(Question):
     subQuestions = models.TextField(max_length=1024)  # JSONField()
-    
+
 
 # 语音题
 class VoiceQuestion(Question):

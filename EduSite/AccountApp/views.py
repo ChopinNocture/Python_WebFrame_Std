@@ -5,7 +5,8 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp.forms import LoginForm, Student_Prof_Form
-from AccountApp.models import ClassInfo, TeacherProf, StudentProf
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf, Course
+from CourseFunApp.decorators import course_required
 from CourseFunApp.models import Lesson, UNLOCK_NUMBER
 
 
@@ -49,7 +50,8 @@ def student_main(request):
                     "unlock_number": UNLOCK_NUMBER})
 
 
-# @login_required(login_url='/user/login/')
+@login_required(login_url='/user/login/')
+@course_required()
 def teacher_main(request):
     return render(request, 'user/teacher_main.html')
 
@@ -130,3 +132,14 @@ def update_progress(request):
         return HttpResponse("Succeed!", status=200)
     else:
         return HttpResponse("failed!")            
+
+
+# --------------------------------------------------------
+# course
+def course_select(request):
+    course_list = Course.objects.all().values('id', 'description')
+    if request.method == "GET":        
+        return render(request=request, template_name="user/course_selector.html",
+                  context={"course_list": course_list})
+    else:
+        return None        

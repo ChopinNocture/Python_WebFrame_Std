@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'TestApp',
     'NoticeApp',
     'CourseFunApp',
     'AccountApp'
@@ -81,9 +80,19 @@ WSGI_APPLICATION = 'EduSite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'DB/db.sqlite3'),
+    },
+    'course_A': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'DB/course_A.sqlite3'),
+    },
+    'course_B': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'DB/course_B.sqlite3'),
     }
 }
+
+DATABASE_ROUTERS = ['EduSite.db_router.CourseRouter', ]
 
 
 # Password validation

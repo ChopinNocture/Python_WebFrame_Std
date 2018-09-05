@@ -13,6 +13,7 @@ class Notices(models.Model):
 
     class Meta:
         ordering = ("-publicDate",)
+        app_label = 'CourseFunApp'
 
     def __str__(self):
         return self.content

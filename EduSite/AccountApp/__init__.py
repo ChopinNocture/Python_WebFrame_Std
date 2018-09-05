@@ -1,0 +1,1 @@
+COURSE_KEY = '_course_id'

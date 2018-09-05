@@ -4,6 +4,7 @@ from django.template import loader
 from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.models import model_to_dict
 
@@ -148,7 +149,8 @@ def question_editor_form(request, qtype, qid=-1):
         newQuestForm = formClass(requestData, instance=quest_in_DB)
 
         if newQuestForm.is_valid():
-            newQuestForm.save()
+            quest_in_DB = newQuestForm.save(commit=False)
+            quest_in_DB.save(using='course_A')
             #            quest_in_DB = newQuestForm.save(commit=False)
             #            formData = newQuestForm.cleaned_data
             #            for iter in newQuestForm.fields:
