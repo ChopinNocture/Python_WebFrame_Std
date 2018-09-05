@@ -9,16 +9,16 @@ from AccountApp.models import Course
 from AccountApp import COURSE_KEY
 
 
-def course_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, course_url='/course/select/'):
+def course_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, course_url='/user/course/'):
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if COURSE_KEY in request.session:
                 c_id = request.session[COURSE_KEY]
                 try:
-                    course = Course.objects.get(c_id)
+                    course = Course.objects.get(id=c_id)
                     request.db_name = course.db_name
-                    return function(request, *args, **kwargs)
+                    return view_func(request, *args, **kwargs)
                 except ObjectDoesNotExist as e:
                     print(e)
                     return HttpResponseRedirect(course_url)

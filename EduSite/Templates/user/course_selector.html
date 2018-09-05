@@ -4,6 +4,8 @@
 {% block title %}课程选择{% endblock %} 
 
 {% block jsFunctionLib %}
+<script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
 {% endblock %}
 
 
@@ -12,12 +14,20 @@
     <p>
         <span id="login-title">课程选择</span>
     </p>
+    <form action="." method="post" id="Form_Login">
+        {% csrf_token %}        
+        <input id="param" name="course_id" hidden/>
+    </form>  
     {% for course in course_list %}
     <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="course_{{course.id}}" 
-            onclick="onSectionClick(event)" onfocus="this.blur()"
+            onclick="onCourseClick(event)" onfocus="this.blur()"
             tabindex="-1"
-            data-section={{course.id}} data-toggle="tooltip" data-placement="right" title="{{course.description}}" >{{course.description}}</button>
-    {% endfor %}      
+            data-id={{course.id}} data-toggle="tooltip" data-placement="right" >{{course.description}}</button>
+    {% endfor %}    
+
 </div>
 {% endblock %}
 
+{% block jsPage %}
+<script type="text/javascript" src="{% static 'js/user/course_selector.js' %}"></script> 
+{% endblock %}

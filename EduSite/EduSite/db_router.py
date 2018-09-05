@@ -42,7 +42,6 @@ class CourseRouter:
             key_label = hints['model']._meta.app_label
 
         if db == 'course_A' or db == 'course_B':
-            print(" *** " , app_label , db, model_name, key_label)
             return key_label == 'CourseFunApp'
         elif key_label == 'CourseFunApp':
             return False           

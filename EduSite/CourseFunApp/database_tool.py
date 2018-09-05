@@ -196,8 +196,6 @@ def update_DB_from_excel(excel_url):
                 row_idx += 1
                 ques_desc = cur_sht['G' + str(row_idx)].value
 
-                
-
 
 # database_tool.
 # update_DB_from_excel('D:/Temp/DB_1.xlsm')

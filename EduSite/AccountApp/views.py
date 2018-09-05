@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
+from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, Course
-from CourseFunApp.decorators import course_required
+from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, UNLOCK_NUMBER
 
 
@@ -20,10 +22,8 @@ def user_login(request):
 
             if user:
                 login(request, user)
-                if user.groups.filter(name='teachers').exists():
-                    return HttpResponseRedirect('/user/teacher/')
-                else:
-                    return HttpResponseRedirect('/user/student/')
+                return HttpResponseRedirect('/user/course/')
+
                 # return HttpResponse('Welcome!')
             else:
                 return HttpResponse('Sorry!')
@@ -36,8 +36,9 @@ def user_login(request):
 
 
 @login_required(login_url='/user/login/')
+@course_required()
 def student_main(request):
-    lesson_list = Lesson.objects.all().values('id', 'description')
+    lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
 
     cur_user = request.user
     if cur_user is not None:
@@ -137,9 +138,24 @@ def update_progress(request):
 # --------------------------------------------------------
 # course
 def course_select(request):
-    course_list = Course.objects.all().values('id', 'description')
     if request.method == "GET":        
+        course_list = Course.objects.all().values('id', 'description')
         return render(request=request, template_name="user/course_selector.html",
                   context={"course_list": course_list})
     else:
-        return None        
+        course_id = request.POST['course_id']
+        
+        try:
+            course = Course.objects.get(id=course_id)
+            request.session.cycle_key()
+            request.session[COURSE_KEY] = course_id
+            request.db_name = course.db_name
+
+            if request.user.groups.filter(name='teachers').exists():
+                return HttpResponseRedirect('/user/teacher/')
+            else:
+                return HttpResponseRedirect('/user/student/')
+                        
+        except ObjectDoesNotExist as e:
+            print(e)
+            return None        

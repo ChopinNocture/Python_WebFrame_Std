@@ -12,7 +12,7 @@ q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{type:[]}
-def generate_question_set(sectionID=[], per_sum=2, type_list=[]):
+def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[]):
     tmp_list = type_list
     if not tmp_list:
         tmp_list = q_type_list
@@ -26,7 +26,7 @@ def generate_question_set(sectionID=[], per_sum=2, type_list=[]):
         except (AttributeError) as e:
             raise e
 
-        query_filter = temp_class.objects.filter(sectionID=sectionID, case_analyse=None)
+        query_filter = temp_class.objects.using(db_name).filter(sectionID=sectionID, case_analyse=None)
         count = query_filter.count()
         need_num = min(per_sum, count)
         
@@ -46,7 +46,7 @@ def generate_question_set(sectionID=[], per_sum=2, type_list=[]):
     return {'qType_list': q_type_list, 'qList': q_json_list}
 
 
-def get_questions_by_id_list(qtype, id_list):
+def get_questions_by_id_list(qtype, id_list, db_name):
     try:
         temp_class = QuestionModels.get_qType_class(qtype)
     except (AttributeError) as e:
@@ -54,7 +54,7 @@ def get_questions_by_id_list(qtype, id_list):
     
     ques_list = list()
     for id_iter in id_list:
-        question = temp_class.objects.get(id=id_iter)
+        question = temp_class.objects.using(db_name).get(id=id_iter)
         ques_list.append(model_to_dict(question))
 
     return {'qtype':qtype, 'questions':ques_list}
@@ -68,10 +68,10 @@ def examination_default():
     return exam
 
 
-def checkNearestExam():
+def checkNearestExam(db_name):
     try:
         td = timedelta(hours=3)
-        exams = QuestionModels.Examination.objects.filter(start_time__range=(timezone.now()-td, timezone.now()+td)).values('id', 'title', 'duration', 'start_time')
+        exams = QuestionModels.Examination.objects.using(db_name).filter(start_time__range=(timezone.now()-td, timezone.now()+td)).values('id', 'title', 'duration', 'start_time')
         
         exam = exams[0]
         if exam:

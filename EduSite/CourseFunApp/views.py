@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, QueryDict
 from django.template import loader
@@ -14,14 +15,18 @@ import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
-import json
+from AccountApp.decorators import course_required
 
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
 
 # --------------------------------------------------------
 # get all type
+@course_required()
 def get_all_list(request):
+    if not request.db_name:
+        return HttpResponse("Permission reject!")
+
     if request.method == "POST" and request.is_ajax():
         jsonObj = request.POST.get("jsonObj")
         typeListObj = json.loads(s=jsonObj)
@@ -33,7 +38,7 @@ def get_all_list(request):
             try:
                 temp_class = questionModels.get_qType_class(qtype)
                 quest_list = list()
-                quests = temp_class.objects.all().values('id', 'description', 'sectionID', 'flag')           
+                quests = temp_class.objects.using(request.db_name).all().values('id', 'description', 'sectionID', 'flag')           
 
                 for qiter in quests:
                     quest_list.append({"id": qiter['id'],
@@ -50,6 +55,7 @@ def get_all_list(request):
 
 
 # get question list by type
+@course_required()
 def get_type_question_list(request, qtype, section_id=None):
     try:
         temp_class = questionModels.get_qType_class(qtype)
@@ -61,9 +67,9 @@ def get_type_question_list(request, qtype, section_id=None):
         return HttpResponse("Permission reject!")
 
     if section_id is None:
-        quests = temp_class.objects.all().values('id', 'description', 'sectionID', 'flag')
+        quests = temp_class.objects.using(request.db_name).all().values('id', 'description', 'sectionID', 'flag')
     else:
-        quests = temp_class.objects.filter(sectionID=section_id).values('id', 'description', 'sectionID', 'flag')
+        quests = temp_class.objects.using(request.db_name).filter(sectionID=section_id).values('id', 'description', 'sectionID', 'flag')
 
     quest_list = list()
 
@@ -78,12 +84,13 @@ def get_type_question_list(request, qtype, section_id=None):
 
 
 # get question list by type from id list
+@course_required()
 def get_question_list_by_ids(request):
     if request.method == "POST" and request.is_ajax():
         try:            
             typeListObj = json.loads(s=request.POST.get("jsonlist"))
             # print(typeListObj, " ---  ", request.POST.get("qtype"), )
-            jsondata = exam_sys.get_questions_by_id_list(request.POST.get("qtype"), typeListObj['qlist'])
+            jsondata = exam_sys.get_questions_by_id_list(request.POST.get("qtype"), typeListObj['qlist'], request.db_name)
             return JsonResponse(jsondata, safe=False)
         except (AttributeError) as e:
             print(e)
@@ -92,13 +99,15 @@ def get_question_list_by_ids(request):
 
 # --------------------------------------------------------
 # editor main
+@course_required()
 def question_editor(request):
-    course_html = get_lesson_list_html()
+    course_html = get_lesson_list_html(request)
 
     return render(request=request, template_name="course/questionEditor.html",
                   context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
 
 
+@course_required()
 def delete_question(request, qtype, qid):
     # sid = request
     if not request.method == "POST" or not request.is_ajax():
@@ -111,7 +120,7 @@ def delete_question(request, qtype, qid):
         return HttpResponse("Error type:" + qtype)
 
     try:
-        temp_class.objects.filter(id=qid).delete()
+        temp_class.objects.using(request.db_name).filter(id=qid).delete()
     except Exception as e:
         print(e + type(temp_class))
         return HttpResponse(e + "--" + type(temp_class))
@@ -120,6 +129,7 @@ def delete_question(request, qtype, qid):
 
 
 # form part
+@course_required()
 def question_editor_form(request, qtype, qid=-1):
     # print("------------------" + q_type_list[0].get_url_name())
     try:
@@ -139,7 +149,7 @@ def question_editor_form(request, qtype, qid=-1):
             return HttpResponse("Error type:" + qtype)
 
         try:
-            quest_in_DB = temp_class.objects.get(id=qid)
+            quest_in_DB = temp_class.objects.using(request.db_name).get(id=qid)
         except (temp_class.MultipleObjectsReturned) as e:
             print(e + "Multiply objects get from:" + type(temp_class))
             return HttpResponse(e + "Multiply objects get from:" + type(temp_class))
@@ -170,6 +180,7 @@ def question_editor_form(request, qtype, qid=-1):
     # return HttpResponse(temp_class.get_url_name())
 
 
+@course_required()
 @csrf_exempt
 def question_import(request):
     if request.method == "POST":
@@ -209,15 +220,16 @@ def _question_import(request):
 
 # --------------------------------------------------------
 # oprater for lesson
+@course_required()
 def lesson_editor(request):
-    course_html = get_lesson_list_html()
+    course_html = get_lesson_list_html(request)
 
     if request.method == "GET":
         lesson_id = request.GET.get("lesson")
 
         if lesson_id:
             try:
-                lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
+                lesson_cont = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
                 lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont,
                                                                       initial={'file_name': lesson_cont.file})
 
@@ -240,7 +252,7 @@ def lesson_editor(request):
         lesson_id = request.POST.get("lesson")
 
         try:
-            lesson_cont = questionForms.LessonContent.objects.get(lesson=lesson_id)
+            lesson_cont = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
         except Exception as e:
             print(' --- ' + str(e))
             lesson_cont = None
@@ -268,18 +280,20 @@ def lesson_editor(request):
                       context={"lesson_form_html": form_html, "course_html": course_html, })
 
 
+@course_required()
 def get_lesson_content(request, lesson_id):
     return HttpResponse('hello')
 
 
 # --------------------------------------------------------
 # study lesson
+@course_required()
 def study(request, lesson_id):
     if request.method == "GET":
         try:
-            lesson = Lesson.objects.get(id=lesson_id)
+            lesson = Lesson.objects.using(request.db_name).get(id=lesson_id)
             description = lesson.description
-            lesson_content = questionForms.LessonContent.objects.get(lesson=lesson_id)
+            lesson_content = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
             
         except Exception as e:
             description = lesson.description
@@ -297,24 +311,26 @@ def study(request, lesson_id):
 
 # --------------------------------------------------------
 # answer sheet
+@course_required()
 def answer_sheet(request, sectionID):
-    lesson = Lesson.objects.get(id=sectionID)
+    lesson = Lesson.objects.using(request.db_name).get(id=sectionID)
     if request.method == "GET":
         return render(request=request, template_name="course/AnswerSheet.html",
                     context = {"section_name": lesson.description, 
                                 "unlock_number": questionModels.UNLOCK_NUMBER,
                                 "progress": request.GET.get("progress")})
     else:
-        question_dict = exam_sys.generate_question_set(lesson, 3)
+        question_dict = exam_sys.generate_question_set(request.db_name, lesson, 3)
         return JsonResponse(question_dict)
 
 
 # --------------------------------------------------------
 # examination
+@course_required()
 def exam_examination(request, exam_id):
     if request.method == "GET":
         try:
-            exam = Examination.objects.get(id=exam_id)
+            exam = Examination.objects.using(request.db_name).get(id=exam_id)
         except Exception as e:
             print(e)
             exam = Examination()
@@ -326,10 +342,11 @@ def exam_examination(request, exam_id):
         return HttpResponse('Lesson Study')
 
 
+@course_required()
 def exam_editor(request):
     if request.is_ajax() and request.method == "POST":
         exam = Examination()
-        # exam = Examination.objects.create(
+        # exam = Examination.objects.using(request.db_name).create(
         #     title = 'test',
         #     duration = 120,
         #     question_list = {"email": "to1@example.com"}
@@ -352,7 +369,7 @@ def exam_editor(request):
         return HttpResponse("Success!")
 
     elif request.method == "GET":
-        exam_list = Examination.objects.all().values('id', 'start_time', 'title')
+        exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'title')
         exam_list_html = loader.render_to_string(template_name="course/exam_list.html",
                                                  context={"exam_list": exam_list})
 
@@ -360,16 +377,18 @@ def exam_editor(request):
         return render(request=request, template_name="course/examination_editor.html",
                       context={"qTypeList": exam_sys.q_type_list,
                                "exam_list_html": exam_list_html,
-                               "course_html": get_lesson_list_html(),
+                               "course_html": get_lesson_list_html(request),
                                "form": exam_form})
 
 
+@course_required()
 def exam_editor_hitory(request):
     return HttpResponse('hahaha')
 
 
+@course_required()
 def exam_ready(request):
-    exam = exam_sys.checkNearestExam()
+    exam = exam_sys.checkNearestExam(request.db_name)
     if exam:
         return JsonResponse(exam, safe=False)
 
@@ -378,6 +397,7 @@ def exam_ready(request):
 
 # --------------------------------------------------------
 # tool func
-def get_lesson_list_html():
-    lesson_list = Lesson.objects.all().values('id', 'description')
+@course_required()
+def get_lesson_list_html(request):
+    lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
     return loader.render_to_string(template_name="course/course_list.html", context={"lesson_list": lesson_list})
