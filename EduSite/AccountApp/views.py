@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm, Student_Prof_Form
-from AccountApp.models import ClassInfo, TeacherProf, StudentProf, Course
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, UNLOCK_NUMBER
 
@@ -40,13 +40,18 @@ def user_login(request):
 def student_main(request):
     lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
 
-    cur_user = request.user
-    if cur_user is not None:
-        cur_prof = StudentProf.objects.get(user=cur_user)
-    # stu_form = Student_Prof_Form(instance=cur_prof) 
-
+    cur_user = request.user    
+    cur_info = StudentProf.objects.get(user=cur_user)
+    try:
+        cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
+    except ObjectDoesNotExist as e:
+        print('!!', e)
+        cur_prof = StudentProgressInfo(user_id=cur_user.id)
+        cur_prof.save(using=request.db_name)
+        
     return render(request, 'user/student_main.html', 
-                    {'stud_info':cur_prof, 
+                    {'stud_info': cur_info, 
+                    'stud_cprof': cur_prof,
                     "lesson_list": lesson_list,
                     "unlock_number": UNLOCK_NUMBER})
 
@@ -54,10 +59,11 @@ def student_main(request):
 @login_required(login_url='/user/login/')
 @course_required()
 def teacher_main(request):
-    return render(request, 'user/teacher_main.html')
+    return render(request, 'user/teacher_main.html', {'course_desc':request.course_desc})
 
 
 @login_required(login_url='/user/login/')
+@course_required()
 def student_manager(request):
     if request.method == 'GET':
         class_list = ClassInfo.objects.all()
@@ -80,26 +86,28 @@ def student_list(request, class_id=None):
 
 
 @login_required(login_url='/user/login/')
+@course_required()
 def get_student_prof(request, student_id):
     if not request.is_ajax():
         return HttpResponse("Permission reject!")
 
     if request.method == 'GET':
         user = User.objects.get(id=student_id)
-        stu_prof = StudentProf.objects.get(user=user)
+        stu_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)
         stu_form = Student_Prof_Form(instance=stu_prof)
     
         return render(request, 'user/student_prof.html', {'form_student': stu_form})
 
 
 # 
+@course_required()
 def award_score(request):    
     if request.method == "POST":        
         cur_user = get_user(request)
         if isinstance(cur_user, AnonymousUser):
             return HttpResponse("failed!")
         try:
-            cur_prof = StudentProf.objects.get(user=cur_user)
+            cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
             gold_award = int(request.POST.get('gold'))
             print(gold_award)
             cur_prof.gold = cur_prof.gold + gold_award
@@ -114,6 +122,7 @@ def award_score(request):
         return HttpResponse("failed!")
 
 
+@course_required()
 def update_progress(request):
     if request.method == "POST":    
         cur_user = get_user(request)
@@ -122,7 +131,7 @@ def update_progress(request):
 
         try:
             progress = int(request.POST.get('progress'))
-            cur_prof = StudentProf.objects.get(user=cur_user)
+            cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
             cur_prof.progress = progress
             cur_prof.save()            
 
@@ -137,6 +146,7 @@ def update_progress(request):
 
 # --------------------------------------------------------
 # course
+@login_required(login_url='/user/login/')
 def course_select(request):
     if request.method == "GET":        
         course_list = Course.objects.all().values('id', 'description')

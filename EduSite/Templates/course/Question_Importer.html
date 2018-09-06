@@ -3,35 +3,42 @@
 {% block title %}Excel Import{% endblock %} 
 
 {% block header %}
+{{ course.description }}
 {% include "user/teacher_header.html" %}
 {% endblock %}
 
 {% block content %}
 <div>
+    <form action="." method="POST" id="quest_importer_fm" enctype="multipart/form-data">
+    {% csrf_token %}    
     <div class="card bg-light w-75 m-auto">
         <div class="card-header text-center">
             <h3 class="card-title">题库文件导入</h3>
-        </div>
-    <form action="." method="POST" id="quest_importer_fm" enctype="multipart/form-data">
-    {% csrf_token %}
-        <div class="card-body">
-            <h4 class="card-title text-danger text-center">注意</h4>
-            <p class="text-secondary">从给定格式的Excel文件批量导入题目到系统数据库。</p>
-            <p>注意，系统采用<span class="text-success">添加模式</span>导入Excel中的题目进数据库。</p>
-            <p>该模式在原有的数据库里新添加导入的题目，<span class="text-danger font-weight-bold">如果重复导入同一文件，会造成数据库中有重复的题目出现</span></p>
-
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="excel" id="excel_file" accept=".xlsm, .xls, .xlm">
                 <label class="custom-file-label" for="excel_file" id="fsel_label">选择题库文件...</label>
             </div>
         </div>    
+        <input type="hidden" id="op_id" name='op' value="normal"/>
+        <div class="card-body">            
+            <h4 class="card-title text-danger text-center">题目导入注意</h4>
+            <p class="text-secondary">从给定格式的Excel文件批量导入题目到系统数据库。</p>
+            <p>注意，系统采用<span class="text-success">添加模式</span>导入Excel中的题目进数据库。</p>
+            <p>该模式在原有的数据库里新添加导入的题目，<span class="text-danger font-weight-bold">如果重复导入同一文件，会造成数据库中有重复的题目出现</span></p>            
+        </div>    
         <div class="card-footer text-center">
-            <input type="button" value="导入" id="import_btn" class="btn btn-primary mb-2" onclick="onBtnClk(event)" disabled></input>
+            <input type="button" value="导入" id="import_btn" class="btn btn-primary mb-2" onclick="onBtnClk(event)" disabled/>
+            <h3 class="text-warning" id="progressing"></h3>
             <h5 class="text-success" {{suc_info}}>Excel文件已经成功导入，请去“<span class="text-warning">题库管理</span>”页面查看</h5>
             <h5 class="text-danger" {{fail_info}}>Excel文件导入失败，请检查文件，只接受题库模板格式的文件</h5>
-        </div>
-    </form>
+        </div>    
+        <div class="card-footer text-center">
+            <h5 class="card-title text-warning text-center">课纲导入注意</h5>
+            <p class="text-danger font-weight-bold">课纲导入会覆盖原有的课纲，也会导致原有题目出现问题，因此建议只在第一次创建课程时操作！</p>
+            <input type="button" value="导入题纲" id="import_list_btn" class="btn btn-sm btn-primary mb-2" onclick="onListBtnClk(event)" disabled/> 
+        </div>            
     </div>
+    </form>
 </div>
 {% endblock %}
 

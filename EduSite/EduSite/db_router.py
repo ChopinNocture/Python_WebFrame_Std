@@ -15,20 +15,26 @@ class CourseRouter:
         """
         # if model._meta.app_label != 'course':
         #    return 'auth_db'
-        return None
+        if model._meta.app_label == 'CourseFunApp':
+            return None
+        else:
+            return 'default'
 
 
     def db_for_write(self, model, **hints):
         """
         Attempts to write auth models go to auth_db.
         """
-        return None
+        if model._meta.app_label == 'CourseFunApp':
+            return None
+        else:
+            return 'default'
 
 
     def allow_relation(self, obj1, obj2, **hints):
         """
         Allow relations if a model in the auth app is involved.
-        """        
+        """                
         return None
 
 

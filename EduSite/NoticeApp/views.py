@@ -1,21 +1,25 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from datetime import timedelta
 
 # Create your views here.
 from .models import Notices
 from .forms import NoticesForm
 #from django.utils.dateformat import DateFormat
-from django.utils import timezone
-
+from AccountApp.decorators import course_required
 
 #--------------------------------------------------------
 # public notice now
+@course_required()
 def public_notice_now(request, content):
     today = timezone.datetime.today()
     return public_notice(request, today.year, today.month, today.day, 3, content)
 
+
 # public notice by time
+@course_required()
 def public_notice(request, year, month, day, duration):
     # sid = request
     if not request.method == "POST" or not request.is_ajax():
@@ -23,17 +27,20 @@ def public_notice(request, year, month, day, duration):
 
     content = request.POST.get('content')
     publicDate = timezone.datetime(year=year, month=month, day=day).date()
-    newNotice = Notices.objects.create(
+    newNotice = Notices(        
         publicDate = publicDate,
         expireDate = publicDate + timedelta(duration),
-        content = content
+        content = content,
     )
+    newNotice.save(using=request.db_name)
 
     return HttpResponse("Succeed!", status=200)
 
 
+@login_required(login_url='/user/login/')
+@course_required()
 def public_notice_form(request):
-    history_list = Notices.objects.filter(expireDate__gt=timezone.now())
+    history_list = Notices.objects.using(request.db_name).filter(expireDate__gt=timezone.now())
     noticeform = NoticesForm()
 
     if request.method == "GET":
@@ -44,9 +51,10 @@ def public_notice_form(request):
 
 #--------------------------------------------------------
 # get notices by time
+@course_required()
 def get_notices(request, fromDate=timezone.now(), expireDate=timezone.now()):
     if request.method == "GET" and request.is_ajax():
-        currentNotices = Notices.objects.filter(publicDate__lte=fromDate, expireDate__gt=expireDate)
+        currentNotices = Notices.objects.using(request.db_name).filter(publicDate__lte=fromDate, expireDate__gt=expireDate)
         
         notices_list = list()
         for iter in currentNotices:
@@ -60,6 +68,7 @@ def get_notices(request, fromDate=timezone.now(), expireDate=timezone.now()):
 
 #--------------------------------------------------------
 # delete notices by ID
+@course_required()
 def delete_notice(request, notice_id):
-    Notices.objects.get(id=notice_id).delete()
+    Notices.objects.using(request.db_name).get(id=notice_id).delete()
     return HttpResponse()

@@ -16,11 +16,11 @@ class StudentProf(models.Model):
 
 
 class StudentProgressInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, )
-    gold = models.IntegerField()
-    progress = models.PositiveIntegerField()
-    rank = models.PositiveIntegerField()
-    level = models.PositiveIntegerField()
+    user_id = models.IntegerField()
+    gold = models.IntegerField(default=0)
+    progress = models.PositiveIntegerField(default=0)
+    rank = models.PositiveIntegerField(default=0)
+    level = models.PositiveIntegerField(default=0)
 
     class Meta:
         app_label = 'CourseFunApp'

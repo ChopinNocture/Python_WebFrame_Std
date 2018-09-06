@@ -16,6 +16,7 @@ import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
 from AccountApp.decorators import course_required
+from AccountApp import COURSE_KEY
 
 # from django.utils.dateformat import DateFormat
 # from django.utils import timezone
@@ -99,12 +100,13 @@ def get_question_list_by_ids(request):
 
 # --------------------------------------------------------
 # editor main
+@login_required(login_url='/user/login/')
 @course_required()
 def question_editor(request):
     course_html = get_lesson_list_html(request)
-
+    
     return render(request=request, template_name="course/questionEditor.html",
-                  context={"qTypeList": exam_sys.q_type_list, "course_html": course_html})
+                  context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, 'course_desc':request.course_desc})
 
 
 @course_required()
@@ -180,6 +182,7 @@ def question_editor_form(request, qtype, qid=-1):
     # return HttpResponse(temp_class.get_url_name())
 
 
+@login_required(login_url='/user/login/')
 @course_required()
 @csrf_exempt
 def question_import(request):
@@ -187,39 +190,43 @@ def question_import(request):
         temp_file_loader = TemporaryFileUploadHandler(request)
         request.upload_handlers = [temp_file_loader]
 
-    return _question_import(request)
+        return _question_import(request)
+    elif request.method == "GET":      
+        return render(
+            request=request, 
+            template_name="course/Question_Importer.html", 
+            context={"suc_info" : "hidden", 'fail_info' : "hidden", 'course_desc':request.course_desc}
+        )
 
 
 @csrf_protect
-def _question_import(request):
-    if request.method == "POST":        
-        file = request.FILES['excel']
-        print(file.temporary_file_path())
+def _question_import(request):  
+    file = request.FILES['excel']
+    print(file.temporary_file_path())
+
+    if request.POST['op'] == 'ListImport':
+        DB_tool.import_lesson_list(file.temporary_file_path(), request.db_name)
+    else:
         try:
-            DB_tool.update_DB_from_excel(file.temporary_file_path())
+            DB_tool.update_DB_from_excel(file.temporary_file_path(), request.db_name)
         except Exception as e:
             print(e)
             return render(
                 request=request, 
                 template_name="course/Question_Importer.html", 
-                context={"suc_info" : "hidden", 'fail_info' : ""}
+                context={"suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc}
             )    
-        return render(
-            request=request, 
-            template_name="course/Question_Importer.html", 
-            context={"suc_info" : "", 'fail_info':"hidden"}
-        )
 
-    elif request.method == "GET":        
-        return render(
-            request=request, 
-            template_name="course/Question_Importer.html", 
-            context={"suc_info" : "hidden", 'fail_info' : "hidden"}
-        )
+    return render(
+        request=request, 
+        template_name="course/Question_Importer.html", 
+        context={"suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc}
+    )
 
 
 # --------------------------------------------------------
 # oprater for lesson
+@login_required(login_url='/user/login/')
 @course_required()
 def lesson_editor(request):
     course_html = get_lesson_list_html(request)
@@ -246,7 +253,7 @@ def lesson_editor(request):
                                                 context={"form": lesson_content_form})
             return render(request=request,
                           template_name="course/lesson_editor.html",
-                          context={"lesson_form_html": form_html, "course_html": course_html, })
+                          context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc })
 
     elif request.method == "POST":
         lesson_id = request.POST.get("lesson")
@@ -277,7 +284,7 @@ def lesson_editor(request):
                                             context={"form": lesson_content_form})
         return render(request=request,
                       template_name="course/lesson_editor.html",
-                      context={"lesson_form_html": form_html, "course_html": course_html, })
+                      context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc })
 
 
 @course_required()
@@ -287,6 +294,7 @@ def get_lesson_content(request, lesson_id):
 
 # --------------------------------------------------------
 # study lesson
+@login_required(login_url='/user/login/')
 @course_required()
 def study(request, lesson_id):
     if request.method == "GET":
@@ -311,6 +319,7 @@ def study(request, lesson_id):
 
 # --------------------------------------------------------
 # answer sheet
+@login_required(login_url='/user/login/')
 @course_required()
 def answer_sheet(request, sectionID):
     lesson = Lesson.objects.using(request.db_name).get(id=sectionID)
@@ -326,6 +335,7 @@ def answer_sheet(request, sectionID):
 
 # --------------------------------------------------------
 # examination
+@login_required(login_url='/user/login/')
 @course_required()
 def exam_examination(request, exam_id):
     if request.method == "GET":
@@ -342,6 +352,7 @@ def exam_examination(request, exam_id):
         return HttpResponse('Lesson Study')
 
 
+@login_required(login_url='/user/login/')
 @course_required()
 def exam_editor(request):
     if request.is_ajax() and request.method == "POST":
@@ -378,6 +389,7 @@ def exam_editor(request):
                       context={"qTypeList": exam_sys.q_type_list,
                                "exam_list_html": exam_list_html,
                                "course_html": get_lesson_list_html(request),
+                               'course_desc':request.course_desc,
                                "form": exam_form})
 
 

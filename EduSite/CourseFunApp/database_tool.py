@@ -20,7 +20,7 @@ def parse_FillInBlank(sheet, row, desc, lesson):
         key_list.append(str(sheet.cell(column=idx, row=row).value))
 
     key_string = ','.join(key_list)
-    print(desc + ' - ' + key_string)
+    # print(desc + ' - ' + key_string)
 
     return questionModels.FillInBlankQuestion(  
         description = desc,
@@ -33,7 +33,7 @@ def parse_FillInBlank(sheet, row, desc, lesson):
 
 def parse_TrueOrFalse(sheet, row, desc, lesson):
     key = (sheet["I" + str(row)].value == '正确')    
-    print(desc + ' - ' + str(int(key)))
+    # print(desc + ' - ' + str(int(key)))
     return questionModels.TrueOrFalseQuestion(  
         description = desc,
         sectionID = lesson,
@@ -62,7 +62,7 @@ def parse_Choice(sheet, row, desc, lesson):
     
     option = "|-|".join(option_list)
 
-    print(desc + ' - ' + key + ' - ' + option)
+    # print(desc + ' - ' + key + ' - ' + option)
     return questionModels.ChoiceQuestion(  
         description = desc,
         sectionID = lesson,
@@ -90,7 +90,7 @@ def parse_MultiChoice(sheet, row, desc, lesson):
     
     option = "|-|".join(option_list)
 
-    print(desc + ' - ' + key + ' - ' + option)
+    # print(desc + ' - ' + key + ' - ' + option)
     return questionModels.MultiChoiceQuestion(  
         description = desc,
         sectionID = lesson,
@@ -140,7 +140,7 @@ def parse_Sort(sheet, row, desc, lesson):
         option = sheet.cell(column=idx, row=row).value        
     
     option = "|-|".join(option_list)
-    print(desc + ' - ' + option)
+    # print(desc + ' - ' + option)
 
     return questionModels.SortQuestion(  
         description = desc,
@@ -152,7 +152,7 @@ def parse_Sort(sheet, row, desc, lesson):
 
 
 def parse_Subject(sheet, row, desc, lesson):
-    print(desc) 
+    # print(desc) 
     return questionModels.CaseAnalyseQuestion(  
         description = desc,
         sectionID = lesson,
@@ -161,8 +161,8 @@ def parse_Subject(sheet, row, desc, lesson):
     )       
 
 
-def update_DB_from_excel(excel_url):
-    lesson_list = questionModels.Lesson.objects.all()
+def update_DB_from_excel(excel_url, db_name):
+    lesson_list = questionModels.Lesson.objects.using(db_name).all()
 
     wb = openpyxl.load_workbook(filename=excel_url, read_only=True, data_only=True)
     # sectionID
@@ -172,7 +172,7 @@ def update_DB_from_excel(excel_url):
     for row in range(2, 8):
         qTypeName = config_sht.cell(row=row, column=4).value
 
-        print("----" + str(qTypeName))
+        # print("----" + str(qTypeName))
         cur_sht = wb[qTypeName]
         if cur_sht: 
             row_idx = 3
@@ -186,8 +186,8 @@ def update_DB_from_excel(excel_url):
                     
                     parsefunc = getattr(sys.modules[__name__], "parse_" + ques_type)
                     quest = parsefunc(cur_sht, row_idx, ques_desc, lesson)                    
-                    quest.save()
-                    print(ques_type, quest)
+                    quest.save(using=db_name)
+                    # print(ques_type, quest)
                 except (AttributeError) as e:
                     print("---- " + e)
                 except (excepts.ObjectDoesNotExist) as e:
@@ -195,6 +195,23 @@ def update_DB_from_excel(excel_url):
 
                 row_idx += 1
                 ques_desc = cur_sht['G' + str(row_idx)].value
+
+
+def import_lesson_list(excel_url, db_name):
+    wb = openpyxl.load_workbook(filename=excel_url, read_only=True, data_only=True)
+
+    questionModels.Lesson.objects.using(db_name).all().delete()
+    lesson_list_sht = wb['课程目录']
+    if lesson_list_sht:
+        row_idx = 2
+        lesson_desc = lesson_list_sht['A' + str(row_idx)].value
+        while lesson_desc:
+            try:
+                questionModels.Lesson.objects.using(db_name).create(description=lesson_desc)
+            except (Exception) as e:
+                print("---- " + e)                
+            row_idx += 1
+            lesson_desc = lesson_list_sht['A' + str(row_idx)].value
 
 
 # database_tool.

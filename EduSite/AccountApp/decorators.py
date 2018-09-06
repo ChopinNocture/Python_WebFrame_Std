@@ -18,6 +18,7 @@ def course_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, cour
                 try:
                     course = Course.objects.get(id=c_id)
                     request.db_name = course.db_name
+                    request.course_desc = course.description
                     return view_func(request, *args, **kwargs)
                 except ObjectDoesNotExist as e:
                     print(e)

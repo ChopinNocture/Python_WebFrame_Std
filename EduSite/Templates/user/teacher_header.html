@@ -17,6 +17,7 @@
             <a class="nav-link" href={% url 'notice:public' %} draggable="false">公告管理</a>
         </li>
     </ul>
-    </div>
-    <a href={% url 'user:teacher' %} class="btn btn-outline-secondary" draggable="false">返回</a>
+    </div>    
+    <span class="badge badge-warning">{{course_desc}}</span> 
+    <a href={% url 'user:teacher' %} class="btn btn-outline-warning" draggable="false">返回</a>    
 </nav>

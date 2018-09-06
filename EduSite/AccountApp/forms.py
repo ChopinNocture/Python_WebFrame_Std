@@ -1,6 +1,6 @@
 from django import forms # Form, CharFieldModelForm  , HiddenInput,Textarea,CheckboxInput
 
-from .models import StudentProf
+from .models import StudentProgressInfo
 
 # FIELD_LIST = ['description', 'sectionID', 'flag', 'star']
 
@@ -11,5 +11,5 @@ class LoginForm(forms.Form):
 
 class Student_Prof_Form(forms.ModelForm):
     class Meta:
-        model = StudentProf
+        model = StudentProgressInfo
         fields = '__all__'

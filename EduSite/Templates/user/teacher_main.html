@@ -1,12 +1,16 @@
 {% extends "base_bs_style.html" %}
 {% load static %} 
 {% block title %}Teacher Main Page{% endblock %} 
+
+{% block header %}
+<nav class="navbar navbar-expand navbar-dark bg-dark text-light w-100" id="banner" role="alert">
+    <div class="w-100"> {{ course_desc }}</div>
+    <a href={% url 'user:course' %} class="btn btn-outline-warning align-right" draggable="false">返回课程选择</a>        
+</nav>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
-    <div class="alert alert-primary" id="banner" role="alert">
-            老师好！
-    </div>
-
     <div class="row mx-3">
         <div class="card border-info mb-3" style="width: 18rem;">
             <div class="card-header bg-info">
