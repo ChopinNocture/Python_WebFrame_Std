@@ -4,6 +4,7 @@
 {% block title %}课程选择{% endblock %} 
 
 {% block jsFunctionLib %}
+<link rel="stylesheet" href="{% static 'css/edu/student/course_selector.css' %}"/>
 <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
 {% endblock %}
@@ -11,20 +12,23 @@
 
 {% block content %}
 <div id="main-panel" class="half-alpha">
-    <p>
+    <h3>
         <span id="login-title">课程选择</span>
-    </p>
+    </h3>
     <form action="." method="post" id="Form_Login">
         {% csrf_token %}        
         <input id="param" name="course_id" hidden/>
-    </form>  
-    {% for course in course_list %}
-    <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="course_{{course.id}}" 
-            onclick="onCourseClick(event)" onfocus="this.blur()"
-            tabindex="-1"
-            data-id={{course.id}} data-toggle="tooltip" data-placement="right" >{{course.description}}</button>
-    {% endfor %}    
-
+    </form> 
+    <div id="id_course_list">
+        {% for course in course_list %}
+        <button class="course_frame" id="course_{{course.id}}" 
+                onclick="onCourseClick(event)" onfocus="this.blur()"
+                tabindex="-1"
+                data-id={{course.id}} >{{course.description}}</button>
+        {% endfor %}    
+        <button class="course_frame" id="course_aaavbsdva">测试股测试</button>
+        <button class="course_frame" id="course_aaa">踩踩踩</button>
+    </div>
 </div>
 {% endblock %}
 

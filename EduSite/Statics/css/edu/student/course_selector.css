@@ -1,0 +1,56 @@
+@import url(./font_inc.css);
+@import url(./common_lib.css);
+
+
+*{
+    font-family: HK_Yuan9;    
+}
+
+body {
+    background-image: url('/Statics/images/BGs/BG_out.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-origin: content-box;
+    /*background-clip:border-box*/
+}
+
+#main-panel { 
+    font-size: 3rem;
+    position: relative;
+    width: 50rem;
+    height: 40rem;
+    top: 0rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid;
+    text-align: center;
+}
+
+.course_frame {
+    height: 5rem;
+    width: 30%;
+    font-size: 2rem;
+}
+
+#id_course_list .course_frame:nth-child(odd) {
+    border-radius: 1rem 0rem 0rem 1rem;
+    left: 1rem;
+    margin-right: 2rem;
+}
+#id_course_list .course_frame:nth-child(odd)::after {
+    content: "";
+    border-top: 5rem solid lightblue;
+    border-left: 0em solid transparent;
+    border-right: 2em solid transparent;
+    border-bottom: 0em solid transparent;
+    right: -2rem;
+}
+
+
+#id_course_list .course_frame:nth-child(even) {
+    border-radius: 0rem 0.5rem 0.5rem 0rem;
+    margin-left: 2rem;
+}
