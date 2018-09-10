@@ -13,7 +13,7 @@
 {% block content %}
 <div id="main-panel" class="half-alpha">
     <h3>
-        <span id="login-title">课程选择</span>
+        <span id="login_title">课程选择</span>
     </h3>
     <form action="." method="post" id="Form_Login">
         {% csrf_token %}        
@@ -21,13 +21,16 @@
     </form> 
     <div id="id_course_list">
         {% for course in course_list %}
-        <button class="course_frame" id="course_{{course.id}}" 
-                onclick="onCourseClick(event)" onfocus="this.blur()"
-                tabindex="-1"
-                data-id={{course.id}} >{{course.description}}</button>
-        {% endfor %}    
-        <button class="course_frame" id="course_aaavbsdva">测试股测试</button>
-        <button class="course_frame" id="course_aaa">踩踩踩</button>
+        <div class="course_frame">
+            <label>{{course.description}}</label><br>
+            <img class="course_img" src='/Statics/images/{{course.db_name}}.png'/>
+            <br>
+            <a id="course_{{course.id}}" 
+                    onclick="onCourseClick(event)" onfocus="this.blur()"
+                    tabindex="-1"
+                    data-id={{course.id}}>进入</a>
+        </div>
+        {% endfor %}   
     </div>
 </div>
 {% endblock %}

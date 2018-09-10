@@ -149,7 +149,7 @@ def update_progress(request):
 @login_required(login_url='/user/login/')
 def course_select(request):
     if request.method == "GET":        
-        course_list = Course.objects.all().values('id', 'description')
+        course_list = Course.objects.all()
         return render(request=request, template_name="user/course_selector.html",
                   context={"course_list": course_list})
     else:
