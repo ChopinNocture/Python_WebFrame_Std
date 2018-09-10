@@ -1,6 +1,5 @@
 $(document).ready(onInit);
 
-
 var qType_list = [];
 var result_list = [];   // complete, result, answer
 var qList_obj = null;
@@ -8,6 +7,7 @@ var cur_type = "FillInBlank";
 var cur_idx = 0;
 var question_sum = 0;
 var examination = null;
+
 
 function onInit(event) {  
     csrf_Setup();
@@ -70,6 +70,7 @@ var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
 var refreshQuestionFunc;
 var refreshAnswerFunc;
 
+// { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, index, qlist:[ids], questions:[], answers:[{complete, result, answer}] }}
 function initQuestion() {
     examination = $.parseJSON( $('#id_question_list').val() );
     $(".qtype").each(function (index, elem) { 
@@ -88,7 +89,6 @@ function initQuestion() {
     }
 }
 
-// { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, index, qlist }    }
 function onTypeChanged(event) {
     $(".qtype").removeClass("actived");
 
@@ -194,4 +194,48 @@ function refreshAnswerKeySort(answerString) {
         //alert('  0  ' + index + '  ' + this.dataset['opidx']);
         $(elem).html(answer_list[index]);
     });
+}
+
+
+//----------------------------------------------------------
+function standardizeExam() {
+    var final_answer = { "ts":0 };
+    var total_score = 0;
+
+
+    for (var i in qType_list) {
+        var current = examination[qType_list[i]];
+
+        if(current) {
+            var ar_result = new Array();
+            var right_res = 0;
+
+            for (var j in current.answers) {
+                if(current.answers[j]) {
+                    ar_result.push({
+                        "c" : current.answers[j].complete,
+                        "r" : current.answers[j].result,
+                        "a" : answer
+                    });
+                    if(current.answers[j].result) {
+                        right_res += 1;
+                    }
+                }
+                else {
+                    ar_result.push({"c" : false, "r" : false, "a" : ''});
+                }
+            }
+            right_res = current.per_score * right_res;
+            final_answer[qType_list[i]] = {"score":right_res, "res_list":ar_result};
+            total_score += right_res;
+        }
+    }
+    final_answer.ts = total_score;
+
+    return final_answer;
+}
+
+function submitExam() {
+    var result_JSON = JSON.stringify(standardizeExam());
+    
 }
