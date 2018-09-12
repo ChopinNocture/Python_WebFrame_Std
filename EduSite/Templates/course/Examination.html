@@ -7,22 +7,11 @@
 {% endblock %} 
 {% block content %}
 <form method="post" action="." id="exam_form" data-typelisturl="{% url 'course:question-list-ids' %}" hidden>
-{{form.as_p}}
-{% csrf_token %}
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="hidden" name="server_time" value="{{serv_time}}" id="id_server_time">
 </form>
 <div id="root_panel"> 
-    <div id="info_panel">
-        <div id="time_panel">
-            <span id="clock_icon"></span> <span id="clock_time">12:32:12</span>
-            <br/>
-            <br/>
-            <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
-            <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a>
-        </div>
-
-        <div id="teacher" alt="Card image cap"></div>
-    </div>    
-
     <div id="sheet_panel" >
         <ul id="type_navbar">
             {% for qType in qTypeList %}
@@ -62,13 +51,27 @@
                         <label id="next_tips">下一题</label>
                         <img id="btn_next" src="{% static 'images/corner.png' %}" draggable="false"/>
                     </div>
+                    <div id="last_panel">已是最后一题</div>
                 </div>                
             </div>
         </div>
     </div>
-
-    <div id="show_panel" hidden>
-    </div>
+    <div id="info_panel">
+        <div id="model_bg" hidden>
+            <div id="show_panel" hidden>
+                <p>确认要交卷吗？交卷以后不能修改噢！</p>
+                <button id="btn_ok" class="btn-round-wine"  onclick="onConfirmClick(event)" onfocus="this.blur()" tabindex="-1">交卷</button>
+                <button id="btn_cancel" class="btn-round-sky" onclick="onCancelClick(event)" onfocus="this.blur()" tabindex="-1">再看看</button>
+            </div>
+        </div>
+        <div id="time_panel">
+            <span id="clock_icon"></span> <span id="clock_time">12:32:12</span>
+            <br/>
+            <button id="btn_submit" class="btn-circle-orange" onclick="onSubmitClick(event)" onfocus="this.blur()" tabindex="-1">完成交卷</button>
+            <!-- <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a> -->
+        </div>
+        <div id="teacher" alt="Card image cap"></div>
+    </div>    
 </div>
 
 {% endblock %}

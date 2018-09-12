@@ -19,7 +19,7 @@ from AccountApp.decorators import course_required
 from AccountApp import COURSE_KEY
 
 # from django.utils.dateformat import DateFormat
-# from django.utils import timezone
+from django.utils import timezone
 
 # --------------------------------------------------------
 # get all type
@@ -347,7 +347,9 @@ def exam_examination(request, exam_id):
         exam_form = questionForms.ExaminationForm(instance=exam)
 
         return render(request=request, template_name="course/Examination.html",
-                    context = { "form": exam_form, "qTypeList": exam_sys.q_type_list })
+                    context = { "form": exam_form, 
+                                "serv_time": str(timezone.now()),
+                                "qTypeList": exam_sys.q_type_list })
     else:
         return HttpResponse('Lesson Study')
 
@@ -368,14 +370,15 @@ def exam_editor(request):
         try:
             if exam_form.is_valid():
                 exam = exam_form.save(commit=False)
-                exam.save()
+                exam.save(using=request.db_name)
             else:
                 print(exam_form.errors.as_data())
+                return HttpResponseNotAllowed(exam_form.errors.as_data())
         except Exception as e:
             print(e)
             print(exam_form.cleaned_data)
             print(exam_form.errors.as_data())
-            return HttpResponseNotAllowed("F!")
+            return HttpResponseNotAllowed(e)
 
         return HttpResponse("Success!")
 

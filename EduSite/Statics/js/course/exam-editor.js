@@ -347,7 +347,7 @@ function onSubmitExam() {
 }
 
 function onSubmitFailed(result) {
-    alert("???" + result);
+    alert("考试上传失败" + result);
 }
 
 function onSubmitSuccess(result) {    

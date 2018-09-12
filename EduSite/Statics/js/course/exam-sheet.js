@@ -8,6 +8,9 @@ var cur_idx = 0;
 var question_sum = 0;
 var examination = null;
 
+var t_start, t_duration, t_serv_now, t_leftMSec, clock_start;
+
+
 
 function onInit(event) {  
     csrf_Setup();
@@ -16,11 +19,35 @@ function onInit(event) {
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
-    
+
+    initTime();
     initQuestion();
     //examination.
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
+
+    $("#nav_"+cur_type).click();
 }
+
+function initTime() {
+    t_serv_now = new Date($("#id_server_time").val());
+    t_start = new Date($("#id_start_time").val());
+    t_duration = $("#exam-duration").val();
+    t_leftMSec = t_duration*60*1000 - (t_serv_now - t_start);
+
+    clock_start = Date.now();
+    setInterval('refresh_clock()', 500); 
+}
+
+function refresh_clock() {
+    var leftDate = new Date(t_leftMSec - (Date.now() - clock_start));
+    var str = "";
+    str = str + leftDate.getHours().toString() + ":";
+    str = str + leftDate.getMinutes().toString() + ":";
+    str = str + leftDate.getSeconds().toString();
+
+    $("#clock_time").html(str);
+}
+
 
 function update() {
     updatePageView();
@@ -54,11 +81,13 @@ function updatePageView() {
         $('#prev_panel').show();
     }
 
-    if (cur_idx<question_sum-1) {
+    if (cur_idx<question_sum-1) {        
+        $('#last_panel').hide();
         $('#next_panel').show();
         $('#next_index').html(cur_idx+2);
     }
     else {
+        $('#last_panel').show();
         $('#next_panel').hide();
     }
     $('#current_index').html(cur_idx+1);    
@@ -215,7 +244,7 @@ function standardizeExam() {
                     ar_result.push({
                         "c" : current.answers[j].complete,
                         "r" : current.answers[j].result,
-                        "a" : answer
+                        "a" : current.answers[j].answer
                     });
                     if(current.answers[j].result) {
                         right_res += 1;
@@ -226,7 +255,7 @@ function standardizeExam() {
                 }
             }
             right_res = current.per_score * right_res;
-            final_answer[qType_list[i]] = {"score":right_res, "res_list":ar_result};
+            final_answer[qType_list[i]] = {"sc":right_res, "re":ar_result};
             total_score += right_res;
         }
     }
@@ -236,6 +265,29 @@ function standardizeExam() {
 }
 
 function submitExam() {
-    var result_JSON = JSON.stringify(standardizeExam());
-    
+    var result_JSON = JSON.stringify(standardizeExam());   
+    alert(result_JSON);
+}
+
+function onSubmitClick(event) {
+    checkCurrentAnswer();
+    showModel();
+}
+
+function showModel() {
+    $("#model_bg").show();
+    $("#show_panel").show();
+}
+
+function hideModel() {
+    $("#model_bg").hide();  
+    $("#show_panel").hide();      
+}
+
+function onConfirmClick(event) {
+    submitExam();
+}
+
+function onCancelClick(event) {
+    hideModel();
 }
