@@ -46,7 +46,7 @@ def public_notice_form(request):
     if request.method == "GET":
         return render(request=request, 
         template_name='notice/notice_editor.html', 
-        context={'form': noticeform, 'notice_list':history_list})
+        context={'form': noticeform, 'notice_list':history_list, 'course_desc':request.course_desc,})
 
 
 #--------------------------------------------------------
