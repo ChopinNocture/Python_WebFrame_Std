@@ -9,5 +9,6 @@ urlpatterns = [
     path('public/now/<slug:content>/', views.public_notice_now),
     path('delete/<int:notice_id>/', views.delete_notice, name='delete'),
     path('get/', views.get_notices, name='ongoing'),
+    path('getcontent/<int:notice_id>', views.get_notice_content, name='get_notice'),
 ]
 

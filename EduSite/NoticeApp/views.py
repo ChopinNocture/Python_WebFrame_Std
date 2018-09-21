@@ -45,8 +45,8 @@ def public_notice_form(request):
 
     if request.method == "GET":
         return render(request=request, 
-        template_name='notice/notice_editor.html', 
-        context={'form': noticeform, 'notice_list':history_list, 'course_desc':request.course_desc,})
+            template_name='notice/notice_editor.html', 
+            context={'form': noticeform, 'notice_list':history_list, 'course_desc':request.course_desc,})
 
 
 #--------------------------------------------------------
@@ -64,6 +64,13 @@ def get_notices(request, fromDate=timezone.now(), expireDate=timezone.now()):
     
     httpRsp = HttpResponse(currentNotices)    
     return httpRsp
+
+
+# get notices by time
+@course_required()
+def get_notice_content(request, notice_id):
+    noticeContent = Notices.objects.using(request.db_name).get(id=notice_id)    
+    return JsonResponse(noticeContent.content, safe=False)
 
 
 #--------------------------------------------------------

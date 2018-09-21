@@ -3,7 +3,7 @@ from django.utils import timezone
 
 # Create your models here.
 
-MAX_CONTENT_LENGTH = 50
+MAX_CONTENT_LENGTH = 300
 
 class Notices(models.Model):
     publicDate = models.DateTimeField(default=timezone.datetime.today())

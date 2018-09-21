@@ -18,7 +18,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">公告内容</span>
                         </div>
-                        <textarea class="form-control" aria-label="With textarea" id="id_content" style="resize: none"></textarea>
+                        <textarea class="form-control" aria-label="With textarea" id="id_content" style="resize: none" maxlength="300"></textarea>
                     </div>
                     <p>
                         <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#date_selector" aria-expanded="false" aria-controls="date_selector"
@@ -33,10 +33,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">持续时间</span>
                         </div>
-                        <input class="form-control" type="number" min="1" max="100" value="3" id="id_last_day" required></input>
+                        <input class="form-control" type="number" min="1" max="100" value="3" id="id_last_day" required />
                         <div class="input-group-append">
                             <span class="input-group-text">天</span>
-                        </div>
+                            <button class="form-control btn btn-success" tabindex="-1" onfocus="blur()" onclick="onLongtime(event)">长期</button>
+                        </div>                        
                     </div>
                 </div>
                 <div class="text-right">
@@ -56,6 +57,7 @@
                 {% endfor %}
                 <!-- </div> -->
                 <div class="card-footer text-center">
+                    <button class="btn btn-warning" type="button" id="btn_refresh" data-url="{% url 'notice:get_notice' notice_id=9999 %}" onclick="onRefreshSelectNotice(event)" disabled>重新发布公告</button>
                     <button class="btn btn-dark" type="button" id="btn_delete" data-url="{% url 'notice:delete' notice_id=9999 %}" onclick="onDeleteNotice(event)">删除所选公告</button>
                 </div>
             </div>

@@ -11,7 +11,7 @@ function init() {
     csrf_Setup();
 
     $('#id_last_day').attr({ "max": MAX_DELAY });
-$('#id_last_day').change(onDelayChange);
+    $('#id_last_day').change(onDelayChange);
 }
 
 function onDelayChange(event) {
@@ -20,7 +20,6 @@ function onDelayChange(event) {
         delay = Math.max(1, Math.min(MAX_DELAY, delay) );
         delay_day = delay;
     }
-    Number($('#id_last_day').val(delay_day));
 }
 
 function refresh_date(y, m, d) {    
@@ -83,6 +82,8 @@ function onNoticeClick(event) {
         $(event.target).addClass('active');
         cur_notice = event.target.dataset.notice;
     }
+
+    $("#btn_refresh").prop("disabled", cur_notice == null);
 }
 
 function onDeleteNotice(event) {
@@ -100,4 +101,25 @@ function onDeleteNotice(event) {
 function delSucFunc(event) {
     location.reload();
     alert("--------");
+}
+
+function onLongtime(event) {
+    delay_day = 9999;
+    $("#id_last_day").val(delay_day);
+}
+
+function onRefreshSelectNotice(event) {
+    if (cur_notice) {
+        var targetURL = event.target.dataset.url.replace("9999", cur_notice);
+        $.ajax({        
+            url: targetURL,
+            type: 'post',
+            success: refreshSucFunc,
+            error: failFunc
+        });    
+    }
+}
+
+function refreshSucFunc(data) {
+    $('#id_content').val(data);
 }
