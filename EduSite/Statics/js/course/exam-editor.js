@@ -149,7 +149,14 @@ function filteQuestions(words = null, section = null) {
         $('button[id^=' + QLIST_ID + ']').each(function (index, elem) {
             var hidden = false;
             if (words) {
-                hidden = hidden || (elem.innerHTML.indexOf(words) == -1);
+                var missed = false;
+                var word_list = words.split(" ");                
+                word_list.forEach((item, idx, arr) => {
+                    missed = missed || (elem.innerHTML.indexOf(item) == -1);
+                    return missed;
+                });
+
+                hidden = hidden || missed;
             }
 
             if (section) {

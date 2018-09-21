@@ -174,10 +174,17 @@ function filterQList(words = null) {
         var hidden_num = 0;
         $("#qlist_num").html(
             $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
-                if(elem.innerHTML.indexOf(words) == -1) {
-                    ++hidden_num;
-                    $(elem).attr("hidden", true);
+                var missed = false;
+                var word_list = words.split(" ");                
+                word_list.forEach((item, idx, arr) => {
+                    missed = missed || (elem.innerHTML.indexOf(item) == -1);
+                    return missed;
+                });
+
+                if(missed) {
+                    ++hidden_num;                    
                 }
+                $(elem).attr("hidden", missed);
             }).length - hidden_num);
     }
     else {
