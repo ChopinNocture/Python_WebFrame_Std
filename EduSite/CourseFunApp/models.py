@@ -27,7 +27,10 @@ MEDIA_CHOICES = (('none', '无'),
                  ('image', '图片文件'),
                  ('video', '视频文件'),
                  ('audio', '音频文件'),
-                 ('ppt', 'ppt'))
+                 ('ppt', 'ppt'),
+                 ('excel', 'Excel文件'),
+                 ('word', 'Word文件'),
+                )
 
 
 class LessonContent(models.Model):

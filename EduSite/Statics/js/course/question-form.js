@@ -504,7 +504,6 @@ function onAddOptionClick(event) {
     else {
         alert("警告！选项已经达到最大数量!");
     }
-
 }
 
 function onDeleteOptionClick(event) {

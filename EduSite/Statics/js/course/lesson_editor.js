@@ -5,7 +5,9 @@ var file_type_dict = {
     'image': ['image/*', /image\/\w/],
     'video': ['video/*', /video\/\w/],
     'audio': ['audio/*', /audio\/\w/],
-    'ppt': ['application/vnd.ms-powerpoint', /application\/vnd.ms-powerpoint/]
+    'ppt': ['application/vnd.ms-powerpoint', /application\/vnd.ms-powerpoint/],
+    'excel': ['application/vnd.ms-excel', /application\/vnd.ms-excel/],
+    'word': ['application/msword', /application\/msword/]
 }
 
 function init() {

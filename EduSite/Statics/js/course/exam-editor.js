@@ -37,7 +37,7 @@ function init() {
     });
  
     $('#btn_random').on("click", onRandomBegin);
-    $('button[id^=QSelected_]').click(onSelectClk); 
+    //$('button[id^=QSelected_]').click(onSelectClk); 
 
     document.getElementById('exam_editor').submit = onSubmitExam;
     
@@ -48,9 +48,9 @@ function init() {
    // $('button[id^=course_]:first').click();
 }
 
-function onSelectClk(event) {
-    $('button[id^=QSelected_]').removeClass('active');
-    $(this).addClass('active');
+
+function multiSelect(event) {
+    $('button[id^=' + QLIST_ID + ']').removeClass('active');
 }
 
 //-----------------------------------------
@@ -225,15 +225,32 @@ function updateQList() {
 }
 
 function onQListBtnClick(event) {
-    $('button[id^=' + QLIST_ID + ']').removeClass('active');
-    $(event.target).addClass('active');
+    if( $("#mul_sel").prop("checked")) {
+        if(question_list_all[cur_type][cur_index].selected != 
+            question_list_all[cur_type][event.target.dataset.qindex].selected ) {
+            $('button[id^=' + QLIST_ID + ']').removeClass('active');
+        }        
+        if($(event.target).hasClass('active')) {
+            $(event.target).removeClass('active');
+        }
+        else {
+            $(event.target).addClass('active');
+        }        
+    } 
+    else {
+        $('button[id^=' + QLIST_ID + ']').removeClass('active');
+        $(event.target).addClass('active');        
+    }
     cur_index = event.target.dataset.qindex;
+    
     updateBtn();
 }
 
 function onQListBtnDoubleClick(event) {
-    $(event.target).tooltip('dispose');
-    onToggleAdd();
+    if( !$("#mul_sel").prop("checked")) {
+        $(event.target).tooltip('dispose');
+        onToggleAdd();
+    }
 }
 
 function updateBtn() {
@@ -261,7 +278,17 @@ function onPerScoreChange(event, qtype) {
 
 function onToggleAdd(event) {
     var curQuestion = question_list_all[cur_type][cur_index];
-    curQuestion.selected = !curQuestion.selected;
+    var targetSelect = !curQuestion.selected;
+    if( $("#mul_sel").prop("checked")) {
+        $('button[id^=' + QLIST_ID + ']').each(function(i, elem) {            
+            if($(elem).hasClass('active')) {
+                question_list_all[cur_type][elem.dataset.qindex].selected = targetSelect;
+            }            
+        });
+    }
+    else {        
+        curQuestion.selected = targetSelect;
+    }
     updateQList();
 }
 
