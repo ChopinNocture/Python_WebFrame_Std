@@ -8,6 +8,11 @@ UNLOCK_NUMBER = 3
 
 
 # --------------------------------------------------------
+class ClassSetting(models.Model):
+    
+
+
+# --------------------------------------------------------
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.PositiveIntegerField()
@@ -39,6 +44,7 @@ class LessonContent(models.Model):
     file = models.FileField(upload_to='lessons/', null=True, blank=True )
     content = models.TextField()
 
+
 # --------------------------------------------------------
 # 题目基类
 class Question(models.Model):
@@ -55,7 +61,6 @@ class Question(models.Model):
 
     class Meta:
         abstract = True
-
 
     @classmethod
     def get_url_name(cls):

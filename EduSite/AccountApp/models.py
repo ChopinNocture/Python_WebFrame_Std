@@ -28,6 +28,7 @@ class StudentProgressInfo(models.Model):
 
 class TeacherProf(models.Model):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)
+    class_id_list = models.CharField(max_length=128)  # JSONField()
 
 
 MAX_DBNAME_LENGTH = 64

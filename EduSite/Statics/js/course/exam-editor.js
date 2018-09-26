@@ -226,7 +226,7 @@ function updateQList() {
 
 function onQListBtnClick(event) {
     if( $("#mul_sel").prop("checked")) {
-        if(question_list_all[cur_type][cur_index].selected != 
+        if(cur_index!=-1 && question_list_all[cur_type][cur_index].selected != 
             question_list_all[cur_type][event.target.dataset.qindex].selected ) {
             $('button[id^=' + QLIST_ID + ']').removeClass('active');
         }        
