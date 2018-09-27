@@ -9,7 +9,8 @@ UNLOCK_NUMBER = 3
 
 # --------------------------------------------------------
 class ClassSetting(models.Model):
-    
+    class_id = models.IntegerField()
+    practise_setting = models.CharField(max_length=MAX_CONTENT_LENGTH)    
 
 
 # --------------------------------------------------------
@@ -18,6 +19,7 @@ class Examination(models.Model):
     duration = models.PositiveIntegerField()
     question_list = models.TextField(max_length=1024)  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.now())
+    class_id_list = models.CharField(max_length=128)
 
     def __str__(self):
         return self.title
@@ -43,6 +45,7 @@ class LessonContent(models.Model):
     file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
     file = models.FileField(upload_to='lessons/', null=True, blank=True )
     content = models.TextField()
+    class_id_list = models.CharField(max_length=128)
 
 
 # --------------------------------------------------------
