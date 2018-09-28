@@ -168,4 +168,5 @@ def course_select(request):
                         
         except ObjectDoesNotExist as e:
             print(e)
-            return None        
+            return None
+

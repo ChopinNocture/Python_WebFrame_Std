@@ -1,0 +1,29 @@
+{% extends "base_bs_style.html" %} 
+{% load static %} 
+{% block title %}Class Setting{% endblock %} 
+{% block jsPage %}
+<script type="text/javascript" src="{% static 'js/libs/schedule.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/notice/class_setting.js' %}"></script> 
+{% endblock %} 
+
+{% block content %} 
+{% csrf_token %}
+<h2 class="text-center font-weight-bold p-1 text-danger text_outline ">公告发布</h2>
+<div class="container border border-dark mx-5 py-4 rounded bg_gray_d2u">
+    <div class="row">
+        <div class="col-8">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block header %} 
+{{ course.description }}
+{% include "user/teacher_header.html" %} 
+{% endblock %}
+
+{% block pageInclude %}
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/class_setting.css' %}"/>    
+{% endblock %} 

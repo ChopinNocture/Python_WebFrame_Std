@@ -416,3 +416,14 @@ def exam_ready(request):
 def get_lesson_list_html(request):
     lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
     return loader.render_to_string(template_name="course/course_list.html", context={"lesson_list": lesson_list})
+
+
+# --------------------------------------------------------
+# class setting
+@login_required(login_url='/user/login/')
+@course_required()
+def class_setting(request):
+    lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
+    return render(request=request, template_name="course/class_setting.html",
+                    context = { "lesson_list": lesson_list })
+

@@ -21,6 +21,7 @@ urlpatterns = [
     path('exam/editor/history/', views.exam_editor_hitory, name='exam_editor_history'),
     path('exam/nearest/', views.exam_ready, name='exam_ready'),
     path('exam/<int:exam_id>/', views.exam_examination, name='exam_current'),
+    path('class/setting/', views.class_setting, name='class_setting'),
 #    path('delete/<int:notice_id>/', views.delete_notice),
 #    path('get/', views.get_notices),
 ]
