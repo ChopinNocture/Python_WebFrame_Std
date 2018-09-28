@@ -8,14 +8,37 @@
 
 {% block content %} 
 {% csrf_token %}
-<h2 class="text-center font-weight-bold p-1 text-danger text_outline ">公告发布</h2>
-<div class="container border border-dark mx-5 py-4 rounded bg_gray_d2u">
+<h2 class="text-center font-weight-bold p-1 text-warning text_outline ">班级设置</h2>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-8">
-
+        <div class="col-3">
+            <div class="card bg-info">                
+                <div class="card bg-dark text-white">
+                    <div class="card-header text-center">
+                        <h5 class="card-title">班级列表</h5>
+                    </div>
+                    
+                    {% for cls in class_list %}
+                    <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
+                        onclick="onClassSelect(event)" onfocus="this.blur()"
+                        tabindex="-1"
+                        data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
+                        title="{{cls.class_name}}" >{{cls.class_name}}
+                    </button>
+                    {% endfor %}                
+                    
+                </div>                
+            </div>
         </div>
+        <div class="col-8">
+            <div id="stud_prof">
+
+            </div>
+        </div>
+        <div class="col-1"></div>
     </div>
 </div>
+
 
 {% endblock %}
 {% block header %} 

@@ -17,6 +17,7 @@ import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
 from AccountApp.decorators import course_required
 from AccountApp import COURSE_KEY
+from AccountApp.models import ClassInfo
 
 # from django.utils.dateformat import DateFormat
 from django.utils import timezone
@@ -423,8 +424,12 @@ def get_lesson_list_html(request):
 @login_required(login_url='/user/login/')
 @course_required()
 def class_setting(request):
-    lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
-    return render(request=request, template_name="course/class_setting.html",
+    if request.method == 'GET':
+        class_list = ClassInfo.objects.all()
+        lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
+        
+        return render(request=request, template_name="course/class_setting.html",
                     context = { "lesson_list": lesson_list,
-                        'course_desc':request.course_desc, })
+                                'class_list': class_list,
+                                'course_desc':request.course_desc, })
 
