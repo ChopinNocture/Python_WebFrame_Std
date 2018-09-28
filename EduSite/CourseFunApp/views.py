@@ -425,5 +425,6 @@ def get_lesson_list_html(request):
 def class_setting(request):
     lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
     return render(request=request, template_name="course/class_setting.html",
-                    context = { "lesson_list": lesson_list })
+                    context = { "lesson_list": lesson_list,
+                        'course_desc':request.course_desc, })
 
