@@ -3,14 +3,14 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, QueryDict
 from django.template import loader
 from django.forms import ModelForm
-from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError, ObjectDoesNotExist
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.models import model_to_dict
 
 # Create your views here.
-from CourseFunApp.models import Lesson, Examination
+from CourseFunApp.models import Lesson, Examination, ClassSetting
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
@@ -163,7 +163,7 @@ def question_editor_form(request, qtype, qid=-1):
 
         if newQuestForm.is_valid():
             quest_in_DB = newQuestForm.save(commit=False)
-            quest_in_DB.save(using='course_A')
+            quest_in_DB.save(using=request.db_name)
             #            quest_in_DB = newQuestForm.save(commit=False)
             #            formData = newQuestForm.cleaned_data
             #            for iter in newQuestForm.fields:
@@ -430,6 +430,31 @@ def class_setting(request):
         
         return render(request=request, template_name="course/class_setting.html",
                     context = { "lesson_list": lesson_list,
+                                "qTypeList": exam_sys.q_type_list,
                                 'class_list': class_list,
                                 'course_desc':request.course_desc, })
 
+
+@course_required()
+def class_prac(request, class_id):
+    if not request.is_ajax():
+        return HttpResponse("Fail")
+    print("---------", class_id)
+    try:
+        clsInfo = ClassInfo.objects.get(id=class_id)            
+    except ObjectDoesNotExist as e:
+        print(e)
+        return HttpResponse('No class info')
+
+    try:
+        cls_set = ClassSetting.objects.using(request.db_name).get(id=class_id)
+    except ObjectDoesNotExist as e:
+        print(e)
+        cls_set = ClassSetting(class_id=class_id)
+
+    if request.method == "POST":
+        cls_set.practise_setting = request.POST.get("ps")
+        cls_set.save(using=request.db_name)
+
+    return JsonResponse(cls_set.practise_setting, safe=False)
+            
