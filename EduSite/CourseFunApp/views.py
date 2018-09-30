@@ -333,13 +333,13 @@ def answer_sheet(request, sectionID):
         try:
             stu_prof = StudentProf.objects.get(user=request.user)
             cls_set = ClassSetting.objects.using(request.db_name).get(class_id=stu_prof.class_id.id)
+            
             num_json = json.loads(s=cls_set.practise_setting)
-            print("*-*-*", num_json)
         except ObjectDoesNotExist as e:
-            print(e)
+            print(e)            
             num_json = None
         
-        question_dict = exam_sys.generate_question_set(request.db_name, lesson, 3, num_json)
+        question_dict = exam_sys.generate_question_set(db_name=request.db_name, sectionID=lesson, num_json=num_json)
         return JsonResponse(question_dict)
 
 
@@ -456,7 +456,7 @@ def class_prac(request, class_id):
         return HttpResponse('No class info')
 
     try:
-        cls_set = ClassSetting.objects.using(request.db_name).get(id=class_id)
+        cls_set = ClassSetting.objects.using(request.db_name).get(class_id=class_id)
     except ObjectDoesNotExist as e:
         print(e)
         cls_set = ClassSetting(class_id=class_id)

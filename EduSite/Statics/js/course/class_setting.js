@@ -53,7 +53,7 @@ function onClassSelect(event) {
 
 
 function sucGet(jsonData) {
-    alert("Get:" + jsonData);
+    // alert("Get:" + jsonData);
     if( jsonData == "error") {
         resetJsonData();
     }
@@ -74,11 +74,10 @@ function resetJsonData() {
 }
 
 function sucPost(jsonData) {
-    alert("Post:" + jsonData);
+    alert("修改成功！");
 }
 
 function failPost() {
-    alert("failed!");
     updateNumberDisp();    
 }
 

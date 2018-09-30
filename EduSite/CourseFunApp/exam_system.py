@@ -20,7 +20,7 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
     q_json_list = []
     question_dict = {}
     for iter_tpName in tmp_list:
-        print(' --- ' + iter_tpName)
+        print(' --- ', iter_tpName, num_json)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
@@ -40,7 +40,6 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
             else:
                 generated_list = random.sample(list(query_filter), need_num)
 
-            print('' + str(len(generated_list)) + ':')
             if generated_list:
                 for iter_item in generated_list:
                     question_dict = model_to_dict(iter_item)
