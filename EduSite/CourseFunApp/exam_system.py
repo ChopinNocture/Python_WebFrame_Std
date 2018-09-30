@@ -12,7 +12,7 @@ q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{type:[]}
-def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[]):
+def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_json=None):
     tmp_list = type_list
     if not tmp_list:
         tmp_list = q_type_list
@@ -28,7 +28,11 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[]):
 
         query_filter = temp_class.objects.using(db_name).filter(sectionID=sectionID, case_analyse=None)
         count = query_filter.count()
-        need_num = min(per_sum, count)
+        
+        if num_json and num_json[iter_tpName]:
+            need_num = min(num_json[iter_tpName], count)
+        else:
+            need_num = min(per_sum, count)
         
         if need_num>0:
             if count == need_num:

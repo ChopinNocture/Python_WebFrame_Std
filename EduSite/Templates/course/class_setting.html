@@ -44,7 +44,7 @@
                             data-qtype="{{qType}}"
                             id="QType_{{qType}}">{{qType}}</span>
                         </div>
-                        <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="per-score-{{qType}}" onchange="onPerScoreChange(event, '{{qType}}')">
+                        <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
                     </div>
                     {% endfor %}
                     <button class="btn btn-success" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
@@ -63,6 +63,6 @@
 {% endblock %}
 
 {% block pageInclude %}
-    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
+
     <link rel="stylesheet" href="{% static 'css/edu/teacher/class_setting.css' %}"/>    
 {% endblock %} 

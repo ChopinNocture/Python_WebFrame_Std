@@ -17,7 +17,7 @@ import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
 from AccountApp.decorators import course_required
 from AccountApp import COURSE_KEY
-from AccountApp.models import ClassInfo
+from AccountApp.models import ClassInfo, StudentProf
 
 # from django.utils.dateformat import DateFormat
 from django.utils import timezone
@@ -330,7 +330,16 @@ def answer_sheet(request, sectionID):
                                 "unlock_number": questionModels.UNLOCK_NUMBER,
                                 "progress": request.GET.get("progress")})
     else:
-        question_dict = exam_sys.generate_question_set(request.db_name, lesson, 3)
+        try:
+            stu_prof = StudentProf.objects.get(user=request.user)
+            cls_set = ClassSetting.objects.using(request.db_name).get(class_id=stu_prof.class_id.id)
+            num_json = json.loads(s=cls_set.practise_setting)
+            print("*-*-*", num_json)
+        except ObjectDoesNotExist as e:
+            print(e)
+            num_json = None
+        
+        question_dict = exam_sys.generate_question_set(request.db_name, lesson, 3, num_json)
         return JsonResponse(question_dict)
 
 
@@ -439,7 +448,7 @@ def class_setting(request):
 def class_prac(request, class_id):
     if not request.is_ajax():
         return HttpResponse("Fail")
-    print("---------", class_id)
+    
     try:
         clsInfo = ClassInfo.objects.get(id=class_id)            
     except ObjectDoesNotExist as e:
@@ -451,10 +460,14 @@ def class_prac(request, class_id):
     except ObjectDoesNotExist as e:
         print(e)
         cls_set = ClassSetting(class_id=class_id)
-
+    
     if request.method == "POST":
-        cls_set.practise_setting = request.POST.get("ps")
+        cls_set.practise_setting = request.POST.get('ps')
         cls_set.save(using=request.db_name)
+        
+    data = "error"
+    if cls_set.practise_setting:
+        data = json.loads(s=cls_set.practise_setting)
 
-    return JsonResponse(cls_set.practise_setting, safe=False)
+    return JsonResponse(data, safe=False)
             
