@@ -463,11 +463,12 @@ def class_prac(request, class_id):
     
     if request.method == "POST":
         cls_set.practise_setting = request.POST.get('ps')
+        cls_set.prac_lock_mode = request.POST.get('lock')
         cls_set.save(using=request.db_name)
         
     data = "error"
     if cls_set.practise_setting:
-        data = json.loads(s=cls_set.practise_setting)
+        data = {"ps": json.loads(s=cls_set.practise_setting), "lock": cls_set.prac_lock_mode }
 
     return JsonResponse(data, safe=False)
             

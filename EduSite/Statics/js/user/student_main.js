@@ -3,11 +3,13 @@ $(document).ready(onInit);
 //================================================================
 // 进度
 var progress = 0;
+var lock_mode = true;
+
 function isLessonLock(idx) {    
-    return (idx<<1 > progress);
+    return lock_mode && (idx<<1 > progress);
 }
 function isPracLock(idx) {
-    return (idx<<1 >= progress);
+    return lock_mode && (idx<<1 >= progress);
 }
 
 //================================================================
@@ -15,6 +17,8 @@ function onInit(event) {
     var gold = $("#id_gold").html();
     gold = Math.floor(gold / 20);
     $("#icon_gold").addClass("num-"+gold.toString());
+
+    lock_mode = $("#id_cls_lock_mode").val()=="True";
 
     progress = $("#id_progress").data('progress');
 

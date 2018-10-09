@@ -9,7 +9,7 @@ from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course
 from AccountApp.decorators import course_required
-from CourseFunApp.models import Lesson, UNLOCK_NUMBER
+from CourseFunApp.models import Lesson, ClassSetting, UNLOCK_NUMBER
 
 
 def user_login(request):
@@ -48,10 +48,16 @@ def student_main(request):
         print('!!', e)
         cur_prof = StudentProgressInfo(user_id=cur_user.id)
         cur_prof.save(using=request.db_name)
-        
+    
+    try:
+        cls_set = ClassSetting.objects.using(request.db_name).get(class_id=cur_info.class_id.id)
+    except ObjectDoesNotExist as e:    
+        print('class setting missing!!', e)
+
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
                     'stud_cprof': cur_prof,
+                    'cls_set': cls_set,
                     "lesson_list": lesson_list,
                     "unlock_number": UNLOCK_NUMBER})
 

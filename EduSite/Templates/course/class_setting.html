@@ -31,24 +31,36 @@
                 </div>                
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <div class="card bg-info border-0">
+                <div class="card-header card-header-sm">
+                    <h5 class="card-title">试炼模式设置</h5>                    
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_0" value="normal">
+                        <label class="form-check-label  text-warning" for="prac_mode_0">普通模式</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_1" value="lock">
+                        <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
+                    </div>
+                    <p class="small text-danger">“普通模式”无需解锁，试炼直接开放。“通关模式”需要先进行资料学习。</p>
+                </div>
                 <div class="card-header card-header-sm">
                     <h5 class="card-title">当前试炼题目数量设置</h5>
                 </div>
-                    {% for qType in qTypeList %}
-                    <div class="input-group w-100">
-                        <div class="input-group-prepend w-50">
-                            <span class="input-group-text bg-dark text-light border-secondary w-100" 
-                            data-qtype="{{qType}}"
-                            id="QType_{{qType}}">{{qType}}</span>
-                        </div>
-                        <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
+                {% for qType in qTypeList %}
+                <div class="input-group w-100">
+                    <div class="input-group-prepend w-50">
+                        <span class="input-group-text bg-dark text-light border-secondary w-100" 
+                        data-qtype="{{qType}}"
+                        id="QType_{{qType}}">{{qType}}</span>
                     </div>
-                    {% endfor %}
-                    <div class="card-footer text-center">
-                        <button class="btn btn-warning" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
-                    </div>
+                    <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
+                </div>
+                {% endfor %}
+                <div class="card-footer text-center">
+                    <button class="btn btn-warning" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
+                </div>
             </div>
         </div>
         <div class="col-1"></div>
