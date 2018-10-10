@@ -14,7 +14,7 @@
     <div class="row m-0 p-1 bg-secondary">
         {{ form.non_field_errors }} 
             {{ form.start_time }}
-            {{ form.question_list }}
+            {{ form.question_list }}            
         <div class="row input-group px-2 m-0 mb-3">
             {{ form.title.errors }}
             <div class="input-group-prepend">
@@ -74,8 +74,17 @@
                 </div> 
             </div>
         </div>
-        <div class="col-4 form-group px-2 m-0 mb-3 text-right">
-        {{exam_list_html}}
+        <div class="col-4 form-group px-2 m-0 mb-3">
+            <div>
+                <button class="btn btn-warning mb-1" id="btn_cls_se" type="button" data-toggle="modal" data-target="#cls_setting_dg">参与班级设置</button>
+                <span class="text-danger inline" id="cls_setting_checker" hidden>
+                    请设置参加考试的班级！！
+                </span>          
+                {{ form.class_id_list }}                
+            </div>
+            <div class="text-right">
+                {{exam_list_html}}
+            </div>            
         </div>
     </div>
     </form>
@@ -202,6 +211,34 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" id="cls_setting_dg" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">参加考试的班级</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>设置参加这次考试的班级</p>
+                
+                <div class=".bg-light  text-center">
+                    <button class="btn btn-primary mb-2" onclick="onAllClassClick(event)">选中所有班级</button>
+                    {% for cls in class_list %}
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="class_{{cls.id}}" data-cls-id="{{cls.id}}">
+                        <label class="custom-control-label" for="class_{{cls.id}}">{{cls.class_name}}</label>
+                    </div>
+                    {% endfor %}                    
+                    <button type="button" class="btn btn-success mt-4" data-dismiss="modal">完成</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block jsPage %}      

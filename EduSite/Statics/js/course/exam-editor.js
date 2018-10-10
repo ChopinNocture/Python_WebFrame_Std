@@ -332,7 +332,8 @@ function formCheckAndSet() {
     checkingElem = $('#exam-total-score');
     if( checkingElem.val()<=0 ) {
         //alert("试卷总分必须大于0，请检查试卷！");
-        document.getElementById('exam-total-score').checkValidity();
+        checkingElem.addClass('was-validated'); 
+        checkingElem[0].reportValidity();
         result = false;
         //checkingElem[0].setCustomValidity("试卷总分必须大于0，请检查试卷！");
         //checkingElem[0].checkValidity();
@@ -352,6 +353,18 @@ function formCheckAndSet() {
     //alert("---- " + JSON.stringify(examination));
     $('#id_question_list').val(JSON.stringify(examination));
 
+
+    var cls_str = $('input[id^=class_]:checkbox:checked').map(function () { return $(this).data("clsId"); }).get().join(",");   
+    if(cls_str=="") {
+        result = false;
+        $('#btn_cls_se').addClass('btn-danger text-dark'); 
+        $('#cls_setting_checker').prop("hidden", false);
+    }
+    else {
+        $('#btn_cls_se').removeClass('btn-danger text-dark');         
+        $('#cls_setting_checker').prop("hidden", true);        
+    }
+    $('#id_class_id_list').val(cls_str);
     // checkingElem = $('#id_duration');
     // if( checkingElem.val()<=0 ) {
     //     //alert("试卷总分必须大于0，请检查试卷！");
@@ -442,4 +455,8 @@ function updateChapterFilter() {
     }    
     $('button[id^=course_]').removeClass('active');    
     filterQList();
+}
+
+function onAllClassClick(event) {
+    $("input[id^=class_]").prop("checked", true);
 }

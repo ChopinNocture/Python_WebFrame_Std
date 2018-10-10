@@ -20,7 +20,7 @@ class Examination(models.Model):
     duration = models.PositiveIntegerField()
     question_list = models.TextField(max_length=1024)  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.now())
-    class_id_list = models.CharField(max_length=128)
+    class_id_list = models.CharField(max_length=128)    # JSONField()
 
     def __str__(self):
         return self.title

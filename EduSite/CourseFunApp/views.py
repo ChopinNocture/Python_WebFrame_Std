@@ -393,6 +393,7 @@ def exam_editor(request):
         return HttpResponse("Success!")
 
     elif request.method == "GET":
+        class_list = ClassInfo.objects.all()
         exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'title')
         exam_list_html = loader.render_to_string(template_name="course/exam_list.html",
                                                  context={"exam_list": exam_list})
@@ -402,6 +403,7 @@ def exam_editor(request):
                       context={"qTypeList": exam_sys.q_type_list,
                                "exam_list_html": exam_list_html,
                                "course_html": get_lesson_list_html(request),
+                               "class_list": class_list,
                                'course_desc':request.course_desc,
                                "form": exam_form})
 

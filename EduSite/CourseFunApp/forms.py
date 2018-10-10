@@ -161,6 +161,7 @@ class ExaminationForm(ModelForm):
                                            'max': '1440',
                                            'aria-describedby': 'exam-duration-label'}),
             'start_time': HiddenInput(),
+            'class_id_list': HiddenInput(),
         }
 
         labels = {
