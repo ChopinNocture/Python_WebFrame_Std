@@ -77,10 +77,12 @@ function onNoticeClick(event) {
     if(event.target.dataset.notice==cur_notice) {
         $(event.target).removeClass('active');
         cur_notice = null;
+        $("#content_preview").html("");
     }
     else {
         $(event.target).addClass('active');
         cur_notice = event.target.dataset.notice;
+        $("#content_preview").html($(event.target).html());
     }
 
     $("#btn_refresh").prop("disabled", cur_notice == null);

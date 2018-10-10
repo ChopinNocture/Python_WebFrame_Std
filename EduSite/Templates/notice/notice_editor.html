@@ -60,6 +60,14 @@
                     <button class="btn btn-warning" type="button" id="btn_refresh" data-url="{% url 'notice:get_notice' notice_id=9999 %}" onclick="onRefreshSelectNotice(event)" disabled>重新发布公告</button>
                     <button class="btn btn-dark" type="button" id="btn_delete" data-url="{% url 'notice:delete' notice_id=9999 %}" onclick="onDeleteNotice(event)">删除所选公告</button>
                 </div>
+            </div>            
+            <div class="card bg-warning mt-1">
+                <div class="card-header text-center">
+                    内容预览
+                </div>
+                <div class="list-group-item-warning text-left p-2" style="min-height:12em;" id="content_preview">
+
+                </div>
             </div>
         </div>
     </div>
