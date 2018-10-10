@@ -415,7 +415,8 @@ def exam_editor_hitory(request):
 
 @course_required()
 def exam_ready(request):
-    exam = exam_sys.checkNearestExam(request.db_name)
+    stu_prof = StudentProf.objects.get(user=request.user)
+    exam = exam_sys.checkNearestExam(request.db_name, stu_prof.class_id.id)
     if exam:
         return JsonResponse(exam, safe=False)
 
