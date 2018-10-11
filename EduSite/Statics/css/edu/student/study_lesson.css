@@ -107,3 +107,8 @@ body {
     border-radius: 1rem;
     box-shadow: 0.125rem 0.25rem 0.25rem #b18f6f;
 }
+
+#prev_control {
+    margin: 0.4rem 0rem 0.4rem 0rem;
+    max-width: 33rem;
+}

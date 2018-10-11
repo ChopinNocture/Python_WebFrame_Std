@@ -31,7 +31,7 @@ class Lesson(models.Model):
     description = models.CharField(max_length=MAX_CONTENT_LENGTH)
 
 
-MEDIA_CHOICES = (('none', '无'),
+MEDIA_CHOICES = (('none', '无文件'),
                  ('image', '图片文件'),
                  ('video', '视频文件'),
                  ('audio', '音频文件'),

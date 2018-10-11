@@ -252,7 +252,7 @@ def lesson_editor(request):
                     lesson_content_form = questionForms.LessonContentForm(instance=None, initial={'lesson': lesson_id})
                     print(' --- ' + str(e))
                 return render(request=request, template_name="course/lesson_form.html",
-                            context={"form": lesson_content_form})
+                            context={"form": lesson_content_form, "content_id": content_id})
             else:
                 less_cont_list = questionModels.LessonContent.objects.using(request.db_name).filter(lesson=lesson).values('id', 'file_type', 'content')
                 for iter_cont in less_cont_list:
@@ -265,17 +265,18 @@ def lesson_editor(request):
             lesson_content_form = questionForms.LessonContentForm()
 
             form_html = loader.render_to_string(template_name="course/lesson_form.html",
-                                                context={"form": lesson_content_form})
+                                                context={"form": lesson_content_form, "content_id": content_id})
             return render(request=request,
                           template_name="course/lesson_editor.html",
                           context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc, 'class_list': class_list })
 
     elif request.method == "POST":
         lesson_id = request.POST.get("lesson")
+        content_id = request.POST.get("content_id")
 
         try:
             lesson = questionModels.Lesson.objects.using(request.db_name).get(id=lesson_id)
-            lesson_cont = questionModels.LessonContent.objects.using(request.db_name).get(lesson=lesson)
+            lesson_cont = questionModels.LessonContent.objects.using(request.db_name).get(id=content_id)
         except Exception as e:
             print(' --- ' + str(e))
             lesson_cont = None
@@ -286,7 +287,6 @@ def lesson_editor(request):
         print(lesson_content_form)
         try:
             if lesson_content_form.is_valid():
-                print("000000000000000000000000")
                 # lesson_cont = lesson_content_form.cleaned_data
                 # formData = lesson_content_form.cleaned_data
                 # for iter in lesson_content_form.fields:            
@@ -324,8 +324,8 @@ def study(request, lesson_id):
         try:
             lesson = Lesson.objects.using(request.db_name).get(id=lesson_id)
             description = lesson.description
-            lesson_content = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
-            
+            lesson_content_list = questionForms.LessonContent.objects.using(request.db_name).filter(lesson=lesson_id)
+            lesson_content = lesson_content_list[0]
         except Exception as e:
             description = lesson.description
             lesson_content = None
@@ -335,7 +335,7 @@ def study(request, lesson_id):
                     template_name="course/StudyLesson.html",
                     context = {"lesson_content": lesson_content,
                             "section_name": description,  
-                            "progress":request.GET.get("progress")})
+                            "progress": request.GET.get("progress")})
 
     return HttpResponse('hello')
 
