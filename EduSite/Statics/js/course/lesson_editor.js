@@ -37,24 +37,29 @@ var type_HTML = {
 }
 
 
-function refreshUI() {    
-    if( $('#id_file_name').val()=="" ) {
+function refreshUI() {
+    if ($('#id_file_name').val() == "") {
         $('#btn_preview').prop('disabled', true);
         $('#prev_part').html('');
-    }
-    else {
+    } else {
         $('#btn_preview').prop('disabled', false);
-        var temp_html = type_HTML[$('#id_file_type').val()].replace('***', '/uploaded/'+$('#id_file_name').val());
+        var temp_html = type_HTML[$('#id_file_type').val()].replace('***', '/uploaded/' + $('#id_file_name').val());
         $('#prev_part').html(temp_html);
     }
 
-    if ($('#id_file')[0].files.length > 0
-        && file_type_dict[$('#id_file_type').val()][1].test($('#id_file')[0].files[0].type)) {            
+    if ($('#id_file')[0].files.length > 0 &&
+        file_type_dict[$('#id_file_type').val()][1].test($('#id_file')[0].files[0].type)) {
         $('#fsel-label').html($('#id_file')[0].files[0].name);
-    }
-    else {
+    } else {
         $('#fsel-label').html('');
         event.target.value = "";
+    }
+
+    var cls_str = $('#id_class_id_list').val();
+    if (cls_str != "") {
+        $('input[id^=class_]').each(function () {
+            $(this).attr("checked", -1 != cls_str.indexOf($(this).data("clsId")));
+        });
     }
 }
 
@@ -73,11 +78,25 @@ function onSectionClick(event) {
 
     $('#lesson_con_form')[0].reset();
     $('#id_lesson').val(event.target.dataset.section);
-    $.get('.', { 'lesson': event.target.dataset.section }, onFormGet);
+    $.get('.', {
+        'lesson': event.target.dataset.section
+    }, onLessContListGet);
     //    section_id = event.target.dataset.section;
     //    doRefreshQList();
-
     return true;
+}
+
+function onContentClick(event) {
+    if ($(event.target).hasClass('active')) return;
+    $('button[id^=cont_]').removeClass('active');
+    $(event.target).addClass('active');
+
+    $('#lesson_con_form')[0].reset();    
+    
+    $.get('.', {
+        'lesson': $('#id_lesson').val(),
+        'content_id': event.target.dataset.contid
+    }, onFormGet);
 }
 
 function onFormGet(response, status, xhr) {
@@ -86,4 +105,38 @@ function onFormGet(response, status, xhr) {
     $('#form_part').html(response);
     reBindEvent();
     refreshUI();
+}
+
+function onLessContListGet(response, status, xhr) {
+    $('#less_cont_part').html('');
+    $('#less_cont_part').html(response);
+    reBindEvent();
+    refreshUI();
+}
+
+//-----------------------------------------
+function onAllClassClick(event) {
+    $("input[id^=class_]").prop("checked", true);
+}
+
+function checkSubmit() {
+    if (!$('#id_lesson').val()) {
+        alert("请先在左边的列表中，选择要加入资料的章节");
+        return false;
+    }
+
+    var cls_str = $('input[id^=class_]:checkbox:checked').map(function () {
+        return $(this).data("clsId");
+    }).get().join(",");
+    $('#id_class_id_list').val(cls_str);
+    if ("" == cls_str) {
+        alert("必须至少选择一个班级!! ");
+        $('#cls_setting_checker').prop("hidden", false);
+        return false;
+    } 
+    else {
+        $('#cls_setting_checker').prop("hidden", true);
+    }
+
+    return $('#lesson_con_form')[0].reportValidity();
 }

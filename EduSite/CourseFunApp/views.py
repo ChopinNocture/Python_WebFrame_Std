@@ -231,22 +231,36 @@ def _question_import(request):
 @course_required()
 def lesson_editor(request):
     course_html = get_lesson_list_html(request)
+    class_list = ClassInfo.objects.all()
 
     if request.method == "GET":
         lesson_id = request.GET.get("lesson")
+        content_id = request.GET.get("content_id")
 
         if lesson_id:
             try:
-                lesson_cont = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
-                lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont,
-                                                                      initial={'file_name': lesson_cont.file})
-
+                lesson = questionModels.Lesson.objects.using(request.db_name).get(id=lesson_id)
             except Exception as e:
-                lesson_content_form = questionForms.LessonContentForm(instance=None, initial={'lesson': lesson_id})
                 print(' --- ' + str(e))
 
-            return render(request=request, template_name="course/lesson_form.html",
-                          context={"form": lesson_content_form})
+            if content_id:
+                try:
+                    lesson_cont = questionModels.LessonContent.objects.using(request.db_name).get(id=content_id)                
+                    lesson_content_form = questionForms.LessonContentForm(instance=lesson_cont,
+                                                                          initial={'lesson': lesson_id, 'file_name': lesson_cont.file})
+                except Exception as e:
+                    lesson_content_form = questionForms.LessonContentForm(instance=None, initial={'lesson': lesson_id})
+                    print(' --- ' + str(e))
+                return render(request=request, template_name="course/lesson_form.html",
+                            context={"form": lesson_content_form})
+            else:
+                less_cont_list = questionModels.LessonContent.objects.using(request.db_name).filter(lesson=lesson).values('id', 'file_type', 'content')
+                for iter_cont in less_cont_list:
+                    iter_cont['file_type'] = questionModels.MEDIA_CHOICES_DICT[iter_cont['file_type']]
+
+                return render(request=request, template_name="course/lesson_content_list.html",
+                            context={"less_cont_list": less_cont_list})
+
         else:
             lesson_content_form = questionForms.LessonContentForm()
 
@@ -254,13 +268,14 @@ def lesson_editor(request):
                                                 context={"form": lesson_content_form})
             return render(request=request,
                           template_name="course/lesson_editor.html",
-                          context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc })
+                          context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc, 'class_list': class_list })
 
     elif request.method == "POST":
         lesson_id = request.POST.get("lesson")
 
         try:
-            lesson_cont = questionForms.LessonContent.objects.using(request.db_name).get(lesson=lesson_id)
+            lesson = questionModels.Lesson.objects.using(request.db_name).get(id=lesson_id)
+            lesson_cont = questionModels.LessonContent.objects.using(request.db_name).get(lesson=lesson)
         except Exception as e:
             print(' --- ' + str(e))
             lesson_cont = None
@@ -268,10 +283,17 @@ def lesson_editor(request):
         lesson_content_form = questionForms.LessonContentForm(request.POST, request.FILES, instance=lesson_cont)
 
         print(str(lesson_id) + " - " + str(request.FILES))
+        print(lesson_content_form)
         try:
             if lesson_content_form.is_valid():
-                # less_con = lesson_content_form.cleaned_data
-                less_con = lesson_content_form.save()
+                print("000000000000000000000000")
+                # lesson_cont = lesson_content_form.cleaned_data
+                # formData = lesson_content_form.cleaned_data
+                # for iter in lesson_content_form.fields:            
+                #     setattr(lesson_cont, iter, formData[iter])
+                lesson_cont = lesson_content_form.save(commit=False)
+                lesson_cont.lesson = lesson
+                lesson_cont.save(using=request.db_name)
             else:
                 print(lesson_content_form.errors.as_data())
                 return HttpResponseNotAllowed("Wrong!")
@@ -285,7 +307,7 @@ def lesson_editor(request):
                                             context={"form": lesson_content_form})
         return render(request=request,
                       template_name="course/lesson_editor.html",
-                      context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc })
+                      context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc': request.course_desc, 'class_list':class_list })
 
 
 @course_required()

@@ -12,7 +12,7 @@
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">学习资料上传</h2>
 <div class="row border border-dark mx-5 p-1 rounded bg_black_u2d">
     <div class="col-3">
-        <div class="card bg-info">                
+        <div class="card bg-light">                
             <div class="card bg-secondary text-white">
                 <div class="card-header text-center">
                     <h5 class="card-title">课程章节列表</h5>
@@ -23,17 +23,46 @@
             </div>                
         </div>
     </div>
-    <div class="col-8">        
-        <form action="." method="POST" id="lesson_con_form" enctype="multipart/form-data">
+    <div class="col-7">
+        <form action="." method="POST" id="lesson_con_form" enctype="multipart/form-data"  onsubmit="return checkSubmit()" >
             {% csrf_token %}
             <div id="form_part">
             {{lesson_form_html}}
+            </div>
+            <div class="card border-secondary mt-2">
+                <div class="card-header bg-primary">
+                    <h6 class="modal-title font-weight-bold text-light">该资料可查看的班级设置</h6>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-primary mb-1" onclick="onAllClassClick(event)">选中所有班级</button>
+                    <span class="text-danger inline" id="cls_setting_checker" hidden>必须至少选择一个班级!!</span> 
+                    {% for cls in class_list %}
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="class_{{cls.id}}" data-cls-id="{{cls.id}}" checked>
+                        <label class="custom-control-label" for="class_{{cls.id}}">{{cls.class_name}}</label>
+                    </div>
+                    {% endfor %}
+                </div> 
             </div>
             <input type="submit" value="上传" class="btn btn-primary mb-2"/>
         </form>
         <button class="btn btn-dark" onclick="onPreview(event)" id="btn_preview">预览</button> 
         <div id="prev_part">
 
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="card bg-light">
+            <div class="card bg-info text-warning">
+                <div class="card-header text-center">
+                    <h5 class="card-title font-weight-bold">本章资料</h5>
+                </div>
+                <!-- <div class="card-body"> -->
+                <div id="less_cont_part">
+                {{less_cont_html}}
+                </div>
+                <!-- </div> -->
+            </div>
         </div>
     </div>
 </div>

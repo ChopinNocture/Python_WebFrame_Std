@@ -40,9 +40,13 @@ MEDIA_CHOICES = (('none', '无'),
                  ('word', 'Word文件'),
                 )
 
+MEDIA_CHOICES_DICT = dict()
+for iter_i in list(MEDIA_CHOICES):
+    MEDIA_CHOICES_DICT[list(iter_i)[0]] = list(iter_i)[1]
+
 
 class LessonContent(models.Model):
-    lesson = models.OneToOneField(Lesson, unique=True, on_delete=models.CASCADE, )
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, )
     file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
     file = models.FileField(upload_to='lessons/', null=True, blank=True )
     content = models.TextField()

@@ -1,0 +1,6 @@
+{% for content in less_cont_list %}
+<button class="list-group-item list-group-item-action list-group-item-info inline-block text-truncate" id="cont_{{content.id}}" 
+        onclick="onContentClick(event)" onfocus="this.blur()"
+        tabindex="-1"
+        data-contid={{content.id}} data-toggle="tooltip" data-placement="left" title="{{content.content}}" >{{content.file_type}}</button>
+{% endfor %}  

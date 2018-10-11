@@ -1,4 +1,4 @@
-from django.forms import CharField, ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, FileInput, \
+from django.forms import CharField, IntegerField, ModelForm, HiddenInput, Textarea, CheckboxInput, TextInput, NumberInput, FileInput, \
     Select
 
 from .models import *
@@ -175,10 +175,11 @@ class ExaminationForm(ModelForm):
 # Lesson Content form
 class LessonContentForm(ModelForm):
     file_name = CharField(widget=HiddenInput, required=False)
+    lesson = IntegerField(widget=HiddenInput)
 
     class Meta:
         model = LessonContent
-        fields = '__all__'
+        fields = ['file_type', 'file', 'content', 'class_id_list']
         widgets = {
             'content': Textarea(attrs={'class': 'form-control',
                                        'placeholder': '请输入课程文字描述',
@@ -186,6 +187,7 @@ class LessonContentForm(ModelForm):
                                        'aria-describedby': 'lesson-content-label',
                                        'cols': 30, 'rows': 4}),
             'lesson': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),            
+            'class_id_list': HiddenInput(),
             'file': FileInput(attrs={'class': 'custom-file-input',
                                      'aria-describedby': 'exam-duration-label',
                                      'accept': 'image/*'}),
