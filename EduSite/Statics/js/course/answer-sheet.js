@@ -297,9 +297,13 @@ function showFinalResult() {
     }    
 }
 
+function onBreakClick(event) {
+    showFinalResult();
+}
+
 function onBackMain(event) {
     $.ajax({
-        url: event.target.dataset['url'],
+        url: $('#btn_back_main').data('url'),
         type: 'post',
         data: { "gold": $('#stat_right').html() },
         dataType: 'json',

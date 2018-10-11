@@ -10,22 +10,6 @@
 {% csrf_token %}
 </form>
 <div id="root_panel"> 
-    <div id="info_panel">
-        <div id="statistic_main">
-            <!-- <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span> -->
-            <h5>
-            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span class="badge badge-pill badge-success" style="vertical-align:middle;" id="stat_right">0</span>
-            </h5>
-            <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
-            <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a>
-        </div>
-        <div id='q_progress'>
-            <ul id="progress_list">
-                <li><span class="gold_icon"></li>
-            </ul>
-        </div>
-        <div id="teacher" class="teacher-normal" alt="Card image cap"></div>
-    </div>
     <div id="sheet_panel" >
         <div id="sheet_bg_out">             
             <div id="sheet_bg_in"> 
@@ -55,6 +39,23 @@
         </div>
     </div>
 
+    <div id="info_panel">
+        <div id="statistic_main">
+            <!-- <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span> -->
+            <h5>
+            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span class="badge badge-pill badge-success" style="vertical-align:middle;" id="stat_right">0</span>
+            </h5>
+            <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
+            <button href="{% url 'user:student' %}" onclick="onBreakClick(event)" id="btn_back" class="btn-circle-orange" onfocus="this.blur()" tabindex="-1"><span class="arrow-left"></span> 结束修炼</button>
+        </div>
+        <div id='q_progress'>
+            <ul id="progress_list">
+                <li><span class="gold_icon"></li>
+            </ul>
+        </div>
+        <div id="teacher" class="teacher-normal" alt="Card image cap"></div>
+    </div>
+
     <div id="show_panel" hidden>
         <div id="effect_right" hidden>
             <span class="icon-reward"></span><span class="icon-shinning"></span>
@@ -64,8 +65,8 @@
         </div>    
     </div>
     <div id="final_panel" data-unlock="{{unlock_number}}" hidden>
-        <h1>
-            全部结束啦，回到主页查看你的进步吧！
+        <h1 id="back_text">
+            修炼结束，你获得的<span class="gold-icon-big succeed"></span>将给你带来帮助！
         </h1>
         <button id="btn_back_main" class="btn-round-sky" 
                 data-url="{% url 'user:award_score' %}" 
