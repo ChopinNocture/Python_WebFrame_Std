@@ -1,5 +1,7 @@
 $(document).ready(init);
 
+var cont_id = -1;
+
 var file_type_dict = {
     'none': ['none', /n/],
     'image': ['image/*', /image\/\w/],
@@ -12,6 +14,8 @@ var file_type_dict = {
 
 function init() {
     csrf_Setup();
+    $('#btn_new').hide();
+    $('#btn_delete').hide();
     reBindEvent();
 }
 
@@ -35,7 +39,6 @@ var type_HTML = {
     'video': '<video controls="controls" id="prev_control"> <source src="***" type="video/mp4">需要支持HTML5 的浏览器" </video>',
     'audio': '<img src="***" alt="图片文件，需要支持HTML5 的浏览器" id="prev_control"/>'
 }
-
 
 function refreshUI() {
     if ($('#id_file_name').val() == "") {
@@ -76,12 +79,12 @@ function onSectionClick(event) {
     $('button[id^=course_]').removeClass('active');
     $(event.target).addClass('active');
 
-    $('#lesson_con_form')[0].reset();
+    //$('#lesson_con_form')[0].reset();
     $('#id_lesson').val(event.target.dataset.section);
     $.get('.', {
-        'lesson': event.target.dataset.section
+        'lesson': $('#id_lesson').val()
     }, onLessContListGet);
-    //    section_id = event.target.dataset.section;
+    //    section_id = cur_section;
     //    doRefreshQList();
     return true;
 }
@@ -90,30 +93,66 @@ function onContentClick(event) {
     if ($(event.target).hasClass('active')) return;
     $('button[id^=cont_]').removeClass('active');
     $(event.target).addClass('active');
-
-    $('#lesson_con_form')[0].reset();    
     
+    cont_id = event.target.dataset.contid;
+
     $.get('.', {
         'lesson': $('#id_lesson').val(),
-        'content_id': event.target.dataset.contid
+        'content_id': cont_id
     }, onFormGet);
 }
 
 function onFormGet(response, status, xhr) {
     // alert(" -- -" + $('#id_file')[0].files.length + "-");
-    $('#form_part').html('');
     $('#form_part').html(response);
     reBindEvent();
     refreshUI();
+    $('#id_file_type').attr("disabled",true);
+    $('#id_file').attr("disabled",true);    
+    $('#btn_new').show();
+    $('#btn_delete').show();
 }
 
 function onLessContListGet(response, status, xhr) {
-    $('#less_cont_part').html('');
     $('#less_cont_part').html(response);
-    reBindEvent();
-    refreshUI();
+    onNewClick();
 }
 
+function onNewFormGet(response, status, xhr) {
+    // alert(" -- -" + $('#id_file')[0].files.length + "-");
+    $('#form_part').html(response);
+    reBindEvent();
+    refreshUI();
+    $('#btn_new').hide();
+    $('#btn_delete').hide();
+}
+
+function onNewClick(event) {
+    $('button[id^=cont_]').removeClass('active');
+    cont_id = -1;
+    $.get('.', {
+        'lesson': $('#id_lesson').val(),
+        'content_id': cont_id
+    }, onNewFormGet);
+}
+
+function onDeleteClick(event) {
+    if (cont_id != -1) {
+        var targetURL = event.target.dataset.url.replace("9999", cont_id);
+        $.ajax({
+            url: targetURL,
+            type: 'post',
+            success: delSucFunc,
+        });
+    }
+}
+
+function delSucFunc(){
+    alert("资料删除成功");
+    $.get('.', {
+        'lesson': $('#id_lesson').val()
+    }, onLessContListGet);;
+}
 //-----------------------------------------
 function onAllClassClick(event) {
     $("input[id^=class_]").prop("checked", true);

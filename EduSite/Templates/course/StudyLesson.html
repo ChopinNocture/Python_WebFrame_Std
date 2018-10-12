@@ -24,22 +24,25 @@
             <div id="section_title">
                 {{section_name}}
             </div>
-            <p id="q_description">
-                {{ lesson_content.content }}
+            <p id="q_description">                
             </p>            
         </div>
-        <div id="file_panel" 
-            data-file-type="{{ lesson_content.file_type }}"
-            data-file-url="{{ lesson_content.file }}">
+        <div id="file_panel">
 
-        </div>
-        
-        
+        </div>  
+        <button id="btn_next" class="btn-round-wine" onclick="onNextClk(event)" >下一份秘籍</button>
         <button id="btn_back" class="btn-round-orange" onclick="onBackClick(event)"
             data-progurl="{% url 'user:update_progress' %}" 
             data-progress="{{progress}}"
             data-url="{% url 'user:student' %}">秘籍完成</button>
     </div>
+</div>
+<div id="id_info" data-clsid="{{class_id}}" hidden>
+    {% for lesson_content in lesson_content_list %}
+    <li data-file-type="{{ lesson_content.file_type }}"
+        data-file-url="{{ lesson_content.file }}"
+        data-class-list="{{ lesson_content.class_id_list }}">{{ lesson_content.content }}</li>
+    {% endfor %}
 </div>
 {% endblock %}
 

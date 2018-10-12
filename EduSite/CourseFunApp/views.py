@@ -315,6 +315,20 @@ def get_lesson_content(request, lesson_id):
     return HttpResponse('hello')
 
 
+@course_required()
+def lesson_delete(request, lesson_content_id):
+    if not request.method == "POST" or not request.is_ajax():
+        return HttpResponse("Permission reject!")
+
+    try:
+        questionModels.LessonContent.objects.using(request.db_name).get(id=lesson_content_id).delete()
+    except Exception as e:
+        print(e)
+        return HttpResponse(e)
+
+    return HttpResponse("Succeed!", status=200)
+
+
 # --------------------------------------------------------
 # study lesson
 @login_required(login_url='/user/login/')
@@ -322,18 +336,19 @@ def get_lesson_content(request, lesson_id):
 def study(request, lesson_id):
     if request.method == "GET":
         try:
+            stu_prof = StudentProf.objects.get(user=request.user)
             lesson = Lesson.objects.using(request.db_name).get(id=lesson_id)
             description = lesson.description
-            lesson_content_list = questionForms.LessonContent.objects.using(request.db_name).filter(lesson=lesson_id)
-            lesson_content = lesson_content_list[0]
+            lesson_content_list = questionForms.LessonContent.objects.using(request.db_name).filter(lesson=lesson_id).values("file_type", "file", "content", "class_id_list")            
         except Exception as e:
             description = lesson.description
-            lesson_content = None
+            lesson_content = []
             print(' --- ' + str(e))
 
         return render(request=request,
                     template_name="course/StudyLesson.html",
-                    context = {"lesson_content": lesson_content,
+                    context = {"lesson_content_list": lesson_content_list,
+                            "class_id": stu_prof.class_id.id,
                             "section_name": description,  
                             "progress": request.GET.get("progress")})
 

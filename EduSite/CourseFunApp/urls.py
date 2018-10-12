@@ -15,6 +15,7 @@ urlpatterns = [
     path('questions/import/', views.question_import, name='question-importer'),
     path('answer_sheet/<int:sectionID>/', views.answer_sheet, name='answer-sheet'),
     path('lesson/editor/', views.lesson_editor, name='lesson_editor'),
+    path('lesson/delete/<int:lesson_content_id>/', views.lesson_delete, name='lesson_delete'),
     path('lesson/<int:lesson_id>/', views.get_lesson_content, name='lesson_content'),
     path('study/<int:lesson_id>/', views.study, name='study'),
     path('exam/editor/', views.exam_editor, name='exam_editor'),

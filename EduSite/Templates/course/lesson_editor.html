@@ -34,7 +34,7 @@
                     <h6 class="modal-title font-weight-bold text-light">该资料可查看的班级设置</h6>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-primary mb-1" onclick="onAllClassClick(event)">选中所有班级</button>
+                    <button type="button" class="btn btn-primary mb-1" onclick="onAllClassClick(event)">选中所有班级</button>
                     <span class="text-danger inline" id="cls_setting_checker" hidden>必须至少选择一个班级!!</span> 
                     {% for cls in class_list %}
                     <div class="custom-control custom-checkbox">
@@ -44,9 +44,11 @@
                     {% endfor %}
                 </div> 
             </div>
-            <input type="submit" value="上传" class="btn btn-primary mb-2"/>
+            <input type="submit" value="上传" class="btn btn-primary inline mb-2"/>
+            <button id="btn_new" type="button" onclick="onNewClick(event)" class="btn btn-warning align-left inline ml-5 mb-2"  onfocus="this.blur()" tabindex="-1">新建</button>
+            <button id="btn_delete" type="button" onclick="onDeleteClick(event)" class="btn btn-danger inline mb-2"  onfocus="this.blur()" tabindex="-1" data-url="{% url 'course:lesson_delete' lesson_content_id=9999 %}">删除</button>
         </form>
-        <button class="btn btn-dark" onclick="onPreview(event)" id="btn_preview">预览</button> 
+        <button class="btn btn-dark" onclick="onPreview(event)" id="btn_preview" >预览</button> 
         <div class="w-auto" id="prev_part" alt="Max-width 100%">
 
         </div>

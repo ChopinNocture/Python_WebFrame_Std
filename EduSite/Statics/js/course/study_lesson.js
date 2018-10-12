@@ -6,9 +6,26 @@ var type_HTML = {
 
 $(document).ready(init);
 
+var lesson_list = [];
+var cur_index = 0;
 function init() {
     csrf_Setup();
+    initClassList();
     refreshUI();
+}
+
+function initClassList(){
+    lesson_list = [];
+    var class_id = $("#id_info").data("clsid");
+    $("li").each(function (idx, elem) {
+        if (String($(elem).data("classList")).indexOf(class_id) != -1) {
+            lesson_list.push({
+                'content': $(elem).html(),
+                'fileType': $(elem).data('fileType'),
+                'fileUrl': $(elem).data('fileUrl')
+            });
+        }
+    });
 }
 
 function onBackClick(event) {
@@ -23,16 +40,29 @@ function onBackClick(event) {
     $(location).attr('href', event.target.dataset['url'] );    
 }
 
-function refreshUI() {    
-    var fileType = $('#file_panel').data('fileType');
-    var fileUrl = $('#file_panel').data('fileUrl');
+function onNextClk(event) {
+    cur_index = Math.min(lesson_list.length-1, cur_index+1);
+    refreshUI();
+}
 
-    if( fileType=="" ) {
-        $('#file_panel').html('');
+function refreshUI() {
+    if(cur_index < (lesson_list.length-1)) {
+        $('#btn_next').show();
+        $('#btn_back').hide();
     }
     else {
-        var temp_html = type_HTML[fileType].replace('***', '/uploaded/'+fileUrl);
-        $('#file_panel').html(temp_html);
+        $('#btn_next').hide();
+        $('#btn_back').show();
+    }
+
+    var cur_lesson = lesson_list[cur_index];
+    $('#q_description').html(cur_lesson['content']);
+    if( cur_lesson['fileType']=="none" ) {
+        $('#file_panel').html('').hide();
+    }
+    else {
+        var temp_html = type_HTML[cur_lesson['fileType']].replace('***', '/uploaded/'+cur_lesson['fileUrl']);
+        $('#file_panel').html(temp_html).show();
     }
 }
 
