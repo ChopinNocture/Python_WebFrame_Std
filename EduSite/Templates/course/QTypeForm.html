@@ -51,7 +51,7 @@
         {{ form.qVoice }}
         <label class="custom-file-label" for="id_qVoice" id="fsel-label">选择文件...</label>
     </div>
-    <audio src='{{ quest_obj.qVoice }}' alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>
+    <audio src='/uploaded/{{ quest_obj.qVoice }}' alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>
 </div>
 {% else %}
 <div id="OptionPanel" class="border-top border-warning pt-3 rounded">

@@ -234,7 +234,7 @@ function updateQForm(data) {
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
         document.getElementById('btn_modify').innerHTML = "加入题库";        
     }
-    document.getElementById('Form_QuestionEditor').submit = function () { ajaxSubmit(this, onSubmitSuccess, onSubmitFailed) };
+    document.getElementById('Form_QuestionEditor').submit = function () { ajaxSubmitWithFile(this, onSubmitSuccess, onSubmitFailed) };
 
     //alert("update " + question_type + " form");
     eval(RefreshFunc_Prefix + question_type + "()");

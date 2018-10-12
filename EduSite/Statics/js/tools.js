@@ -32,6 +32,19 @@ function ajaxSubmitJson(aform, sucFunc, failFunc) {
     });
 }
 
+function ajaxSubmitWithFile(aform, sucFunc, failFunc) {
+    //alert($(aform).serialize());
+    $.ajax({
+        url: aform.action,
+        type: aform.method,
+        data: new FormData($(aform)[0]),
+        processData: false,
+        contentType: false,
+        success: sucFunc,
+        error: failFunc
+    });
+}
+
 function random_pick_list(list, num) {
     if(Array.isArray(list)) {
         var randNum = Math.max(0, Math.min(list.length, num));

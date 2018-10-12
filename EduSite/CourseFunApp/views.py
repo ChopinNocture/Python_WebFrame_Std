@@ -342,10 +342,10 @@ def study(request, lesson_id):
             stu_prof = StudentProf.objects.get(user=request.user)
             lesson = Lesson.objects.using(request.db_name).get(id=lesson_id)
             description = lesson.description
-            lesson_content_list = questionForms.LessonContent.objects.using(request.db_name).filter(lesson=lesson_id).values("file_type", "file", "content", "class_id_list")            
+            lesson_content_list = questionModels.LessonContent.objects.using(request.db_name).filter(lesson=lesson_id).values("file_type", "file", "content", "class_id_list")            
         except Exception as e:
             description = lesson.description
-            lesson_content = []
+            lesson_content_list = []
             print(' --- ' + str(e))
 
         return render(request=request,

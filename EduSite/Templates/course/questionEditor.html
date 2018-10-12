@@ -37,7 +37,7 @@
         <div class="col-7 border-right border-left border-info">
             <div class="row-fluid">
                 <div class="">
-                    <form class="form-horizontal" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
+                    <form class="form-horizontal" enctype="multipart/form-data" action="." method="post" id="Form_QuestionEditor" onsubmit="return checkQuestion()">
                         {% csrf_token %}
                         <div id="QType_Panel">
                         </div>
