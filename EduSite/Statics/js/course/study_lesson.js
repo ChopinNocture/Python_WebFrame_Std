@@ -46,23 +46,32 @@ function onNextClk(event) {
 }
 
 function refreshUI() {
-    if(cur_index < (lesson_list.length-1)) {
-        $('#btn_next').show();
-        $('#btn_back').hide();
+    if(lesson_list.length>0) {    
+        if(cur_index < (lesson_list.length-1)) {
+            $('#btn_next').show();
+            $('#btn_back').hide();
+        }
+        else {
+            $('#btn_next').hide();
+            $('#btn_back').show();
+        }
+
+        var cur_lesson = lesson_list[cur_index];
+        $('#q_description').html(cur_lesson['content']);
+        if( cur_lesson['fileType']=="none" ) {
+            $('#file_panel').html('').hide();
+        }
+        else {
+            var temp_html = type_HTML[cur_lesson['fileType']].replace('***', '/uploaded/'+cur_lesson['fileUrl']);
+            $('#file_panel').html(temp_html).show();
+        }
     }
     else {
         $('#btn_next').hide();
         $('#btn_back').show();
-    }
-
-    var cur_lesson = lesson_list[cur_index];
-    $('#q_description').html(cur_lesson['content']);
-    if( cur_lesson['fileType']=="none" ) {
         $('#file_panel').html('').hide();
-    }
-    else {
-        var temp_html = type_HTML[cur_lesson['fileType']].replace('***', '/uploaded/'+cur_lesson['fileUrl']);
-        $('#file_panel').html(temp_html).show();
+        $('#q_description').html("这一章没有秘籍噢！");
+        alert("本章节没有秘籍！");
     }
 }
 

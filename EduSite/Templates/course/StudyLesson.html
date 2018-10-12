@@ -30,11 +30,11 @@
         <div id="file_panel">
 
         </div>  
-        <button id="btn_next" class="btn-round-wine" onclick="onNextClk(event)" >下一份秘籍</button>
+        <button id="btn_next" class="btn-round-wine" onclick="onNextClk(event)" hidden>下一份秘籍</button>
         <button id="btn_back" class="btn-round-orange" onclick="onBackClick(event)"
             data-progurl="{% url 'user:update_progress' %}" 
             data-progress="{{progress}}"
-            data-url="{% url 'user:student' %}">秘籍完成</button>
+            data-url="{% url 'user:student' %}" hidden>秘籍完成</button>
     </div>
 </div>
 <div id="id_info" data-clsid="{{class_id}}" hidden>
