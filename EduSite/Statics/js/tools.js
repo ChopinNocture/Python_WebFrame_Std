@@ -2,6 +2,13 @@ var OPTION_SPLITER_SYMBOL = "|-|";
 var KEY_SPLITER_SYMBOL = ",";
 var FillInBlank_Key_Reg = /{@([\…\w\u4e00-\u9fa5]+)@}/g;
 
+var type_HTML = {
+    'image': '<img src="***" alt="图片文件，需要支持HTML5 的浏览器" id="prev_control"/>',
+    'video': '<video controls="controls" id="prev_control"> <source src="***" type="video/mp4">需要支持HTML5 的浏览器" </video>',
+    'audio': '<audio src="***" alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls"/>'
+}
+
+
 function ajaxSubmit(aform, sucFunc, failFunc) {
     //alert($(aform).serialize());
     $.ajax({

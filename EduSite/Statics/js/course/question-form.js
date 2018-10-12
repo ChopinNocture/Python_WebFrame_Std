@@ -653,10 +653,25 @@ function parseForm2JsonCaseAnalyse() { }
 // Question type: Voice
 //-------------------------------------------------------
 //-------------- refresh --------------
-function refreshVoice() { }
+var file_tester = /audio\/\w/;
+function refreshVoice() {
+    $('#id_qVoice').on('change', onFileSelect);
+}
+
+function onFileSelect(event) {
+    if ($('#id_qVoice')[0].files.length > 0 &&
+        file_tester.test($('#id_qVoice')[0].files[0].type)) {
+        $('#fsel-label').html($('#id_qVoice')[0].files[0].name);
+    } else {
+        $('#fsel-label').html('');
+        event.target.value = "";
+    }
+}
 
 //-------------- check --------------
-function checkVoice() { return false; }
+function checkVoice() { 
+    return ($('#id_qVoice')[0].files.length > 0); 
+}
 
 //-------------- parseForm2Json ---------------
 function parseForm2JsonVoice() { }

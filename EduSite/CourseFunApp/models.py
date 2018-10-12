@@ -48,7 +48,7 @@ for iter_i in list(MEDIA_CHOICES):
 class LessonContent(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, )
     file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
-    file = models.FileField(upload_to='lessons/', null=True, blank=True )
+    file = models.FileField(upload_to='lessons/', null=True, blank=True)
     content = models.TextField()
     class_id_list = models.CharField(max_length=128)
 
@@ -118,7 +118,7 @@ class CaseAnalyseQuestion(Question):
 # 语音题
 class VoiceQuestion(Question):
     qVoice = models.FileField(upload_to='VoiceQuestion/', null=True, blank=True)
-
+    
 
 # ---------------
 # 题目类方法

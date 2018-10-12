@@ -1,4 +1,7 @@
-{{form.as_p}}
+{% if questionType != "Voice" %}
+{{ form.as_p }}
+{% endif %}
+
 {% if questionType == "TrueOrFalse" %}
 <br>
 {% elif questionType == "FillInBlank" %}
@@ -30,7 +33,26 @@
 </div>
 <br>
 {% elif questionType == "Voice" %}
+<label>题干：</label>
+{{ form.description.errors }}
+{{ form.description }}
+{{ form.sectionID.errors }}
+{{ form.sectionID }}
+{{ form.flag.errors }}
+{{ form.flag }}
+{{ form.star.errors }}
+{{ form.star }}
+{{ form.case_analyse.errors }}
+{{ form.case_analyse }}
 <br>
+<div class="border-top border-warning pt-1 rounded">
+    <div class="custom-file">
+        {{ form.qVoice.errors }}
+        {{ form.qVoice }}
+        <label class="custom-file-label" for="id_qVoice" id="fsel-label">选择文件...</label>
+    </div>
+    <audio src='{{ quest_obj.qVoice }}' alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>
+</div>
 {% else %}
 <div id="OptionPanel" class="border-top border-warning pt-3 rounded">
     <p id="BtnLine">

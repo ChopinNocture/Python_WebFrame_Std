@@ -158,11 +158,10 @@ def question_editor_form(request, qtype, qid=-1):
             return HttpResponse(e + "Multiply objects get from:" + type(temp_class))
 
     if request.method == "POST":
-        print(" -- " + requestData["sectionID"])
-        newQuestForm = formClass(requestData, instance=quest_in_DB)
-
+        newQuestForm = formClass(requestData, request.FILES, instance=quest_in_DB)        
         if newQuestForm.is_valid():
             quest_in_DB = newQuestForm.save(commit=False)
+            quest_in_DB.sectionID = questionModels.Lesson.objects.using(request.db_name).get(id=requestData["sectionID"])
             quest_in_DB.save(using=request.db_name)
             #            quest_in_DB = newQuestForm.save(commit=False)
             #            formData = newQuestForm.cleaned_data
@@ -177,9 +176,13 @@ def question_editor_form(request, qtype, qid=-1):
             return HttpResponse("False")
 
     elif request.method == "GET":
-        retForm = formClass(instance=quest_in_DB)
+        sectionID = -1
+        if quest_in_DB:
+            sectionID = quest_in_DB.sectionID.id
+            
+        retForm = formClass(instance=quest_in_DB, initial={"sectionID": sectionID})
         return render(request=request, template_name="course/QTypeForm.html",
-                      context={"form": retForm, "questionType": qtype})
+                      context={"form": retForm, "questionType": qtype, "quest_obj":quest_in_DB})
     # return HttpResponse(temp_class.get_url_name())
 
 

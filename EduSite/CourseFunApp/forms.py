@@ -3,11 +3,11 @@ from django.forms import CharField, IntegerField, ModelForm, HiddenInput, Textar
 
 from .models import *
 
-FIELD_LIST = ['description', 'sectionID', 'flag', 'star']
+FIELD_LIST = ['description', 'flag', 'star']
 Q_WIDGETS_SETTING = {
     'description': Textarea(attrs={'class': 'form-control'}),
-    'sectionID': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),
     'flag': HiddenInput(),
+    'sectionID': HiddenInput(),
     'star': HiddenInput(),
     'case_analyse': HiddenInput(),
 }
@@ -19,6 +19,8 @@ Q_LABELS_SETTING = {
 
 # 填空题
 class FillInBlankForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+
     class Meta:
         model = FillInBlankQuestion
         fields = FIELD_LIST + ['key']
@@ -31,6 +33,8 @@ class FillInBlankForm(ModelForm):
 
 # 判断题
 class TrueOrFalseForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+
     class Meta:
         model = TrueOrFalseQuestion
         fields = FIELD_LIST + ['key']
@@ -44,6 +48,8 @@ class TrueOrFalseForm(ModelForm):
 
 # 单项选择题
 class ChoiceForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = ChoiceQuestion
         fields = FIELD_LIST + ['options', 'key']
@@ -63,6 +69,8 @@ class ChoiceForm(ModelForm):
 
 # 多项选择题
 class MultiChoiceForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = MultiChoiceQuestion
         fields = FIELD_LIST + ['options', 'key']
@@ -76,6 +84,8 @@ class MultiChoiceForm(ModelForm):
 
 # 配对题
 class PairForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = PairQuestion
         fields = FIELD_LIST + ['leftOptions', 'rightOptions']
@@ -89,6 +99,8 @@ class PairForm(ModelForm):
 
 # 排序题
 class SortForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = SortQuestion
         fields = FIELD_LIST + ['options']
@@ -101,6 +113,8 @@ class SortForm(ModelForm):
 
 # 案例、简答题
 class CaseAnalyseForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = CaseAnalyseQuestion
         fields = FIELD_LIST + ['subQuestions']
@@ -112,6 +126,8 @@ class CaseAnalyseForm(ModelForm):
 
 # 语音题
 class VoiceForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+    
     class Meta:
         model = VoiceQuestion
         fields = FIELD_LIST + ['qVoice']
@@ -121,6 +137,7 @@ class VoiceForm(ModelForm):
                             'aria-describedby': 'title-audio-label',
                             'accept': 'audio/*'})
         })
+
         labels = Q_LABELS_SETTING
 
 # ---------------

@@ -20,7 +20,7 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
     q_json_list = []
     question_dict = {}
     for iter_tpName in tmp_list:
-        print(' --- ', iter_tpName, num_json)
+        # print(' --- ', iter_tpName, num_json)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
