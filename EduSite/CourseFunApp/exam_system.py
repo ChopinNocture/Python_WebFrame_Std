@@ -20,7 +20,7 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
     q_json_list = []
     question_dict = {}
     for iter_tpName in tmp_list:
-        # print(' --- ', iter_tpName, num_json)
+        print(' --- ', iter_tpName, num_json)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
@@ -29,7 +29,7 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
         query_filter = temp_class.objects.using(db_name).filter(sectionID=sectionID, case_analyse=None)
         count = query_filter.count()
         
-        if num_json and num_json[iter_tpName]:
+        if num_json and num_json[iter_tpName] is not None:
             need_num = min(num_json[iter_tpName], count)
         else:
             need_num = min(per_sum, count)
@@ -42,7 +42,10 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
 
             if generated_list:
                 for iter_item in generated_list:
-                    question_dict = model_to_dict(iter_item)
+                    question_dict = model_to_dict(iter_item, exclude=['qVoice'])
+                    if hasattr(iter_item, 'qVoice'):
+                        question_dict['qVoice'] = str(iter_item.qVoice)
+
                     question_dict['qType'] = iter_tpName
                     q_json_list.append(question_dict)
 

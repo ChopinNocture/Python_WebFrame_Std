@@ -22,6 +22,7 @@ function init() {
 }
 
 function onConfirmSetting(event) {
+    // alert(JSON.stringify(prac_num_json_data));
     if (cls_url != "") {
         $.ajax({
             url: cls_url,
@@ -89,7 +90,7 @@ function failPost() {
 }
 
 function onPerNumChange(event, qtype) {
-    if (prac_num_json_data[qtype]) {
+    if (prac_num_json_data[qtype] != null) {
         prac_num_json_data[qtype] = Math.min(MAX_NUM, Math.max(0, event.target.value));
         event.target.value = prac_num_json_data[qtype];
     }

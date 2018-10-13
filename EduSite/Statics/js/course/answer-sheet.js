@@ -262,6 +262,9 @@ function refreshSortByResult(jq_elem, isKey, jq_icon, key_html) {
     jq_elem.html(key_html).attr("draggable", false).addClass('option-item-disabled');
 }
 
+function showKeyVoice(result, keyObject) {
+    alert("showKeyVoice");
+}
 //-----------------------------------------------------
 // 答案揭晓，更新选项框
 function refreshOptionByResult(jq_elem, isKey, jq_icon) {

@@ -263,3 +263,23 @@ function checkSort(key_str) {
     return result_json;
 }
 
+//-------------------------------------------------------
+// Question type: Voice
+//-------------------------------------------------------
+//-------------- refresh --------------
+var file_tester = /audio\/\w/;
+function refreshVoice(question) {
+    $('#q_description').html(question.description 
+                            + '<br>' +'<audio src="/uploaded/' 
+                            + question.qVoice + '" alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>');
+    $('#q_type_sheet').html();
+}
+
+//-------------- check --------------
+function checkVoice() { 
+    var result_json = { 'complete': true };
+
+    result_json['answer'] = "";
+    result_json['result'] = true;
+    return result_json;
+}
