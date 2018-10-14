@@ -268,13 +268,30 @@ function checkSort(key_str) {
 //-------------------------------------------------------
 //-------------- refresh --------------
 var file_tester = /audio\/\w/;
+var VOICE_HTML = '<div id="voice_recorder">\
+                        <button onclick="startRecording(this);">开始录音</button>\
+                        <button onclick="stopRecording(this);" disabled>停止</button>\
+                        <div id="voice_reviewer"></div>\
+                    </div>';
+
 function refreshVoice(question) {
     $('#q_description').html(question.description 
                             + '<br>' +'<audio src="/uploaded/' 
                             + question.qVoice + '" alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>');
-    $('#q_type_sheet').html();
+    $('#q_type_sheet').html(VOICE_HTML);
 }
 
+function createReviewer(){
+    recorder && recorder.exportWAV(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var au = document.createElement('audio');
+
+        au.controls = true;
+        au.src = url;
+        $('#voice_reviewer').html(""+url);
+        $('#voice_reviewer')[0].appendChild(au);
+    });
+}
 //-------------- check --------------
 function checkVoice() { 
     var result_json = { 'complete': true };

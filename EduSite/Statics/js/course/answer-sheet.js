@@ -11,6 +11,7 @@ var cur_idx = -1;
 var question_sum = 0;
 
 function onInit(event) {  
+    initRecorder();
     csrf_Setup();
     $('#btn_submit').click(onSubmitClk)
                     .mouseover(()=>{
@@ -26,6 +27,48 @@ function onInit(event) {
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
+//----------------------------------------------------------------
+function startUserMedia(stream) {
+    var input = audio_context.createMediaStreamSource(stream);
+    recorder = new Recorder(input);
+}
+
+function initRecorder() {
+    try {
+        // webkit shim
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+        window.URL = window.URL || window.webkitURL;
+        
+        audio_context = new AudioContext;
+        //__log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+      } catch (e) {
+        alert('No web audio support in this browser!');
+      }
+      
+      navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+        __log('No live audio input: ' + e);
+      });
+}
+
+function startRecording(button) {
+    recorder && recorder.record();
+    button.disabled = true;
+    button.nextElementSibling.disabled = false;
+}
+
+function stopRecording(button) {
+    recorder && recorder.stop();
+    button.disabled = true;
+    button.previousElementSibling.disabled = false;
+
+    // create WAV download link using audio data blob
+    createReviewer();
+
+    recorder.clear();
+}
+
+//----------------------------------------------------------------
 function onSubmitClk(event) {
     checkAnswer();
 }
