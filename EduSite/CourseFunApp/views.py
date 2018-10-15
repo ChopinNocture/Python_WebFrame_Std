@@ -91,7 +91,7 @@ def get_question_list_by_ids(request):
     if request.method == "POST" and request.is_ajax():
         try:            
             typeListObj = json.loads(s=request.POST.get("jsonlist"))
-            # print(typeListObj, " ---  ", request.POST.get("qtype"), )
+            print(typeListObj, " ---  ", request.POST.get("qtype"), )
             jsondata = exam_sys.get_questions_by_id_list(request.POST.get("qtype"), typeListObj['qlist'], request.db_name)
             return JsonResponse(jsondata, safe=False)
         except (AttributeError) as e:

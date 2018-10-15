@@ -227,7 +227,7 @@ function allowDrop(event){
     return false;
 }
 
-var SORT_OP_ID = 'sort_item';
+var SORT_OP_ID = 'sort_item_';
 
 function refreshSort(question) {
     $('#q_description').html(question.description);
@@ -256,8 +256,14 @@ function checkSort(key_str) {
     });
 
     var result_json = { 'complete': true };
-
-    result_json['answer'] = $('label[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
+    var idx = 0;
+    var anse_str="";
+    while( $("#" + SORT_OP_ID + idx.toString())[0]!=undefined && idx<10 ) {
+        anse_str = anse_str + $("#" + SORT_OP_ID + idx.toString()).data('opidx') + KEY_SPLITER_SYMBOL;
+        ++idx;
+    }
+    anse_str = anse_str.substring(0, anse_str.length-KEY_SPLITER_SYMBOL.length );
+    result_json['answer'] = anse_str;//$('label[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
     result_json['result'] = suc;
 
     return result_json;
@@ -279,10 +285,11 @@ function refreshVoice(question) {
 //-------------- question player --------------
 var file_tester = /audio\/\w/;
 var VOICE_CONTROL_HTML = '<br><audio src="/uploaded/***" alt="音频文件，需要支持HTML5 的浏览器" id="au_q_voice">音频文件，需要支持HTML5 的浏览器</audio> \
+                            <button id="qvoice_play" class="qvoice_play paused" onfocus="this.blur()" tabindex="-1" /> \
+                            <div class="progress_frame"> \
                             <div class="progress">\
                                 <div id="qvoice_progress" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 0%"></div>\
-                            </div> \
-                            <button id="qvoice_play" class="paused" onfocus="this.blur()" tabindex="-1" />';
+                            </div></div>';
 
 var timer, duration_str;
 function playQVoice() {
@@ -318,10 +325,10 @@ function updateController() {
 
 //-------------- answer recorder --------------
 var VOICE_ANSWER_HTML = '<div id="frame_recorder">\
-                        <button id="voice_recorder" class="paused" onfocus="this.blur()" onclick="onToggleRecord(this);" tabindex="-1" /> \
+                        <button id="voice_recorder" class="voice_recorder" onfocus="this.blur()" onclick="onToggleRecord(this);" tabindex="-1" /> \
                         <div id="voice_reviewer"></div>\
                     </div>';
-var recorder;
+var recorder, audio_context;
 var is_recording = false;
 var maxTime = 30, rtime = 0;
 var re_timer;

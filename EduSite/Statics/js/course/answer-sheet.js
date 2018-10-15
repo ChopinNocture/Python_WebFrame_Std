@@ -314,10 +314,11 @@ function showKeyVoice(result, keyObject) {
 
 var VOICE_KEY_HTML = '<div id="voice_key_frame"><div id="answer_voice_key"></div><audio src="/uploaded/***" alt="音频文件，需要支持HTML5 的浏览器" id="au_key_voice">音频文件，需要支持HTML5 的浏览器</audio> \
                             <p>参考的回答是：</p> \
+                            <button id="keyvoice_play" class="keyvoice_play keypaused" onfocus="this.blur()" tabindex="-1" /> \
+                            <div class="progress_frame"> \
                             <div class="progress">\
                                 <div id="keyvoice_progress" class="progress-bar progress-bar-striped bg-key" role="progressbar" style="width: 0%"></div>\
-                            </div> \
-                            <button id="keyvoice_play" class="keypaused" onfocus="this.blur()" tabindex="-1" /></div>';
+                            </div> </div> </div>';
 
 var k_timer, k_duration_str;
 function playKeyVoice() {

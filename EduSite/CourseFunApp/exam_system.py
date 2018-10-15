@@ -64,7 +64,13 @@ def get_questions_by_id_list(qtype, id_list, db_name):
     ques_list = list()
     for id_iter in id_list:
         question = temp_class.objects.using(db_name).get(id=id_iter)
-        ques_list.append(model_to_dict(question))
+        if hasattr(question, 'qVoice'):
+            question_dict = model_to_dict(question, exclude=['qVoice', 'key'])
+            question_dict['qVoice'] = str(question.qVoice)
+            question_dict['key'] = str(question.key)
+        else:
+            question_dict = model_to_dict(question)
+        ques_list.append(question_dict)
 
     return {'qtype':qtype, 'questions':ques_list}
 
