@@ -267,34 +267,119 @@ function checkSort(key_str) {
 // Question type: Voice
 //-------------------------------------------------------
 //-------------- refresh --------------
-var file_tester = /audio\/\w/;
-var VOICE_HTML = '<div id="voice_recorder">\
-                        <button onclick="startRecording(this);">开始录音</button>\
-                        <button onclick="stopRecording(this);" disabled>停止</button>\
-                        <div id="voice_reviewer"></div>\
-                    </div>';
-
-function refreshVoice(question) {
+function refreshVoice(question) {    
+    is_recording = false;
     $('#q_description').html(question.description 
-                            + '<br>' +'<audio src="/uploaded/' 
-                            + question.qVoice + '" alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>');
-    $('#q_type_sheet').html(VOICE_HTML);
+                            + VOICE_CONTROL_HTML.replace('***', question.qVoice ) );
+    $('#q_type_sheet').html(VOICE_ANSWER_HTML);
+    $("#au_q_voice").on('play', updateController).on('ended', updateController).on('pause', updateController);
+    $("#qvoice_play").click(playQVoice);
 }
 
-function createReviewer(){
+//-------------- question player --------------
+var file_tester = /audio\/\w/;
+var VOICE_CONTROL_HTML = '<br><audio src="/uploaded/***" alt="音频文件，需要支持HTML5 的浏览器" id="au_q_voice">音频文件，需要支持HTML5 的浏览器</audio> \
+                            <div class="progress">\
+                                <div id="qvoice_progress" class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 0%"></div>\
+                            </div> \
+                            <button id="qvoice_play" class="paused" onfocus="this.blur()" tabindex="-1" />';
+
+var timer, duration_str;
+function playQVoice() {
+    var audio = $("#au_q_voice")[0];
+    if(audio.paused) {
+        audio.play();        
+        timer = setInterval(updateProgress, 20)
+    }
+    else{
+        audio.pause();
+        clearInterval(timer);
+    }
+}
+
+function updateProgress() {
+    var audio = $("#au_q_voice")[0];
+    var perNum = (audio.currentTime / audio.duration) * 100
+    $("#qvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+}
+
+function updateController() {
+    var audio = $("#au_q_voice")[0];
+    duration_str = formatTime(audio.duration);
+    if(audio.paused) {
+        $("#qvoice_play").removeClass("playing").addClass("paused");
+        $("#qvoice_progress").removeClass("progress-bar-animated");
+    }
+    else {
+        $("#qvoice_play").addClass("playing").removeClass("paused");
+        $("#qvoice_progress").addClass("progress-bar-animated");
+    }
+}
+
+//-------------- answer recorder --------------
+var VOICE_ANSWER_HTML = '<div id="frame_recorder">\
+                        <button id="voice_recorder" class="paused" onfocus="this.blur()" onclick="onToggleRecord(this);" tabindex="-1" /> \
+                        <div id="voice_reviewer"></div>\
+                    </div>';
+var is_recording = false;
+var maxTime = 30, rtime = 0;
+var re_timer;
+function onToggleRecord(button) {
+    if(is_recording) {
+        stopRecording();
+    }
+    else {
+        startRecording();
+    }
+}
+
+function startRecording() {
+    if (recorder) {
+        $('#btn_submit').attr('disabled', true);
+        is_recording = true;
+        $("#voice_recorder").addClass("recording");
+        recorder.clear();
+        recorder && recorder.record();
+        re_timer = setInterval(updateRecordTime, 1000);
+    }
+}
+
+function updateRecordTime() {
+    rtime = rtime + 1;
+    $('#voice_reviewer').html("" + rtime + "秒/" + maxTime + "秒");
+    if( rtime>= maxTime ) {
+        stopRecording();
+    }    
+}
+
+function stopRecording() {
+    if (is_recording) {
+        $('#btn_submit').attr('disabled', false);
+        clearInterval(re_timer);
+        is_recording = false;
+        $("#voice_recorder").removeClass("recording");
+        
+        recorder && recorder.stop();
+        // create WAV download link using audio data blob
+        $('#voice_reviewer').html("");
+        createReviewer();
+        recorder.clear();
+    }
+}
+
+function createReviewer() {
     recorder && recorder.exportWAV(function (blob) {
         var url = URL.createObjectURL(blob);
         var au = document.createElement('audio');
 
         au.controls = true;
         au.src = url;
-        $('#voice_reviewer').html(""+url);
         $('#voice_reviewer')[0].appendChild(au);
     });
 }
 //-------------- check --------------
 function checkVoice() { 
-    var result_json = { 'complete': true };
+    var result_json = { 'complete': !is_recording };
 
     result_json['answer'] = "";
     result_json['result'] = true;

@@ -113,3 +113,19 @@ function getOptionLabelChar(idx, isChar=true) {
     var label_label = isChar ? 65: 49;
     return String.fromCharCode(label_label + idx);
 }
+
+//---------------------------------------------
+// minute to 01:01
+function formatTime(time) {
+    //分钟
+    var minutes = Math.floor(time / 60);
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    //秒
+    var seconds = Math.floor(time % 60);
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
+    return "" + minutes + "" + ":" + "" + seconds + "";
+}

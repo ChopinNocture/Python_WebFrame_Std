@@ -43,7 +43,7 @@
         <div id="statistic_main">
             <!-- <span class="badge badge-info" id="question_index">0</span><span class="align-text-top" id="question_count">/0</span> -->
             <h5>
-            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span class="badge badge-pill badge-success" style="vertical-align:middle;" id="stat_right">0</span>
+            <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span style="vertical-align:middle;" id="stat_right">0</span>
             </h5>
             <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
             <button href="{% url 'user:student' %}" onclick="onBreakClick(event)" id="btn_back" class="btn-circle-orange" onfocus="this.blur()" tabindex="-1"><span class="arrow-left"></span> 结束修炼</button>
@@ -79,10 +79,13 @@
 {% endblock %}
 
 {% block jsFunctionLib %}
+    
     <link rel="stylesheet" href="{% static 'css/edu/student/common_lib.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/edu/student/answer_sheet.css' %}"/>
+    
         
     <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+    
     <script type="text/javascript" src="{% static 'js/libs/recorder.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>

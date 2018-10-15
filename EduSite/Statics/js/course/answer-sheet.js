@@ -47,25 +47,8 @@ function initRecorder() {
       }
       
       navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-        __log('No live audio input: ' + e);
+        alert('No live audio input: ' + e);
       });
-}
-
-function startRecording(button) {
-    recorder && recorder.record();
-    button.disabled = true;
-    button.nextElementSibling.disabled = false;
-}
-
-function stopRecording(button) {
-    recorder && recorder.stop();
-    button.disabled = true;
-    button.previousElementSibling.disabled = false;
-
-    // create WAV download link using audio data blob
-    createReviewer();
-
-    recorder.clear();
 }
 
 //----------------------------------------------------------------
@@ -238,7 +221,7 @@ const QTYPE_TIPS_MAP = {
     "Pair": "拖拽右边的选项，来和左边选项的配对。",
     "Sort": "拖拽选项到正确的位置，进行顺序！",
     "CaseAnalyse": "案例与简答题",
-    "Voice": "语音题",
+    "Voice": "点击上面的录音按钮，并对着麦克风说出你的回答",
     "ERROR": "回答错误, 正确的答案是这样噢！",
     "SUCCEED": "恭喜你回答正确！"
 }
