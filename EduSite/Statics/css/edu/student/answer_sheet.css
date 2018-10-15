@@ -680,10 +680,17 @@ body {
     }
 }
 
+#voice_key_frame {
+    margin: 0.6rem 1.6rem 0.4rem 3rem;
+    color: #34b946;
+}
+
 #frame_recorder {
     text-align: center;
     margin: 1rem 1rem 1rem 2rem;
 }
+
+
 progress {
     vertical-align: baseline;
 }
@@ -710,6 +717,10 @@ progress {
 
 .bg-danger {
     background-color: #dc3545 !important;
+}
+
+.bg-key {
+    background-color: #34b946 !important;    
 }
 
 .progress {
@@ -746,12 +757,11 @@ progress {
 }
 
 /*********************************************/
-#qvoice_play {
+#qvoice_play, #keyvoice_play {
     margin: 0.2rem 0rem 0rem 0rem;
     border-style: none;
     border-width: 0.01rem;
     border-radius: 50%;
-    border-color: rgb(255, 132, 132);    
 
     height:4em;
     width: 4em;
@@ -760,9 +770,15 @@ progress {
     background-size: 100% 100%;
 }
 
-#qvoice_play:hover {    
+#qvoice_play, #qvoice_play:hover {
+    border-color: rgb(255, 132, 132);    
+}
+#keyvoice_play, #keyvoice_play:hover {
+    border-color: rgb(52, 185, 70);
+}
+
+#qvoice_play:hover, #keyvoice_play:hover {
     border-style: solid;
-    box-shadow: 0rem 0rem 1rem 0.15rem rgb(255, 132, 132);
 }
 
 .playing {
@@ -770,6 +786,13 @@ progress {
 }
 .paused {
     background-image: url('/Statics/images/btn_red_play.png'); 
+}
+
+.keyplaying {
+    background-image: url('/Statics/images/btn_green_pause.png');     
+}
+.keypaused {
+    background-image: url('/Statics/images/btn_green_play.png'); 
 }
 
 /*********************************************/

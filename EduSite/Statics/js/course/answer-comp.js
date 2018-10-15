@@ -325,6 +325,7 @@ var recorder;
 var is_recording = false;
 var maxTime = 30, rtime = 0;
 var re_timer;
+var answer_audio;
 function onToggleRecord(button) {
     if(is_recording) {
         stopRecording();
@@ -376,6 +377,7 @@ function createReviewer() {
         au.controls = true;
         au.src = url;
         $('#voice_reviewer')[0].appendChild(au);
+        answer_audio = au;
     });
 }
 //-------------- check --------------
@@ -383,6 +385,6 @@ function checkVoice() {
     var result_json = { 'complete': !is_recording };
 
     result_json['answer'] = "";
-    result_json['result'] = true;
+    result_json['result'] = false;
     return result_json;
 }

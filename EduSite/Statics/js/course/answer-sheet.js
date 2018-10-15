@@ -286,9 +286,6 @@ function refreshSortByResult(jq_elem, isKey, jq_icon, key_html) {
     jq_elem.html(key_html).attr("draggable", false).addClass('option-item-disabled');
 }
 
-function showKeyVoice(result, keyObject) {
-    alert("showKeyVoice");
-}
 //-----------------------------------------------------
 // 答案揭晓，更新选项框
 function refreshOptionByResult(jq_elem, isKey, jq_icon) {
@@ -302,6 +299,57 @@ function refreshOptionByResult(jq_elem, isKey, jq_icon) {
     jq_icon.addClass('icon-' + cssName);
 }
 
+//-----------------------------------------------------
+// 语音题目
+function showKeyVoice(result, keyObject) {
+    $('#q_type_sheet').html(VOICE_KEY_HTML.replace('***', keyObject));
+    $("#au_key_voice").on('play', updateKeyController).on('ended', updateKeyController).on('pause', updateKeyController);
+    $("#keyvoice_play").click(playKeyVoice);
+    if(answer_audio!=undefined) {
+        $('#answer_voice_key')[0].appendChild(answer_audio);
+    }
+    
+    alert("showKeyVoice");
+}
+
+var VOICE_KEY_HTML = '<div id="voice_key_frame"><div id="answer_voice_key"></div><audio src="/uploaded/***" alt="音频文件，需要支持HTML5 的浏览器" id="au_key_voice">音频文件，需要支持HTML5 的浏览器</audio> \
+                            <p>参考的回答是：</p> \
+                            <div class="progress">\
+                                <div id="keyvoice_progress" class="progress-bar progress-bar-striped bg-key" role="progressbar" style="width: 0%"></div>\
+                            </div> \
+                            <button id="keyvoice_play" class="keypaused" onfocus="this.blur()" tabindex="-1" /></div>';
+
+var k_timer, k_duration_str;
+function playKeyVoice() {
+    var audio = $("#au_key_voice")[0];
+    if(audio.paused) {
+        audio.play();        
+        k_timer = setInterval(updateKeyProgress, 20)
+    }
+    else{
+        audio.pause();
+        clearInterval(k_timer);
+    }
+}
+
+function updateKeyProgress() {
+    var audio = $("#au_key_voice")[0];
+    var perNum = (audio.currentTime / audio.duration) * 100
+    $("#keyvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+}
+
+function updateKeyController() {
+    var audio = $("#au_key_voice")[0];
+    duration_str = formatTime(audio.duration);
+    if(audio.paused) {
+        $("#keyvoice_play").removeClass("keyplaying").addClass("keypaused");
+        $("#keyvoice_progress").removeClass("progress-bar-animated");
+    }
+    else {
+        $("#keyvoice_play").addClass("keyplaying").removeClass("keypaused");
+        $("#keyvoice_progress").addClass("progress-bar-animated");
+    }
+}
 
 //-----------------------------------------------------
 // 最后统计

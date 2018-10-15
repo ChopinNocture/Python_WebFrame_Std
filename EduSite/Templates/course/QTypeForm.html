@@ -46,12 +46,22 @@
 {{ form.case_analyse }}
 <br>
 <div class="border-top border-warning pt-1 rounded">
+    <label class="text-danger">上传题目文件</label>
     <div class="custom-file">
         {{ form.qVoice.errors }}
         {{ form.qVoice }}
         <label class="custom-file-label" for="id_qVoice" id="fsel-label">选择文件...</label>
     </div>
     <audio src='/uploaded/{{ quest_obj.qVoice }}' alt="音频文件，需要支持HTML5 的浏览器" id="prev_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>
+</div>
+<div class="border-top border-warning pt-1 rounded">
+    <label class="text-success">上传答案文件</label>
+    <div class="custom-file">
+        {{ form.key.errors }}
+        {{ form.key }}
+        <label class="custom-file-label" for="id_key" id="keysel-label">选择文件...</label>
+    </div>
+    <audio src='/uploaded/{{ quest_obj.key }}' alt="音频文件，需要支持HTML5 的浏览器" id="key_control" controls="controls">音频文件，需要支持HTML5 的浏览器</audio>
 </div>
 {% else %}
 <div id="OptionPanel" class="border-top border-warning pt-3 rounded">

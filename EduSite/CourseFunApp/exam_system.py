@@ -42,9 +42,12 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
 
             if generated_list:
                 for iter_item in generated_list:
-                    question_dict = model_to_dict(iter_item, exclude=['qVoice'])
                     if hasattr(iter_item, 'qVoice'):
+                        question_dict = model_to_dict(iter_item, exclude=['qVoice', 'key'])
                         question_dict['qVoice'] = str(iter_item.qVoice)
+                        question_dict['key'] = str(iter_item.key)
+                    else:
+                        question_dict = model_to_dict(iter_item)
 
                     question_dict['qType'] = iter_tpName
                     q_json_list.append(question_dict)

@@ -130,10 +130,13 @@ class VoiceForm(ModelForm):
     
     class Meta:
         model = VoiceQuestion
-        fields = FIELD_LIST + ['qVoice']
+        fields = FIELD_LIST + ['qVoice', 'key']
         widgets = Q_WIDGETS_SETTING
         widgets.update({
             'qVoice': FileInput(attrs={'class': 'custom-file-input',
+                            'aria-describedby': 'title-audio-label',
+                            'accept': 'audio/*'}),
+            'key': FileInput(attrs={'class': 'custom-file-input',
                             'aria-describedby': 'title-audio-label',
                             'accept': 'audio/*'})
         })

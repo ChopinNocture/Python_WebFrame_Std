@@ -117,7 +117,8 @@ class CaseAnalyseQuestion(Question):
 
 # 语音题
 class VoiceQuestion(Question):
-    qVoice = models.FileField(upload_to='VoiceQuestion/', null=True, blank=True)
+    qVoice = models.FileField(upload_to='VoiceQuestion/Questions/', null=True, blank=True)
+    key = models.FileField(upload_to='VoiceQuestion/Keys/', null=True, blank=True)
     
 
 # ---------------

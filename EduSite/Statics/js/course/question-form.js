@@ -656,6 +656,7 @@ function parseForm2JsonCaseAnalyse() { }
 var file_tester = /audio\/\w/;
 function refreshVoice() {
     $('#id_qVoice').on('change', onFileSelect);
+    $('#id_key').on('change', onKeyFileSelect);    
 }
 
 function onFileSelect(event) {
@@ -664,13 +665,22 @@ function onFileSelect(event) {
         $('#fsel-label').html($('#id_qVoice')[0].files[0].name);
     } else {
         $('#fsel-label').html('');
-        event.target.value = "";
+        $('#id_qVoice')[0].value = "";
+    }
+}
+function onKeyFileSelect(event) {
+    if ($('#id_key')[0].files.length > 0 &&
+        file_tester.test($('#id_key')[0].files[0].type)) {
+        $('#keysel-label').html($('#id_key')[0].files[0].name);
+    } else {
+        $('#keysel-label').html('');
+        $('#id_key')[0].value = "";
     }
 }
 
 //-------------- check --------------
 function checkVoice() { 
-    return ($('#id_qVoice')[0].files.length > 0); 
+    return ($('#id_qVoice')[0].files.length > 0) && ($('#id_key')[0].files.length > 0); 
 }
 
 //-------------- parseForm2Json ---------------
