@@ -321,6 +321,7 @@ var VOICE_ANSWER_HTML = '<div id="frame_recorder">\
                         <button id="voice_recorder" class="paused" onfocus="this.blur()" onclick="onToggleRecord(this);" tabindex="-1" /> \
                         <div id="voice_reviewer"></div>\
                     </div>';
+var recorder;
 var is_recording = false;
 var maxTime = 30, rtime = 0;
 var re_timer;
@@ -334,8 +335,8 @@ function onToggleRecord(button) {
 }
 
 function startRecording() {
-    if (recorder) {
-        $('#btn_submit').attr('disabled', true);
+    if (recorder != undefined) {
+        $('#btn_submit').hide();
         is_recording = true;
         $("#voice_recorder").addClass("recording");
         recorder.clear();
@@ -354,7 +355,7 @@ function updateRecordTime() {
 
 function stopRecording() {
     if (is_recording) {
-        $('#btn_submit').attr('disabled', false);
+        $('#btn_submit').show();
         clearInterval(re_timer);
         is_recording = false;
         $("#voice_recorder").removeClass("recording");
