@@ -27,6 +27,13 @@ class Examination(models.Model):
 
 
 # --------------------------------------------------------
+class ExamAnswer(models.Model):
+    exam = models.ForeignKey(Examination, on_delete=models.CASCADE, )
+    stud_prof = models.ForeignKey(StudentProf, on_delete=models.CASCADE, )
+    answer_json = models.CharField(max_length=2048)    # JSONField()
+
+
+# --------------------------------------------------------
 class Lesson(models.Model):
     description = models.CharField(max_length=MAX_CONTENT_LENGTH)
 

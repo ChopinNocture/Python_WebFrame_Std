@@ -258,7 +258,7 @@ function checkSort(key_str) {
     var result_json = { 'complete': true };
     var idx = 0;
     var anse_str="";
-    while( $("#" + SORT_OP_ID + idx.toString())[0]!=undefined && idx<10 ) {
+    while( $("#" + SORT_OP_ID + idx.toString())[0]!=undefined) {
         anse_str = anse_str + $("#" + SORT_OP_ID + idx.toString()).data('opidx') + KEY_SPLITER_SYMBOL;
         ++idx;
     }
@@ -349,6 +349,7 @@ function startRecording() {
         $("#voice_recorder").addClass("recording");
         recorder.clear();
         recorder && recorder.record();
+        rtime = 0;
         re_timer = setInterval(updateRecordTime, 1000);
     }
 }
@@ -392,6 +393,33 @@ function checkVoice() {
     var result_json = { 'complete': !is_recording };
 
     result_json['answer'] = "";
-    result_json['result'] = false;
+    result_json['result'] = true;
+    result_json["Voice"] = true;
+    return result_json;
+}
+
+//-------------------------------------------------------
+// Question type: CaseAnalyse
+//-------------------------------------------------------
+function refreshCaseAnalyse(question) {
+    $('#q_description').html(question.description);
+    var html_str = '';
+    // html_str += '<input type="radio" name="TF_Answer" id="TF_Right" value="Right"/><label>Right</label>';
+    // html_str += '<input type="radio" name="TF_Answer" id="TF_Wrong" value="Wrong"/><label>Wrong</label>';
+
+    html_str = '';
+
+    $('#q_type_sheet').html(html_str);
+}
+
+function checkCaseAnalyse(key_bool) {
+    var result_json = { 'complete': false }
+
+    result_json.complete = false;
+    if(result_json.complete) {
+        result_json['answer'] = $('#TF_Right').prop('checked');
+        result_json['result'] = (key_bool == result_json['answer']);
+    }   
+
     return result_json;
 }

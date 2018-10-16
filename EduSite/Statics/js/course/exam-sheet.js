@@ -200,6 +200,7 @@ function updateQuestion() {
     }
     else{
         $('#q_description').html("本该题型没有题目，请选择其它题型继续！");
+        $('#q_type_sheet').html("");
     }
 }
 
@@ -253,12 +254,10 @@ function refreshAnswerPair(answerString, question) {
 }
 
 function refreshAnswerSort(answerString, question) {
-    alert(answerString);
     var answer_list = answerString.split(KEY_SPLITER_SYMBOL);
     var option_list = question.options.split(OPTION_SPLITER_SYMBOL);
 
     $('label[id^=' + SORT_OP_ID + ']').each(function (index, elem) {
-        alert(answer_list[index] + '  0  ' + index + '  ' + option_list[answer_list[index]]);
         $(elem).html(option_list[answer_list[index]]).data('opidx', answer_list[index]);
     });
 }
@@ -271,7 +270,6 @@ function refreshAnswerVoice(answerString) {
 function standardizeExam() {
     var final_answer = { "ts":0 };
     var total_score = 0;
-
 
     for (var i in qType_list) {
         var current = examination[qType_list[i]];

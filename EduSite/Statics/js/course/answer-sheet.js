@@ -83,7 +83,7 @@ function checkAnswer() {
     result_list[cur_idx] = result_json;
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
     if( result_json.complete ) {
-        showEffect(result_json.result); 
+        showEffect(result_json.result, result_json["Voice"]); 
         updateStat();
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
     }
@@ -126,45 +126,53 @@ function updateStat() {
     $('#stat_wrong').html(wrong_sum);    
 }
 
-function showEffect(isCorrect) {
+function showEffect(isCorrect, isVoice) {
     $('#show_panel').show();
     var effectTime = 3;
     var finisheFunc = null;
 
-    if(isCorrect) {
-        $('#teacher').addClass('teacher-right');
-        $('#effect_right').show().addClass("bg-scale-out");
-        $('.icon-reward').addClass('win-effect');
-        
-        effectTime = 1.8;
-        finisheFunc = ()=> {
-            onNextClk();
-        };
-        $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
-    }
-    else {
-        $('#teacher').addClass('teacher-wrong');
-        effectTime = 1;
+    if(isVoice) {
+        $('#show_panel').hide();
         $('#btn_submit').hide();
         $('#btn_next').show();
-        $('#effect_wrong').show();
-        $('#sheet_bg_in').addClass('effect-wrong');
-
-        $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+        $('#q_type_tips').html(QTYPE_TIPS_MAP["VoiceRef"]);
     }
-    
-    setTimeout(() => {
-        $('.icon-reward').removeClass('win-effect');
-        $('#effect_right').hide().removeClass('bg-scale-out');
-        $('#effect_wrong').hide();
-        $('#show_panel').hide();
-        $('#sheet_bg_in').removeClass('effect-wrong');
-
-        if(finisheFunc != null) {
-            finisheFunc();
+    else {
+        if(isCorrect) {
+            $('#teacher').addClass('teacher-right');
+            $('#effect_right').show().addClass("bg-scale-out");
+            $('.icon-reward').addClass('win-effect');
+            
+            effectTime = 1.8;
+            finisheFunc = ()=> {
+                onNextClk();
+            };
+            $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
         }
-        //$('#sheet_bg_out').removeClass('effect-wrong');
-    }, effectTime * 1000);    
+        else {
+            $('#teacher').addClass('teacher-wrong');
+            effectTime = 1;
+            $('#btn_submit').hide();
+            $('#btn_next').show();
+            $('#effect_wrong').show();
+            $('#sheet_bg_in').addClass('effect-wrong');
+
+            $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+        }
+        
+        setTimeout(() => {
+            $('.icon-reward').removeClass('win-effect');
+            $('#effect_right').hide().removeClass('bg-scale-out');
+            $('#effect_wrong').hide();
+            $('#show_panel').hide();
+            $('#sheet_bg_in').removeClass('effect-wrong');
+
+            if(finisheFunc != null) {
+                finisheFunc();
+            }
+            //$('#sheet_bg_out').removeClass('effect-wrong');
+        }, effectTime * 1000);    
+    }
 }
 
 function onQuestionListGet(jsonData) {
@@ -221,7 +229,8 @@ const QTYPE_TIPS_MAP = {
     "CaseAnalyse": "案例与简答题",
     "Voice": "点击上面的录音按钮，并对着麦克风说出你的回答",
     "ERROR": "回答错误, 正确的答案是这样噢！",
-    "SUCCEED": "恭喜你回答正确！"
+    "SUCCEED": "恭喜你回答正确！",
+    "VoiceRef": "点击按钮听参考答案！"
 }
 
 
@@ -305,11 +314,9 @@ function showKeyVoice(result, keyObject) {
     $('#q_type_sheet').html(VOICE_KEY_HTML.replace('***', keyObject));
     $("#au_key_voice").on('play', updateKeyController).on('ended', updateKeyController).on('pause', updateKeyController);
     $("#keyvoice_play").click(playKeyVoice);
-    if(answer_audio!=undefined) {
+    if (answer_audio != undefined) {
         $('#answer_voice_key')[0].appendChild(answer_audio);
     }
-    
-    alert("showKeyVoice");
 }
 
 var VOICE_KEY_HTML = '<div id="voice_key_frame"><div id="answer_voice_key"></div><audio src="/uploaded/***" alt="音频文件，需要支持HTML5 的浏览器" id="au_key_voice">音频文件，需要支持HTML5 的浏览器</audio> \
