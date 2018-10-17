@@ -1,4 +1,5 @@
 import json
+import os
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, QueryDict
 from django.template import loader
@@ -8,6 +9,7 @@ from django.core.files.uploadhandler import TemporaryFileUploadHandler
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.models import model_to_dict
+from django.conf import settings
 
 # Create your views here.
 from CourseFunApp.models import Lesson, Examination, ClassSetting
@@ -474,8 +476,13 @@ def exam_voice_answer(request, student_id, exam_id):
     if request.method == "POST" and request.is_ajax():
         qtype = request.POST["type"]
         qindex = request.POST["index"]
-        fileName = request.db_name + '/student/' + str(student_id) + '/exam/'+str(exam_id) + '/' + str(qtype) +'_'+ str(qindex)+'.wav'
-        abs_fileName = os.path.join(MEDIA_ROOT, fileName)        
+        fileName = request.db_name + '\\student\\' + str(student_id) + '\\exam\\'+str(exam_id)+ '\\' 
+        abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)
+        if not os.path.exists(abs_fileName):
+            os.makedirs(abs_fileName)
+            
+        fileName = fileName + str(qtype) +'_'+ str(qindex)+'.wav'   
+        abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)             
         file = request.FILES['voice']
         handle_audio_file(file, abs_fileName)
         

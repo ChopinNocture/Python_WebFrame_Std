@@ -208,7 +208,7 @@ function checkCurrentAnswer() {
     if(examination[cur_type] == undefined) return;
     
     if(examination[cur_type]["answers"]) {
-        examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key);
+        examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
     }    
 }
 
@@ -267,30 +267,35 @@ function refreshAnswerVoice(answerString) {
 
 }
 
-function checkVoice() { 
+function checkVoice(keyString, result_obj) { 
     var result_json = { 'complete': !is_recording };
-
-
-    result_json['answer'] = "";
+alert(result_obj);
+    if (result_obj != undefined && result_obj['answer'] != '') {
+        result_json['answer'] = result_obj['answer'];
+    }
+    else {
+        voiceSubmit();
+    }
     result_json['result'] = true;
     return result_json;
 }
+
 var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
 function voiceRecEnd(){
     if($("#btn_voice_submit")[0]==undefined || $("#btn_voice_submit")[0]==null ) {
         $("#frame_recorder")[0].appendChild($(VOICE_SUBMIT_HTML)[0]);
     }
-    
-    alert(cur_voice_blob);
 }
 
-function onVoiceFileSubmitted() {
-    alert("onVoiceFileSubmitted");
+function onVoiceFileSubmitted(jsonData) {
+    examination[jsonData['type']]["answers"][jsonData['index']]['answer'] = jsonData['fileName']
 }
 
 function voiceSubmit(event) {
     var formData = new FormData();
     alert(cur_voice_blob);
+    examination[cur_type]["answers"][cur_idx]['answer'];
+
     formData.append("type", cur_type );
     formData.append("index", cur_idx );    
     formData.append("voice", cur_voice_blob);
@@ -304,6 +309,7 @@ function voiceSubmit(event) {
         success: onVoiceFileSubmitted,
     });
 }
+
 //----------------------------------------------------------
 function standardizeExam() {
     var final_answer = { "ts":0 };
