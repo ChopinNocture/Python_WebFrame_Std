@@ -405,3 +405,14 @@ function onBackMain(event) {
 function SucFunc(){
 
 }
+
+//--------------------------------------------------
+//-------------- check --------------
+function checkVoice() { 
+    var result_json = { 'complete': !is_recording };
+
+    result_json['answer'] = "";
+    result_json['result'] = true;
+    result_json["Voice"] = true;
+    return result_json;
+}

@@ -463,9 +463,18 @@ def exam_ready(request):
     return HttpResponse('No Exam')
 
 
+# def handle_audio_file(f, path):
+#     with open('')
+
 @course_required()
-def exam_voice_answer(request):
-    return HttpResponse('No Exam')
+def exam_voice_answer(request, student_id, exam_id):
+    file = request.FILES['voice']
+    print(file.name)
+    if request.method == "POST" and request.is_ajax():
+        pass
+        #print(request.FILES['voice'], request.POST['voice'])
+
+    return JsonResponse({"filePathName":"haha"})
 
 
 # --------------------------------------------------------

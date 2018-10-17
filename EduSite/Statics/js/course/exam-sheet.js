@@ -19,7 +19,7 @@ function onInit(event) {
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
-
+    onStopRecordingFunc = voiceRecEnd;
     initTime();
     initQuestion();
     //examination.
@@ -263,9 +263,45 @@ function refreshAnswerSort(answerString, question) {
 }
 
 function refreshAnswerVoice(answerString) {
-    //alert(answerString);
+    alert(answerString);
+
 }
 
+function checkVoice() { 
+    var result_json = { 'complete': !is_recording };
+
+
+    result_json['answer'] = "";
+    result_json['result'] = true;
+    return result_json;
+}
+var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
+function voiceRecEnd(){
+    if($("#btn_voice_submit")[0]==undefined || $("#btn_voice_submit")[0]==null ) {
+        $("#frame_recorder")[0].appendChild($(VOICE_SUBMIT_HTML)[0]);
+    }
+    
+    alert(cur_voice_blob);
+}
+
+function onVoiceFileSubmitted() {
+    alert("onVoiceFileSubmitted");
+}
+
+function voiceSubmit(event) {
+    var formData = new FormData();
+    alert(cur_voice_blob);
+    formData.append("voice", cur_voice_blob);
+
+    $.ajax({
+        url: $("#exam_form").data("voiceAnswerUrl"),
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: onVoiceFileSubmitted,
+    });
+}
 //----------------------------------------------------------
 function standardizeExam() {
     var final_answer = { "ts":0 };

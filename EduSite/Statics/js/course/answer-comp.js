@@ -367,10 +367,7 @@ function updateRecordTime() {
 }
 
 function stopRecording() {
-    if (is_recording) {
-        if(onStopRecordingFunc) {
-            onStopRecordingFunc();
-        }        
+    if (is_recording) {   
         clearInterval(re_timer);
         is_recording = false;
         $("#voice_recorder").removeClass("recording");
@@ -383,8 +380,10 @@ function stopRecording() {
     }
 }
 
+var cur_voice_blob = null;
 function createReviewer() {
     recorder && recorder.exportWAV(function (blob) {
+        cur_voice_blob = blob;
         var url = URL.createObjectURL(blob);
         var au = document.createElement('audio');
 
@@ -392,17 +391,12 @@ function createReviewer() {
         au.src = url;
         $('#voice_reviewer')[0].appendChild(au);
         answer_audio = au;
+        if(onStopRecordingFunc) {
+            onStopRecordingFunc();
+        }
     });
 }
-//-------------- check --------------
-function checkVoice() { 
-    var result_json = { 'complete': !is_recording };
 
-    result_json['answer'] = "";
-    result_json['result'] = true;
-    result_json["Voice"] = true;
-    return result_json;
-}
 
 //-------------------------------------------------------
 // Question type: CaseAnalyse
