@@ -475,8 +475,9 @@ def exam_voice_answer(request, student_id, exam_id):
         qtype = request.POST["type"]
         qindex = request.POST["index"]
         fileName = request.db_name + '/student/' + str(student_id) + '/exam/'+str(exam_id) + '/' + str(qtype) +'_'+ str(qindex)+'.wav'
+        abs_fileName = os.path.join(MEDIA_ROOT, fileName)        
         file = request.FILES['voice']
-        handle_audio_file(file, fileName)
+        handle_audio_file(file, abs_fileName)
         
         return JsonResponse({"type": qtype, "index": qindex, "fileName": fileName})
 
