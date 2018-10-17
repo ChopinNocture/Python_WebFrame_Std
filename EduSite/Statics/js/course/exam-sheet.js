@@ -274,6 +274,7 @@ alert(result_obj);
         result_json['answer'] = result_obj['answer'];
     }
     else {
+        result_json['answer'] = "";
         voiceSubmit();
     }
     result_json['result'] = true;
@@ -294,8 +295,6 @@ function onVoiceFileSubmitted(jsonData) {
 function voiceSubmit(event) {
     var formData = new FormData();
     alert(cur_voice_blob);
-    examination[cur_type]["answers"][cur_idx]['answer'];
-
     formData.append("type", cur_type );
     formData.append("index", cur_idx );    
     formData.append("voice", cur_voice_blob);
