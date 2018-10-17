@@ -12,7 +12,7 @@ from django.forms.models import model_to_dict
 from django.conf import settings
 
 # Create your views here.
-from CourseFunApp.models import Lesson, Examination, ClassSetting
+from CourseFunApp.models import Lesson, Examination, ClassSetting, ExamAnswer
 import CourseFunApp.models as questionModels
 import CourseFunApp.forms as questionForms
 import CourseFunApp.exam_system as exam_sys
@@ -388,12 +388,13 @@ def answer_sheet(request, sectionID):
 @login_required(login_url='/user/login/')
 @course_required()
 def exam_examination(request, exam_id):
-    if request.method == "GET":
-        try:
-            exam = Examination.objects.using(request.db_name).get(id=exam_id)
-        except Exception as e:
-            print(e)
-            exam = Examination()
+    try:
+        exam = Examination.objects.using(request.db_name).get(id=exam_id)
+    except ObjectDoesNotExist as e:
+        print(e)
+        exam = Examination()
+
+    if request.method == "GET":        
         exam_form = questionForms.ExaminationForm(instance=exam)
 
         return render(request=request, template_name="course/Examination.html",
@@ -403,7 +404,18 @@ def exam_examination(request, exam_id):
                                 "serv_time": str(timezone.now()),
                                 "qTypeList": exam_sys.q_type_list })
     else:
-        return HttpResponse('Lesson Study')
+        if not request.is_ajax(): 
+            return HttpResponse('failed')
+
+        try:
+            exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
+        except ObjectDoesNotExist as e:
+            exam_answer = ExamAnswer(exam=exam, user_id=request.user.id) 
+        print(request.POST['exam'])
+        exam_answer.answer_json = request.POST['exam']
+        exam_answer.save(using=request.db_name)
+
+        return HttpResponse('success')
 
 
 @login_required(login_url='/user/login/')

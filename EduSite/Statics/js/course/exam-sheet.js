@@ -356,6 +356,12 @@ function standardizeExam() {
 function submitExam() {
     var result_JSON = JSON.stringify(standardizeExam());   
     alert(result_JSON);
+    $.ajax({
+        url: '.',
+        type: 'post',
+        data: { "exam": result_JSON },
+        dataType: 'json',
+    });    
 }
 
 function onSubmitClick(event) {

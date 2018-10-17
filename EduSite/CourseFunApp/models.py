@@ -2,8 +2,6 @@ from django.db import models
 # from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 
-from AccountApp.models import StudentProf
-
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
 UNLOCK_NUMBER = 3
@@ -21,7 +19,7 @@ class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.PositiveIntegerField()
     question_list = models.TextField(max_length=1024)  # JSONField()
-    start_time = models.DateTimeField(default=timezone.datetime.now())
+    start_time = models.DateTimeField(default=timezone.datetime.today())
     class_id_list = models.CharField(max_length=128)    # JSONField()
 
     def __str__(self):
@@ -30,8 +28,8 @@ class Examination(models.Model):
 
 # --------------------------------------------------------
 class ExamAnswer(models.Model):
-    exam = models.ForeignKey(Examination, on_delete=models.CASCADE, )
-    stud_prof = models.ForeignKey(StudentProf, on_delete=models.CASCADE, )
+    exam = models.ForeignKey(Examination, on_delete=models.CASCADE )
+    user_id = models.IntegerField()
     answer_json = models.CharField(max_length=2048)    # JSONField()
 
 
