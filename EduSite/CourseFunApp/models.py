@@ -2,6 +2,8 @@ from django.db import models
 # from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 
+from AccountApp.models import StudentProf
+
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
 UNLOCK_NUMBER = 3
@@ -52,10 +54,25 @@ for iter_i in list(MEDIA_CHOICES):
     MEDIA_CHOICES_DICT[list(iter_i)[0]] = list(iter_i)[1]
 
 
+# --------------------------------------------------------
+# ---------------
+def file_voice_question_path(instance, filename):
+    return '{0}/VoiceQuestion/Questions/{1}'.format(instance._state.db, filename)
+
+
+def file_voice_key_path(instance, filename):
+    return '{0}/VoiceQuestion/Keys/{1}'.format(instance._state.db, filename)
+
+
+def file_lesson_path(instance, filename):
+    return '{0}/lessons/{1}/{2}'.format(instance._state.db, instance.lesson.id, filename)
+
+
+# --------------------------------------------------------
 class LessonContent(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, )
     file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
-    file = models.FileField(upload_to='lessons/', null=True, blank=True)
+    file = models.FileField(upload_to=file_lesson_path, null=True, blank=True)
     content = models.TextField()
     class_id_list = models.CharField(max_length=128)
 
@@ -124,9 +141,9 @@ class CaseAnalyseQuestion(Question):
 
 # 语音题
 class VoiceQuestion(Question):
-    qVoice = models.FileField(upload_to='VoiceQuestion/Questions/', null=True, blank=True)
-    key = models.FileField(upload_to='VoiceQuestion/Keys/', null=True, blank=True)
-    
+    qVoice = models.FileField(upload_to=file_voice_question_path, null=True, blank=True)
+    key = models.FileField(upload_to=file_voice_key_path, null=True, blank=True)
+
 
 # ---------------
 # 题目类方法

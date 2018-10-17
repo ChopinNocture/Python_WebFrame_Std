@@ -342,9 +342,13 @@ function onToggleRecord(button) {
     }
 }
 
+var onStartRecordingFunc, onStopRecordingFunc;
+
 function startRecording() {
     if (recorder != undefined) {
-        $('#btn_submit').hide();
+        if(onStartRecordingFunc) {
+            onStartRecordingFunc();
+        }        
         is_recording = true;
         $("#voice_recorder").addClass("recording");
         recorder.clear();
@@ -364,7 +368,9 @@ function updateRecordTime() {
 
 function stopRecording() {
     if (is_recording) {
-        $('#btn_submit').show();
+        if(onStopRecordingFunc) {
+            onStopRecordingFunc();
+        }        
         clearInterval(re_timer);
         is_recording = false;
         $("#voice_recorder").removeClass("recording");

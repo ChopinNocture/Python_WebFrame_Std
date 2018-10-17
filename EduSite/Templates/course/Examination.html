@@ -6,7 +6,9 @@
 <script type="text/javascript" src="{% static 'js/course/exam-sheet.js' %}"></script> 
 {% endblock %} 
 {% block content %}
-<form method="post" action="." id="exam_form" data-typelisturl="{% url 'course:question-list-ids' %}" hidden>
+<form method="post" action="." id="exam_form" 
+    data-typelisturl="{% url 'course:question-list-ids' %}"
+    data-voice-answer-url="{% url 'course:exam_voice_answer' student_id=user_id exam_id=exam_id %}" hidden>
     {% csrf_token %}
     {{form.as_p}}
     <input type="hidden" name="server_time" value="{{serv_time}}" id="id_server_time">

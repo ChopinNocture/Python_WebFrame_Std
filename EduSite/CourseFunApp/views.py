@@ -33,8 +33,6 @@ def get_all_list(request):
         jsonObj = request.POST.get("jsonObj")
         typeListObj = json.loads(s=jsonObj)
 
-        print(typeListObj, "-----------")
-
         quest_all = dict()
         for qtype in typeListObj["typelist"]:
             try:
@@ -91,7 +89,7 @@ def get_question_list_by_ids(request):
     if request.method == "POST" and request.is_ajax():
         try:            
             typeListObj = json.loads(s=request.POST.get("jsonlist"))
-            print(typeListObj, " ---  ", request.POST.get("qtype"), )
+
             jsondata = exam_sys.get_questions_by_id_list(request.POST.get("qtype"), typeListObj['qlist'], request.db_name)
             return JsonResponse(jsondata, safe=False)
         except (AttributeError) as e:
@@ -162,6 +160,8 @@ def question_editor_form(request, qtype, qid=-1):
         if newQuestForm.is_valid():
             quest_in_DB = newQuestForm.save(commit=False)
             quest_in_DB.sectionID = questionModels.Lesson.objects.using(request.db_name).get(id=requestData["sectionID"])
+            if hasattr(quest_in_DB, 'qVoice'):
+                quest_in_DB.qVoice
             quest_in_DB.save(using=request.db_name)
             #            quest_in_DB = newQuestForm.save(commit=False)
             #            formData = newQuestForm.cleaned_data
@@ -221,11 +221,9 @@ def _question_import(request):
                 context={"suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc}
             )    
 
-    return render(
-        request=request, 
+    return render(request=request, 
         template_name="course/Question_Importer.html", 
-        context={"suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc}
-    )
+        context={"suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc})
 
 
 # --------------------------------------------------------
@@ -397,7 +395,9 @@ def exam_examination(request, exam_id):
         exam_form = questionForms.ExaminationForm(instance=exam)
 
         return render(request=request, template_name="course/Examination.html",
-                    context = { "form": exam_form, 
+                    context = { "user_id": request.user.id,
+                                "exam_id": exam_id,
+                                "form": exam_form, 
                                 "serv_time": str(timezone.now()),
                                 "qTypeList": exam_sys.q_type_list })
     else:
@@ -460,6 +460,11 @@ def exam_ready(request):
     if exam:
         return JsonResponse(exam, safe=False)
 
+    return HttpResponse('No Exam')
+
+
+@course_required()
+def exam_voice_answer(request):
     return HttpResponse('No Exam')
 
 

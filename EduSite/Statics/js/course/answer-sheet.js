@@ -24,6 +24,13 @@ function onInit(event) {
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
     $('#btn_back_main').click(onBackMain);
+
+    onStartRecordingFunc = function() {
+        $('#btn_submit').hide();
+    }
+    onStopRecordingFunc = function() {
+        $('#btn_submit').show();
+    }
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 }
 
