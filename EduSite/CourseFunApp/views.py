@@ -480,13 +480,13 @@ def exam_voice_answer(request, student_id, exam_id):
         abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)
         if not os.path.exists(abs_fileName):
             os.makedirs(abs_fileName)
-            
+
         fileName = fileName + str(qtype) +'_'+ str(qindex)+'.wav'   
         abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)             
         file = request.FILES['voice']
         handle_audio_file(file, abs_fileName)
         
-        return JsonResponse({"type": qtype, "index": qindex, "fileName": fileName})
+        return JsonResponse({"type": qtype, "index": qindex, "fileName": settings.MEDIA_URL + fileName})
 
 
 # --------------------------------------------------------

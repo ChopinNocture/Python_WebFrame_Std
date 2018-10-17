@@ -263,19 +263,39 @@ function refreshAnswerSort(answerString, question) {
 }
 
 function refreshAnswerVoice(answerString) {
-    alert(answerString);
+    if(answerString.length>0) {
+        $("#voice_recorder").hide();
+        var au = document.createElement('audio');
 
+        au.controls = true;
+        alert(answerString);    
+        au.src = answerString;
+        $('#voice_reviewer')[0].appendChild(au);
+    }
 }
 
 function checkVoice(keyString, result_obj) { 
     var result_json = { 'complete': !is_recording };
-alert(result_obj);
+
     if (result_obj != undefined && result_obj['answer'] != '') {
         result_json['answer'] = result_obj['answer'];
     }
     else {
         result_json['answer'] = "";
-        voiceSubmit();
+        
+        var formData = new FormData();
+        formData.append("type", cur_type );
+        formData.append("index", cur_idx );    
+        formData.append("voice", cur_voice_blob);
+
+        $.ajax({
+            url: $("#exam_form").data("voiceAnswerUrl"),
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: onVoiceFileSubmitted,
+        });
     }
     result_json['result'] = true;
     return result_json;
@@ -293,20 +313,7 @@ function onVoiceFileSubmitted(jsonData) {
 }
 
 function voiceSubmit(event) {
-    var formData = new FormData();
-    alert(cur_voice_blob);
-    formData.append("type", cur_type );
-    formData.append("index", cur_idx );    
-    formData.append("voice", cur_voice_blob);
-
-    $.ajax({
-        url: $("#exam_form").data("voiceAnswerUrl"),
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: onVoiceFileSubmitted,
-    });
+    checkCurrentAnswer();
 }
 
 //----------------------------------------------------------
