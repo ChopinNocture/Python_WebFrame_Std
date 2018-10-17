@@ -291,6 +291,8 @@ function onVoiceFileSubmitted() {
 function voiceSubmit(event) {
     var formData = new FormData();
     alert(cur_voice_blob);
+    formData.append("type", cur_type );
+    formData.append("index", cur_idx );    
     formData.append("voice", cur_voice_blob);
 
     $.ajax({

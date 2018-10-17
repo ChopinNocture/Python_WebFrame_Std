@@ -463,18 +463,22 @@ def exam_ready(request):
     return HttpResponse('No Exam')
 
 
-# def handle_audio_file(f, path):
-#     with open('')
+def handle_audio_file(f, fileName):
+    with open(fileName, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 
 @course_required()
 def exam_voice_answer(request, student_id, exam_id):
-    file = request.FILES['voice']
-    print(file.name)
     if request.method == "POST" and request.is_ajax():
-        pass
-        #print(request.FILES['voice'], request.POST['voice'])
-
-    return JsonResponse({"filePathName":"haha"})
+        qtype = request.POST["type"]
+        qindex = request.POST["index"]
+        fileName = request.db_name + '/student/' + str(student_id) + '/exam/'+str(exam_id) + '/' + str(qtype) +'_'+ str(qindex)+'.wav'
+        file = request.FILES['voice']
+        handle_audio_file(file, fileName)
+        
+        return JsonResponse({"type": qtype, "index": qindex, "fileName": fileName})
 
 
 # --------------------------------------------------------
