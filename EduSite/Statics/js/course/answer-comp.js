@@ -53,11 +53,11 @@ function refreshTrueOrFalse(question) {
     // html_str += '<input type="radio" name="TF_Answer" id="TF_Wrong" value="Wrong"/><label>Wrong</label>';
 
     html_str = '<div class="option-group">\
-                    <span id="span_r"/><input type="radio" name="inlineRadioOptions" id="TF_Right" value="Right">\
+                    <span id="span_r"/><input type="radio" name="inlineRadioOptions" id="TF_Right" value="Right"/>\
                     <label for="TF_Right" class="full-line">正 确</label>\
                 </div>\
                 <div class="option-group">\
-                    <span id="span_w"/><input type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong">\
+                    <span id="span_w"/><input type="radio" name="inlineRadioOptions" id="TF_Wrong" value="Wrong"/>\
                     <label for="TF_Wrong" class="full-line">错 误</label> </div>';
 
     $('#q_type_sheet').html(html_str);
@@ -306,8 +306,14 @@ function playQVoice() {
 
 function updateProgress() {
     var audio = $("#au_q_voice")[0];
-    var perNum = (audio.currentTime / audio.duration) * 100
-    $("#qvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+    if(audio==undefined || audio==null ) {
+        clearInterval(timer);
+        return;
+    }
+    else {
+        var perNum = (audio.currentTime / audio.duration) * 100
+        $("#qvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+    }
 }
 
 function updateController() {

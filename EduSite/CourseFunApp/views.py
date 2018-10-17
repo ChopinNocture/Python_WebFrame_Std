@@ -1,7 +1,7 @@
 import json
 import os
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, QueryDict
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, HttpResponseRedirect, QueryDict
 from django.template import loader
 from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError, ObjectDoesNotExist
@@ -415,7 +415,7 @@ def exam_examination(request, exam_id):
         exam_answer.answer_json = request.POST['exam']
         exam_answer.save(using=request.db_name)
 
-        return HttpResponse('success')
+        return JsonResponse({'url':'/user/student/'})
 
 
 @login_required(login_url='/user/login/')
@@ -445,7 +445,7 @@ def exam_editor(request):
             return HttpResponseNotAllowed(e)
 
         return HttpResponse("Success!")
-
+        
     elif request.method == "GET":
         class_list = ClassInfo.objects.all()
         exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'title')

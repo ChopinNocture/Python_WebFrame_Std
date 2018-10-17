@@ -227,8 +227,12 @@ function refreshAnswerFillInBlank(answerString) {
 
 function refreshAnswerTrueOrFalse(answerString) {
     if(answerString!=undefined) {
-        $('#TF_Right').prop('checked', answerString ? "checked" : "no");
-        $('#TF_Wrong').prop('checked', !answerString ? "checked" : "no");
+        if(answerString){
+            $('#TF_Right').prop('checked', "checked");
+        }
+        else {
+            $('#TF_Wrong').prop('checked', "checked");
+        }
     }    
 }
 
@@ -282,20 +286,21 @@ function checkVoice(keyString, result_obj) {
     }
     else {
         result_json['answer'] = "";
-        
-        var formData = new FormData();
-        formData.append("type", cur_type );
-        formData.append("index", cur_idx );    
-        formData.append("voice", cur_voice_blob);
+        if(cur_voice_blob!=null) {
+            var formData = new FormData();
+            formData.append("type", cur_type );
+            formData.append("index", cur_idx );    
+            formData.append("voice", cur_voice_blob);
 
-        $.ajax({
-            url: $("#exam_form").data("voiceAnswerUrl"),
-            type: 'post',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: onVoiceFileSubmitted,
-        });
+            $.ajax({
+                url: $("#exam_form").data("voiceAnswerUrl"),
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: onVoiceFileSubmitted,
+            });
+        }
     }
     result_json['result'] = true;
     return result_json;
@@ -355,12 +360,13 @@ function standardizeExam() {
 
 function submitExam() {
     var result_JSON = JSON.stringify(standardizeExam());   
-    alert(result_JSON);
+
     $.ajax({
         url: '.',
         type: 'post',
         data: { "exam": result_JSON },
         dataType: 'json',
+        success: onSubmitSuccess
     });    
 }
 
@@ -385,4 +391,8 @@ function onConfirmClick(event) {
 
 function onCancelClick(event) {
     hideModel();
+}
+
+function onSubmitSuccess(data) {
+    $(location).attr('href', data['url']);
 }
