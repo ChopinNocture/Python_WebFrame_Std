@@ -419,6 +419,16 @@ def exam_examination(request, exam_id):
         return JsonResponse({'url':'/user/student/'})
 
 
+@course_required()
+def exam_addition_score(request, examans_id):
+    if request.is_ajax() and request.method == "POST":
+        examAns = ExamAnswer.objects.using(request.db_name).get(id=examans_id)        
+        print(request.POST['addition_score'])
+        examAns.addition_score = request.POST['addition_score']
+        examAns.save()
+        return HttpResponse("Suc")
+
+
 @login_required(login_url='/user/login/')
 @course_required()
 def exam_editor(request):

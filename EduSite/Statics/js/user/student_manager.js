@@ -14,11 +14,9 @@ function onClassSelect(event) {
     $.get(event.target.dataset.url + event.target.dataset.clsId, updateStudentList);
 }
 
-
 function onDeleteClick(event) {
     ShowInfo("---------");
 }
-
 
 function updateStudentList(htmlData) {
     $('#stu_li_con').html(htmlData);
@@ -34,4 +32,28 @@ function onStudentSelected(event) {
 
 function updateStudenProf(htmlData) {
     $('#stud_prof').html(htmlData);
+    refreshTable();
+}
+
+function refreshTable() {
+    $("td[id^=fin_]").each(function (index, elem) {
+        refreshFinalScore(elem.dataset['index']);        
+    });
+}
+
+function refreshFinalScore(idx) {
+    $("#fin_" + idx).html( Number($("#score_"+idx).html()) + Number($("#add_"+idx).val()) );
+}
+
+function onAddChanged(event) {
+    refreshFinalScore(event.target.dataset["index"]);
+}
+
+function onConfirm(event) {
+    $.ajax({
+        url: event.target.dataset['url'],
+        type: 'post',
+        data: {'addition_score': $("#add_"+event.target.dataset["index"]).val()},
+        dataType: "json"        
+    });
 }

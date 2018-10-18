@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<h2 class="text-center font-weight-bold p-1 text- text_outline ">学生信息管理</h2>
 <div class="container-fluid">
     <div class="row m-1">
         <div class="col-2 m-0 p-0">
@@ -18,8 +19,7 @@
                 
                 {% for cls in class_list %}
                 <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
-                    onclick = "onClassSelect(event)" onfocus="this.blur()"
-                    tabindex = "-1"
+                    onclick = "onClassSelect(event)" onfocus="this.blur()" tabindex = "-1"
                     data-url="{% url 'user:student_list' %}"
                     data-cls-id="{{cls.id}}" 
                     data-toggle="tooltip" data-placement="right" 
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-7">
+        <div class="col-6">
             <form class="form-horizontal" action="." method="post" id="Form_Student" onsubmit="return false;">            
                 {% csrf_token %}
                 <div id="stud_prof">
@@ -54,7 +54,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-1"></div>
+        <div class="col-2"></div>
     </div>
 </div>
 

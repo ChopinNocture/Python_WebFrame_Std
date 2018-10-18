@@ -10,20 +10,28 @@
 {{form_student.level}}
 
 
-<table class="table table-hover table-dark">
-    <thead>
+<table class="table table-striped table-light table-bordered">
+    <thead class="thead-dark">
         <tr>
-            <th scope="col">考试</th>
+            <th scope="col">参与的考试</th>
             <th scope="col">成绩</th>
             <th scope="col">附加分</th>
+            <th scope="col">最终成绩</th>
+            <th scope="col">确定</th>
         </tr>
     </thead>
     <tbody>
         {% for exam_ans in exam_ans_list %}
         <tr>
-            <td>{{exam_ans.title}}</td>
-            <td>{{exam_ans.score}}</td>
-            <td>{{exam_ans.addition_score}}</td>
+            <td width="25%">{{exam_ans.title}}</td>
+            <td width="20%" id="score_{{forloop.counter0}}">{{exam_ans.score}}</td>
+            <td width="20%"><input type="number" 
+                onchange="onAddChanged(event)" id="add_{{forloop.counter0}}" min="0" class="form-control w-100" 
+                data-index="{{forloop.counter0}}" value="{{exam_ans.addition_score}}"/></td>
+            <td width="20%" id="fin_{{forloop.counter0}}" data-index="{{forloop.counter0}}"></td>
+            <td width="15%"><button class="btn btn-dark" onfocus="this.blur()"
+                onclick="onConfirm(event)" data-index="{{forloop.counter0}}" 
+                data-url="{% url 'course:exam_addition_score' examans_id=exam_ans.id %}" tabindex = "-1">确定</button></td>
         </tr>
         {% endfor %}
     </tbody>
