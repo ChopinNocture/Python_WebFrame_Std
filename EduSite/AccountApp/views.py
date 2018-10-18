@@ -9,7 +9,7 @@ from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm, Student_Prof_Form
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course
 from AccountApp.decorators import course_required
-from CourseFunApp.models import Lesson, ClassSetting, UNLOCK_NUMBER
+from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination, UNLOCK_NUMBER
 
 
 def user_login(request):
@@ -99,10 +99,17 @@ def get_student_prof(request, student_id):
 
     if request.method == 'GET':
         user = User.objects.get(id=student_id)
-        stu_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)
-        stu_form = Student_Prof_Form(instance=stu_prof)
+
+        stud_prog = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)
+        stu_form = Student_Prof_Form(instance=stud_prog)
     
-        return render(request, 'user/student_prof.html', {'form_student': stu_form})
+        exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(user_id=student_id).values("exam", "id", "score", "addition_score")
+        for exam_ans in exam_ans_list:
+            exam = Examination.objects.using(request.db_name).get(id=exam_ans['exam'])
+            exam_ans['title'] = exam.title
+            
+        return render(request, 'user/student_prof.html', 
+                            {'form_student': stu_form, 'exam_ans_list': exam_ans_list})
 
 
 # 

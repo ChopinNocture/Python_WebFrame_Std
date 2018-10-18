@@ -413,6 +413,7 @@ def exam_examination(request, exam_id):
             exam_answer = ExamAnswer(exam=exam, user_id=request.user.id) 
         print(request.POST['exam'])
         exam_answer.answer_json = request.POST['exam']
+        exam_answer.score = request.POST['score']
         exam_answer.save(using=request.db_name)
 
         return JsonResponse({'url':'/user/student/'})
@@ -488,12 +489,12 @@ def exam_voice_answer(request, student_id, exam_id):
     if request.method == "POST" and request.is_ajax():
         qtype = request.POST["type"]
         qindex = request.POST["index"]
-        fileName = request.db_name + '\\student\\' + str(student_id) + '\\exam\\'+str(exam_id)+ '\\' 
+        fileName = request.db_name + '\\student\\' + str(student_id) + '\\exam\\' + str(exam_id) + '\\' 
         abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)
         if not os.path.exists(abs_fileName):
             os.makedirs(abs_fileName)
 
-        fileName = fileName + str(qtype) +'_'+ str(qindex)+'.wav'   
+        fileName = fileName + str(qtype) + '_' + str(qindex) + '.wav'   
         abs_fileName = os.path.join(settings.MEDIA_ROOT, fileName)             
         file = request.FILES['voice']
         handle_audio_file(file, abs_fileName)

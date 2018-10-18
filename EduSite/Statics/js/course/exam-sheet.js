@@ -359,12 +359,13 @@ function standardizeExam() {
 }
 
 function submitExam() {
-    var result_JSON = JSON.stringify(standardizeExam());   
+    var result_dict = standardizeExam()
+    var result_JSON = JSON.stringify(result_dict);
 
     $.ajax({
         url: '.',
         type: 'post',
-        data: { "exam": result_JSON },
+        data: { "exam": result_JSON, "score": result_dict['ts'] },
         dataType: 'json',
         success: onSubmitSuccess
     });    

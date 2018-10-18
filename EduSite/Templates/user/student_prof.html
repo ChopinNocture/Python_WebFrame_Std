@@ -1,5 +1,34 @@
-<form class="form-horizontal" action="." method="post" id="Form_Student" onsubmit="return false;">
-    {% csrf_token %}
-    {{form_student.as_p}}
-    <!--input class="form-control" type="submit" value="Add" form="Form_QuestionEditor"-->
-</form>
+{{form_student.user_id.errors}}
+{{form_student.user_id}}
+{{form_student.gold.errors}}
+{{form_student.gold}}
+{{form_student.progress.errors}}
+{{form_student.progress}}
+{{form_student.rank.errors}}
+{{form_student.rank}}
+{{form_student.level.errors}}
+{{form_student.level}}
+
+
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">考试</th>
+            <th scope="col">成绩</th>
+            <th scope="col">附加分</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exam_ans in exam_ans_list %}
+        <tr>
+            <td>{{exam_ans.title}}</td>
+            <td>{{exam_ans.score}}</td>
+            <td>{{exam_ans.addition_score}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<!--input class="form-control" type="submit" value="Add" form="Form_QuestionEditor"-->

@@ -18,7 +18,7 @@ class ClassSetting(models.Model):
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.PositiveIntegerField()
-    question_list = models.TextField(max_length=1024, default='none')  # JSONField()
+    question_list = models.TextField(max_length=2048, default='none')  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.today())
     class_id_list = models.CharField(max_length=128, default='none')    # JSONField()
 
@@ -30,7 +30,9 @@ class Examination(models.Model):
 class ExamAnswer(models.Model):
     exam = models.ForeignKey(Examination, on_delete=models.CASCADE )
     user_id = models.IntegerField()
-    answer_json = models.CharField(max_length=2048)    # JSONField()
+    answer_json = models.CharField(max_length=4096)    # JSONField()
+    score = models.IntegerField(default=0, blank=True)
+    addition_score = models.IntegerField(default=0, blank=True)
 
 
 # --------------------------------------------------------
