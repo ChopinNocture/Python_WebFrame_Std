@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, get_user
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp import COURSE_KEY
-from AccountApp.forms import LoginForm, Student_Prof_Form
+from AccountApp.forms import LoginForm
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination, UNLOCK_NUMBER
@@ -99,30 +99,31 @@ def get_student_prof(request, student_id):
 
     if request.method == 'GET':
         user = User.objects.get(id=student_id)
-
-        stud_prog = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)
-        stu_form = Student_Prof_Form(instance=stud_prog)
-    
+        stud_prof = StudentProf.objects.get(user=user)
+        stud_prog = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)    
         exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(user_id=student_id).values("exam", "id", "score", "addition_score")
         for exam_ans in exam_ans_list:
             exam = Examination.objects.using(request.db_name).get(id=exam_ans['exam'])
             exam_ans['title'] = exam.title
             
         return render(request, 'user/student_prof.html', 
-                            {'form_student': stu_form, 'exam_ans_list': exam_ans_list})
+                            {'stud_prog': stud_prog, 'stud_prof': stud_prof, 'exam_ans_list': exam_ans_list})
 
 
 # 
+@login_required(login_url='/user/login/')
 @course_required()
 def award_score(request):    
-    if request.method == "POST":        
-        cur_user = get_user(request)
-        if isinstance(cur_user, AnonymousUser):
-            return HttpResponse("failed!")
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        if user_id==None:
+            cur_user = get_user(request)
+            if not isinstance(cur_user, AnonymousUser):
+                user_id = cur_user.id
+
         try:
-            cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
+            cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=user_id)
             gold_award = int(request.POST.get('gold'))
-            print(gold_award)
             cur_prof.gold = cur_prof.gold + gold_award
             cur_prof.save()
 
@@ -130,7 +131,7 @@ def award_score(request):
             print(e)
 
         # return HttpResponseRedirect('/user/student/')
-        return HttpResponse("Succeed!", status=200)
+        return JsonResponse({})
     else:
         return HttpResponse("failed!")
 

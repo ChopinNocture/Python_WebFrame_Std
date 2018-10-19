@@ -9,7 +9,7 @@
 {% block content %} 
 {% csrf_token %}
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">班级设置</h2>
-<div class="container-fluid">
+<div class="container-fluid border border-dark mx-5 p-1 rounded bg_gray_d2u">
     <div class="row">
         <div class="col-3">
             <div class="card bg-info">                
@@ -17,7 +17,6 @@
                     <div class="card-header text-center">
                         <h5 class="card-title">班级列表</h5>
                     </div>
-                    
                     {% for cls in class_list %}
                     <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
                         onclick = "onClassSelect(event)" onfocus="this.blur()"
@@ -26,12 +25,11 @@
                         data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
                         title="{{cls.class_name}}" >{{cls.class_name}}
                     </button>
-                    {% endfor %}                
-                    
+                    {% endfor %}                    
                 </div>                
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-3 border-info border-right border-left">
             <div class="card bg-info border-0">
                 <div class="card-header card-header-sm">
                     <h5 class="card-title">试炼模式设置</h5>                    
@@ -75,6 +73,6 @@
 {% endblock %}
 
 {% block pageInclude %}
-
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/edu/teacher/class_setting.css' %}"/>    
 {% endblock %} 

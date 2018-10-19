@@ -11,6 +11,8 @@ function onClassSelect(event) {
     $(event.target).addClass('active');
 
     $('#class_selector').html(event.target.innerHTML);
+    $('#stu_li_con').html("");
+    $('#stud_prof').html("");
     $.get(event.target.dataset.url + event.target.dataset.clsId, updateStudentList);
 }
 
@@ -56,4 +58,21 @@ function onConfirm(event) {
         data: {'addition_score': $("#add_"+event.target.dataset["index"]).val()},
         dataType: "json"        
     });
+}
+
+function onCoinGiven(event) {
+    var gold_add = $("#gold_given").val();
+    if(gold_add) {    
+        $.ajax({
+            url: event.target.dataset['url'],
+            type: 'post',
+            data: { 'user_id': event.target.dataset['userid'], 'gold': gold_add},
+            dataType: "json",
+            success: onCoinSuc
+        });
+    }
+}
+
+function onCoinSuc() {
+    $.get($("#id_confirm").data('profurl'), updateStudenProf);    
 }

@@ -9,7 +9,7 @@
 
 {% block content %}
 <h2 class="text-center font-weight-bold p-1 text- text_outline ">学生信息管理</h2>
-<div class="container-fluid">
+<div class="container-fluid border border-dark mx-5 p-1 rounded bg_black_u2d">
     <div class="row m-1">
         <div class="col-2 m-0 p-0">
             <div class="card bg-secondary text-light">
@@ -28,7 +28,7 @@
                 {% endfor %}               
             </div>                
         </div>
-        <div class="col-2 m-0 p-0">
+        <div class="col-2 m-0 p-0 pr-2">
             <div class="card bg-white">
                 <div class="card-header text-center text-dark">
                     <h5 class="card-title">学生列表</h5>
@@ -46,13 +46,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <form class="form-horizontal" action="." method="post" id="Form_Student" onsubmit="return false;">            
-                {% csrf_token %}
-                <div id="stud_prof">
+        <div class="col-6 border-dark border-right border-left">
+            {% csrf_token %}
+            <div id="stud_prof" class="">
 
-                </div>
-            </form>
+            </div>
         </div>
         <div class="col-2"></div>
     </div>
@@ -86,5 +84,6 @@
 {% endblock %} 
 
 {% block pageInclude %}
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/edu/teacher/student_manager.css' %}"/>
 {% endblock %} 
