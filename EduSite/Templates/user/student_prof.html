@@ -44,7 +44,7 @@
                 onchange="onAddChanged(event)" id="add_{{forloop.counter0}}" min="0" class="form-control w-100" 
                 data-index="{{forloop.counter0}}" value="{{exam_ans.addition_score}}"/></td>
             <td width="20%" id="fin_{{forloop.counter0}}" data-index="{{forloop.counter0}}"></td>
-            <td width="15%"><button class="btn btn-dark" onfocus="this.blur()"
+            <td width="15%"><button class="btn btn-dark m-0" onfocus="this.blur()"
                 onclick="onConfirm(event)" data-index="{{forloop.counter0}}" 
                 data-url="{% url 'course:exam_addition_score' examans_id=exam_ans.id %}" tabindex = "-1">确定</button></td>
         </tr>

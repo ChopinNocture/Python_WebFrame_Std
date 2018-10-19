@@ -9,60 +9,58 @@
 {% block content %} 
 {% csrf_token %}
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">班级设置</h2>
-<div class="container-fluid border border-dark mx-5 p-1 rounded bg_gray_d2u">
-    <div class="row">
-        <div class="col-3">
-            <div class="card bg-info">                
-                <div class="card bg-secondary text-white">
-                    <div class="card-header text-center">
-                        <h5 class="card-title">班级列表</h5>
-                    </div>
-                    {% for cls in class_list %}
-                    <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
-                        onclick = "onClassSelect(event)" onfocus="this.blur()"
-                        tabindex = "-1"
-                        data-url= "{% url 'course:class_prac' class_id=9999 %}"
-                        data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
-                        title="{{cls.class_name}}" >{{cls.class_name}}
-                    </button>
-                    {% endfor %}                    
-                </div>                
-            </div>
+<div class="row border border-dark mx-3 p-2 rounded bg_gray_d2u">
+    <div class="col-3 p-2">
+        <div class="card bg-info">                
+            <div class="card bg-secondary text-white">
+                <div class="card-header text-center">
+                    <h5 class="card-title">班级列表</h5>
+                </div>
+                {% for cls in class_list %}
+                <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
+                    onclick = "onClassSelect(event)" onfocus="this.blur()"
+                    tabindex = "-1"
+                    data-url= "{% url 'course:class_prac' class_id=9999 %}"
+                    data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
+                    title="{{cls.class_name}}" >{{cls.class_name}}
+                </button>
+                {% endfor %}                    
+            </div>                
         </div>
-        <div class="col-3 border-info border-right border-left">
-            <div class="card bg-info border-0">
-                <div class="card-header card-header-sm">
-                    <h5 class="card-title">试炼模式设置</h5>                    
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_0" value="normal">
-                        <label class="form-check-label  text-warning" for="prac_mode_0">普通模式</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_1" value="lock">
-                        <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
-                    </div>
-                    <p class="small text-danger">“普通模式”无需解锁，试炼直接开放。“通关模式”需要先进行资料学习。</p>
-                </div>
-                <div class="card-header card-header-sm">
-                    <h5 class="card-title">当前试炼题目数量设置</h5>
-                </div>
-                {% for qType in qTypeList %}
-                <div class="input-group w-100">
-                    <div class="input-group-prepend w-50">
-                        <span class="input-group-text bg-dark text-light border-secondary w-100" 
-                        data-qtype="{{qType}}"
-                        id="QType_{{qType}}">{{qType}}</span>
-                    </div>
-                    <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
-                </div>
-                {% endfor %}
-                <div class="card-footer text-center">
-                    <button class="btn btn-warning" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-1"></div>
     </div>
+    <div class="col-3 py-2 border-info border-right border-left">
+        <div class="card bg-info border-0">
+            <div class="card-header card-header-sm">
+                <h5 class="card-title">试炼模式设置</h5>                    
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_0" value="normal">
+                    <label class="form-check-label  text-warning" for="prac_mode_0">普通模式</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_1" value="lock">
+                    <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
+                </div>
+                <p class="small text-danger">“普通模式”无需解锁，试炼直接开放。“通关模式”需要先进行资料学习。</p>
+            </div>
+            <div class="card-header card-header-sm">
+                <h5 class="card-title">当前试炼题目数量设置</h5>
+            </div>
+            {% for qType in qTypeList %}
+            <div class="input-group w-100">
+                <div class="input-group-prepend w-50">
+                    <span class="input-group-text bg-dark text-light border-secondary w-100" 
+                    data-qtype="{{qType}}"
+                    id="QType_{{qType}}">{{qType}}</span>
+                </div>
+                <input type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
+            </div>
+            {% endfor %}
+            <div class="card-footer text-center">
+                <button class="btn btn-warning" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-1 py-2"></div>
 </div>
 
 
