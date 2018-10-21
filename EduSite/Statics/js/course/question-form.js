@@ -595,13 +595,28 @@ function refreshCaseAnalyse() {
 }
 
 var SUB_QUEST = '<div class="input-group">**</div>';
-var SUB_TYPE_HTML = '<span class="bg-info" style="width:10%">**</span>';
+var SUB_TYPE_HTML = '<div class="input-group-prepend" style="width:18%">\
+                        <span class="input-group-text text-warning bg-info w-100">**</span>\
+                    </div>\
+                    <input type="text" class="form-control" value="**" disabled>\
+                    <div class="input-group-append"> \
+                        <button type="button" class="btn btn-danger" onfocus="this.blur()" tabindex="-1" data-idx="**" onclick="onDeleteSubQuestion(event)">删除</button>\
+                    </div>';
+
+function onDeleteSubQuestion(event) {
+    subQuestions.splice(event.target.dataset['idx'], 1);
+    var subQ_Panel = $('#SubQ_Panel');
+    subQ_Panel.html("");
+    subQuestions.forEach(function (iter, index, array) {
+        subQ_Panel.append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[iter.qType])).replace('**', iter.qDesc).replace('**', index ) );
+    });
+}
 
 function onAddSubQuestion() {
-    var newSubQ = {'qType':$('#sub_type_sel').val(), 'qid':$('#sub_question_sel').val()};
-    subQuestions.push(newSubQ);
-    $('#SubQ_Panel').append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[newSubQ.qType] )+ $('#sub_question_sel').find("option:selected").text()));
-    alert(JSON.stringify(subQuestions));
+    var newSubQ = {'qType':$('#sub_type_sel').val(), 'qid':$('#sub_question_sel').val(), 'qDesc':$('#sub_question_sel').find("option:selected").text() };    
+    $('#SubQ_Panel').append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[newSubQ.qType])).replace('**', newSubQ.qDesc).replace('**', subQuestions.length ) );
+    subQuestions.push(newSubQ);    
+    //alert(JSON.stringify(subQuestions));
 }
 
 function handleSubSectionChange(event) {
