@@ -325,13 +325,14 @@ body {
 }
 
 #pen_icon {
+    width: 3rem 3rem;
     position: absolute;
     right: 0rem;
     bottom: -4rem;
 }
 
 .pen_doing {
-    transform: rotate(-20deg);
+    transform: rotate(-0deg);
     transform-origin: 70% 68%;
     transition-duration: 0.6s;
     transition-property: transform;
@@ -343,7 +344,7 @@ body {
     transition-duration: 0.6s;
     transition-property: transform;
     transition-timing-function: ease;
-    transform: rotate(-72deg);    
+    transform: rotate(-60deg);    
 }
 
 #show_panel {

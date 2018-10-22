@@ -92,16 +92,18 @@
             </ul>
         </div>
     </div>
-    <div class="" id="hanging_panel">
+    <div class="" id="hanging_panel_left">
         <div class="card text-white bg-warning mb-3" id="notice_panel">  
-            <img src="{% static 'images\tree.png' %}" id="tree_img"/>
-            <div id="inner_panel">
+            <img src="{% static 'images\icon_notice.png' %}" id="tree_img"/>
+            <div id="inner_panel">                
                 <h3>公  告</h3>
                 <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
                     暂时没有新的公告
                 </div>
             </div>            
         </div>
+    </div>
+    <div class="" id="hanging_panel_right">
         <div class="card text-white bg-info mb-3" id="billboard_panel">
             <div class="card-body" id="billboard_content">
                 <ul class="list-group list-group-flush">

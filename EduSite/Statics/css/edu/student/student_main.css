@@ -7,10 +7,10 @@ html {
 }
 
 body {
-    background-image: url('/Statics/images/BGs/stu_main_BG.jpg');
+    background-image: url('/Statics/images/BGs/Levels.png');
     background-blend-mode: normal;
-    background-size: cover;
-    background-repeat: no-repeat;
+    /* background-size: cover; */
+    background-repeat: repeat; /* no-repeat;*/
     background-position: left top;
     background-attachment: fixed;
     background-origin: inherit;
@@ -28,6 +28,7 @@ body {
     /* border: 3px solid;
     border-radius: 1rem;
     background-color: rgba(238, 129, 78, 0.63); */
+    background-image: url('/Statics/images/BGs/Home.png');
 }
 
 
@@ -221,7 +222,7 @@ body {
     position: fixed;
     /* border: 1px dotted; */
     background-size: 100% 100%;
-    background-image: url('/Statics/images/yoyo4.png');   
+    /* background-image: url('/Statics/images/yoyo4.png');    */
     alt: "cc";
 }
 
@@ -497,68 +498,75 @@ body {
 }
 
 /*-------------------------------------------------------------*/
-#hanging_panel {    
-    left: 64rem;
-    top: 6rem;
-    position: absolute;
+#hanging_panel_right, #hanging_panel_left {
+    position: fixed;
+    top: 6rem;  
+}   
+
+#hanging_panel_right { 
+    right: 0.5rem;  
+}
+
+#hanging_panel_left {
+    left: 0.2rem;
 }
 
 #notice_panel {
-    width: 18rem;
-    background-color: rgb(112, 188, 219);
+    width: 15rem;
+    background-color: #eb6a91;
     border-style: solid;
     border-width: 0.075rem 0.125rem 0.125rem 0.075rem;
-    border-color: #e6f0f3;
+    border-color: #e7aabd;
     /* border-right-color: #207aa3;
     border-bottom-color: #207aa3; */
     border-radius: 1rem;
-    box-shadow: 0.125rem 0.25rem 0.25rem #207aa3;
+    box-shadow: 0.125rem 0.25rem 0.25rem #853b51;
     text-align: center;
 }
 
 #tree_img {
     z-index: 0;
-    top: 8.5rem;
-    right: 0.2rem;
+    top: -1.5rem;
+    left: -0.5rem;
     position: absolute;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 #notice_panel #inner_panel {
     z-index: 2;
-    height: 10rem;
-    margin: 0.8rem 0.75rem 0.5rem 0.5rem; 
+    min-height: 14rem;
+    margin: 0.6rem 0.5rem 0.4rem 0.5rem; 
     padding: 0.125rem 0.125rem 0.125rem 0.125rem;
     background-color: rgba(255, 255, 255, 0.95);
     border-style: solid;
     border-radius: 0.75rem;
-    border-top-color: #d1dfe3;
-    border-bottom-color: #8793bf;
-    border-width: 2rem 0rem 0.25rem 0rem;
-    box-shadow: 0.25rem 0.125rem 0.1rem #8793bf;
+    border-top-color: #ebced7;
+    border-bottom-color: #aa4d69;
+    border-width: 2.8rem 0rem 0.25rem 0rem;
+    box-shadow: 0.25rem 0.125rem 0.1rem #aa4d69;
 }
 
 #notice_panel #inner_panel h3 {
-    color: #6898c2;
-    font-size: 1.4rem;
+    color: #418cce;
+    font-size: 1.6rem;
     font-weight: 900;
     position: absolute;
-    top: -0.3rem;
+    top: -0.4rem;
     width: 92%;
     text-align: center;
     text-indent: 0em;
-    text-shadow: 0.125rem 0.125rem 0.5rem #32515c;
+    text-shadow: 0.125rem 0.125rem 0.5rem #528fa7;
 }
 
 #notice_show {
     padding: 0.1rem 0.8rem 0.5rem 0.8rem;
-    font-size: 1.1rem;
-    color: #dd6755;
+    font-size: 1rem;
+    color: #dd5582;
     position: relative;
     top: 0.4rem;
     line-height: 1.3em;
     text-align: left;
-    text-indent: 2em;
+    text-indent: 0em;
     text-shadow: 0rem 0rem 0.05rem #64281f;
 }
 
