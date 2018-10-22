@@ -227,14 +227,14 @@ body {
 }
 
 #lesson_list_panel {
-    text-align: center;
-    align-content: center;    
+    /* text-align: center;
+    align-content: center;     */
     position: absolute;
     left: 12.6rem;
-    top: 1rem;
-    width: 8rem;
-    height: 32rem;      
-    /* border: 1px dotted;  */
+    top: 28rem;
+    width: 50rem;
+    height: 8rem;      
+    border: 1px dotted;
 }
 
 .lesson-book-b, .lesson-book-u, .lesson-book { 
@@ -260,7 +260,7 @@ body {
     align-content: center;
     background-position: center 50%;
     background-size: 80% 70%;
-    background-image: url('/Statics/images/book-close-m.png');    
+    background-image: url('/Statics/images/Book.png');    
 }
 
 .btn-up {
@@ -278,7 +278,7 @@ body {
 }
 
 #lesson_ctrl span {
-    display: inline-block;
+    display: block;
     position: relative;
     top: 0rem;
     left: 0rem;
@@ -286,33 +286,48 @@ body {
     height: 10rem;
 }
 
+#move_prev, #move_next {
+    width: 4rem;
+    height: 4rem;
+    display: block;
+    position: absolute;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);    
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+    top: 1rem;
+}
+
 #move_prev {
-    position: relative;
-    top: 0%;
+    
+    background-image: url('/Statics/images/arrows_left.png');
+    left: 0%;
 }
 
 #move_next {
-    position: relative;
-    bottom: 0%;
-    transform: rotate(180deg);
+    right: 0%;
+    /* transform: rotate(180deg); */
+    background-image: url('/Statics/images/arrows_right.png');
 }
 
 #lesson_ctrl {
     position: relative;
     top: 0rem;
-    width: 8rem;
-    height: 30.2rem; 
-    /* border: 1px dashed;  */
-    overflow: hidden;   
+    left: 5rem;
+    width: 40rem;
+    height: 8rem; 
+    border: 1px dashed;  
+    /* overflow: hidden;    */
 }
 
 #lesson_ctrl li{
     list-style-type: none;
+    float:left;
 }
 
 #lesson_inner {
     position: absolute;
-    top: -10rem;
+    top: 0rem;
 }
 
 .anim-move {    
