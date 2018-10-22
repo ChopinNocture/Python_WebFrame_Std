@@ -62,10 +62,10 @@ function movingAnim() {
     $('#l_b .lesson_label').addClass('anim-move');
     $('#l_m .lesson_label').addClass('anim-move');
 
-    $('#l_m').css('background-size', '80% 70%');
-    $('#l_m .lesson_label').css({'font-size': '60%', 
-                                'top': '6em',
-                                'left': '3.8em'});    
+    $('#l_m').css('background-size', '70% 70%');
+    $('#l_m .lesson_label').css({'font-size': '150%', 
+                                'top': '2.1em',
+                                'left': '0.6em'});    
     setTimeout(refreshBookList, 400);     
 }
 
@@ -87,13 +87,12 @@ function onPrev(event) {
     middle_idx = nextidx;
     
     movingAnim();
-    $('#l_m .lesson-book-u').css({'background-size': '80% 70%','opacity':'1'});
     $('#l_b').css('background-size', '100% 100%');
-    $('#l_b span').css({'background-size':'100% 0%', 'opacity':'0.01'});
-    $('#l_b .lesson_label').css({'font-size': '80%',
-                                'top': '4em',
-                                'left': '2em'});
-    $('#lesson_inner').css('top', '-20rem');    
+    $('#l_b span').css({'background-size':'100% 100%', 'opacity':'1'});
+    $('#l_b .lesson_label').css({'font-size': '200%',
+                                'top': '1.23em',
+                                'left': '-0.1em'});
+    $('#lesson_inner').css('left', '-16.68rem');    
 }
 
 function onNext(event) {
@@ -103,53 +102,58 @@ function onNext(event) {
     middle_idx = nextidx;
 
     movingAnim();
-    $('#l_m .lesson-book-b').css({'background-size': '80% 70%','opacity':'1'});
     $('#l_u').css('background-size', '100% 100%');
-    $('#l_u span').css({'background-size':'100% 0%', 'opacity':'0.01'});
-    $('#l_u .lesson_label').css({'font-size': '80%',
-                                'top': '4em',
-                                'left': '2em'});
-    $('#lesson_inner').css('top', '0rem');
+    $('#l_u span').css({'background-size': '100% 100%', 'opacity': '1'});
+    $('#l_u .lesson_label').css({'font-size': '200%',
+                                'top': '1.23em',
+                                'left': '-0.1em'});
+    $('#lesson_inner').css('left', '0rem');
 }
 
 var listData = [];
 var middle_idx = 0;
 function updateListView() {
-    $('#l_m .lesson_label').html(listData[middle_idx].desc);
-    $('#l_u .lesson_label').html( middle_idx-1<0 ? "":listData[middle_idx-1].desc);
+    $('#l_m .lesson_label').html(middle_idx+1); //    $('#l_m .lesson_label').html(listData[middle_idx].desc);
+    $('#l_u .lesson_label').html( middle_idx-1<0 ? "":middle_idx); // $('#l_u .lesson_label').html( middle_idx-1<0 ? "":listData[middle_idx-1].desc);
     $('#l_u').css('visibility', middle_idx-1<0 ? 'hidden': 'visible');
-    $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":listData[middle_idx-2].desc);
+    $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":middle_idx-1); // $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":listData[middle_idx-2].desc);
     $('#l_uu').css('visibility', middle_idx-2<0 ? 'hidden': 'visible');
-    $('#l_b .lesson_label').html(middle_idx+1<listData.length ? listData[middle_idx+1].desc:"");
+    $('#l_b .lesson_label').html(middle_idx+1<listData.length ? middle_idx+2:""); // $('#l_b .lesson_label').html(middle_idx+1<listData.length ? listData[middle_idx+1].desc:"");
     $('#l_b').css('visibility', middle_idx+1<listData.length ? 'visible':'hidden');
-    $('#l_bb .lesson_label').html(middle_idx+2<listData.length ? listData[middle_idx+2].desc:"");
+    $('#l_bb .lesson_label').html(middle_idx+2<listData.length ? middle_idx+3:""); // $('#l_bb .lesson_label').html(middle_idx+2<listData.length ? listData[middle_idx+2].desc:"");
     $('#l_bb').css('visibility', middle_idx+2<listData.length ? 'visible':'hidden');
 }
 
 function refreshBookList() {
     $('#lesson_inner').removeClass('anim-move');
-    $('#lesson_ctrl li').removeClass('anim-move').css('background-size', '80% 70%');
+    $('#lesson_ctrl li').removeClass('anim-move').css('background-size', '70% 70%');
     $('#lesson_ctrl span').removeClass('anim-move');
     $('#l_u .lesson_label').removeClass('anim-move');
     $('#l_b .lesson_label').removeClass('anim-move');
     $('#l_m .lesson_label').removeClass('anim-move');
 
-    $('#lesson_inner').css('top', '-10rem');
+    $('#lesson_inner').css('left', '-8.34rem');
 
-    $('#l_u span').css({'background-size':'80% 70%', 'opacity':'1'});
-    $('#l_b span').css({'background-size':'80% 70%', 'opacity':'1'});
-    $('#l_u .lesson_label').css({'font-size': '60%',
-                                'top': '6em',
-                                'left': '3.8em'});
-    $('#l_b .lesson_label').css({'font-size': '60%',
-                                'top': '6em',
-                                'left': '3.8em'});
-    $('#l_m .lesson_label').css({'font-size': '80%', 
-                                'top': '4em',
-                                'left': '2em'});
+    $('#l_u span').css({ 'background-size': '70% 70%', 'opacity': '0.01' });
+    $('#l_b span').css({ 'background-size': '70% 70%', 'opacity': '0.01' });
+    $('#l_u .lesson_label').css({
+        'font-size': '150%',
+        'top': '2.1em',
+        'left': '0.6em'
+    });
+    $('#l_b .lesson_label').css({
+        'font-size': '150%',
+        'top': '2.1em',
+        'left': '0.6em'
+    });
+    $('#l_m .lesson_label').css({
+        'font-size': '200%',
+        'top': '1.23em',
+        'left': '-0.1em'
+    });
 
-    $('#l_m').css('background-size', '100% 100%');
-    $('#l_m span').css({'background-size': '100% 100%','opacity':'0.01'});
+    $('#l_m').css({'background-size': '100% 100%'});
+    $('#l_m span').css({ 'background-size': '100% 100%', 'opacity': '0.01' });
     updateListView();
     refreshCurrent();
 }

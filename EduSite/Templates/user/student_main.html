@@ -38,34 +38,36 @@
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
             <!-- <span class="icon_book"></span> -->
-            <p id="chapter_title"></p>            
-            <a id="btn_lesson">
-                <div class="icon_locker bg_lesson"><span class="icon_locker"></span></div>
-                <div id="lesson_info">在上一课的试炼中，一次获得{{unlock_number}}枚以上的星币，就可以解锁这一课的秘籍噢！
-                    <span></span>
-                </div>
-            </a>
-            <a id="btn_practise">
-                <div class="icon_locker bg_prac"><span class="icon_locker"></span></div>
-                <div id="practise_info">先去看完上面的秘籍，再来试炼吧！
-                    <span></span>
-                </div>
-            </a>
+            <div id="learn_book_panel">
+                <p id="chapter_title"></p>            
+                <a id="btn_lesson">
+                    <div class="icon_locker bg_lesson"><span class="icon_locker"></span></div>
+                    <div id="lesson_info">在上一课的试炼中，一次获得{{unlock_number}}枚以上的星币，就可以解锁这一课的秘籍噢！
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+            <div id="practise_panel">
+                <a id="btn_practise">
+                    <div class="icon_locker bg_prac"><span class="icon_locker"></span></div>
+                    <div id="practise_info">先去看完上面的秘籍，再来试炼吧！
+                        <span></span>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <div id="lesson_list_panel">            
             <button id="move_prev" onfocus="this.blur()" tabindex="-1"></button>
             <div id="lesson_ctrl">
                 <div id="lesson_inner" class="">
-                    <li id="l_uu" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-u"></span></li>
-                    <li id="l_u" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-u"></span></li>
-                    <li id="l_m" class="lesson-book">
-                        <div class="lesson_label"></div>
-                        <span class="lesson-book-b" style="background-size:100% 0%; opacity:0;"></span>
-                        <span class="lesson-book-u" style="background-size:100% 0%; opacity:0; top:-100%;"></span>                        
+                    <li id="l_uu" class="lesson-book"><div class="lesson_label"></div></li>
+                    <li id="l_u" class="lesson-book"><div class="lesson_label"></div></li>
+                    <li id="l_m" class="lesson-book">                                                
+                        <div class="lesson_label"></div>     
                     </li>
-                    <li id="l_b" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-b"></span></li>
-                    <li id="l_bb" class="lesson-book"><div class="lesson_label"></div><span class="lesson-book-b"></span></li>                  
+                    <li id="l_b" class="lesson-book"><div class="lesson_label"></div></li>
+                    <li id="l_bb" class="lesson-book"><div class="lesson_label"></div></li>                  
                 </div>
             </div>
             <button id="move_next" onfocus="this.blur()" tabindex="-1"></button>  
