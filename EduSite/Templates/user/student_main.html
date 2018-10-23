@@ -38,22 +38,37 @@
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
             <!-- <span class="icon_book"></span> -->
-            <div id="learn_book_panel">
-                <p id="chapter_title"></p>            
-                <a id="btn_lesson">
-                    <div class="icon_locker bg_lesson"><span class="icon_locker"></span></div>
-                    <div id="lesson_info">在上一课的试炼中，一次获得{{unlock_number}}枚以上的星币，就可以解锁这一课的秘籍噢！
-                        <span></span>
+            <div id="learn_book_panel" class="panel-blue">                
+                    
+                <div class="panel-cloud">                    
+                    <div id="study_title">秘  籍</div>
+                    <p id="chapter_title"></p>
+                    <div id="lesson_info">
+                        <div id="lesson_info_inner">
+                            <div id="lesson_book_open"></div>
+                            <p>老师准备的秘籍</p>
+                        </div>                        
+                        <a id="btn_lesson" class="btn-round-wine">
+                            进入学习                        
+                        </a>
+                    </div>                    
+                    <div id="lesson_locked">在上一课的试炼中，一次获得{{unlock_number}}枚以上的星币，就可以解锁这一课的秘籍噢！
+                        <div class="icon_locker"></div>
                     </div>
-                </a>
+                </div>
+                <span class="icon_lesson"></span>
             </div>
-            <div id="practise_panel">
-                <a id="btn_practise">
-                    <div class="icon_locker bg_prac"><span class="icon_locker"></span></div>
-                    <div id="practise_info">先去看完上面的秘籍，再来试炼吧！
-                        <span></span>
-                    </div>
-                </a>
+            <div id="practice_panel" class="panel-pink">
+                <div class="panel-cloud">
+                    <div id="practice_title">修  炼</div>
+                    <a id="btn_practice">
+                        <div class="icon_locker bg_prac"><span class="icon_locker"></span></div>
+                        <div id="practice_info">先去看完上面的秘籍，再来试炼吧！
+                            <span></span>
+                        </div>
+                    </a>
+                </div>
+                <span class="icon_practice"></span>
             </div>
         </div>
 
@@ -73,7 +88,7 @@
             <button id="move_next" onfocus="this.blur()" tabindex="-1"></button>  
         </div>         
 
-        <div class="row-fluid text-center" id="exam_entrance" 
+        <div hidden class="row-fluid text-center" id="exam_entrance" 
             data-examurl="{% url 'course:exam_current' exam_id=0 %}"
             data-url="{% url 'course:exam_ready'%}">
             <h4>试炼场</h4>

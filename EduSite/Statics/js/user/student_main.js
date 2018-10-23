@@ -63,9 +63,7 @@ function movingAnim() {
     $('#l_m .lesson_label').addClass('anim-move');
 
     $('#l_m').css('background-size', '70% 70%');
-    $('#l_m .lesson_label').css({'font-size': '150%', 
-                                'top': '2.1em',
-                                'left': '0.6em'});    
+    $('#l_m .lesson_label').removeClass("lesson_label-scaled");
     setTimeout(refreshBookList, 400);     
 }
 
@@ -89,10 +87,8 @@ function onPrev(event) {
     movingAnim();
     $('#l_b').css('background-size', '100% 100%');
     $('#l_b span').css({'background-size':'100% 100%', 'opacity':'1'});
-    $('#l_b .lesson_label').css({'font-size': '200%',
-                                'top': '1.23em',
-                                'left': '-0.1em'});
-    $('#lesson_inner').css('left', '-16.68rem');    
+    $('#l_b .lesson_label').addClass("lesson_label-scaled");
+    $('#lesson_inner').css('left', '-14.6784rem');    
 }
 
 function onNext(event) {
@@ -104,9 +100,7 @@ function onNext(event) {
     movingAnim();
     $('#l_u').css('background-size', '100% 100%');
     $('#l_u span').css({'background-size': '100% 100%', 'opacity': '1'});
-    $('#l_u .lesson_label').css({'font-size': '200%',
-                                'top': '1.23em',
-                                'left': '-0.1em'});
+    $('#l_u .lesson_label').addClass("lesson_label-scaled");
     $('#lesson_inner').css('left', '0rem');
 }
 
@@ -132,25 +126,13 @@ function refreshBookList() {
     $('#l_b .lesson_label').removeClass('anim-move');
     $('#l_m .lesson_label').removeClass('anim-move');
 
-    $('#lesson_inner').css('left', '-8.34rem');
+    $('#lesson_inner').css('left', '-7.3392rem');
 
     $('#l_u span').css({ 'background-size': '70% 70%', 'opacity': '0.01' });
     $('#l_b span').css({ 'background-size': '70% 70%', 'opacity': '0.01' });
-    $('#l_u .lesson_label').css({
-        'font-size': '150%',
-        'top': '2.1em',
-        'left': '0.6em'
-    });
-    $('#l_b .lesson_label').css({
-        'font-size': '150%',
-        'top': '2.1em',
-        'left': '0.6em'
-    });
-    $('#l_m .lesson_label').css({
-        'font-size': '200%',
-        'top': '1.23em',
-        'left': '-0.1em'
-    });
+    $('#l_u .lesson_label').removeClass("lesson_label-scaled");
+    $('#l_b .lesson_label').removeClass("lesson_label-scaled");
+    $('#l_m .lesson_label').addClass("lesson_label-scaled");
 
     $('#l_m').css({'background-size': '100% 100%'});
     $('#l_m span').css({ 'background-size': '100% 100%', 'opacity': '0.01' });
@@ -164,14 +146,14 @@ function refreshCurrent() {
     $('#chapter_title').html(listData[middle_idx].desc);
 
     if (isLessonLock(middle_idx)) {        
-        $('#btn_lesson').removeAttr('href');
-        $('#btn_lesson .icon_locker').removeClass("fade-out");
-        $('#lesson_info').show();
+        $('#lesson_info').removeAttr('href').hide();
+        $('#lesson_locked').show();
+        $('#lesson_locked .icon_locker').removeClass("fade-out");        
     }
     else {
-        $('#btn_lesson').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString() );
-        $('#btn_lesson .icon_locker').addClass("fade-out");
-        $('#lesson_info').hide();
+        $('#lesson_info').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString()).show();
+        $('#lesson_locked').hide();
+        $('#lesson_locked .icon_locker').addClass("fade-out");        
     }
     
     if (isPracLock(middle_idx)) {
