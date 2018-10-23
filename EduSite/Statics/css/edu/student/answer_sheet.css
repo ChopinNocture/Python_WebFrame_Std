@@ -17,7 +17,7 @@ body {
 
 #root_panel {
     position: absolute;
-    left: 0.75rem;
+    left: 0rem;
     top: 0.5rem;
     width: 50.1rem;
     margin: auto;
@@ -30,7 +30,7 @@ body {
     /* border: 0.0625rem dotted; */
     padding-top: 1rem;
     width: 19.5rem;
-    left: 0.75rem;
+    left: 0rem;
 }
 
 #statistic_main {  
@@ -73,8 +73,9 @@ body {
 #teacher {
     position: absolute;    
     top: 10.5rem;
-    width: 18rem;
-    height: 33.5rem;    
+    left: 2.5rem;
+    width: 15rem;
+    height: 35rem;    
 }
 
 .teacher-normal {

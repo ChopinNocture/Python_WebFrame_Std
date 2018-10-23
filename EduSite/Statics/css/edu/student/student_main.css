@@ -354,11 +354,11 @@ body {
 /* --------------------- 课程 --------------------- */
 #cur_lesson_panel {
     position: absolute;
-    left: 11.8rem;
+    left: 12rem;
     top: 0rem;
     width: 50rem;
     height: 32rem;
-    border: 1px dashed;
+    /* border: 1px dashed; */
 }
 .panel-blue, .panel-pink {
     width: 25rem;
@@ -412,7 +412,7 @@ body {
     background-image: url('/Statics/images/icon_checkin.png');
 }
 
-#chapter_title {
+#chapter_title, #girl_sent {
     position: relative;
     top: 3.2rem;
     left: 0.5rem;
@@ -421,6 +421,10 @@ body {
     font-weight: bolder;    
     color: #2b728c;    
     text-align: center;
+}
+
+#girl_sent {
+    color: #fe649e;  
 }
 
 .icon_book {
@@ -448,7 +452,7 @@ body {
 #study_title { background-image: url('/Statics/images/Flag.png'); color: white; }
 #practice_title { background-image: url('/Statics/images/Flag_B.png'); color: white; }
 
-#btn_lesson {
+#btn_lesson, #btn_practice {
     text-decoration:none;
     position: absolute;
     right: 6rem;
@@ -462,8 +466,10 @@ body {
     padding: 0.3em 1em 0.3em 1em;
 
     color: aliceblue;
-    border-color: #e33030;
-    background: linear-gradient(176deg, #f36262 , #f36262 50%, #e33030 60%, #e33030 100% )        
+}
+#btn_lesson {
+    border-color: #1d8cb6;
+    background: linear-gradient(176deg, #53eeff , #26a9d1 50%, #1798bf 60%, #0988ad 100% )        
     /* width: 15rem;
     height: 17rem;  
     background-image: url('/Statics/images/book-learn.png');
@@ -472,14 +478,8 @@ body {
 }
 
 #btn_practice {
-    position: absolute;
-    top: 20rem;
-    left: 18rem;    
-    width: 15rem;
-    height: 17rem;  
-    background-image: url('/Statics/images/book-prac.png');
-    background-repeat: no-repeat;
-    background-size: contain; 
+    border-color: #af4d6c;
+    background: linear-gradient(176deg, #ffa5dc , #e06ea5 50%, #d6649b 60%, #cc538a 100% )        
 }
 
 .icon_locker {
@@ -526,7 +526,7 @@ body {
     opacity: 0;
 }
 
-#lesson_info {
+#lesson_info, #practice_info {
     position: absolute;
     left: 1.2rem;
     top: 6rem;
@@ -534,14 +534,19 @@ body {
     height: 12.5rem;  
 }
 
-#lesson_info_inner {
+#lesson_info_inner, #practice_info_inner {
     position: absolute;
     color: #fe649e; 
     top: 1rem;
-    height: 7rem;
+    height: 7.5rem;
     width: 100%;
     background-color: #fff0c6;
     border-radius: 2rem;
+}
+
+#practice_info_inner { 
+    background-color: #b0e0f0; 
+    height: 7.5rem;
 }
 
 #lesson_book_open {    
@@ -549,19 +554,37 @@ body {
     /* background-position: center 4%; */
     background-repeat: no-repeat; 
     background-size: 100% 100%; 
-    top: 0.4rem;
-    left: 0.5rem;
-    height: 6rem; 
-    width: 10rem;    
-    background-image: url('/Statics/images/BookOpen.png');
+    top: 0rem;
+    left: 1rem;
+    height: 7.9rem; 
+    width: 8rem;    
+    background-image: url('/Statics/images/tips.png');
     content: "";
 }
 
-#lesson_info p { 
-    text-align: right;
+#practice_girl {    
+    position: absolute;
+    /* background-position: center 4%; */
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
+    top: 0.3rem;
+    left: 0.6rem;
+    height: 7rem; 
+    width: 7rem;    
+    background-image: url('/Statics/images/zjm_t.png');
+    content: "";
 }
 
-#lesson_locked {
+#lesson_info p, #practice_info p {
+    position: absolute;
+    font-size: 1.2rem;
+    /* border: 1px dashed;  */
+    right: 2.5rem;
+    width: 10rem;
+    height: 4rem;
+}
+
+#lesson_locked, #practice_locked {
     position: absolute;
     left: 1.2rem;
     top: 7.6rem;
@@ -571,7 +594,7 @@ body {
     font-weight: 700;
     line-height: 1.2em;
     color: #fe649e;    
-    background-color: #d5eef6;
+    background-color: #b0e0f0;
     border-radius: 2rem;
     padding-top: 1.1rem;    
     padding-bottom: 1.2rem;    
@@ -592,7 +615,7 @@ body {
     content: "";
 }
 
-#practice_info {
+/* #practice_info {
     position: absolute;
     left: -12rem;
     top: 3rem;
@@ -607,7 +630,7 @@ body {
     border-radius: 2rem;
     padding: 1rem;
     padding-top: 3rem;
-}
+} */
 
 #practice_info span {
     opacity: 0.8;

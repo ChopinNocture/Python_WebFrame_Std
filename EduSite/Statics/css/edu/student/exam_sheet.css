@@ -82,9 +82,9 @@ body {
 #teacher {
     position: absolute;    
     top: 9rem;
-    left: 1rem;
-    width: 16rem;
-    height: 37rem;    
+    left: -1rem;
+    width: 18.75rem;
+    height: 35rem;         
     content: "";
     background-size: 100% 100%;
     background-image: url('/Statics/images/nikki4.png');
