@@ -16,7 +16,7 @@ function isPracLock(idx) {
 function onInit(event) {
     var gold = $("#id_gold").html();
     gold = Math.floor(gold / 20);
-    $("#icon_gold").addClass("num-"+gold.toString());
+    //$("#icon_gold").addClass("num-"+gold.toString());
 
     lock_mode = $("#id_cls_lock_mode").val()=="True";
 

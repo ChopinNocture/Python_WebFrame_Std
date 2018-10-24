@@ -57,12 +57,12 @@ body {
     width: 100%;
     height: 3.9rem;    
     /* text-align: center; */
-
+/* 
     background-color: rgba(204, 236, 255, 0.8);
     border-style: solid none solid none;
     border-width: 0.125rem;
 
-    border-color: white;
+    border-color: white; */
     /* border-image-source: url('/Statics/images/stu_frame.png');
     border-image-slice: 40% 40% 40% 40%;
     border-image-width: 4rem 4rem;
@@ -73,8 +73,8 @@ body {
 #prof_inner {    
     vertical-align: middle;
     position: relative;
-    left: 0rem;
-    top: 0.2rem;
+    left: 6rem;
+    top: 0.8rem;
     padding-top: 0%;
     /* border: 3px dashed; */
 }
@@ -109,20 +109,20 @@ body {
     display: inline-block;
     position: absolute;
     top: 0.3rem;
-    height: 2rem;
-    padding-left: 0.2rem;
+    height: 2.6rem;
+    padding-top: 0.2rem;
+    padding-left: 0rem;
     padding-right: 0.4rem;
-
-    border-style: solid;
-    border-width: 0.3rem;
-    border-radius: 0.4rem;
-    border-color: #abcbd4;    
-    background-color: #ffffff; 
- /* border: 3px dashed; */        
 }
 
 #user_info {
-    left: 0.8rem;
+    left: 2rem;
+    border-style: none;
+    border-width: 0.3rem;
+    border-radius: 2rem;
+    border-color: #abcbd4;    
+    background-image: linear-gradient(#a0e0ff, white 25%, white 75%, #a0e0ff 100%);
+ /* border: 3px dashed; */        
 }
 
 #id_user {}
@@ -130,15 +130,12 @@ body {
 #id_class_id {}
 
 #user_add {
-    left: 21rem;
-    height: 2rem;
-    border-color: goldenrod;
-    background-color: rgb(221, 221, 221);
+    left: 26rem;
 }
 
-#user_add label {
+#icon_gold label {
     position: relative; 
-    font-size: 22px;
+    font-size: 1rem;
     color: azure;
     text-shadow:1px 0px 2px gold,
                 -1px 0px 2px gold,
@@ -148,7 +145,10 @@ body {
                 1px -1px 2px gold,
                 -1px -1px 2px gold,
                 -1px 1px 2px gold;
-    top: -1.6rem;
+    text-align: center;
+    top: 2.9rem;
+    left: 1.2rem;
+    width: 4em;
     margin-right: 0.5em;
 }
 
@@ -163,21 +163,23 @@ body {
 
 #icon_user {
     background-size: 100% 100%;
-    background-image: url('/Statics/images/info-icon.png');
-    width: 3rem;
-    height: 3rem;
+    background-image: url('/Statics/images/char.png');
+    width: 3.2rem;
+    height: 3.2rem;
     border-style: solid;
     border-width: 0.3rem;
-    border-radius: 0.5rem;  
-    border-color: #8d999b;    
-    background-color: #d1dfe3;   
+    border-radius: 2rem;  
+    border-color: white;  
+    box-shadow: 0rem 0rem 0.2rem white;   
+    background-color: #5ec2bf;   
 }
 
 #icon_gold {
-    top: -0.5rem;
-    width: 3rem;
-    height: 3rem;
+    top: -1rem;
+    width: 4.6rem;
+    height: 4.6rem;
     background-size: 100% 100%;
+    background-image: url('/Statics/images/gold/icon_star.png'); 
 }
 
 .num-0 { 
@@ -278,7 +280,7 @@ body {
 }
 
 #move_prev, #move_next {
-    width: 3.6rem;
+    width: 4.2rem;
     height: 3.6rem;
     display: block;
     position: absolute;
@@ -286,18 +288,19 @@ body {
     background-color: rgba(255, 255, 255, 0);    
     background-repeat: no-repeat; 
     background-size: 100% 100%;
+    background-image: url('/Statics/images/arrow.png');
     top: 1rem;
 }
-
-#move_prev {    
-    background-image: url('/Statics/images/arrows_left.png');
+#move_prev:hover, #move_next:hover {
+    background-image: url('/Statics/images/Arrow-l.png');
+}
+#move_prev {
     left: 0%;
 }
 
 #move_next {
     right: 0%;
-    /* transform: rotate(180deg); */
-    background-image: url('/Statics/images/arrows_right.png');
+    transform: rotate(180deg);    
 }
 
 #lesson_ctrl {
@@ -683,12 +686,18 @@ body {
     text-align: center;
 }
 
-#tree_img {
-    z-index: 0;
-    top: -1.5rem;
-    left: -0.5rem;
+#tree_img{
+    top: -1.8rem;
+    left: -0.4rem;
     position: absolute;
-    opacity: 1;
+}
+
+#bill_icon {
+    width: 5rem;
+    height: 5rem;
+    top: -2rem;
+    left: -0.6rem;
+    position: absolute;
 }
 
 #notice_panel #inner_panel {
@@ -730,20 +739,46 @@ body {
 }
 
 
-#billboard_panel {
+#billboard_panel {    
+    width: 10rem;
     text-align: left;
     height: 16.4rem;
-    background-image: url('/Statics/images/BGs/billboard-bg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: gold;
+    border-style: solid;
+    border-width: 0.075rem 0.125rem 0.125rem 0.075rem;
+    border-color: goldenrod;
+    /* border-right-color: #207aa3;
+    border-bottom-color: #207aa3; */
+    border-radius: 1rem;
+    box-shadow: 0.125rem 0.25rem 0.25rem rgb(167, 125, 21);
 }
 
 #billboard_content {
-    position: relative;
-    top: 4rem;
+    top: 1rem;
     line-height: 1.4em;
+    z-index: 2;
+    min-height: 12rem;
+    margin: 0.6rem 0.5rem 0.4rem 0.5rem; 
+    padding: 0.125rem 0.125rem 0.125rem 0.125rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-style: solid;
+    border-radius: 0.75rem;
+    border-top-color: rgb(247, 237, 184);
+    border-bottom-color: goldenrod;
+    border-width: 2.8rem 0rem 0.25rem 0rem;
+    box-shadow: 0.25rem 0.125rem 0.1rem rgb(167, 125, 21);    
 }
-
+#billboard_content h3 {
+    color: rgb(236, 81, 107);
+    font-size: 1.6rem;
+    font-weight: 900;
+    position: absolute;
+    top: -0.4rem;
+    width: 92%;
+    text-align: center;
+    text-indent: 0em;
+    text-shadow: 0.125rem 0.125rem 0.6rem rgb(192, 60, 82);
+}
 #billboard_content li {
     position: relative;
     left: -0.8rem;
