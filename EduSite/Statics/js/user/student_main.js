@@ -14,10 +14,12 @@ function isPracLock(idx) {
 
 //================================================================
 function onInit(event) {
+    onExamReadyGet(null);
+
     var gold = $("#id_gold").html();
     gold = Math.floor(gold / 20);
     //$("#icon_gold").addClass("num-"+gold.toString());
-
+    
     lock_mode = $("#id_cls_lock_mode").val()=="True";
 
     progress = $("#id_progress").data('progress');
@@ -208,9 +210,14 @@ var examination = null;
 
 function onExamReadyGet(jsonData) {
     examination = jsonData;
-    if (examination) {
-        
+    if (examination) {        
         $('#btn_enter_exam').prop('href', $('#exam_entrance').data('examurl').replace('0', examination.id));
         $('#exam_starttime').html(examination.start_time);
+        $("#exam_open").show();
+        $("#exam_closed").hide();
+    }
+    else {
+        $("#exam_open").hide();
+        $("#exam_closed").show();
     }
 }

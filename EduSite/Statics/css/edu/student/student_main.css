@@ -618,33 +618,61 @@ body {
 
 /*-------------------------------------------------------------*/
 #exam_entrance {
-    left: 16rem;
-    top: 5rem;
-    width: 32rem;
+    left: 29rem;
+    top: 6rem;
+    width: 24rem;
     height: 5.7rem;
     position: absolute;
     text-align: inherit;
     /* border: 1px dashed; */
-    color: white;
+    color: #418cce;
 }
 
 #exam_icon {
     position: absolute;
     top: 0.3rem;
+    left: 0rem;
+    background-size: 100% 100%;
+    width: 5rem;
+    height: 5rem;     
+}
+#exam_icon_Sword {
+    position: absolute;
+    top: 0.3rem;
     right: 0rem;
+    background-size: 100% 100%;
+    width: 2rem;
+    height: 5rem;
 }
 
+
 #exam_inner {
+    padding-left: 3rem;
     position: absolute;
     top: 1rem;
     left: 2rem;
     height: 3.5rem;
+    width: 18.5rem;
     border-style: none;
     border-width: 0.3rem;
-    border-radius: 2rem;
+    border-radius: 1rem;
     border-color: goldenrod;    
-    background-image: linear-gradient(gold, rgb(255, 245, 185) 25%, rgb(255, 245, 185) 75%, gold 100%);
+    background-image: linear-gradient(gold, rgb(255, 245, 185) 21%, white 25%, white 75%, rgb(255, 245, 185) 79%, gold 100%);
  /* border: 3px dashed; */        
+}
+#exam_inner h3 {
+    font-size: 130%;
+    display: inline-block;
+    color: red;
+}
+#exam_inner p {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    top: -0.2em;
+}
+#exam_closed{
+    color: gray;
 }
 
 /*-------------------------------------------------------------*/

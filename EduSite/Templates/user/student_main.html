@@ -40,13 +40,14 @@
         data-examurl="{% url 'course:exam_current' exam_id=0 %}"
         data-url="{% url 'course:exam_ready'%}">
         <div id="exam_inner">
-            <h4>试炼场</h4>
-            <p>
-                开放时间：<span id="exam_starttime">xxxxxxx</span> <br>
-            </p>
-            <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</a> 
+                <h3>试炼场</h3>
+                <p id="exam_closed">当前未开放</p>
+                <p id="exam_open">开放时间：<span id="exam_starttime">xxxxxxx</span>
+                    <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam">未开放</a>            
+                </p>
         </div>
         <img src="{% static 'images\exam_icon.png' %}" id="exam_icon"/>
+        <img src="{% static 'images\Sword.png' %}" id="exam_icon_Sword"/> 
     </div>
 
     <div class="col-8" id="lesson_panel">
