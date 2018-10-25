@@ -186,7 +186,7 @@ body {
 #lesson_panel {
     position: absolute;
     left: 4rem;
-    top: 8rem;
+    top: 9rem;
 }
 
 #girl_panel {
@@ -618,13 +618,33 @@ body {
 
 /*-------------------------------------------------------------*/
 #exam_entrance {
-    left: 13.9375rem;
-    top: 0rem;
-    width: 13.9375rem;
-    height: 8rem;
+    left: 16rem;
+    top: 5rem;
+    width: 32rem;
+    height: 5.7rem;
     position: absolute;
     text-align: inherit;
-    border: 1px dashed;
+    /* border: 1px dashed; */
+    color: white;
+}
+
+#exam_icon {
+    position: absolute;
+    top: 0.3rem;
+    right: 0rem;
+}
+
+#exam_inner {
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+    height: 3.5rem;
+    border-style: none;
+    border-width: 0.3rem;
+    border-radius: 2rem;
+    border-color: goldenrod;    
+    background-image: linear-gradient(gold, rgb(255, 245, 185) 25%, rgb(255, 245, 185) 75%, gold 100%);
+ /* border: 3px dashed; */        
 }
 
 /*-------------------------------------------------------------*/
