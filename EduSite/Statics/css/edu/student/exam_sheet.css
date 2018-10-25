@@ -680,32 +680,6 @@ body {
     height: 1.5rem;
 }
 
-.unfinished {
-    content: "";
-    background-size: 100% 100%;
-    background-image: url('/Statics/images/gold_coin_dis.png');    
-}
-
-.current {    
-    content: "";
-    background-size: 100% 100%;
-    background-image: url('/Statics/images/current.png');
-    width: 2rem;
-    height: 2rem;   
-    animation: anim-opacity 2s infinite linear;
-}
-
-.succeed {
-    content: "";
-    background-size: 100% 100%;
-    background-image: url('/Statics/images/gold_coin.png');    
-}
-
-.failed {
-    content: "";
-    background-size: 100% 100%;
-    background-image: url('/Statics/images/failed.png');    
-}
 
 
 @keyframes anim-opacity {

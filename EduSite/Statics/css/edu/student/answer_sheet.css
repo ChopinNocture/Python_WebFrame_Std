@@ -25,6 +25,7 @@ body {
 }
 
 #info_panel {
+    font-family: HK_BD;
     text-align: center;    
     position: fixed;
     /* border: 0.0625rem dotted; */
@@ -35,16 +36,16 @@ body {
 
 #statistic_main {  
     width: 12rem;
-    background: linear-gradient(#ffffff,#cccccc);
+    background-color: white; 
     border-style: solid;
-    border-width: 0.05rem;
-    border-radius: 0.35rem;
+    border-width: 0.01rem;
+    border-radius: 1rem;
     border-color: white;
 
-    border-image-source: url('/Statics/images/dialog.png');
-    border-image-slice: 40% 40% 40% 40%;
-    border-image-width: 4rem 4rem;
-    border-image-outset: 0rem 0.1rem 1.55rem 0rem;
+    border-image-source: url('/Statics/images/dialog_1.png');
+    border-image-slice: 50% 50% 50% 50%;
+    border-image-width: 6rem 6rem;
+    border-image-outset: 0.15rem 0.35rem 0.65rem 0.35rem;
     border-image-repeat: fill;
 
     margin-left: auto;
@@ -60,7 +61,7 @@ body {
 #q_progress {
     position: absolute;
     top: 0rem;
-    right: 0rem;
+    right: 0.5rem;
     width: 2rem;
     /* border: 0.12rem dotted; */
 }
@@ -146,12 +147,14 @@ body {
 }
 
 #quesion_desc_main {
-    font-family: HK_Yuan7;
+    /* font-family: HK_Yuan7; */
+    font-family: HK_BD;    
     margin: 0rem 2.5rem 0rem 1.75rem;
 }
 
 #section_title {
-    font-family: HK_Yuan9;
+    /* font-family: HK_Yuan9; */
+    font-family: HK_BD;    
     font-size: 180%;
     color: gray;
     border-bottom-style: dashed;
@@ -171,7 +174,7 @@ body {
 }
 
 #question_type {
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     font-size: 130%;
     font-weight: 600;
     color: #863f19;
@@ -249,7 +252,7 @@ body {
 }
 
 #answer_panel {    
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     margin: 0.5rem 1.625rem 0rem 0rem;     
 }
 
@@ -407,7 +410,7 @@ body {
     height: 16rem;
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/gold_coin.png');        
+    background-image: url('/Statics/images/star.png');        
 }
 
 .win-effect {
@@ -434,7 +437,7 @@ body {
     height: 16rem;
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/failed.png');     
+    background-image: url('/Statics/images/star_d.png');     
     animation: drop-in 0.3s ease-in;   
 }
 
@@ -605,42 +608,43 @@ body {
 .gold-icon-big {
     position: relative;
     display: inline-block;    
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 .gold-icon {
     position: relative;
     display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
 }
 
 .unfinished {
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/gold_coin_dis.png');    
+    background-image: url('/Statics/images/star_frame.png');    
 }
 
 .current {    
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/current.png');
-    width: 2rem;
-    height: 2rem;   
+    background-image: url('/Statics/images/star_b.png');
+    left: -0.235rem;
+    width: 2.5rem;
+    height: 2.5rem;   
     animation: anim-opacity 2s infinite linear;
 }
 
 .succeed {
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/gold_coin.png');    
+    background-image: url('/Statics/images/star.png');    
 }
 
 .failed { 
     content: "";
     background-size: 100% 100%;
-    background-image: url('/Statics/images/failed.png');    
+    background-image: url('/Statics/images/star_d.png');    
 }
 
 
