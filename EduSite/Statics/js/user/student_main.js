@@ -210,14 +210,33 @@ var examination = null;
 
 function onExamReadyGet(jsonData) {
     examination = jsonData;
-    if (examination) {        
+
+    if (examination) {    
         $('#btn_enter_exam').prop('href', $('#exam_entrance').data('examurl').replace('0', examination.id));
-        $('#exam_starttime').html(examination.start_time);
+        var time_str = examination.start_time;
+        time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
+        $('#exam_starttime').html(time_str);
         $("#exam_open").show();
         $("#exam_closed").hide();
+        $("#exam_inner").removeClass("shirked").removeClass("extended").addClass('hasExam');
+        $("#exam_icon_Sword").removeClass("sword_shirk").removeClass("sword_extend").addClass('sword_hasExam');
+        $('#exam_entrance').off('mouseenter').off('mouseleave');
     }
     else {
+        $("#exam_inner").removeClass('hasExam');
+        $("#exam_icon_Sword").removeClass('sword_hasExam');
+        examShirk();
+        $('#exam_entrance').mouseenter(examExtend).mouseleave(examShirk);
         $("#exam_open").hide();
         $("#exam_closed").show();
     }
+}
+
+function examExtend() {
+    $("#exam_inner").removeClass("shirked").addClass("extended");
+    $("#exam_icon_Sword").removeClass("sword_shirk").addClass("sword_extend");
+}
+function examShirk() {
+    $("#exam_inner").addClass("shirked").removeClass("extended");
+    $("#exam_icon_Sword").addClass("sword_shirk").removeClass("sword_extend");
 }

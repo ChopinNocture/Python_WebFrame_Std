@@ -435,7 +435,6 @@ body {
     border-radius: 3rem;
     margin-top: 0.8em;
     padding: 0.3em 1em 0.3em 1em;
-
     color: aliceblue;
 }
 #btn_lesson {
@@ -639,12 +638,15 @@ body {
 #exam_icon_Sword {
     position: absolute;
     top: 0.3rem;
-    right: 0rem;
     background-size: 100% 100%;
     width: 2rem;
     height: 5rem;
+    transition-property: all;
+    transition-duration: 0.6s; 
 }
-
+.sword_hasExam { right: -8rem; }
+.sword_extend { right: 0rem; }
+.sword_shirk { right: 17rem; }
 
 #exam_inner {
     padding-left: 3rem;
@@ -652,29 +654,47 @@ body {
     top: 1rem;
     left: 2rem;
     height: 3.5rem;
-    width: 18.5rem;
+
     border-style: none;
     border-width: 0.3rem;
     border-radius: 1rem;
     border-color: goldenrod;    
     background-image: linear-gradient(gold, rgb(255, 245, 185) 21%, white 25%, white 75%, rgb(255, 245, 185) 79%, gold 100%);
  /* border: 3px dashed; */        
+    transition-property: all;
+    transition-duration: 0.6s;   
+    overflow: hidden;
 }
+.hasExam { width: 26.5rem; }
+.shirked { width: 1.5rem; }
+.extended { width: 18.5rem; }
+
 #exam_inner h3 {
-    font-size: 130%;
     display: inline-block;
+    font-size: 130%;
+    width: 3em;
     color: red;
 }
 #exam_inner p {
-    text-align: center;
     position: relative;
+    text-align: center;
     display: inline-block;
     top: -0.2em;
 }
-#exam_closed{
+#exam_closed {
     color: gray;
 }
+#exam_open {
+    color: #418cce;
+}
 
+#exam_starttime {
+    font-size: 80%;
+    color: red;
+}
+#btn_enter_exam {
+    font-size: 120%;     
+}
 /*-------------------------------------------------------------*/
 #hanging_panel_right, #hanging_panel_left {
     position: fixed;
