@@ -10,19 +10,28 @@ html {
 }
 
 body {
+    background-color: #175977;
+    background-blend-mode: normal;
+    /* background-size: cover; */
+    background-repeat: repeat; /* no-repeat;*/
+    background-position: left top;
+    background-attachment: fixed;
+    background-origin: inherit;
+   
+  
     background-image: url('/Statics/images/BGs/teacher-stage.jpg');
-    background-size: 58rem 47rem;
+    background-size: 58rem 51rem;
     background-repeat: no-repeat;
     background-position: 1rem 1rem;
     background-attachment: fixed;
-    background-origin: inherit;
+    background-clip: border-box;
+    background-origin: inherit; 
 }
 
 #root_panel {
-    position: absolute;
-    width: 66rem;
+    width: 58rem;
     height: 51rem;
-    
+   
     /*background-clip:border-box*/
 }
 

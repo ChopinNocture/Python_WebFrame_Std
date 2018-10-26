@@ -35,7 +35,6 @@
             </div>            
         </div>
     </div>
-
     <div id="exam_entrance"
         data-examurl="{% url 'course:exam_current' exam_id=0 %}"
         data-url="{% url 'course:exam_ready'%}">
@@ -93,7 +92,6 @@
                 <span class="icon_practice"></span>
             </div>
         </div>
-
         <div id="lesson_list_panel">            
             <button id="move_prev" onfocus="this.blur()" tabindex="-1"></button>
             <div id="lesson_ctrl">
@@ -122,41 +120,40 @@
             </ul>
         </div>
     </div>
-    <div class="" id="hanging_panel_left">
-        <div class="card text-white bg-warning mb-3" id="notice_panel">  
-            <img src="{% static 'images\icon_notice.png' %}" id="tree_img"/>
-            <div id="inner_panel">                
-                <h3>公  告</h3>
-                <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
-                    暂时没有新的公告
-                </div>
-            </div>            
-        </div>
-    </div>
-    <div class="" id="hanging_panel_right">
-        <div class="card text-white bg-info mb-3" id="billboard_panel">
-            <div class="card-body" id="billboard_content">
-                <h3>高手榜</h3>
-                <div id="billboard_list">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">萧峰</li>
-                        <li class="list-group-item">令狐冲</li>
-                        <li class="list-group-item">武大郎大郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                        <li class="list-group-item">小二郎</li>
-                    </ul>
-                </div>                    
+</div>
+<div class="" id="hanging_panel_left">
+    <div class="card text-white bg-warning mb-3" id="notice_panel">  
+        <img src="{% static 'images\icon_notice.png' %}" id="tree_img"/>
+        <div id="inner_panel">                
+            <h3>公  告</h3>
+            <div class="card-body" id="notice_show" data-url="{% url 'notice:ongoing' %}">                        
+                暂时没有新的公告
             </div>
-            <img src="{% static 'images\planet_rank_icon.png' %}" id="bill_icon"/>
         </div>            
     </div>
 </div>
-
+<div class="" id="hanging_panel_right">
+    <div class="card text-white bg-info mb-3" id="billboard_panel">
+        <div class="card-body" id="billboard_content">
+            <h3>高手榜</h3>
+            <div id="billboard_list">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">萧峰</li>
+                    <li class="list-group-item">令狐冲</li>
+                    <li class="list-group-item">武大郎大郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                    <li class="list-group-item">小二郎</li>
+                </ul>
+            </div>                    
+        </div>
+        <img src="{% static 'images\planet_rank_icon.png' %}" id="bill_icon"/>
+    </div>            
+</div>
 {% endblock %}
 
 {% block jsPage %}
