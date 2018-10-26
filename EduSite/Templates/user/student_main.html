@@ -154,6 +154,10 @@
         <img src="{% static 'images\planet_rank_icon.png' %}" id="bill_icon"/>
     </div>            
 </div>
+<div id="exit_panel">
+    <a href={% url 'user:course' %} class="" draggable="false">
+    <img src="{% static 'images\arrows_left.png' %}"/>返回课程选择</a>
+</div>
 {% endblock %}
 
 {% block jsPage %}

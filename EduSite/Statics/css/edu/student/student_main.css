@@ -880,3 +880,27 @@ body {
     border-radius: 18px;
     box-shadow: 3px 3px 3px rgb(51,115,145);
 }
+
+
+#exit_panel {
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    color: white;
+    font-size: 50%;
+}
+
+#exit_panel a {
+    position: relative;
+    display: inline-block; 
+    color: white;   
+    bottom: 1.5em;
+    text-decoration: none;
+}
+#exit_panel img {
+    display: inline-block; 
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    top: 1.5em;
+}
