@@ -129,3 +129,18 @@ function formatTime(time) {
     }
     return "" + minutes + "" + ":" + "" + seconds + "";
 }
+
+//---------------------------------------------
+// audio
+function playUIAudio(au_url) {
+    var UI_audio = document.getElementById("UI_Audio_Player");
+    if(!UI_audio) {
+        UI_audio = document.createElement("AUDIO");
+        UI_audio.controls = false;
+    }
+    UI_audio.pause();
+    
+    UI_audio.src = "/Statics/sound/" + au_url;
+    UI_audio.currentTime = 0;
+    UI_audio.play();
+}

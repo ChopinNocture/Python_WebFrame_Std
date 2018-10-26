@@ -155,6 +155,7 @@ function showEffect(isCorrect, isVoice) {
                 onNextClk();
             };
             $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
+            playUIAudio("GetStar.mp3");
         }
         else {
             $('#teacher').addClass('teacher-wrong');
@@ -165,6 +166,7 @@ function showEffect(isCorrect, isVoice) {
             $('#sheet_bg_in').addClass('effect-wrong');
 
             $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+            playUIAudio("bilose.mp3");
         }
         
         setTimeout(() => {
@@ -213,6 +215,7 @@ function update() {
             if (qType_list.indexOf(qtype) != -1) {
                 // framework [set:check answer] and [refresh page]                
                 eval('refresh' + qtype + '(qList_obj.qList[cur_idx])');
+                updateSound();
                 // 设置check函数
                 eval('checkAnswerFunc = check' + qtype);
                 eval('showKeyFunc = showKey' + qtype);                
@@ -221,6 +224,12 @@ function update() {
         }
     }
     updateStat();
+}
+
+function updateSound() {
+    $("input").click(function(){
+        playUIAudio('fenlei.mp3');
+    });
 }
 
 //=======================================================
@@ -384,7 +393,8 @@ function showFinalResult() {
             dataType: 'json',
             success: SucFunc
         });
-    }    
+    }
+    playUIAudio("luckygift.mp3");
 }
 
 function onBreakClick(event) {

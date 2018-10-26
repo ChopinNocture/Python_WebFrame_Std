@@ -24,7 +24,7 @@ body {
     z-index: 0;
     position: absolute;
     left: 14rem;
-    top: 0rem;
+    top: 1rem;
     width: 52rem;
     height: 48rem;
     margin: auto;
@@ -207,7 +207,7 @@ body {
     /* text-align: center;
     align-content: center;     */
     position: absolute;
-    left: 11rem;
+    left: 10.6rem;
     top: 30rem;
     width: 30rem;
     height: 6rem;      
