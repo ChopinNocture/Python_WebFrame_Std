@@ -42,6 +42,8 @@
                         <label class="custom-control-label" for="class_{{cls.id}}">{{cls.class_name}}</label>
                     </div>
                     {% endfor %}
+                    <button type="button" id="btn_clsConfirm" class="btn btn-warning mb-1"
+                    data-url="{% url 'course:lesson_content_class_change' lesson_content_id=9999 %}" onclick="onConfirmClassSetting(event)">确定班级设置修改</button>
                 </div> 
             </div>
             <input type="submit" value="上传" class="btn btn-primary inline mb-2"/>

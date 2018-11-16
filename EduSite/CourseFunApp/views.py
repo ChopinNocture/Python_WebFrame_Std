@@ -314,7 +314,16 @@ def lesson_editor(request):
 
 
 @course_required()
-def get_lesson_content(request, lesson_id):
+def lesson_content_class_change(request, lesson_content_id):
+    if request.method == "POST":
+        try:
+            lesson_cont = questionModels.LessonContent.objects.using(request.db_name).get(id=lesson_content_id)
+            class_list = request.POST.get("class_list")
+            lesson_cont.class_id_list = class_list
+            lesson_cont.save()
+        except Exception as e:            
+            return HttpResponseNotAllowed("F!")
+
     return HttpResponse('hello')
 
 

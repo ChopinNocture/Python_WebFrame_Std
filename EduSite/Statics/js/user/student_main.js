@@ -43,6 +43,10 @@ function onInit(event) {
     
 
     $('#l_m').css('background-size', '100% 100%');
+    $('#l_uu').click(onNext);
+    $('#l_u').click(onNext);
+    $('#l_b').click(onPrev);
+    $('#l_bb').click(onPrev);
     $('#move_prev').click(onNext);
     $('#move_next').click(onPrev);
     $('#lesson_list_panel').on('mousewheel', onWheeling).on('DOMMouseScroll', onWheeling);

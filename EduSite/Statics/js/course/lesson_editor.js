@@ -17,6 +17,7 @@ function init() {
     $('#btn_new').hide();
     $('#btn_delete').hide();
     reBindEvent();
+    refreshUI();
 }
 
 function reBindEvent() {
@@ -38,10 +39,12 @@ function refreshUI() {
     if ($('#id_file_name').val() == "") {
         $('#btn_preview').prop('disabled', true);
         $('#prev_part').html('');
+        $('#btn_clsConfirm').hide();
     } else {
         $('#btn_preview').prop('disabled', false);
         var temp_html = type_HTML[$('#id_file_type').val()].replace('***', '/uploaded/' + $('#id_file_name').val());
         $('#prev_part').html(temp_html);
+        $('#btn_clsConfirm').show();
     }
 
     if ($('#id_file')[0].files.length > 0 &&
@@ -49,13 +52,12 @@ function refreshUI() {
         $('#fsel-label').html($('#id_file')[0].files[0].name);
     } else {
         $('#fsel-label').html('');
-        event.target.value = "";
     }
 
     var cls_str = $('#id_class_id_list').val();
     if (cls_str != "") {
         $('input[id^=class_]').each(function () {
-            $(this).attr("checked", -1 != cls_str.indexOf($(this).data("clsId")));
+            $(this).prop("checked", -1 != cls_str.indexOf($(this).data("clsId")));
         });
     }
 }
@@ -101,8 +103,8 @@ function onFormGet(response, status, xhr) {
     $('#form_part').html(response);
     reBindEvent();
     refreshUI();
-    $('#id_file_type').attr("disabled",true);
-    $('#id_file').attr("disabled",true);    
+    $('#id_file_type').attr("disabled", true);
+    $('#id_file').attr("disabled", true);
     $('#btn_new').show();
     $('#btn_delete').show();
 }
@@ -172,4 +174,31 @@ function checkSubmit() {
     }
 
     return $('#lesson_con_form')[0].reportValidity();
+}
+
+function onConfirmClassSetting(event) {
+    if (cont_id != -1) {
+        var targetURL = event.target.dataset.url.replace("9999", cont_id);
+
+        var cls_str = $('input[id^=class_]:checkbox:checked').map(function () {
+            return $(this).data("clsId");
+        }).get().join(",");
+        $('#id_class_id_list').val(cls_str);
+        if ("" == cls_str) {
+            alert("必须至少选择一个班级!! ");
+            return false;
+        } 
+
+        $.ajax({
+            url: targetURL,
+            type: 'post',
+            data: { "class_list": cls_str },
+            dataType: 'json',
+            success: classSettingChangeFunc,
+        });
+    }    
+}
+
+function classSettingChangeFunc() {
+    alert("班级设置修改成功！");
 }

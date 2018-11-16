@@ -336,7 +336,7 @@ var VOICE_ANSWER_HTML = '<div id="frame_recorder">\
                     </div>';
 var recorder, audio_context;
 var is_recording = false;
-var maxTime = 30, rtime = 0;
+var maxTime = 60, rtime = 0;
 var re_timer;
 var answer_audio;
 function onToggleRecord(button) {
