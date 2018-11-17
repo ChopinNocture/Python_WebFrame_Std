@@ -53,12 +53,12 @@ def parse_Choice(sheet, row, desc, lesson):
 
     idx = 10
     option_list = []
-    option = sheet.cell(column=idx, row=row).value
+    option = str(sheet.cell(column=idx, row=row).value)
 
-    while option:
+    while option != "None":
         option_list.append(option)
         idx += 1
-        option = sheet.cell(column=idx, row=row).value        
+        option = str(sheet.cell(column=idx, row=row).value)      
     
     option = "|-|".join(option_list)
 
@@ -81,12 +81,12 @@ def parse_MultiChoice(sheet, row, desc, lesson):
 
     idx = 10
     option_list = []
-    option = sheet.cell(column=idx, row=row).value
+    option = str(sheet.cell(column=idx, row=row).value)
 
-    while option:
+    while option != "None":
         option_list.append(option)
         idx += 1
-        option = sheet.cell(column=idx, row=row).value
+        option = str(sheet.cell(column=idx, row=row).value)
     
     option = "|-|".join(option_list)
 
@@ -106,15 +106,15 @@ def parse_Pair(sheet, row, desc, lesson):
     idx = 0
     option_l_list = []
     option_r_list = []
-    option_l = sheet.cell(column=10+idx<<1, row=row).value
-    option_r = sheet.cell(column=11+idx<<1, row=row).value
+    option_l = str(sheet.cell(column=10+idx<<1, row=row).value)
+    option_r = str(sheet.cell(column=11+idx<<1, row=row).value)
 
-    while option_l:
+    while option_l != "None":
         option_l_list.append(option_l)
         option_r_list.append(option_r)
         idx += 1
-        option_l = sheet.cell(column=10+idx<<1, row=row).value
-        option_r = sheet.cell(column=11+idx<<1, row=row).value
+        option_l = str(sheet.cell(column=10+idx<<1, row=row).value)
+        option_r = str(sheet.cell(column=11+idx<<1, row=row).value)
     
     option_l = "|-|".join(option_l_list)
     option_r = "|-|".join(option_r_list)
@@ -132,12 +132,12 @@ def parse_Pair(sheet, row, desc, lesson):
 def parse_Sort(sheet, row, desc, lesson):
     idx = 10
     option_list = []
-    option = sheet.cell(column=idx, row=row).value
+    option = str(sheet.cell(column=idx, row=row).value)
 
-    while option:
+    while option != "None":
         option_list.append(option)
         idx += 1
-        option = sheet.cell(column=idx, row=row).value        
+        option = str(sheet.cell(column=idx, row=row).value)        
     
     option = "|-|".join(option_list)
     # print(desc + ' - ' + option)
@@ -176,9 +176,9 @@ def update_DB_from_excel(excel_url, db_name):
         cur_sht = wb[qTypeName]
         if cur_sht: 
             row_idx = 3
-            ques_desc = cur_sht['G' + str(row_idx)].value
+            ques_desc = str(cur_sht['G' + str(row_idx)].value)
 
-            while ques_desc:
+            while ques_desc != "None":
                 try:
                     ques_type = cur_sht['F' + str(row_idx)].value
                     lesson_desc = cur_sht['A' + str(row_idx)].value                        
@@ -189,12 +189,13 @@ def update_DB_from_excel(excel_url, db_name):
                     quest.save(using=db_name)
                     # print(ques_type, quest)
                 except (AttributeError) as e:
-                    print("---- " + e)
+                    print("---- " + e, ques_desc, lesson_desc, row_idx, ques_type)
                 except (excepts.ObjectDoesNotExist) as e:
-                    print("??? " + str(e))
+                    print("??? ", str(e), ques_desc, lesson_desc, row_idx, ques_type)
 
+                print("***", ques_desc, lesson_desc, row_idx, ques_type)
                 row_idx += 1
-                ques_desc = cur_sht['G' + str(row_idx)].value
+                ques_desc = str(cur_sht['G' + str(row_idx)].value)
 
 
 def import_lesson_list(excel_url, db_name):
@@ -205,7 +206,7 @@ def import_lesson_list(excel_url, db_name):
     if lesson_list_sht:
         row_idx = 2
         lesson_desc = lesson_list_sht['A' + str(row_idx)].value
-        while lesson_desc:
+        while lesson_desc != "None":
             try:
                 questionModels.Lesson.objects.using(db_name).create(description=lesson_desc)
             except (Exception) as e:
