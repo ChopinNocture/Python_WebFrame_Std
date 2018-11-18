@@ -193,7 +193,6 @@ def update_DB_from_excel(excel_url, db_name):
                 except (excepts.ObjectDoesNotExist) as e:
                     print("??? ", str(e), ques_desc, lesson_desc, row_idx, ques_type)
 
-                print("***", ques_desc, lesson_desc, row_idx, ques_type)
                 row_idx += 1
                 ques_desc = str(cur_sht['G' + str(row_idx)].value)
 

@@ -488,6 +488,30 @@ def exam_editor_hitory(request):
 
 
 @course_required()
+def exam_answer(request, examans_id):
+    if request.method == "GET":
+        try:
+            exam_answer = ExamAnswer.objects.using(request.db_name).get(id=examans_id)
+            exam_id = exam_answer.exam.id
+            exam_form = questionForms.ExaminationForm(instance=exam_answer.exam)
+        except Exception as e:
+            print(e)
+            return HttpResponseNotAllowed(e)
+
+        return render(request=request, template_name="course/exam_check.html",
+                    context = { "user_id": request.user.id,
+                                "exam_id": exam_id,
+                                "form": exam_form, 
+                                "qTypeList": exam_sys.q_type_list })
+    elif request.is_ajax() and request.method == "POST":
+        examAns = ExamAnswer.objects.using(request.db_name).get(id=examans_id)        
+        print(request.POST['addition_score'])
+        examAns.addition_score = request.POST['addition_score']
+        examAns.save()
+        return HttpResponse("Suc")
+
+
+@course_required()
 def exam_ready(request):
     stu_prof = StudentProf.objects.get(user=request.user)
     exam = exam_sys.checkNearestExam(request.db_name, stu_prof.class_id.id)

@@ -15,21 +15,6 @@
 </form>
 <div id="root_panel"> 
     {% include "course/exam_sheet.html" %}
-    <div id="info_panel">
-        <div id="model_bg" hidden>
-            <div id="show_panel" hidden>
-                <p>确认要交卷吗？交卷以后不能修改噢！</p>
-                <button id="btn_ok" class="btn-round-wine"  onclick="onConfirmClick(event)" onfocus="this.blur()" tabindex="-1">交卷</button>
-                <button id="btn_cancel" class="btn-round-sky" onclick="onCancelClick(event)" onfocus="this.blur()" tabindex="-1">再看看</button>
-            </div>
-        </div>
-        <div id="time_panel">
-            <div id="clock_icon"><span id="clock_time">12:32:12</span></div>
-            <button id="btn_submit" class="btn-circle-orange" onclick="onSubmitClick(event)" onfocus="this.blur()" tabindex="-1">完成交卷</button>
-            <!-- <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a> -->
-        </div>
-        <div id="teacher" alt="Card image cap"></div>
-    </div>    
 </div>
 
 {% endblock %}

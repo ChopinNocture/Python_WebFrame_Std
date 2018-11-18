@@ -97,23 +97,24 @@ function nextQuestion(nextIdx) {
 }
 
 function updatePageView() {
-    if(cur_idx<=0) {
+    if (cur_idx <= 0) {
         $('#prev_panel').hide();
     }
     else {
         $('#prev_panel').show();
     }
 
-    if (cur_idx<question_sum-1) {        
+    if (cur_idx < question_sum - 1) {
         $('#last_panel').hide();
         $('#next_panel').show();
-        $('#next_index').html(cur_idx+2);
+        $('#next_index').html(cur_idx + 2);
     }
     else {
         $('#last_panel').show();
         $('#next_panel').hide();
     }
-    $('#current_index').html(cur_idx+1);    
+    $('#current_index').html(cur_idx + 1);
+    $('#sum_label').html(question_sum);
 }
 
 //---------------------------------------------------------------------------
