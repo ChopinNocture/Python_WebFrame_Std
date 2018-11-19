@@ -192,6 +192,21 @@ class ExaminationForm(ModelForm):
 
 
 # ---------------
+# ExamAnswer form
+class ExamAnswerForm(ModelForm):
+    class Meta:
+        model = ExamAnswer
+        fields = '__all__'
+        widgets = {
+            'exam': HiddenInput(),  # attrs={'id': 'Input_SectionID'}),            
+            'user_id': HiddenInput(),
+            'answer_json': HiddenInput(),
+            'score': HiddenInput(),
+            'addition_score': HiddenInput(),
+        }
+
+
+# ---------------
 # Lesson Content form
 class LessonContentForm(ModelForm):
     file_name = CharField(widget=HiddenInput, required=False)

@@ -201,7 +201,10 @@ def question_import(request):
         return render(
             request=request, 
             template_name="course/Question_Importer.html", 
-            context={"suc_info" : "hidden", 'fail_info' : "hidden", 'course_desc':request.course_desc}
+            context={"suc_info" : "hidden",
+                     'fail_info' : "hidden",
+                     "course_html": get_lesson_list_html(request),
+                     'course_desc':request.course_desc}
         )
 
 
@@ -212,20 +215,31 @@ def _question_import(request):
 
     if request.POST['op'] == 'ListImport':
         DB_tool.import_lesson_list(file.temporary_file_path(), request.db_name)
-    else:
+    elif request.POST['op'] == 'normal':
         try:
             DB_tool.update_DB_from_excel(file.temporary_file_path(), request.db_name)
         except Exception as e:
             print(e)
             return render(
-                request=request, 
-                template_name="course/Question_Importer.html", 
-                context={"suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc}
+                request = request, 
+                template_name = "course/Question_Importer.html", 
+                context = {"course_html": get_lesson_list_html(request), "suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc}
             )    
+    elif request.POST['op'] == 'check':
+        valid, check_string = DB_tool.check_question_excel(file.temporary_file_path(), request.db_name)
+        return render(request=request, 
+                template_name = "course/Question_Importer.html", 
+                context = {
+                        "course_html": get_lesson_list_html(request),
+                        "suc_info" : "hidden", 
+                        'chk_valid': valid,
+                        'chk_string': check_string,
+                        'fail_info': "hidden", 
+                        'course_desc': request.course_desc})
 
     return render(request=request, 
-        template_name="course/Question_Importer.html", 
-        context={"suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc})
+        template_name = "course/Question_Importer.html", 
+        context = {"course_html": get_lesson_list_html(request), "suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc})
 
 
 # --------------------------------------------------------
@@ -399,27 +413,26 @@ def answer_sheet(request, sectionID):
 def exam_examination(request, exam_id):
     try:
         exam = Examination.objects.using(request.db_name).get(id=exam_id)
+        exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
     except ObjectDoesNotExist as e:
         print(e)
         exam = Examination()
+        exam_answer = ExamAnswer(exam=exam, user_id=request.user.id) 
 
     if request.method == "GET":        
         exam_form = questionForms.ExaminationForm(instance=exam)
-
+        exam_answer_form = questionForms.ExamAnswerForm(instance=exam_answer)
         return render(request=request, template_name="course/Examination.html",
                     context = { "user_id": request.user.id,
                                 "exam_id": exam_id,
                                 "form": exam_form, 
+                                "exam_answer_form": exam_answer_form,
                                 "serv_time": str(timezone.now()),
                                 "qTypeList": exam_sys.q_type_list })
     else:
         if not request.is_ajax(): 
             return HttpResponse('failed')
 
-        try:
-            exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
-        except ObjectDoesNotExist as e:
-            exam_answer = ExamAnswer(exam=exam, user_id=request.user.id) 
         print(request.POST['exam'])
         exam_answer.answer_json = request.POST['exam']
         exam_answer.score = request.POST['score']
@@ -494,6 +507,7 @@ def exam_answer(request, examans_id):
             exam_answer = ExamAnswer.objects.using(request.db_name).get(id=examans_id)
             exam_id = exam_answer.exam.id
             exam_form = questionForms.ExaminationForm(instance=exam_answer.exam)
+            exam_answer_form = questionForms.ExamAnswerForm(instance=exam_answer)
         except Exception as e:
             print(e)
             return HttpResponseNotAllowed(e)
@@ -501,7 +515,8 @@ def exam_answer(request, examans_id):
         return render(request=request, template_name="course/exam_check.html",
                     context = { "user_id": request.user.id,
                                 "exam_id": exam_id,
-                                "form": exam_form, 
+                                "exam_form": exam_form, 
+                                "exam_answer_form": exam_answer_form,
                                 "qTypeList": exam_sys.q_type_list })
     elif request.is_ajax() and request.method == "POST":
         examAns = ExamAnswer.objects.using(request.db_name).get(id=examans_id)        

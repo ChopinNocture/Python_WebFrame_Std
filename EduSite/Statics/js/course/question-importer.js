@@ -14,11 +14,13 @@ function onFileSelect(event) {
     //alert(event.target.files[0].name + ' ---- ' + event.target.files[0].type + ' - ');
     if($('#excel_file')[0].files[0].type.indexOf('application/vnd.ms-excel')!=-1) {
         $('#fsel_label').html($('#excel_file')[0].files[0].name);
+        $('#check_btn').prop('disabled', false);
         $('#import_btn').prop('disabled', false);
         $('#import_list_btn').prop('disabled', false);
     }
     else {
         $('#fsel_label').html("请选择Excel文件......");
+        $('#check_btn').prop('disabled', true);
         $('#import_btn').prop('disabled', true);
         $('#import_list_btn').prop('disabled', true);
     }
@@ -26,6 +28,7 @@ function onFileSelect(event) {
 
 function onBtnClk(event) {
     $('#op_id').val('normal');
+    $('#check_btn').prop('disabled', true);
     $('#import_btn').prop('disabled', true);
     $('#import_list_btn').prop('disabled', true);
     start_progress();
@@ -34,6 +37,16 @@ function onBtnClk(event) {
 
 function onListBtnClk(event) {
     $('#op_id').val('ListImport');
+    $('#check_btn').prop('disabled', true);
+    $('#import_btn').prop('disabled', true);
+    $('#import_list_btn').prop('disabled', true);
+    start_progress();
+    $('#quest_importer_fm').submit();
+}
+
+function onCheckClk(event) {
+    $('#op_id').val('check');
+    $('#check_btn').prop('disabled', true);
     $('#import_btn').prop('disabled', true);
     $('#import_list_btn').prop('disabled', true);
     start_progress();

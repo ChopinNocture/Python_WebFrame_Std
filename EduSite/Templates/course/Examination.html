@@ -11,6 +11,7 @@
     data-voice-answer-url="{% url 'course:exam_voice_answer' student_id=user_id exam_id=exam_id %}" hidden>
     {% csrf_token %}
     {{form.as_p}}
+    {{exam_answer_form.as_p}}
     <input type="hidden" name="server_time" value="{{serv_time}}" id="id_server_time">
 </form>
 <div id="root_panel"> 
