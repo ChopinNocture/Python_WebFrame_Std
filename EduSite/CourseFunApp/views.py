@@ -223,8 +223,7 @@ def _question_import(request):
             return render(
                 request = request, 
                 template_name = "course/Question_Importer.html", 
-                context = {"course_html": get_lesson_list_html(request), "suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc}
-            )    
+                context = {"course_html": get_lesson_list_html(request), "suc_info" : "hidden", 'fail_info' : "", 'course_desc':request.course_desc})    
     elif request.POST['op'] == 'check':
         valid, check_string = DB_tool.check_question_excel(file.temporary_file_path(), request.db_name)
         return render(request=request, 

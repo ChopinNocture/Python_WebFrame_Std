@@ -13,12 +13,11 @@ def char_to_num(matchobj):
 
 
 #--------------------------
-def check_FillInBlank(sheet, row, desc, check_string):
+def check_FillInBlank(sheet, row, desc):
     if sheet["I" + str(row)].value:
-        return True
+        return True, ""
     else:
-        check_string = check_string + "\t第" + str(row) + "行，填空题：没有答案，请检查题目：" + str(desc) + "\n"
-        return False
+        return False, "\t第" + str(row) + "行，填空题：没有答案，请检查题目：" + str(desc) + "\n"
 
 
 def parse_FillInBlank(sheet, row, desc, lesson):
@@ -41,12 +40,11 @@ def parse_FillInBlank(sheet, row, desc, lesson):
 
 
 #--------------------------
-def check_TrueOrFalse(sheet, row, desc, check_string):
+def check_TrueOrFalse(sheet, row, desc):
     if sheet["I" + str(row)].value:
-        return True
+        return True, ""
     else:
-        check_string = check_string + "\t第" + str(row) + "行，填空题：没有答案，请检查题目：" + str(desc) + "\n"
-        return False
+        return False, "\t第" + str(row) + "行，填空题：没有答案，请检查题目：" + str(desc) + "\n"
 
 
 def parse_TrueOrFalse(sheet, row, desc, lesson):
@@ -62,7 +60,7 @@ def parse_TrueOrFalse(sheet, row, desc, lesson):
 
 
 #--------------------------
-def check_Choice(sheet, row, desc, check_string):
+def check_Choice(sheet, row, desc):
     idx = 10
     option = sheet.cell(column=idx, row=row).value
     while option:
@@ -70,10 +68,9 @@ def check_Choice(sheet, row, desc, check_string):
         option = sheet.cell(column=idx, row=row).value
 
     if idx==10:
-        check_string = check_string + "\t第" + str(row) + "行，多选题：没有选项！" + str(desc) + "\n"
-        return False
+        return False, "\t第" + str(row) + "行，多选题：没有选项！" + str(desc) + "\n"
 
-    return True
+    return True, ""
 
 
 def parse_Choice(sheet, row, desc, lesson):
@@ -107,8 +104,8 @@ def parse_Choice(sheet, row, desc, lesson):
 
 
 #--------------------------
-def check_MultiChoice(sheet, row, desc, check_string):
-    return check_Choice(sheet, row, desc, check_string)
+def check_MultiChoice(sheet, row, desc):
+    return check_Choice(sheet, row, desc)
 
 
 def parse_MultiChoice(sheet, row, desc, lesson):
@@ -140,7 +137,7 @@ def parse_MultiChoice(sheet, row, desc, lesson):
     
 
 #--------------------------
-def check_Pair(sheet, row, desc, check_string):
+def check_Pair(sheet, row, desc):
     idx = 0
     option_l = sheet.cell(column=10+idx<<1, row=row).value
     option_r = sheet.cell(column=11+idx<<1, row=row).value
@@ -151,9 +148,8 @@ def check_Pair(sheet, row, desc, check_string):
         option_r = sheet.cell(column=11+idx<<1, row=row).value
 
     if idx==0:
-        check_string = check_string + "\t第" + str(row) + "行，配对题：没有选项！" + str(desc) + "\n"
-        return False        
-    return True
+        return False, "\t第" + str(row) + "行，配对题：没有选项！" + str(desc) + "\n"
+    return True, ""
 
 
 def parse_Pair(sheet, row, desc, lesson):
@@ -184,7 +180,7 @@ def parse_Pair(sheet, row, desc, lesson):
 
 
 #--------------------------
-def check_Sort(sheet, row, desc, check_string):
+def check_Sort(sheet, row, desc):
     idx = 10
     option = sheet.cell(column=idx, row=row).value
     while option:
@@ -192,10 +188,9 @@ def check_Sort(sheet, row, desc, check_string):
         option = sheet.cell(column=idx, row=row).value
 
     if idx==10:
-        check_string = check_string + "\t第" + str(row) + "行，排序题：没有选项！" + str(desc) + "\n"
-        return False
+        return False, "\t第" + str(row) + "行，排序题：没有选项！" + str(desc) + "\n"
 
-    return True
+    return True, ""
 
 
 def parse_Sort(sheet, row, desc, lesson):
@@ -221,8 +216,8 @@ def parse_Sort(sheet, row, desc, lesson):
 
 
 #--------------------------
-def check_Subject(sheet, row, desc, check_string):
-    return True
+def check_Subject(sheet, row, desc):
+    return True, ""
 
 
 def parse_Subject(sheet, row, desc, lesson):
@@ -260,7 +255,10 @@ def update_DB_from_excel(excel_url, db_name):
 
             while ques_desc != "None":
                 try:
-                    ques_type = cur_sht['F' + str(row_idx)].value
+                    ques_type = str(cur_sht['F' + str(row_idx)].value)
+                    if ques_type=="None" or "#N/A":
+                        ques_type = type_dict[str(cur_sht['E' + str(row_idx)].value)]
+
                     lesson_desc = cur_sht['A' + str(row_idx)].value                        
                     lesson = lesson_list.get(description=lesson_desc)
                     
@@ -332,9 +330,8 @@ def check_question_excel(excel_url, db_name):
                 row_idx = 3
                 ques_desc = str(check_sheet['G' + str(row_idx)].value)
                 while ques_desc != "None":
-                    if check_sheet['F' + str(row_idx)].value:
-                        ques_type = str(check_sheet['F' + str(row_idx)].value)
-                    else:
+                    ques_type = str(check_sheet['F' + str(row_idx)].value)
+                    if ques_type=="None" or "#N/A":
                         ques_type = type_dict[str(check_sheet['E' + str(row_idx)].value)]
                         
                     lesson_desc = check_sheet['A' + str(row_idx)].value
@@ -342,10 +339,12 @@ def check_question_excel(excel_url, db_name):
                     if lesson_list.filter(description=lesson_desc).exists():
                         try:    
                             checkfunc = getattr(sys.modules[__name__], "check_" + ques_type)
-                            valid = valid and checkfunc(check_sheet, row_idx, ques_desc, check_string)
+                            ret_v, ret_str = checkfunc(check_sheet, row_idx, ques_desc)
+                            valid = valid and ret_v
+                            check_string += ret_str
                         except (AttributeError) as e:
                             check_string = check_string + "\t第" + str(row_idx) + "行 |题目类型|：<" + str(ques_type) + "> 错误! 错误信息：" + str(e) + "\n"
-                            valid = False
+                            valid = False                            
                         except (Exception) as e:
                             print(str(e))
                             check_string = check_string + "\t第" + str(row_idx) + "行 <" + str(ques_type) + ">题，题目有错  错误信息：" + str(e) + "\n"
@@ -353,10 +352,11 @@ def check_question_excel(excel_url, db_name):
                     else:
                         check_string = check_string + "\t第" + str(row_idx) + "行 第一列，所属单元:" + str(lesson_desc) + " 错误或者不存在!\n"
                         valid = False
-
+                    
+                    print(row_idx, ques_type )
                     row_idx += 1
-                    ques_desc = str(check_sheet['G' + str(row_idx)].value)
-            else:
+                    ques_desc = str(check_sheet['G' + str(row_idx)].value)                    
+            else:        
                 check_string = check_string + "题型<" + qTypeName + ">页面缺失\n"
                 valid = False
     else:
