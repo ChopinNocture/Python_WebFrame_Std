@@ -69,7 +69,6 @@ function updatePageView() {
 
 //---------------------------------------------------------------------------
 // exam part
-var checkAnswerFunc;// = function(){ return {complete, result, answer}; };
 var refreshQuestionFunc;
 var refreshAnswerFunc;
 
@@ -103,15 +102,13 @@ function onTypeChanged(event) {
 function updateTypeChanged(newType) {
     examination[cur_type]["index"] = cur_idx;
     //alert(newType+"--" + examination[cur_type]["questions"]);
-    checkCurrentAnswer();
-
     cur_type = newType;
     cur_idx = examination[cur_type]["index"];
     question_sum = examination[cur_type]["num"];        
 
-    eval('checkAnswerFunc = check' + cur_type);
     eval('refreshQuestionFunc = refresh' + cur_type);
     eval('refreshAnswerFunc = refreshAnswer' + cur_type);
+    eval('showKeyFunc = showKey' + cur_type);
     
     if (examination[cur_type]["questions"] == undefined) {
         if (examination[cur_type]['qlist'].length > 0) {
@@ -138,8 +135,6 @@ function onQuestionGet(jsonData) {
     var getType = jsonData['qtype'];
     //alert(getType+ " ** " +  JSON.stringify(jsonData));
     examination[getType]["questions"] = jsonData['questions'];
-    examination[getType]["answers"] = new Array(jsonData['questions'].length);
-
     update();
 }
 
@@ -147,8 +142,14 @@ function updateQuestion() {
     //alert(examination[cur_type].qlist[cur_idx]);
     if (examination[cur_type]["questions"][cur_idx] != undefined) {
         refreshQuestionFunc(examination[cur_type]["questions"][cur_idx]);
-        if(examination[cur_type]["answers"] && examination[cur_type]["answers"][cur_idx]) {
-            refreshAnswer(examination[cur_type]["answers"][cur_idx].answer, examination[cur_type]["questions"][cur_idx]);    
+        if(answer_info[cur_type]["re"][cur_idx]['a']) {
+            refreshAnswer(answer_info[cur_type]["re"][cur_idx]['a'], examination[cur_type]["questions"][cur_idx]);
+            var result = {
+                "result": answer_info[cur_type]["re"][cur_idx]['r'],
+                "qDesc": examination[cur_type]["questions"][cur_idx].description
+            };
+            showKeyFunc(result, examination[cur_type]["questions"][cur_idx].key);
+            showResult(result.result, cur_type=="Voice");
         }       
     }
     else{
@@ -157,18 +158,36 @@ function updateQuestion() {
     }
 }
 
-function checkCurrentAnswer() {
-    if(examination[cur_type] == undefined) return;
-    
-    if(examination[cur_type]["answers"]) {
-        examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
-    }    
-}
-
 function refreshAnswer(answerString, question) {
     refreshAnswerFunc(answerString, question);
 }
 
+
+//=======================================================
+// tips part
+//-----------
+const QTYPE_TIPS_MAP = {
+    "ERROR": "答案错误，正确答案如上所示！",
+    "SUCCEED": "答案正确！",
+    "VoiceRef": "点击按钮听参考答案！"
+}
+
+function showResult(isCorrect, isVoice) {    
+    $('#sheet_bg_in').removeClass('effect-right').removeClass('effect-wrong');
+    if(isVoice) {
+        $('#q_type_tips').html(QTYPE_TIPS_MAP["VoiceRef"]);
+    }
+    else {
+        if(isCorrect) {
+            $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
+            $('#sheet_bg_in').addClass('effect-right');
+        }
+        else {
+            $('#sheet_bg_in').addClass('effect-wrong');
+            $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+        }
+    }
+}
 
 //----------------------------------------------------------------------------
 function refreshAnswerFillInBlank(answerString) {

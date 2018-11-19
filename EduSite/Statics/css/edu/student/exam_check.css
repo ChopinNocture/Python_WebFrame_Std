@@ -1,0 +1,55 @@
+@import url(./exam_sheet.css);
+
+.icon-checked-no {
+    transition-duration: 1s;
+    transition-property: transform;
+    transition-timing-function: ease;
+    transform: rotate(360deg);    
+}
+
+.icon-checked-key {
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-correct.png');
+}
+
+.icon-checked-no {
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-wrong.png');
+}
+
+.icon-no-key {
+    content: "";
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/icon-missed.png');
+}
+
+.icon-no-no {
+    content: "";
+    background-size: 100% 100%;
+    background-image: '';
+}
+
+
+.effect-wrong {
+    animation: anim-wrong 0.3s 10;
+}
+
+@keyframes anim-wrong {
+    50% {        
+        border-color: rgb(241, 80, 80); 
+        box-shadow:0rem 0rem 6.0rem rgb(255, 0, 0);
+    }
+}
+
+.effect-right {
+    animation: anim-right 2s infinite;
+}
+
+@keyframes anim-right {
+    50% {        
+        border-color: #2cb33e; 
+        box-shadow:0rem 0rem 5.0rem #2cb33e;
+    }
+}

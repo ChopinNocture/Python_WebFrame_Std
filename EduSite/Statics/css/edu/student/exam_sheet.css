@@ -544,17 +544,6 @@ body {
     color:red;
 }
 
-.effect-wrong {
-    animation: anim-wrong 0.3s infinite;
-}
-
-@keyframes anim-wrong {
-    50% {        
-        border-color: rgb(241, 80, 80); 
-        box-shadow:0rem 0rem 6.0rem rgb(255, 0, 0);
-    }
-}
-
 #FIB-key-panel{
     line-height: 1.5em;
     text-indent: 2em;

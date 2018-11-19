@@ -2,7 +2,8 @@
 {% load static %} 
 {% block title %}考试{% endblock %} 
 {% block jsPage %}
-<script type="text/javascript" src="{% static 'js/course/answer-comp.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/course/answer-comp.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/course/key-comp.js' %}"></script>  
 <script type="text/javascript" src="{% static 'js/course/exam-check.js' %}"></script> 
 {% endblock %} 
 {% block content %}
@@ -21,7 +22,7 @@
 
 {% block jsFunctionLib %}
     <link rel="stylesheet" href="{% static 'css/edu/student/common_lib.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/edu/student/exam_sheet.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/student/exam_check.css' %}"/>
         
     <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/recorder.js' %}"></script>
