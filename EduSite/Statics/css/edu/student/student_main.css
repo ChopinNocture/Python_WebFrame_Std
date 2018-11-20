@@ -619,8 +619,8 @@ body {
 
 /*-------------------------------------------------------------*/
 #exam_entrance {
-    left: 14.5rem;
-    top: 6rem;
+    left: 2.6rem;
+    top: 5.6rem;
     width: 24rem;
     height: 5.7rem;
     position: absolute;
@@ -634,7 +634,7 @@ body {
     top: 0.3rem;
     left: 0rem;
     background-size: 100% 100%;
-    width: 5rem;
+    width: 4.5rem;
     height: 5rem;     
 }
 #exam_icon_Sword {
@@ -667,6 +667,7 @@ body {
     transition-duration: 0.6s;   
     overflow: hidden;
 }
+
 .hasExam { width: 26.5rem; }
 .shirked { width: 1.5rem; }
 .extended { width: 18.5rem; }
@@ -697,6 +698,46 @@ body {
 #btn_enter_exam {
     font-size: 120%;     
 }
+
+/*-------------------------------------------------------------*/
+#exam_history {
+    left: 27rem;
+    top: 5.6rem;
+    width: 24rem;
+    height: 5.7rem;
+    position: absolute;
+    text-align: inherit;
+    /* border: 1px dashed; */
+    color: #418cce;
+}
+
+#history_icon {
+    position: absolute;
+    top: 0.3rem;
+    left: 0rem;
+    background-size: 100% 100%;
+    width: 5rem;
+    height: 5rem;     
+}
+
+#history_inner {
+    padding-left: 3rem;
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+    height: 3.5rem;
+
+    /* border-style: none;
+    border-width: 0.3rem;
+    border-radius: 1rem;
+    border-color: goldenrod;     */
+    background-image: linear-gradient(rgb(65, 140, 206), rgb(151, 199, 241) 21%, white 25%, white 75%, rgb(151, 199, 241) 79%, rgb(65, 140, 206) 100%);
+ /* border: 3px dashed; */        
+    transition-property: all;
+    transition-duration: 0.6s;   
+    overflow: hidden;
+}
+
 /*-------------------------------------------------------------*/
 #hanging_panel_right, #hanging_panel_left {
     position: fixed;

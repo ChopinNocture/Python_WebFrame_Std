@@ -99,13 +99,17 @@ def get_student_prof(request, student_id):
         return HttpResponse("Permission reject!")
 
     if request.method == 'GET':
-        user = User.objects.get(id=student_id)
-        stud_prof = StudentProf.objects.get(user=user)
-        stud_prog = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)    
-        exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(user_id=student_id).values("exam", "id", "score", "addition_score")
-        for exam_ans in exam_ans_list:
-            exam = Examination.objects.using(request.db_name).get(id=exam_ans['exam'])
-            exam_ans['title'] = exam.title
+        try:
+            user = User.objects.get(id=student_id)
+            stud_prof = StudentProf.objects.get(user=user)
+            stud_prog = StudentProgressInfo.objects.using(request.db_name).get(user_id=user.id)    
+            exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(user_id=student_id).values("exam", "id", "score", "addition_score")
+            for exam_ans in exam_ans_list:
+                exam = Examination.objects.using(request.db_name).get(id=exam_ans['exam'])
+                exam_ans['title'] = exam.title
+        except ObjectDoesNotExist as e:
+            print(str(e))
+            return HttpResponseNotAllowed("信息缺失："+str(e))
             
         return render(request, 'user/student_prof.html', 
                             {'stud_prog': stud_prog, 'stud_prof': stud_prof, 'exam_ans_list': exam_ans_list})
