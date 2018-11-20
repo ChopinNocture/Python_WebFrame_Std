@@ -500,10 +500,13 @@ def exam_editor_hitory(request):
 
 
 @course_required()
-def exam_answer(request, examans_id):
+def exam_answer(request, examans_id, stud_id=-1):
     if request.method == "GET":
         try:
-            stu_prof = StudentProf.objects.get(user=request.user)
+            if stud_id==-1:
+                stud_id = request.user
+
+            stu_prof = StudentProf.objects.get(user=stud_id)
             exam_answer = ExamAnswer.objects.using(request.db_name).get(id=examans_id)
             exam_id = exam_answer.exam.id
             exam_form = questionForms.ExaminationForm(instance=exam_answer.exam)

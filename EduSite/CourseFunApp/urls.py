@@ -23,6 +23,7 @@ urlpatterns = [
     path('exam/nearest/', views.exam_ready, name='exam_ready'),
     path('exam/<int:exam_id>/', views.exam_examination, name='exam_current'),
     path('exam_answer/<int:examans_id>/', views.exam_answer, name='exam_answer'),
+    path('exam_answer/<int:examans_id>/<int:stud_id>/', views.exam_answer, name='exam_answer_teacher'),
     path('exam/voice/<int:student_id>/<int:exam_id>/', views.exam_voice_answer, name='exam_voice_answer'),
     path('exam/addition/<int:examans_id>/', views.exam_addition_score, name='exam_addition_score'),
     path('class/setting/', views.class_setting, name='class_setting'),
