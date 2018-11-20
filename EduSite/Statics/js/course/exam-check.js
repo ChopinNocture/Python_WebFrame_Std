@@ -10,8 +10,9 @@ var answer_info = null;
 
 function onInit(event) {  
     csrf_Setup();
-
-    $('#section_title').html($('#id_title').val());
+    var title = "";
+    title = title + $('#id_title').val() + " 卷面查看";
+    $('#section_title').html(title);
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
@@ -65,8 +66,6 @@ function updatePageView() {
     $('#sum_label').html(question_sum);
 }
 
-
-
 //---------------------------------------------------------------------------
 // exam part
 var refreshQuestionFunc;
@@ -83,7 +82,6 @@ function initQuestion() {
 
     examination = $.parseJSON( $('#id_question_list').val() );
     if(examination) {
-        question_sum = examination.total_num;
         for (var i in qType_list) {
             if(examination[qType_list[i]]) {
                 examination[qType_list[i]]["index"] = 0;
@@ -92,6 +90,13 @@ function initQuestion() {
     }
 
     answer_info = $.parseJSON( $('#id_answer_json').val() );
+    var sc, adsc;
+    sc = Number($("#id_score").val());
+    adsc = Number($("#id_addition_score").val());
+    $("#total_sum").html(examination.total_score);
+    $("#finanl_score").html(sc + adsc);    
+    $("#answer_score").html(sc);
+    $("#addition_score").html(adsc);
 }
 
 function onTypeChanged(event) {
@@ -105,7 +110,19 @@ function updateTypeChanged(newType) {
     cur_type = newType;
     cur_idx = examination[cur_type]["index"];
     question_sum = examination[cur_type]["num"];        
-
+    
+    var cur_al = answer_info[cur_type]["re"];
+    var right_num = 0;
+    for(var iter in cur_al) {
+        if(cur_al[iter]['r']){
+            ++right_num;
+        }
+    }
+    $("#cur_score").html(answer_info[cur_type]["sc"]);
+    $("#cur_sum_sc").html(examination[cur_type]["sum_score"]);
+    $("#cur_num").html(right_num);
+    $("#cur_sum_nm").html(question_sum);
+    
     eval('refreshQuestionFunc = refresh' + cur_type);
     eval('refreshAnswerFunc = refreshAnswer' + cur_type);
     eval('showKeyFunc = showKey' + cur_type);

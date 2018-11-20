@@ -53,6 +53,7 @@ def student_main(request):
         cls_set = ClassSetting.objects.using(request.db_name).get(class_id=cur_info.class_id.id)
     except ObjectDoesNotExist as e:    
         print('class setting missing!!', e)
+        cls_set = ClassSetting(class_id=cur_info.class_id.id)
 
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 

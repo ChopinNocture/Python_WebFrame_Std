@@ -1,5 +1,102 @@
 @import url(./exam_sheet.css);
 
+
+body {    
+    background-color: #175977;
+    background-image: none;
+    background-blend-mode: normal;
+    background-size: auto; 
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-origin: inherit;
+    /*background-clip:border-box*/
+}
+
+
+#statistic_panel {
+    position: absolute;
+    border: 0.0625rem solid;
+    width: 16rem;
+    top: 3rem;
+    background-color: #eb6a91;
+    border-style: solid;
+    border-width: 0.075rem 0.125rem 0.125rem 0.075rem;
+    border-color: #e7aabd;    
+    border-radius: 1.2rem;
+    box-shadow: 0.125rem 0.25rem 0.25rem #853b51;
+}
+
+#statistic_panel #inner_panel {
+    margin: 0.6rem 0.5rem 0.4rem 0.5rem; 
+    padding: 0.125rem 0.125rem 0.025rem 0.125rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-style: solid;
+    border-radius: 1rem;
+    border-top-color: #ebced7;
+    border-bottom-color: #aa4d69;
+    border-width: 2.8rem 0rem 0.25rem 0rem;
+    box-shadow: 0.25rem 0.125rem 0.1rem #aa4d69;
+    font-size: 1rem;
+    color: #418cce;
+}
+
+#title {
+    position: relative;
+    top: -2.5rem;
+}
+
+#id_user {
+    font-size: 1.6rem;
+    left: 0.5rem;
+    display: block;
+    color: azure;
+    text-shadow:1px 0px 2px rgb(51,115,145),
+                -1px 0px 2px rgb(51,115,145),
+                0px -1px 2px rgb(51,115,145),
+                0px 1px 2px rgb(51,115,145),
+                1px 1px 2px rgb(51,115,145),
+                1px -1px 2px rgb(51,115,145),
+                -1px -1px 2px rgb(51,115,145),
+                -1px 1px 2px rgb(51,115,145); 
+    margin-right: 0.5em;  
+}
+
+#stat_part {
+    position: relative;
+    padding: 0.225rem 0.125rem 0.025rem 0.425rem;
+    top: -1.8rem;
+    font-size: 1.05rem;
+    font-weight: bolder;
+    color: rgb(109, 107, 107);
+    position: relative;
+    line-height: 1.5em;
+    text-align: left;
+    text-indent: 0em;
+    text-shadow: 0.0rem 0.0rem 0.02rem #9c2251;    
+}
+
+#statistic_panel label {
+    position: relative;
+}
+
+#stat_part span {
+    font-size: 1.2em;
+}
+
+#id_student_number { 
+    font-size: 0.9em;
+    color: rgb(167, 142, 4);
+}
+
+#finanl_score, #answer_score, #addition_score, #cur_num, #cur_score {
+    color: rgb(241, 80, 80);
+}
+
+#total_sum, #cur_sum_nm, #cur_sum_sc { color: #418cce; }
+#finanl_score { color: #2cb33e; }
+
+/*-----------------------------------------------------------------*/
 .icon-checked-no {
     transition-duration: 1s;
     transition-property: transform;

@@ -503,16 +503,18 @@ def exam_editor_hitory(request):
 def exam_answer(request, examans_id):
     if request.method == "GET":
         try:
+            stu_prof = StudentProf.objects.get(user=request.user)
             exam_answer = ExamAnswer.objects.using(request.db_name).get(id=examans_id)
             exam_id = exam_answer.exam.id
             exam_form = questionForms.ExaminationForm(instance=exam_answer.exam)
             exam_answer_form = questionForms.ExamAnswerForm(instance=exam_answer)
         except Exception as e:
             print(e)
-            return HttpResponseNotAllowed(e)
+            return HttpResponseNotAllowed(str(e))
 
         return render(request=request, template_name="course/exam_check.html",
-                    context = { "user_id": request.user.id,
+                    context = { "stud_info": stu_prof,
+                                "user_id": request.user.id,
                                 "exam_id": exam_id,
                                 "exam_form": exam_form, 
                                 "exam_answer_form": exam_answer_form,
