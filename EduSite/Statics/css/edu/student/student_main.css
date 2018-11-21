@@ -725,7 +725,8 @@ body {
     position: absolute;
     top: 1rem;
     left: 2rem;
-    height: 3.5rem;
+    height: 3.5rem; 
+    width: 17rem;
 
     /* border-style: none;
     border-width: 0.3rem;
@@ -944,4 +945,28 @@ body {
     width: 2rem;
     height: 2rem;
     top: 1.5em;
+}
+
+#his_prev, #his_next {
+    right: 0.6rem;
+    width: 3.2rem;
+    height: 2.4rem;
+    display: block;
+    position: absolute;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);    
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+    background-image: url('/Statics/images/d_arrow.png');
+}
+#his_prev:hover, #his_next:hover {
+    background-image: url('/Statics/images/d_arrow.png');
+}
+
+#his_prev {    
+    top: 0.4rem;
+    transform: rotate(180deg);
+}
+#his_next {
+    top: 3rem;
 }
