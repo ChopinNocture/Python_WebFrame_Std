@@ -18,7 +18,6 @@ function showKeyFillInBlank(result, keyObject) {
 }
 
 function showKeyTrueOrFalse(result, keyObject) {
-    //alert("???????????");
     refreshOptionByResult($('#TF_Right'), keyObject, $('#span_r'));
     refreshOptionByResult($('#TF_Wrong'), !keyObject, $('#span_w'));    
 }

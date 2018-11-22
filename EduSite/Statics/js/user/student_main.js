@@ -52,12 +52,22 @@ function onInit(event) {
     $('#lesson_list_panel').on('mousewheel', onWheeling).on('DOMMouseScroll', onWheeling);
     
 
-    $('#class_list li').each(function (index, elem) {        
-        listData.push({'desc': elem.dataset.desc,
-                    'curl': elem.dataset.curl,
-                    'purl': elem.dataset.purl });
+    $('#class_list li').each(function (index, elem) {
+        listData.push({
+            'desc': elem.dataset.desc,
+            'curl': elem.dataset.curl,
+            'purl': elem.dataset.purl
+        });
     });
-    refreshBookList();
+
+    $('#exam_his_list li').each(function (index, elem) {
+        exam_his_list.push({
+            'title': elem.dataset.title,
+            'url': elem.dataset.url
+        });
+    });
+    refreshExamHistory();
+    refreshBookList();    
 }
 
 function movingAnim() {
@@ -178,7 +188,6 @@ function refreshCurrent() {
     }    
 }
 
-
 //================================================================
 // 公告部分
 var notices_list = [];
@@ -243,4 +252,35 @@ function examExtend() {
 function examShirk() {
     $("#exam_inner").addClass("shirked").removeClass("extended");
     $("#exam_icon_Sword").addClass("sword_shirk").removeClass("sword_extend");
+}
+
+// 考试历史
+var exam_his_list = [];
+var his_index = 0;
+function refreshExamHistory() {
+    $("#his_prev").attr('disabled', (his_index==0) );
+    $("#his_next").attr('disabled', (his_index>=exam_his_list.length-1) );
+    if(exam_his_list[his_index]) {
+        $("#exam_check_title").html(exam_his_list[his_index].title);
+        $("#btn_exam_check").prop('href', exam_his_list[his_index].url);        
+        $("#exam_check").show();        
+        $("#exam_check_none").hide();
+    }
+    else {
+        $("#exam_check").hide();        
+        $("#exam_check_none").show();
+    }
+}
+function onHisPrev(event) {
+    nextidx = Math.min(exam_his_list.length - 1, his_index + 1);
+    if( nextidx == his_index ) return;    
+    his_index = nextidx;    
+    refreshExamHistory();
+}
+
+function onHisNext(event) {
+    nextidx = Math.max(0, his_index-1);
+    if( nextidx == his_index ) return;    
+    his_index = nextidx;    
+    refreshExamHistory();
 }

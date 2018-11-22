@@ -159,7 +159,7 @@ function updateQuestion() {
     //alert(examination[cur_type].qlist[cur_idx]);
     if (examination[cur_type]["questions"][cur_idx] != undefined) {
         refreshQuestionFunc(examination[cur_type]["questions"][cur_idx]);
-        if(answer_info[cur_type]["re"][cur_idx]['a']) {
+        if(answer_info[cur_type]["re"][cur_idx]['a'] != undefined) {
             refreshAnswer(answer_info[cur_type]["re"][cur_idx]['a'], examination[cur_type]["questions"][cur_idx]);
             var result = {
                 "result": answer_info[cur_type]["re"][cur_idx]['r'],
@@ -167,7 +167,10 @@ function updateQuestion() {
             };
             showKeyFunc(result, examination[cur_type]["questions"][cur_idx].key);
             showResult(result.result, cur_type=="Voice");
-        }       
+        }
+        else {
+            alert(answer_info[cur_type]["re"][cur_idx]['a']);
+        }  
     }
     else{
         $('#q_description').html("本该题型没有题目，请选择其它题型继续！");

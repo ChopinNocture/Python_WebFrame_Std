@@ -55,8 +55,18 @@ def student_main(request):
         print('class setting missing!!', e)
         cls_set = ClassSetting(class_id=cur_info.class_id.id)
 
+    try:
+        exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(user_id=cur_user.id).values("exam", "id")
+        for exam_ans in exam_ans_list:
+            exam = Examination.objects.using(request.db_name).get(id=exam_ans['exam'])
+            exam_ans['title'] = exam.title
+    except ObjectDoesNotExist as e:
+        print(e)
+        exam_ans_list = []
+
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
+                    'exam_ans_list': exam_ans_list,
                     'stud_cprof': cur_prof,
                     'cls_set': cls_set,
                     "lesson_list": lesson_list,

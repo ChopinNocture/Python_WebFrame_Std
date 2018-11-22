@@ -739,6 +739,23 @@ body {
     overflow: hidden;
 }
 
+#history_inner h3 {
+    display: inline-block;
+}
+#history_inner p {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    left: 1em;
+    top: 0em;
+}
+#exam_check_none {
+    color: gray;
+}
+#exam_check {
+    color: goldenrod;
+}
+
 /*-------------------------------------------------------------*/
 #hanging_panel_right, #hanging_panel_left {
     position: fixed;
@@ -959,8 +976,13 @@ body {
     background-size: 100% 100%;
     background-image: url('/Statics/images/d_arrow.png');
 }
+
 #his_prev:hover, #his_next:hover {
-    background-image: url('/Statics/images/d_arrow.png');
+    background-image: url('/Statics/images/d_arrow_l.png');
+}
+
+#his_prev:disabled, #his_next:disabled {
+    background-image: url('/Statics/images/d_arrow_d.png');
 }
 
 #his_prev {    
