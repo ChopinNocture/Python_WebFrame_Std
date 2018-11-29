@@ -45,3 +45,6 @@ class Course(models.Model):
     def __str__(self):
         return self.description
 
+
+TEACHER_GROUP_NAME = "teachers"
+STUDENT_GROUP_NAME = "students"

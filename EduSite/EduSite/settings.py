@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cas_ng',
     'NoticeApp',
     'CourseFunApp',
-    'AccountApp'
+    'AccountApp',    
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_cas_ng.middleware.CASMiddleware',
 ]
 
 ROOT_URLCONF = 'EduSite.urls'
@@ -77,18 +79,45 @@ WSGI_APPLICATION = 'EduSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'DB/db.sqlite3'),
+#     },
+#     'course_A': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'DB/course_A.sqlite3'),
+#     },
+#     'course_B': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'DB/course_B.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'DB/db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'edu_basic',
+        'USER': 'django',
+        'PASSWORD': 'asdqwe123',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     },
     'course_A': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'DB/course_A.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'edu_course_a',
+        'USER': 'django',
+        'PASSWORD': 'asdqwe123',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     },
     'course_B': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'DB/course_B.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'edu_course_b',
+        'USER': 'django',
+        'PASSWORD': 'asdqwe123',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -105,9 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
@@ -142,3 +171,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "Statics")]
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded/")
 MEDIA_URL = '/uploaded/'
+
+
+# CAS
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
+)
+
+CAS_SERVER_URL = 'https://account.example.com/cas/'
+CAS_CREATE_USER = True
+CAS_CREATE_USER_WITH_ID = False

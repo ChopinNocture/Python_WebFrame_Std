@@ -21,6 +21,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py migrate --database=course_A
 python manage.py migrate --database=course_B
+
 python manage.py createsuperuser
 master
 

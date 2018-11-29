@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+import django_cas_ng.views
+
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -24,6 +27,8 @@ urlpatterns = [
     path('notice/', include('NoticeApp.urls', namespace='notice')),
     path('course/', include('CourseFunApp.urls', namespace='course')),
     path('user/', include('AccountApp.urls', namespace='user')),
+    url(r'^accounts/login$', django_cas_ng.views.LoginView, name='cas_ng_login'),
+    url(r'^accounts/logout$', django_cas_ng.views.LogoutView, name='cas_ng_logout'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

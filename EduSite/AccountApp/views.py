@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm
-from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course, TEACHER_GROUP_NAME
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination, UNLOCK_NUMBER
 
@@ -190,7 +190,7 @@ def course_select(request):
             request.session[COURSE_KEY] = course_id
             request.db_name = course.db_name
 
-            if request.user.groups.filter(name='teachers').exists():
+            if request.user.groups.filter(name= TEACHER_GROUP_NAME).exists():
                 return HttpResponseRedirect('/user/teacher/')
             else:
                 return HttpResponseRedirect('/user/student/')
