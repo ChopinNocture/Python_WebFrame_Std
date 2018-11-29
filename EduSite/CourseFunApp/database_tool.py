@@ -156,15 +156,15 @@ def parse_Pair(sheet, row, desc, lesson):
     idx = 0
     option_l_list = []
     option_r_list = []
-    option_l = str(sheet.cell(column=10+idx<<1, row=row).value)
-    option_r = str(sheet.cell(column=11+idx<<1, row=row).value)
+    option_l = str(sheet.cell(column=10+(idx<<1), row=row).value)
+    option_r = str(sheet.cell(column=11+(idx<<1), row=row).value)
 
     while option_l != "None":
         option_l_list.append(option_l)
         option_r_list.append(option_r)
         idx += 1
-        option_l = str(sheet.cell(column=10+idx<<1, row=row).value)
-        option_r = str(sheet.cell(column=11+idx<<1, row=row).value)
+        option_l = str(sheet.cell(column=10+(idx<<1), row=row).value)
+        option_r = str(sheet.cell(column=11+(idx<<1), row=row).value)
     
     option_l = "|-|".join(option_l_list)
     option_r = "|-|".join(option_r_list)
