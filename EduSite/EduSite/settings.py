@@ -179,6 +179,7 @@ AUTHENTICATION_BACKENDS = (
     'django_cas_ng.backends.CASBackend',
 )
 
-CAS_SERVER_URL = 'https://account.example.com/cas/'
+CAS_REDIRECT_URL = '/user/login/'
+CAS_SERVER_URL = 'http://172.18.1.236/cas'
 CAS_CREATE_USER = True
 CAS_CREATE_USER_WITH_ID = False

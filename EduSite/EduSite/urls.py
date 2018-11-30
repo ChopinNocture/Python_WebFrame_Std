@@ -27,8 +27,8 @@ urlpatterns = [
     path('notice/', include('NoticeApp.urls', namespace='notice')),
     path('course/', include('CourseFunApp.urls', namespace='course')),
     path('user/', include('AccountApp.urls', namespace='user')),
-    url(r'^accounts/login$', django_cas_ng.views.LoginView, name='cas_ng_login'),
-    url(r'^accounts/logout$', django_cas_ng.views.LogoutView, name='cas_ng_logout'),
+    path('accounts/login/', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
+    path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
