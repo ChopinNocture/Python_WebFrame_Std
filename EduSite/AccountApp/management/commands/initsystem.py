@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group
-from AccountApp.models import Course, TEACHER_GROUP_NAME
+from AccountApp.models import Course, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
 
 
 class Command(BaseCommand):
@@ -16,8 +16,8 @@ class Command(BaseCommand):
         finally:
             course.description = "物业管理"
             course.save()
+            print(course, "added!")
         
-        print(course, "added!")
         try:
             course = Course.objects.get(db_name='course_B')
         except ObjectDoesNotExist:
@@ -25,15 +25,24 @@ class Command(BaseCommand):
         finally:
             course.description = "房产销售"
             course.save()
+            print(course, "added!")
 
         try:
             group = Group.objects.get(name=TEACHER_GROUP_NAME)
         except ObjectDoesNotExist:
             group = Group(name=TEACHER_GROUP_NAME)
         finally:
-            group.
+            # group.permissions = 
             group.save()            
-        print(group, "added!")    
+            print(group, "added!")    
         
+        try:
+            group = Group.objects.get(name=STUDENT_GROUP_NAME)
+        except ObjectDoesNotExist:
+            group = Group(name=STUDENT_GROUP_NAME)
+        finally:
+            # group.permissions = 
+            group.save()            
+            print(group, "added!")    
 
         
