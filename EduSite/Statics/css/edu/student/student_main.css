@@ -54,7 +54,7 @@ body {
 #stud_prof {
     position: absolute;
     padding-top: 0.3rem;
-    left: 0rem;
+    left: -1rem;
     top: 0.2rem;
     width: 100%;
     height: 3.9rem;    
@@ -622,7 +622,7 @@ body {
 /*-------------------------------------------------------------*/
 #exam_entrance {
     left: 0.4rem;
-    top: 5.6rem;
+    top: 6rem;
     width: 18.5rem;
     height: 5.7rem;
     position: absolute;
@@ -708,7 +708,7 @@ body {
 /*-------------------------------------------------------------*/
 #exam_history {
     left: 27rem;
-    top: 5.6rem;
+    top: 6rem;
     width: 24rem;
     height: 5.7rem;
     position: absolute;
