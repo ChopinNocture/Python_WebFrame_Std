@@ -621,9 +621,9 @@ body {
 
 /*-------------------------------------------------------------*/
 #exam_entrance {
-    left: 2.6rem;
+    left: 0.4rem;
     top: 5.6rem;
-    width: 24rem;
+    width: 18.5rem;
     height: 5.7rem;
     position: absolute;
     text-align: inherit;
@@ -656,7 +656,7 @@ body {
     padding-left: 3rem;
     position: absolute;
     top: 1rem;
-    left: 2rem;
+    left: 1.4rem;
     height: 3.5rem;
 
     border-style: none;
@@ -670,21 +670,25 @@ body {
     overflow: hidden;
 }
 
-.hasExam { width: 26.5rem; }
+.hasExam { width: 21.5rem; }
 .shirked { width: 1.5rem; }
 .extended { width: 18.5rem; }
 
 #exam_inner h3 {
     display: inline-block;
-    font-size: 130%;
-    width: 3.5em;
+    font-size: 120%;
+    left: -0.5em;
+    width: 3.6em;
     color: red;
 }
 #exam_inner p {
     position: relative;
     text-align: center;
     display: inline-block;
+    left: -0.5em;
     top: -0.2em;
+    font-size: 90%;
+    font-weight: 100;
 }
 #exam_closed {
     color: gray;
@@ -694,11 +698,11 @@ body {
 }
 
 #exam_starttime {
-    font-size: 80%;
+    font-size: 70%;
     color: red;
 }
 #btn_enter_exam {
-    font-size: 120%;     
+    font-size: 130%;     
 }
 
 /*-------------------------------------------------------------*/

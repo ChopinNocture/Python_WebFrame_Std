@@ -412,11 +412,15 @@ def answer_sheet(request, sectionID):
 def exam_examination(request, exam_id):
     try:
         exam = Examination.objects.using(request.db_name).get(id=exam_id)
-        exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
     except ObjectDoesNotExist as e:
         print(e)
-        exam = Examination()
-        exam_answer = ExamAnswer(exam=exam, user_id=request.user.id) 
+        return HttpResponseNotAllowed(e)
+
+    try:
+        exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
+    except ObjectDoesNotExist as e:
+        print(e)        
+        exam_answer = ExamAnswer(exam=exam, user_id=request.user.id)                    
 
     if request.method == "GET":        
         exam_form = questionForms.ExaminationForm(instance=exam)

@@ -11,7 +11,6 @@ var t_start, t_duration, t_serv_now, t_leftMSec, clock_start;
 
 
 function onInit(event) {  
-    initRecorder();
     csrf_Setup();
 
     $('#section_title').html($('#id_title').val());
@@ -21,6 +20,8 @@ function onInit(event) {
     onStopRecordingFunc = voiceRecEnd;
     initTime();
     initQuestion();
+
+    initRecorder();
     //examination.
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 
@@ -141,7 +142,9 @@ function initQuestion() {
         }
     }
 
-    answer_info = $.parseJSON( $('#id_answer_json').val() );
+    if($('#id_answer_json').val()) {
+        answer_info = $.parseJSON( $('#id_answer_json').val() );
+    }    
 }
 
 function onTypeChanged(event) {
