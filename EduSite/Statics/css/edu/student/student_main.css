@@ -649,8 +649,8 @@ body {
     transition-duration: 0.6s; 
 }
 .sword_hasExam { right: -8rem; }
-.sword_extend { right: 0rem; }
-.sword_shirk { right: 17rem; }
+.sword_extend { right: -5rem; }
+.sword_shirk { right: 12rem; }
 
 #exam_inner {
     padding-left: 3rem;
