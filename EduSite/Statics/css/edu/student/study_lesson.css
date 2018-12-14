@@ -4,7 +4,7 @@
 
 html {
     font-size: 20px;
-    font-family: HK_Yuan7;
+    font-family: HK_Yuan9;
     font-weight: bolder;
     color: gold;
 }
@@ -71,12 +71,12 @@ body {
 }
 
 #text_panel {
-    font-family: HK_Yuan7;
+    font-family: HK_Yuan9;
     margin: 0.25rem 1.5rem 0rem 1.5rem;
 }
 
 #section_title {
-    font-family: HK_Yuan7;
+    font-family: HK_Yuan9;
     font-size: 180%;
     color: #8a5929;
     border-bottom-style: dashed;

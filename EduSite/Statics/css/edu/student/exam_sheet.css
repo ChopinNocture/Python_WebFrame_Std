@@ -120,12 +120,12 @@ body {
 
 
 #quesion_desc_main {
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     margin: 0rem 2.5rem 0rem 1.75rem;
 }
 
 #section_title {
-    font-family: HK_Yuan9;
+    font-family: HK_BD;
     font-size: 180%;
     color: gray;
     border-bottom-style: dashed;
@@ -145,7 +145,7 @@ body {
 }
 
 #question_type {
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     font-size: 130%;
     font-weight: 600;
     color: #863f19;
@@ -223,14 +223,14 @@ body {
 }
 
 #answer_panel {    
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     margin: 0.5rem 1.625rem 0rem 0rem;     
 }
 
 #q_type_tips {
     margin-top: 1.5em;
     margin-left: 2.125rem;
-    font-family: HK_Yuan7;
+    font-family: HK_BD;
     font-size: 90%;
     text-align: center;
     border-bottom-style: dashed;
@@ -711,7 +711,7 @@ body {
     color: dimgray; 
     opacity: 0.7;
     font-size: 0.9rem;
-    font-family: HK_Yuan7;
+    font-family: HK_Yuan9;
     bottom: -0.1em;    
 
     margin-left: -0.5rem;

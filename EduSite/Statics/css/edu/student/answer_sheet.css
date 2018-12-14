@@ -147,7 +147,6 @@ body {
 }
 
 #quesion_desc_main {
-    /* font-family: HK_Yuan7; */
     font-family: HK_BD;    
     margin: 0rem 2.5rem 0rem 1.75rem;
 }
@@ -259,7 +258,7 @@ body {
 #q_type_tips {
     margin-top: 1.5em;
     margin-left: 2.125rem;
-    font-family: HK_Yuan7;
+    font-family: HK_Yuan9;
     font-size: 90%;
     text-align: center;
     border-bottom-style: dashed;
