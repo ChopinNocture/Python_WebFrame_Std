@@ -22,6 +22,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('notice/', include('NoticeApp.urls', namespace='notice')),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('user/', include('AccountApp.urls', namespace='user')),
     path('accounts/login/', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
     path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    path('sync/', include('UserInfoSync.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

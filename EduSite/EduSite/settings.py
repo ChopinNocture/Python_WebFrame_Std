@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django_cas_ng',
     'NoticeApp',
     'CourseFunApp',
-    'AccountApp',    
+    'AccountApp',
+    'UserInfoSync',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,14 @@ DATABASES = {
     'course_B': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'edu_course_b',
+        'USER': 'django',
+        'PASSWORD': 'asdqwe123',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+    'user_info_sync': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'edu_user_info_sync',
         'USER': 'django',
         'PASSWORD': 'asdqwe123',
         'HOST': '127.0.0.1',

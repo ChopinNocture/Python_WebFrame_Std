@@ -18,7 +18,8 @@ class Command(BaseCommand):
             user.groups.add(group)
             user.save()
             print(user, "added!")
-
+        
+        # create test class
         try:
             classinfo = ClassInfo.objects.get(class_name='测试班级')
         except ObjectDoesNotExist as identifier:

@@ -17,6 +17,8 @@ class CourseRouter:
         #    return 'auth_db'
         if model._meta.app_label == 'CourseFunApp':
             return None
+        elif model._meta.app_label == 'UserInfoSync':
+            return 'user_info_sync'
         else:
             return 'default'
 
@@ -27,6 +29,8 @@ class CourseRouter:
         """
         if model._meta.app_label == 'CourseFunApp':
             return None
+        elif model._meta.app_label == 'UserInfoSync':
+            return 'user_info_sync'
         else:
             return 'default'
 
@@ -49,6 +53,8 @@ class CourseRouter:
 
         if db == 'course_A' or db == 'course_B':
             return key_label == 'CourseFunApp'
+        elif db == 'user_info_sync':
+            return key_label == 'UserInfoSync'
         elif key_label == 'CourseFunApp':
             return False           
 
