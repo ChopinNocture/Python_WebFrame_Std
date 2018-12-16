@@ -1,11 +1,22 @@
 {% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script type="text/babel" src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script type="text/babel" src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <!-- Load our React component. -->
+  </head>
 <body>
-<!-- Load React. -->
-  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-  <script type="text/babel" src='{% static "test.js"%}'></script>
-  <!-- Load our React component. -->
-hello wowow;
-<div id="root"></div>
+
+
+<div id="root">
+    hello wowow;
+    
+</div>
+<script type="text/babel" src="{% static 'test.js' %}" crossorigin></script>
+  
 </body>
+</html>
