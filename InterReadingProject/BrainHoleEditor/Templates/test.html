@@ -1,22 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
   <head>
     <meta charset="UTF-8" />
   <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script type="text/babel" src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script type="text/babel" src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <!-- Load our React component. -->
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
   </head>
 <body>
 
-
-<div id="root">
-    hello wowow;
-    
+{% verbatim %}
+<div id="root">  
+    <p>{{ message }}</p>
 </div>
-<script type="text/babel" src="{% static 'test.js' %}" crossorigin></script>
+<script type="text/babel" src="{% static 'test.js' %}"></script>
+{% endverbatim %}
+<!-- <script type="text/javascript" src="{% static 'vueTest.js' %}"></script> -->
+
   
 </body>
 </html>
