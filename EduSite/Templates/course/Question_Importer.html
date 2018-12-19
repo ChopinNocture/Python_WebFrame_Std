@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-2">
+<div class="row px-3">
+    <div class="col-2 px-0">
         <div class="card bg-secondary text-white">
             <div class="card-header text-center">
                 <h5 class="card-title">课程章节列表</h5>
@@ -17,10 +17,10 @@
                 {{course_html}}                  
         </div>
     </div>
-    <div class="col-10">
+    <div class="col-7 px-3">
         <form action="." method="POST" id="quest_importer_fm" enctype="multipart/form-data">
         {% csrf_token %}    
-        <div class="card bg-light w-75 mx-5">
+        <div class="card bg-light w-100 mx-0">
             <div class="card-header text-center">
                 <h3 class="card-title">题库文件导入</h3>
                 <input type="button" value="检查文件" id="check_btn" class="btn btn-warning mb-2" onclick="onCheckClk(event)" disabled/>
@@ -54,6 +54,37 @@
             </div>            
         </div>
         </form>
+    </div>
+
+    <div class="col-3 p-0">
+        <!-- <div class="row-fluid"> -->
+                <div class="row">
+        <div class="col-7 p-0 m-0">
+            <div class="card bg-warning">
+                <div class="card-header card-header-sm">
+                    <h5 class="card-title">题目列表
+                        <span class="badge badge-dark" id="qlist_num">0</span>
+                    </h5>
+                </div>
+                <ul class="list-group" id="Question_List">
+                </ul>
+                <div class="card-footer text-center">
+                    <button class="btn-sm btn-secondary" type="button" onclick="onSelectAllClick(event)" id="btn_selall" onfocus="this.blur()" tabindex="-1">全选</button> &nbsp
+                    <button class="btn-sm btn-danger" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ"  onfocus="this.blur()" tabindex="-1" data-url="{% url 'course:question-delete-list' qtype='qqqq' %}">删除</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 p-0 m-0 bg-white rounded">
+            <ul class="nav nav-pills flex-column m-0 p-0">
+                {% for qType in qTypeList %}
+                <li class="nav-item w-auto">
+                    {% url 'course:question-editor-type' qType as qTypeURL %} {% url 'course:question-list' qType as qListURL %}
+                    <a class="nav-link font-weight-bold" href="#" id="NavBtn_{{ qType }}" data-url="{{qTypeURL}}" data-type-name="{{ qType }}" data-qlist-url="{{qListURL}}" draggable="false">{{qType}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+                </div>
     </div>
 </div>
 {% endblock %}

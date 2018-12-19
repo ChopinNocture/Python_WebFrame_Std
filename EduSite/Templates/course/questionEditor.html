@@ -102,8 +102,8 @@
                 <ul class="list-group" id="Question_List">
                 </ul>
                 <div class="card-footer text-right">
-                    <button class="btn btn-dark" type="button" onclick="onAddModeClick(event)" id="btn_addQ" >添加题目</button> &nbsp&nbsp
-                    <button class="btn btn-danger" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
+                    <button class="btn btn-dark" type="button" onclick="onAddModeClick(event)" id="btn_addQ" onfocus="this.blur()" tabindex="-1">添加题目</button> &nbsp&nbsp
+                    <button class="btn btn-danger" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" onfocus="this.blur()" tabindex="-1" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
                 </div>
             </div>
         </div>

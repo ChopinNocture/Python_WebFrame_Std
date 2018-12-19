@@ -5,6 +5,7 @@ from . import views
 app_name = 'CourseFunApp'
 urlpatterns = [
     path('questions/remooove/<slug:qtype>/<int:qid>/', views.delete_question, name='question-delete'),
+    path('questions/remooove/<slug:qtype>/list/', views.delete_question_list, name='question-delete-list'),
     path('questions/list/all/', views.get_all_list, name='question-all'),
     path('questions/list/ids/', views.get_question_list_by_ids, name='question-list-ids'),
     path('questions/list/<slug:qtype>/', views.get_type_question_list, name='question-list'),

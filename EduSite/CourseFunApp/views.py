@@ -131,6 +131,29 @@ def delete_question(request, qtype, qid):
     return HttpResponse("Succeed!", status=200)
 
 
+@course_required()
+def delete_question_list(request, qtype):
+    if not request.method == "POST" or not request.is_ajax():
+        return HttpResponse("Permission reject!")
+    
+    try:
+        temp_class = questionModels.get_qType_class(qtype)
+    except (AttributeError) as e:
+        print(e)
+        return HttpResponse("Error type:" + qtype)
+    
+    q_list = json.loads(s=request.POST.get('q_list'))
+    
+    for iter in q_list:
+        try:
+            temp_class.objects.using(request.db_name).filter(id=iter).delete()
+        except Exception as e:
+            print(e + type(temp_class))
+
+    print("----")
+    return JsonResponse({"suc":"yes"})
+
+
 # form part
 @course_required()
 def question_editor_form(request, qtype, qid=-1):
@@ -204,7 +227,8 @@ def question_import(request):
             context={"suc_info" : "hidden",
                      'fail_info' : "hidden",
                      "course_html": get_lesson_list_html(request),
-                     'course_desc':request.course_desc}
+                     'course_desc':request.course_desc,
+                     "qTypeList": exam_sys.q_type_list,} 
         )
 
 
@@ -229,16 +253,18 @@ def _question_import(request):
         return render(request=request, 
                 template_name = "course/Question_Importer.html", 
                 context = {
+                        "qTypeList": exam_sys.q_type_list, 
                         "course_html": get_lesson_list_html(request),
                         "suc_info" : "hidden", 
                         'chk_valid': valid,
                         'chk_string': check_string,
                         'fail_info': "hidden", 
+                        "qTypeList": exam_sys.q_type_list, 
                         'course_desc': request.course_desc})
 
     return render(request=request, 
         template_name = "course/Question_Importer.html", 
-        context = {"course_html": get_lesson_list_html(request), "suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc})
+        context = {"qTypeList": exam_sys.q_type_list, "course_html": get_lesson_list_html(request), "suc_info" : "", 'fail_info':"hidden", 'course_desc':request.course_desc})
 
 
 # --------------------------------------------------------
