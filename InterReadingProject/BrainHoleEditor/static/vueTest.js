@@ -1,8 +1,6 @@
-
-var vv = new Vue({
+new Vue({
     el: '#root',
     data: {
       message: 'Hello Vue.js!'
     }
 })
-alert("adfasf " + vv);
