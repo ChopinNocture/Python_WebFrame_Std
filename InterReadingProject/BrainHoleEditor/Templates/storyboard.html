@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- vue 开发环境版本，包含了有帮助的命令行警告 -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+        <script type="text/javascript" src="{% static 'js/core/runtime.js' %}"></script>
+    </head>
+<body>
+
+  {% verbatim %}
+  <div id="root">  
+      {{ message }}
+  </div>
+  {% endverbatim %}
+  <script type="text/javascript" src="{% static 'js/storyboard.js' %}"></script>
+</body>
+</html>

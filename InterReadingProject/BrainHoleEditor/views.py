@@ -4,3 +4,8 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, Http
 # Create your views here.
 def test(request):
     return render(request=request, template_name="test.html", )
+
+
+def storyboard(request):
+    pass
+    return render(request=request, template_name="storyboard.html", )
