@@ -7,9 +7,7 @@ new Vue({
     }
 });
 
-var action = new Action();
-action.trigger_next();
 
+var story = new StoryLine();
 
-action.next = function name() { alert("hahaha");}
-action.trigger_next();
+story.nextAction();

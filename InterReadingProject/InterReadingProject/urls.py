@@ -21,5 +21,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bheditor/', include('BrainHoleEditor.urls', namespace='BHEditor'))
+    path('inter-reading/', include('BrainHoleEditor.urls', namespace='inter_reading'))
 ]
