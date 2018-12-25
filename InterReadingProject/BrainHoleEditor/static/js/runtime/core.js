@@ -1,6 +1,7 @@
 class Show {
     constructor(){}
-    show(){}
+    start() {}
+    onFinish() {}
 }
 
 
@@ -16,14 +17,21 @@ class Action {
     }
 
     trigger_next(id_next) {
+        this.finish();
         if(this.next_action) {
             this.next_action(id_next);
         }
     }
 
-    run() {
-        for (const iterator of action_data.show_list) {
-            iterator.show();
+    start() {
+        for (const iterator of this.show_list) {
+            iterator.start();
+        }
+    }
+
+    finish() {
+        for (const iterator of this.show_list) {
+            iterator.onFinish();
         }
     }
 }
@@ -33,11 +41,17 @@ class StoryLine {
     constructor() {
     }
 
-    nextAction(id_next) {
-        generate_action(id_next).run();
+    generate_action(id) {
+        var nextAction = new Action(this.get_actionData(id), this.nextAction);
+        return nextAction;
     }
 
-    generate_action(id) {
-        var nextAction = new Action(this.nextAction);
+    get_actionData(id) {
+        return {};
+    }
+
+    
+    nextAction(id_next) {
+        this.generate_action(id_next).start();
     }
 }

@@ -1,4 +1,4 @@
-
+// import {StoryLine} from './runtime/core';
 
 new Vue({
     el: '#root',
