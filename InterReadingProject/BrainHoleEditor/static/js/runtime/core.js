@@ -7,7 +7,7 @@ class Show {
 
 class Action {
     constructor(action_data, next_action_func) {
-        this.next_action = null;
+        this.next_action_func = null;
         this.show_list = new Array();
         if (action_data && action_data.show_list) {
             for (const iterator of action_data.show_list) {
