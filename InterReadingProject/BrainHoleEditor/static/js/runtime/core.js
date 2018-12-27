@@ -6,14 +6,25 @@ class Show {
 
 
 class Action {
-    constructor(action_data, next_action_func) {
+    constructor() {
         this.next_action_func = null;
         this.show_list = new Array();
+    }
+
+    parse_data(action_data) {
         if (action_data && action_data.show_list) {
             for (const iterator of action_data.show_list) {
                 this.show_list.push(iterator);
             }
         }
+    }
+
+    serialize() {
+        return {};
+    }
+
+    set_next_func(next_func) {
+        this.next_action_func = next_func;
     }
 
     trigger_next(id_next) {
@@ -42,7 +53,9 @@ class StoryLine {
     }
 
     generate_action(id) {
-        var nextAction = new Action(this.get_actionData(id), this.nextAction);
+        var nextAction = new Action();
+        nextAction.parse_data(this.get_actionData(id));
+        nextAction.set_next_func(this.nextAction);
         return nextAction;
     }
 
