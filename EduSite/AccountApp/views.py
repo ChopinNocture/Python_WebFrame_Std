@@ -9,7 +9,7 @@ from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course, TEACHER_GROUP_NAME
 from AccountApp.decorators import course_required
-from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination, UNLOCK_NUMBER
+from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination
 
 
 def user_login(request):
@@ -76,7 +76,7 @@ def student_main(request):
                     'add_gold': add_gold,
                     'cls_set': cls_set,
                     "lesson_list": lesson_list,
-                    "unlock_number": UNLOCK_NUMBER})
+                    "unlock_number": cls_set.unlock_number})
 
 
 @login_required(login_url='/user/login/')

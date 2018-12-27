@@ -12,6 +12,7 @@ class ClassSetting(models.Model):
     class_id = models.IntegerField()
     practise_setting = models.CharField(max_length=MAX_CONTENT_LENGTH)
     prac_lock_mode = models.BooleanField(default=True)
+    unlock_number = models.IntegerField(default=UNLOCK_NUMBER)
 
 
 # --------------------------------------------------------

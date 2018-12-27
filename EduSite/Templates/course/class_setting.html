@@ -40,6 +40,12 @@
                     <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_1" value="lock">
                     <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
                 </div>
+                <div id="id_unlock_div" class="input-group w-100">
+                    <div class="input-group-prepend w-50">
+                        <span class="input-group-text bg-dark text-light border-secondary w-100">解锁需要答对的数量</span>
+                    </div>
+                    <input type="number" min="0" max="20" value="3" step="1" class="form-control" id="id_unlock" onchange="onUnlockChange(event)">
+                </div>
                 <p class="small text-danger">“普通模式”无需解锁，试炼直接开放。“通关模式”需要先进行资料学习。</p>
             </div>
             <div class="card-header card-header-sm">

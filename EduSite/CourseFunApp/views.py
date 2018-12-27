@@ -412,21 +412,23 @@ def study(request, lesson_id):
 @course_required()
 def answer_sheet(request, sectionID):
     lesson = Lesson.objects.using(request.db_name).get(id=sectionID)
+
+    try:
+        stu_prof = StudentProf.objects.get(user=request.user)
+        cls_set = ClassSetting.objects.using(request.db_name).get(class_id=stu_prof.class_id.id)
+        unlock_number = cls_set.unlock_number
+        num_json = json.loads(s=cls_set.practise_setting)
+    except ObjectDoesNotExist as e:
+        print(e)            
+        num_json = None    
+        unlock_number = questionModels.UNLOCK_NUMBER
+
     if request.method == "GET":
         return render(request=request, template_name="course/AnswerSheet.html",
                     context = {"section_name": lesson.description, 
-                                "unlock_number": questionModels.UNLOCK_NUMBER,
+                                "unlock_number": unlock_number,
                                 "progress": request.GET.get("progress")})
-    else:
-        try:
-            stu_prof = StudentProf.objects.get(user=request.user)
-            cls_set = ClassSetting.objects.using(request.db_name).get(class_id=stu_prof.class_id.id)
-            
-            num_json = json.loads(s=cls_set.practise_setting)
-        except ObjectDoesNotExist as e:
-            print(e)            
-            num_json = None
-        
+    else:        
         question_dict = exam_sys.generate_question_set(db_name=request.db_name, sectionID=lesson, num_json=num_json)
         return JsonResponse(question_dict)
 
@@ -638,11 +640,14 @@ def class_prac(request, class_id):
     if request.method == "POST":
         cls_set.practise_setting = request.POST.get('ps')
         cls_set.prac_lock_mode = request.POST.get('lock')
+        cls_set.unlock_number = request.POST.get('unlock_number')
         cls_set.save(using=request.db_name)
         
     data = "error"
     if cls_set.practise_setting:
-        data = {"ps": json.loads(s=cls_set.practise_setting), "lock": cls_set.prac_lock_mode }
+        data = {"ps": json.loads(s=cls_set.practise_setting), 
+                "unlock_number": cls_set.unlock_number,
+                "lock": cls_set.prac_lock_mode }
 
     return JsonResponse(data, safe=False)
             

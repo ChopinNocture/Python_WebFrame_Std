@@ -9,6 +9,7 @@ const MAX_NUM = 20;
 function init() {
     csrf_Setup();
 
+    $("input[id^='prac_mode']").click(onModeChange);
     $('span[id^=QType_]').each(function (index, elem) {
         var typestr = $(elem).data("qtype");
         qType_list.push(typestr);
@@ -29,7 +30,8 @@ function onConfirmSetting(event) {
             type: 'post',
             data: {
                 "ps": JSON.stringify(prac_num_json_data),
-                "lock": $("#prac_mode_1").prop("checked") ? "True" : "False"
+                "lock": $("#prac_mode_1").prop("checked") ? "True" : "False",
+                "unlock_number": $("#id_unlock").val()
             },
             dataType: "json",
             success: sucPost,
@@ -65,6 +67,7 @@ function sucGet(jsonData) {
     } else {
         prac_num_json_data = jsonData["ps"];
         lock_mode = jsonData["lock"];
+        unlock_num = jsonData["unlock_number"];
     }
     updateNumberDisp();
     updateModeSetting();
@@ -103,11 +106,22 @@ function updateNumberDisp() {
 }
 
 var lock_mode = true;
+var unlock_num = 3;
 
 function updateModeSetting() {
     if (lock_mode) {
         $("#prac_mode_1").prop("checked", true);
-    } else {
+        $("#id_unlock").val(unlock_num);
+        $("#id_unlock_div").show();
+    } 
+    else {
         $("#prac_mode_0").prop("checked", true);
+        $("#id_unlock").val(unlock_num);
+        $("#id_unlock_div").hide();
     }
+}
+
+function onModeChange() {
+    lock_mode = $("#prac_mode_1").prop("checked");
+    updateModeSetting();
 }
