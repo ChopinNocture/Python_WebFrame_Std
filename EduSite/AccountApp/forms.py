@@ -18,4 +18,5 @@ class Student_Prof_Form(ModelForm):
             'progress': HiddenInput(),
             'rank': HiddenInput(),
             'level': HiddenInput(),
+            'add_gold': HiddenInput(),
         }

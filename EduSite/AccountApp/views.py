@@ -44,6 +44,10 @@ def student_main(request):
     cur_info = StudentProf.objects.get(user=cur_user)
     try:
         cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
+        add_gold = cur_prof.add_gold
+        print(cur_prof.add_gold,add_gold,'------------------------------1')
+        cur_prof.add_gold = 0
+        cur_prof.save()
     except ObjectDoesNotExist as e:
         print('!!', e)
         cur_prof = StudentProgressInfo(user_id=cur_user.id)
@@ -64,10 +68,12 @@ def student_main(request):
         print(e)
         exam_ans_list = []
 
+    print(cur_prof.add_gold,add_gold,'------------------------------2')
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
                     'exam_ans_list': exam_ans_list,
                     'stud_cprof': cur_prof,
+                    'add_gold': add_gold,
                     'cls_set': cls_set,
                     "lesson_list": lesson_list,
                     "unlock_number": UNLOCK_NUMBER})
@@ -140,6 +146,7 @@ def award_score(request):
             cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=user_id)
             gold_award = int(request.POST.get('gold'))
             cur_prof.gold = cur_prof.gold + gold_award
+            cur_prof.add_gold = cur_prof.add_gold + gold_award
             cur_prof.save()
 
         except Exception as e:

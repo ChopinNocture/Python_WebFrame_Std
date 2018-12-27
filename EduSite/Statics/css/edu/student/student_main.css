@@ -156,6 +156,34 @@ body {
     margin-right: 0.5em;
 }
 
+#id_add_gold {
+    position: relative;
+    display: inline-block;
+    top: 1.8rem;
+    left: -0.2rem;
+    font-size: 1.2rem;
+    color: azure;
+    text-shadow:1px 0px 2px gold,
+                -1px 0px 2px gold,
+                0px -1px 2px gold,
+                0px 1px 2px gold,
+                1px 1px 2px gold,
+                1px -1px 2px gold,
+                -1px -1px 2px gold,
+                -1px 1px 2px gold;
+    animation: anim-addgold 2s infinite ease-out;                
+    opacity: 1;
+}
+@keyframes anim-addgold {
+    30% {
+        top: 1.8rem;
+        opacity: 1;
+    }
+    100% {
+        top: -1rem;
+        opacity: 0.05;
+    }
+}
 
 #icon_user, #icon_gold {
     position: relative;

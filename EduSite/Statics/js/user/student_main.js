@@ -20,6 +20,15 @@ function onInit(event) {
     gold = Math.floor(gold / 20);
     //$("#icon_gold").addClass("num-"+gold.toString());
     
+    var addgold = $("#id_add_gold").data('gold');
+    if(addgold>0) {
+        $("#id_add_gold").show();
+    }
+    else {
+        $("#id_add_gold").hide();
+    }
+    
+
     lock_mode = $("#id_cls_lock_mode").val()=="True";
 
     progress = $("#id_progress").data('progress');

@@ -24,6 +24,7 @@ class StudentProgressInfo(models.Model):
     progress = models.PositiveIntegerField(default=0)
     rank = models.PositiveIntegerField(default=0)
     level = models.PositiveIntegerField(default=0)
+    add_gold = models.IntegerField(default=0)
 
     class Meta:
         app_label = 'CourseFunApp'
