@@ -181,6 +181,7 @@ class ExaminationForm(ModelForm):
                                            'max': '1440',
                                            'aria-describedby': 'exam-duration-label'}),
             'start_time': HiddenInput(),
+            'end_time': HiddenInput(),
             'class_id_list': HiddenInput(),
         }
 
@@ -188,6 +189,7 @@ class ExaminationForm(ModelForm):
             'title': '题干',
             'duration': '考试时长',
             'start_time': '考试时间',
+            'end_time': '结束时间'
         }
 
 

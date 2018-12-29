@@ -314,11 +314,21 @@ function preSetValidation() {
 }
 
 function formCheckAndSet() {
-    var dateTime = $('#exam-date').val() + ' ' + $('#exam-time').val();
-    $('#id_start_time').val(dateTime);
+    var startTime = $('#exam-date').val() + ' ' + $('#exam-time').val();
+    $('#id_start_time').val(startTime);
+
+    var endTime = $('#exam-date').val() + ' ' + $('#exam-end-time').val();
+    $('#id_end_time').val(endTime);
 
     var result = true;
     var checkingElem = null;
+
+    checkingElem = $('#exam-end-time');
+    if(startTime>endTime) {
+        checkingElem.addClass('was-validated'); 
+        checkingElem[0].reportValidity();
+        result = false;
+    }
 
     checkingElem = $('#exam_editor');    
     if(checkingElem[0].reportValidity()) {
@@ -352,7 +362,6 @@ function formCheckAndSet() {
     
     //alert("---- " + JSON.stringify(examination));
     $('#id_question_list').val(JSON.stringify(examination));
-
 
     var cls_str = $('input[id^=class_]:checkbox:checked').map(function () { return $(this).data("clsId"); }).get().join(",");   
     if(cls_str=="") {

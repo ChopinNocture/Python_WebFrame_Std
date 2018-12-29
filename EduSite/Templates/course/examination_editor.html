@@ -14,8 +14,9 @@
     <div class="row m-0 p-1 bg-secondary">
         {{ form.non_field_errors }} 
             {{ form.start_time }}
+            {{ form.end_time }}
             {{ form.question_list }}            
-        <div class="row input-group px-2 m-0 mb-3">
+        <div class="row input-group px-2 m-0 mb-2">
             {{ form.title.errors }}
             <div class="input-group-prepend">
                 <span class="input-group-text bg-dark text-light border-light" id="{{ form.title.id_for_label }}">试卷名称</span>
@@ -29,7 +30,57 @@
             </div>           
         </div>
 
-        <div class="col-4 form-group px-2 m-0 mb-2">
+        <div class="row px-2 w-100 m-0">
+            <span class="input-group-text bg-dark text-light border-light">时间设置</span>
+            <div class="row p-0 m-0 mb-2 w-100">            
+                <div class=" input-group m-0 p-0 w-25">                
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-warning text-dark border-light" id="exam-date-label">日期</span>
+                    </div>                
+                    <input type="date" class="form-control rounded-right" id="exam-date" aria-describedby="exam-date-label" required>
+                    <div class="invalid-feedback">
+                        请选择今天以后的日期！
+                    </div> 
+                </div>
+
+                <div class=" input-group m-0 p-0 w-25">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-success text-dark border-light" id="exam-time-label">开始时间</span>
+                    </div>
+                    <input type="time" class="form-control rounded-right" id="exam-time" aria-describedby="exam-time-label" required>
+                    <div class="invalid-feedback">
+                        请填写考试开始时间！
+                    </div> 
+                </div>
+                <div class=" input-group m-0 p-0 w-25">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-danger text-light border-light" id="exam-end-time-label">结束时间</span>
+                    </div>
+                    <input type="time" class="form-control rounded-right" id="exam-end-time" aria-describedby="exam-time-label" required>
+                    <div class="invalid-feedback">
+                        请填写考试结束时间！考试时间必需晚于开始时间！！
+                    </div> 
+                </div>
+
+                <div class=" input-group m-0 p-0 w-25">
+                    {{ form.duration.errors }}
+                    <div class="input-group-prepend border-info">
+                        <span class="input-group-text bg-warning text-dark border-light" id="{{ form.duration.id_for_label }}">考试时长</span>
+                    </div>
+                    {{ form.duration }}
+                    <!-- <input type="text" class="form-control" id="exam-duration" aria-describedby="exam-duration-label"> -->
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-dark text-light rounded-right">分钟</span>
+                    </div>
+                    <div class="invalid-feedback">
+                        考试必须时间大于0小于1440分钟！
+                    </div> 
+                </div> 
+            </div>
+        </div>
+
+        <div class="row px-2 m-0 mb-2">
+        <div class="col-4 form-group px-2 m-0 mb-2">           
             <div class=" input-group m-0 p-0">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-dark text-light border-light" id="exam-total-score-label">试卷总分</span>
@@ -39,40 +90,9 @@
                     试卷总分必须大于0！
                 </div>  
             </div>
-            <div class=" input-group m-0 p-0">
-                {{ form.duration.errors }}
-                <div class="input-group-prepend border-info">
-                    <span class="input-group-text bg-dark text-light border-light" id="{{ form.duration.id_for_label }}">考试时长</span>
-                </div>
-                {{ form.duration }}
-                <!-- <input type="text" class="form-control" id="exam-duration" aria-describedby="exam-duration-label"> -->
-                <div class="input-group-append">
-                    <span class="input-group-text bg-dark text-light rounded-right">分钟</span>
-                </div>
-                <div class="invalid-feedback">
-                    考试必须时间大于0小于1440分钟！
-                </div> 
-            </div>
         </div>
         <div class="col-4 form-group px-2 m-0 mb-2">
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text bg-dark text-light border-light" id="exam-date-label">考试日期</span>
-                </div>
-                <input type="date" class="form-control rounded-right" id="exam-date" aria-describedby="exam-date-label" required>
-                <div class="invalid-feedback">
-                    请选择今天以后的日期！
-                </div> 
-            </div>
-            <div class=" input-group m-0 p-0">
-                <div class="input-group-prepend">
-                    <span class="input-group-text bg-dark text-light border-light" id="exam-time-label">开始时间</span>
-                </div>
-                <input type="time" class="form-control rounded-right" id="exam-time" aria-describedby="exam-time-label" required>
-                <div class="invalid-feedback">
-                    请填写考试开始时间！
-                </div> 
-            </div>
+
         </div>
         <div class="col-4 form-group px-2 m-0 mb-3">
             <div>
@@ -85,6 +105,7 @@
             <div class="text-right">
                 {{exam_list_html}}
             </div>            
+        </div>
         </div>
     </div>
     </form>

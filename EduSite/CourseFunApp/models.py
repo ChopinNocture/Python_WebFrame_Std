@@ -21,6 +21,7 @@ class Examination(models.Model):
     duration = models.PositiveIntegerField()
     question_list = models.TextField(max_length=2048, default='none')  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.today())
+    end_time = models.DateTimeField(default=timezone.datetime.today())
     class_id_list = models.CharField(max_length=128, default='none')    # JSONField()
 
     def __str__(self):

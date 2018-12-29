@@ -85,13 +85,12 @@ def examination_default():
 
 def checkNearestExam(db_name, class_id):
     try:
-        td = timedelta(hours=3)
-        exams = QuestionModels.Examination.objects.using(db_name).filter(start_time__range=(timezone.now()-td, timezone.now()+td)).values('id', 'title', 'duration', 'start_time', 'class_id_list')
+        td = timedelta(hours=4)
+        exams = QuestionModels.Examination.objects.using(db_name).filter(start_time__range=(timezone.now()-td, timezone.now()+td)).values('id', 'title', 'duration', 'start_time', 'end_time', 'class_id_list')
         
         for iter_exam in exams:
             if iter_exam['class_id_list'].find(str(class_id)) is not -1:
-                td = timedelta(iter_exam["duration"])
-                if iter_exam['start_time'] + td >= timezone.now():
+                if iter_exam['end_time'] >= timezone.now():
                     return iter_exam
         return None
     except Exception as e:
