@@ -709,27 +709,46 @@ body {
     width: 3.6em;
     color: red;
 }
-#exam_inner p {
+
+#exam_closed {
+    color: gray;
     position: relative;
     text-align: center;
     display: inline-block;
     left: -0.5em;
     top: -0.2em;
     font-size: 90%;
-    font-weight: 100;
-}
-#exam_closed {
-    color: gray;
+    font-weight: 100;    
 }
 #exam_open {
-    color: #418cce;
+    color: green;
+    position: relative;
+    text-align: center;
+    display: inline;
+    left: -0.8em;
+    top: -0.8em;
+    font-size: 80%;
+    font-weight: 100;    
 }
 
-#exam_starttime {
-    font-size: 70%;
+#exam_end {
+    position: absolute;
+    text-align: center;
+    display: block;    
+    left: 8.8em;
+    top: 1.2em;
+    font-size: 80%;
+    font-weight: 100; 
     color: red;
 }
+
+#exam_starttime, #exam_endtime {
+    font-size: 65%;
+}
 #btn_enter_exam {
+    position: relative;
+    display: inline;    
+    left: -0.7em;
     font-size: 130%;     
 }
 

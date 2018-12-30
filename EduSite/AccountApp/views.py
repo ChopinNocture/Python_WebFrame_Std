@@ -45,7 +45,6 @@ def student_main(request):
     try:
         cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
         add_gold = cur_prof.add_gold
-        print(cur_prof.add_gold,add_gold,'------------------------------1')
         cur_prof.add_gold = 0
         cur_prof.save()
     except ObjectDoesNotExist as e:
@@ -68,7 +67,6 @@ def student_main(request):
         print(e)
         exam_ans_list = []
 
-    print(cur_prof.add_gold,add_gold,'------------------------------2')
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
                     'exam_ans_list': exam_ans_list,
@@ -169,13 +167,13 @@ def update_progress(request):
             progress = int(request.POST.get('progress'))
             cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=cur_user.id)
             cur_prof.progress = progress
-            cur_prof.save()            
+            cur_prof.save(using=request.db_name)
 
         except Exception as e:
             print(e)
 
         # return HttpResponseRedirect('/user/student/')
-        return HttpResponse("Succeed!", status=200)
+        return JsonResponse({})
     else:
         return HttpResponse("failed!")            
 

@@ -31,7 +31,6 @@ function onBackClick(event) {
         dataType: 'json',
         success: SucFunc
     });
-    $(location).attr('href', event.target.dataset['url'] );    
 }
 
 function onNextClk(event) {
@@ -70,5 +69,5 @@ function refreshUI() {
 }
 
 function SucFunc() {
-
+    $(location).attr('href', $('#btn_back').data('url') );
 }

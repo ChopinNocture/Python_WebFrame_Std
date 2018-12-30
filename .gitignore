@@ -118,3 +118,4 @@ EduSite/CourseFunApp/migrations/0004_auto_20181009_1948.py
 EduSite/CourseFunApp/migrations/0003_auto_20180929_2134.py
 EduSite/CourseFunApp/migrations/0002_auto_20180928_1750.py
 EduSite/AccountApp/migrations/0002_teacherprof_class_id_list.py
+EduSite/UserInfoSync/migrations/0001_initial.py

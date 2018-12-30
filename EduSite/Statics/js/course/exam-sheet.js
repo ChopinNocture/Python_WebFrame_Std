@@ -7,7 +7,7 @@ var question_sum = 0;
 var examination = null;
 var answer_info = null;
 
-var t_start, t_duration, t_serv_now, t_leftMSec, clock_start;
+var t_start, t_end, t_duration, t_serv_now, t_leftMSec, clock_start;
 
 
 function onInit(event) {  
@@ -54,8 +54,9 @@ function initRecorder() {
 function initTime() {
     t_serv_now = new Date($("#id_server_time").val());
     t_start = new Date($("#id_start_time").val());
+    t_end = new Date($("#id_end_time").val());
     t_duration = $("#exam-duration").val();
-    t_leftMSec = t_duration*60*1000 - (t_serv_now - t_start);
+    t_leftMSec = t_duration * 60 * 1000 - (t_end - t_serv_now);
 
     clock_start = Date.now();
     setInterval('refresh_clock()', 500); 

@@ -238,6 +238,10 @@ function onExamReadyGet(jsonData) {
         var time_str = examination.start_time;
         time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
         $('#exam_starttime').html(time_str);
+        time_str = examination.end_time;
+        time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
+        $('#exam_endtime').html(time_str);
+        
         $("#exam_open").show();
         $("#exam_closed").hide();
         $("#exam_inner").removeClass("shirked").removeClass("extended").addClass('hasExam');
