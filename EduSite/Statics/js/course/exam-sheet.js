@@ -7,7 +7,7 @@ var question_sum = 0;
 var examination = null;
 var answer_info = null;
 
-var t_start, t_end, t_duration, t_serv_now, t_leftMSec, clock_start;
+var t_start, t_end, t_duration, t_serv_now, t_exam_start, t_leftMSec, clock_start;
 
 
 function onInit(event) {
@@ -20,11 +20,10 @@ function onInit(event) {
     onStopRecordingFunc = voiceRecEnd;
     initTime();
     initQuestion();
-
+    recoverAnswerFromCookie();
     initRecorder();
     //examination.
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
-
     $("#nav_" + cur_type).click();
 }
 
@@ -53,21 +52,33 @@ function initRecorder() {
 
 function initTime() {
     t_serv_now = new Date($("#id_server_time").val());
+
     t_start = new Date($("#id_start_time").val());
     t_end = new Date($("#id_end_time").val());
     t_duration = $("#exam-duration").val();
-    t_leftMSec = t_duration * 60 * 1000 - (t_end - t_serv_now);
+    t_exam_start = getCookie('e_st');
+    if (t_exam_start == null) {
+        t_exam_start = t_serv_now;
+    }
+    else {
+        t_exam_start = new Date(t_exam_start);
+    }
+    saveStartTimeInCookie(t_exam_start);
 
+    t_leftMSec = Math.min(t_duration * 60 * 1000 - Number(t_serv_now - t_exam_start), Number(t_end - t_serv_now));
     clock_start = Date.now();
     setInterval('refresh_clock()', 500);
 }
 
 function refresh_clock() {
-    var leftDate = new Date(t_leftMSec - (Date.now() - clock_start));
+    var leftMS = Number(t_leftMSec - (Date.now() - clock_start));
+    leftMS = Math.floor(leftMS / 1000);
     var str = "";
-    str = str + leftDate.getHours().toString() + ":";
-    str = str + leftDate.getMinutes().toString() + ":";
-    str = str + leftDate.getSeconds().toString();
+    str = str + Math.floor(leftMS / 3600) + ":";
+    leftMS = leftMS % 3600;
+    str = str + Math.floor(leftMS / 60) + ":";
+    leftMS = leftMS % 60;
+    str = str + leftMS;
 
     $("#clock_time").html(str);
 }
@@ -164,7 +175,6 @@ function updateTypeChanged(newType) {
     eval('checkAnswerFunc = check' + cur_type);
     eval('refreshQuestionFunc = refresh' + cur_type);
     eval('refreshAnswerFunc = refreshAnswer' + cur_type);
-
     if (examination[cur_type]["questions"] == undefined) {
         if (examination[cur_type]['qlist'].length > 0) {
             var jsonlist = JSON.stringify({ 'qlist': examination[cur_type]['qlist'] });
@@ -190,12 +200,17 @@ function onQuestionGet(jsonData) {
     var getType = jsonData['qtype'];
     //alert(getType+ " ** " +  JSON.stringify(jsonData));
     examination[getType]["questions"] = jsonData['questions'];
-    examination[getType]["answers"] = new Array(jsonData['questions'].length);
+    recoverTypeAnswer(getType);
+    update();
+}
+
+function recoverTypeAnswer(qtype){
     if (answer_info) {
-        var ans = answer_info[getType]['re']
+        var ans = answer_info[qtype]['re']
         if (ans) {
+            examination[qtype]["answers"] = new Array(ans.length);
             for (var i in ans) {
-                examination[getType]["answers"][i] = {
+                examination[qtype]["answers"][i] = {
                     "complete": ans[i]['c'],
                     "result": ans[i]['r'],
                     "answer": ans[i]['a']
@@ -203,7 +218,6 @@ function onQuestionGet(jsonData) {
             }
         }
     }
-    update();
 }
 
 function updateQuestion() {
@@ -221,11 +235,12 @@ function updateQuestion() {
 }
 
 function checkCurrentAnswer() {
-    if (examination[cur_type] == undefined) return;
+    if (examination[cur_type] == undefined || examination[cur_type]["questions"]==undefined) return;
 
     if (examination[cur_type]["answers"]) {
         examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
     }
+    saveAnswerInCookie();
 }
 
 function refreshAnswer(answerString, question) {
@@ -288,7 +303,6 @@ function refreshAnswerVoice(answerString) {
         var au = document.createElement('audio');
 
         au.controls = true;
-        alert(answerString);
         au.src = answerString;
         $('#voice_reviewer')[0].appendChild(au);
     }
@@ -372,6 +386,35 @@ function standardizeExam() {
     final_answer.ts = total_score;
 
     return final_answer;
+}
+
+function getCookie(name) {
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+        return (arr[2]);
+    else
+        return null;
+}
+
+function recoverAnswerFromCookie(){
+    var ansStr = getCookie('e_ans');
+    if (ansStr) {
+        answer_info = $.parseJSON(ansStr);
+        for (var i in qType_list) {
+            recoverTypeAnswer(qType_list[i]);
+        }
+    }
+}
+
+function saveAnswerInCookie() {
+    var result_dict = standardizeExam()
+    var result_JSON = JSON.stringify(result_dict);
+
+    document.cookie = 'e_ans=' + result_JSON + ";path=cookieDir;expires=" + t_end.toString();
+}
+
+function saveStartTimeInCookie(sttime) {
+    document.cookie = 'e_st=' + sttime + ";path=cookieDir;expires=" + t_end.toString();
 }
 
 function submitExam() {
