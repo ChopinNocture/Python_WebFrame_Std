@@ -49,6 +49,7 @@ def student_main(request):
         cur_prof.save()
     except ObjectDoesNotExist as e:
         print('!!', e)
+        add_gold = 0
         cur_prof = StudentProgressInfo(user_id=cur_user.id)
         cur_prof.save(using=request.db_name)
     
