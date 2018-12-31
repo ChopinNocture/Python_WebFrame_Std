@@ -92,6 +92,10 @@ WSGI_APPLICATION = 'EduSite.wsgi.application'
 #     'course_B': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'DB/course_B.sqlite3'),
+#     },
+#     'user_info_sync': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'DB/edu_user_info_sync.sqlite3'),
 #     }
 # }
 
