@@ -10,7 +10,7 @@ var answer_info = null;
 var t_start, t_end, t_duration, t_serv_now, t_leftMSec, clock_start;
 
 
-function onInit(event) {  
+function onInit(event) {
     csrf_Setup();
 
     $('#section_title').html($('#id_title').val());
@@ -25,7 +25,7 @@ function onInit(event) {
     //examination.
     // ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
 
-    $("#nav_"+cur_type).click();
+    $("#nav_" + cur_type).click();
 }
 
 //----------------------------------------------------------------
@@ -59,7 +59,7 @@ function initTime() {
     t_leftMSec = t_duration * 60 * 1000 - (t_end - t_serv_now);
 
     clock_start = Date.now();
-    setInterval('refresh_clock()', 500); 
+    setInterval('refresh_clock()', 500);
 }
 
 function refresh_clock() {
@@ -71,7 +71,6 @@ function refresh_clock() {
 
     $("#clock_time").html(str);
 }
-
 
 function update() {
     updatePageView();
@@ -89,7 +88,7 @@ function onPrevClk(event) {
 
 function nextQuestion(nextIdx) {
     var n = Math.max(Math.min(nextIdx, question_sum - 1), 0)
-    
+
     if (n != cur_idx) {
         checkCurrentAnswer();
         cur_idx = n;
@@ -126,26 +125,26 @@ var refreshAnswerFunc;
 
 // { "total_num": 0, "total_score": 0, "choice" :{ 'per_score': 1, 'num': 0, 'sum_score': 0, index, qlist:[ids], questions:[], answers:[{complete, result, answer}] }}
 function initQuestion() {
-    examination = $.parseJSON( $('#id_question_list').val() );
-    $(".qtype").each(function (index, elem) { 
+    examination = $.parseJSON($('#id_question_list').val());
+    $(".qtype").each(function (index, elem) {
         var typestr = $(elem).data("qtype");
-        qType_list.push(typestr); 
-        $(elem).html(TYPE_TRANS_LIST[typestr]).click(onTypeChanged);       
-        
+        qType_list.push(typestr);
+        $(elem).html(TYPE_TRANS_LIST[typestr]).click(onTypeChanged);
+
     });
 
-    if(examination) {
+    if (examination) {
         question_sum = examination.total_num;
         for (var i in qType_list) {
-            if(examination[qType_list[i]]) {
+            if (examination[qType_list[i]]) {
                 examination[qType_list[i]]["index"] = 0;
             }
         }
     }
 
-    if($('#id_answer_json').val()) {
-        answer_info = $.parseJSON( $('#id_answer_json').val() );
-    }    
+    if ($('#id_answer_json').val()) {
+        answer_info = $.parseJSON($('#id_answer_json').val());
+    }
 }
 
 function onTypeChanged(event) {
@@ -160,12 +159,12 @@ function updateTypeChanged(newType) {
 
     cur_type = newType;
     cur_idx = examination[cur_type]["index"];
-    question_sum = examination[cur_type]["num"];        
+    question_sum = examination[cur_type]["num"];
 
     eval('checkAnswerFunc = check' + cur_type);
     eval('refreshQuestionFunc = refresh' + cur_type);
     eval('refreshAnswerFunc = refreshAnswer' + cur_type);
-    
+
     if (examination[cur_type]["questions"] == undefined) {
         if (examination[cur_type]['qlist'].length > 0) {
             var jsonlist = JSON.stringify({ 'qlist': examination[cur_type]['qlist'] });
@@ -184,7 +183,7 @@ function updateTypeChanged(newType) {
     }
     else {
         update();
-    }  
+    }
 }
 
 function onQuestionGet(jsonData) {
@@ -192,16 +191,17 @@ function onQuestionGet(jsonData) {
     //alert(getType+ " ** " +  JSON.stringify(jsonData));
     examination[getType]["questions"] = jsonData['questions'];
     examination[getType]["answers"] = new Array(jsonData['questions'].length);
-    if(answer_info) {
+    if (answer_info) {
         var ans = answer_info[getType]['re']
-        if(ans) {
+        if (ans) {
             for (var i in ans) {
                 examination[getType]["answers"][i] = {
-                    "complete": ans[i]['c'], 
-                    "result": ans[i]['r'], 
-                    "answer": ans[i]['a'] };
+                    "complete": ans[i]['c'],
+                    "result": ans[i]['r'],
+                    "answer": ans[i]['a']
+                };
             }
-        }        
+        }
     }
     update();
 }
@@ -210,22 +210,22 @@ function updateQuestion() {
     //alert(examination[cur_type].qlist[cur_idx]);
     if (examination[cur_type]["questions"][cur_idx] != undefined) {
         refreshQuestionFunc(examination[cur_type]["questions"][cur_idx]);
-        if(examination[cur_type]["answers"] && examination[cur_type]["answers"][cur_idx]) {
-            refreshAnswer(examination[cur_type]["answers"][cur_idx].answer, examination[cur_type]["questions"][cur_idx]);    
-        }       
+        if (examination[cur_type]["answers"] && examination[cur_type]["answers"][cur_idx]) {
+            refreshAnswer(examination[cur_type]["answers"][cur_idx].answer, examination[cur_type]["questions"][cur_idx]);
+        }
     }
-    else{
+    else {
         $('#q_description').html("本该题型没有题目，请选择其它题型继续！");
         $('#q_type_sheet').html("");
     }
 }
 
 function checkCurrentAnswer() {
-    if(examination[cur_type] == undefined) return;
-    
-    if(examination[cur_type]["answers"]) {
+    if (examination[cur_type] == undefined) return;
+
+    if (examination[cur_type]["answers"]) {
         examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
-    }    
+    }
 }
 
 function refreshAnswer(answerString, question) {
@@ -242,19 +242,19 @@ function refreshAnswerFillInBlank(answerString) {
 }
 
 function refreshAnswerTrueOrFalse(answerString) {
-    if(answerString!=undefined) {
-        if(answerString){
+    if (answerString != undefined) {
+        if (answerString) {
             $('#TF_Right').prop('checked', "checked");
         }
         else {
             $('#TF_Wrong').prop('checked', "checked");
         }
-    }    
+    }
 }
 
 function refreshAnswerChoice(answerString) {
-    $('input[id^=id_option_]').each(function(idx, elem){
-        if(answerString == elem.value) {
+    $('input[id^=id_option_]').each(function (idx, elem) {
+        if (answerString == elem.value) {
             $(elem).prop('checked', 'checked');
             return false;
         }
@@ -283,18 +283,18 @@ function refreshAnswerSort(answerString, question) {
 }
 
 function refreshAnswerVoice(answerString) {
-    if(answerString.length>0) {
+    if (answerString.length > 0) {
         $("#voice_recorder").hide();
         var au = document.createElement('audio');
 
         au.controls = true;
-        alert(answerString);    
+        alert(answerString);
         au.src = answerString;
         $('#voice_reviewer')[0].appendChild(au);
     }
 }
 
-function checkVoice(keyString, result_obj) { 
+function checkVoice(keyString, result_obj) {
     var result_json = { 'complete': !is_recording };
 
     if (result_obj != undefined && result_obj['answer'] != '') {
@@ -302,10 +302,10 @@ function checkVoice(keyString, result_obj) {
     }
     else {
         result_json['answer'] = "";
-        if(cur_voice_blob!=null) {
+        if (cur_voice_blob != null) {
             var formData = new FormData();
-            formData.append("type", cur_type );
-            formData.append("index", cur_idx );    
+            formData.append("type", cur_type);
+            formData.append("index", cur_idx);
             formData.append("voice", cur_voice_blob);
 
             $.ajax({
@@ -323,8 +323,8 @@ function checkVoice(keyString, result_obj) {
 }
 
 var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
-function voiceRecEnd(){
-    if($("#btn_voice_submit")[0]==undefined || $("#btn_voice_submit")[0]==null ) {
+function voiceRecEnd() {
+    if ($("#btn_voice_submit")[0] == undefined || $("#btn_voice_submit")[0] == null) {
         $("#frame_recorder")[0].appendChild($(VOICE_SUBMIT_HTML)[0]);
     }
 }
@@ -339,33 +339,33 @@ function voiceSubmit(event) {
 
 //----------------------------------------------------------
 function standardizeExam() {
-    var final_answer = { "ts":0 };
+    var final_answer = { "ts": 0 };
     var total_score = 0;
 
     for (var i in qType_list) {
         var current = examination[qType_list[i]];
 
-        if(current) {
+        if (current) {
             var ar_result = new Array();
             var right_res = 0;
 
             for (var j in current.answers) {
-                if(current.answers[j]) {
+                if (current.answers[j]) {
                     ar_result.push({
-                        "c" : current.answers[j].complete,
-                        "r" : current.answers[j].result,
-                        "a" : current.answers[j].answer
+                        "c": current.answers[j].complete,
+                        "r": current.answers[j].result,
+                        "a": current.answers[j].answer
                     });
-                    if(current.answers[j].result) {
+                    if (current.answers[j].result) {
                         right_res += 1;
                     }
                 }
                 else {
-                    ar_result.push({"c" : false, "r" : false, "a" : ''});
+                    ar_result.push({ "c": false, "r": false, "a": '' });
                 }
             }
             right_res = current.per_score * right_res;
-            final_answer[qType_list[i]] = {"sc":right_res, "re":ar_result};
+            final_answer[qType_list[i]] = { "sc": right_res, "re": ar_result };
             total_score += right_res;
         }
     }
@@ -384,7 +384,7 @@ function submitExam() {
         data: { "exam": result_JSON, "score": result_dict['ts'] },
         dataType: 'json',
         success: onSubmitSuccess
-    });    
+    });
 }
 
 function onSubmitClick(event) {
@@ -398,8 +398,8 @@ function showModel() {
 }
 
 function hideModel() {
-    $("#model_bg").hide();  
-    $("#show_panel").hide();      
+    $("#model_bg").hide();
+    $("#show_panel").hide();
 }
 
 function onConfirmClick(event) {
