@@ -1018,6 +1018,7 @@ body {
 }
 
 #his_prev, #his_next {
+    content: "";
     right: 0.6rem;
     width: 3.2rem;
     height: 2.4rem;

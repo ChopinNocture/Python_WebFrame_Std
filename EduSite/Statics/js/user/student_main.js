@@ -243,6 +243,8 @@ function onExamReadyGet(jsonData) {
         $('#exam_endtime').html(time_str);
         
         $("#exam_open").show();
+        $("#exam_end").show();        
+        $("#btn_enter_exam").show();
         $("#exam_closed").hide();
         $("#exam_inner").removeClass("shirked").removeClass("extended").addClass('hasExam');
         $("#exam_icon_Sword").removeClass("sword_shirk").removeClass("sword_extend").addClass('sword_hasExam');
@@ -254,7 +256,9 @@ function onExamReadyGet(jsonData) {
         examShirk();
         $('#exam_entrance').mouseenter(examExtend).mouseleave(examShirk);
         $("#exam_open").hide();
-        $("#exam_closed").show();
+        $("#exam_end").hide();
+        $("#btn_enter_exam").hide();        
+        $("#exam_closed").show();        
     }
 }
 
@@ -292,6 +296,7 @@ function onHisPrev(event) {
 }
 
 function onHisNext(event) {
+    alert(";;;");
     nextidx = Math.max(0, his_index-1);
     if( nextidx == his_index ) return;    
     his_index = nextidx;    

@@ -8,11 +8,11 @@ var examination = null;
 var answer_info = null;
 
 var t_start, t_end, t_duration, t_serv_now, t_exam_start, t_leftMSec, clock_start;
-
+var user_id = -1;
 
 function onInit(event) {
     csrf_Setup();
-
+    checkCookie();
     $('#section_title').html($('#id_title').val());
 
     $('#btn_next').click(onNextClk);
@@ -27,6 +27,16 @@ function onInit(event) {
     $("#nav_" + cur_type).click();
 }
 
+function checkCookie() {
+    user_id = $("#id_user_id").val();
+    var uid = getCookie('user_id');
+    if (uid == undefined || user_id != uid) {
+        document.cookie = 'user_id=' + user_id + ";path=cookieDir;";
+        document.cookie = 'e_ans=empty;path=cookieDir;';
+        document.cookie = 'e_st=0;path=cookieDir;';        
+    }
+}
+
 //----------------------------------------------------------------
 var recorder, audio_context;
 function startUserMedia(stream) {
@@ -39,14 +49,14 @@ function initRecorder() {
         // webkit shim
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         window.URL = window.URL || window.webkitURL;
-
         audio_context = new AudioContext;
-    } catch (e) {
-        alert('No web audio support in this browser!');
+    }
+    catch (e) {
+        alert('浏览器不支持音频!');
     }
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
-        alert('No live audio input: ' + e);
+        alert('没找到话筒: ' + e);
     });
 }
 
@@ -57,7 +67,7 @@ function initTime() {
     t_end = new Date($("#id_end_time").val());
     t_duration = $("#exam-duration").val();
     t_exam_start = getCookie('e_st');
-    if (t_exam_start == null) {
+    if (t_exam_start == null || t_exam_start == 0) {
         t_exam_start = t_serv_now;
     }
     else {
@@ -66,21 +76,30 @@ function initTime() {
     saveStartTimeInCookie(t_exam_start);
 
     t_leftMSec = Math.min(t_duration * 60 * 1000 - Number(t_serv_now - t_exam_start), Number(t_end - t_serv_now));
-    clock_start = Date.now();
-    setInterval('refresh_clock()', 500);
+    if (t_leftMSec > 0) {
+        clock_start = Date.now();
+        setInterval('refresh_clock()', 500);
+    }
+    else {
+        submitExam();
+    }
 }
 
 function refresh_clock() {
     var leftMS = Number(t_leftMSec - (Date.now() - clock_start));
-    leftMS = Math.floor(leftMS / 1000);
-    var str = "";
-    str = str + Math.floor(leftMS / 3600) + ":";
-    leftMS = leftMS % 3600;
-    str = str + Math.floor(leftMS / 60) + ":";
-    leftMS = leftMS % 60;
-    str = str + leftMS;
-
-    $("#clock_time").html(str);
+    if (leftMS > 0) {
+        leftMS = Math.floor(leftMS / 1000);
+        var str = "";
+        str = str + Math.floor(leftMS / 3600) + ":";
+        leftMS = leftMS % 3600;
+        str = str + Math.floor(leftMS / 60) + ":";
+        leftMS = leftMS % 60;
+        str = str + leftMS;
+        $("#clock_time").html(str);
+    }
+    else {
+        submitExam();
+    }    
 }
 
 function update() {
@@ -153,9 +172,7 @@ function initQuestion() {
         }
     }
 
-    if ($('#id_answer_json').val()) {
-        answer_info = $.parseJSON($('#id_answer_json').val());
-    }
+    answer_info = standardizeExam();
 }
 
 function onTypeChanged(event) {
@@ -204,7 +221,7 @@ function onQuestionGet(jsonData) {
     update();
 }
 
-function recoverTypeAnswer(qtype){
+function recoverTypeAnswer(qtype) {
     if (answer_info) {
         var ans = answer_info[qtype]['re']
         if (ans) {
@@ -235,12 +252,14 @@ function updateQuestion() {
 }
 
 function checkCurrentAnswer() {
-    if (examination[cur_type] == undefined || examination[cur_type]["questions"]==undefined) return;
-
-    if (examination[cur_type]["answers"]) {
-        examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
+    if (examination[cur_type] == undefined || examination[cur_type]["questions"] == undefined) {
+        return;
     }
-    saveAnswerInCookie();
+
+    if (examination[cur_type]["answers"] && examination[cur_type]["questions"][cur_idx]) {
+        examination[cur_type]["answers"][cur_idx] = checkAnswerFunc(examination[cur_type]["questions"][cur_idx].key, examination[cur_type]["answers"][cur_idx]);
+        saveAnswerInCookie();
+    }
 }
 
 function refreshAnswer(answerString, question) {
@@ -396,9 +415,9 @@ function getCookie(name) {
         return null;
 }
 
-function recoverAnswerFromCookie(){
+function recoverAnswerFromCookie() {
     var ansStr = getCookie('e_ans');
-    if (ansStr) {
+    if (ansStr && ansStr!='empty') {
         answer_info = $.parseJSON(ansStr);
         for (var i in qType_list) {
             recoverTypeAnswer(qType_list[i]);
@@ -407,9 +426,7 @@ function recoverAnswerFromCookie(){
 }
 
 function saveAnswerInCookie() {
-    var result_dict = standardizeExam()
-    var result_JSON = JSON.stringify(result_dict);
-
+    var result_JSON = JSON.stringify(standardizeExam());
     document.cookie = 'e_ans=' + result_JSON + ";path=cookieDir;expires=" + t_end.toString();
 }
 
@@ -418,7 +435,7 @@ function saveStartTimeInCookie(sttime) {
 }
 
 function submitExam() {
-    var result_dict = standardizeExam()
+    var result_dict = standardizeExam();
     var result_JSON = JSON.stringify(result_dict);
 
     $.ajax({

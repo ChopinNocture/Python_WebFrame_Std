@@ -11,6 +11,7 @@
     data-voice-answer-url="{% url 'course:exam_voice_answer' student_id=user_id exam_id=exam_id %}" hidden>
     {% csrf_token %}
     {{form.as_p}}
+    <input type="hidden" id="id_user_id" value="{{user_id}}"/>
     {{exam_answer_form.as_p}}
     <input type="hidden" name="server_time" value="{{serv_time}}" id="id_server_time">
 </form>
@@ -25,7 +26,7 @@
             </div>
         </div>
         <div id="time_panel">
-            <div id="clock_icon"><span id="clock_time">12:32:12</span></div>
+            <div id="clock_icon"><span id="clock_time">0:0:0</span></div>
             <button id="btn_submit" class="btn-circle-orange" onclick="onSubmitClick(event)" onfocus="this.blur()" tabindex="-1">完成交卷</button>
             <!-- <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 结束答题</a> -->
         </div>

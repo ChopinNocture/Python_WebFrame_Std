@@ -444,25 +444,31 @@ def exam_examination(request, exam_id):
         print(e)
         return HttpResponseNotAllowed(e)
 
-    try:
-        exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
-    except ObjectDoesNotExist as e:
-        print(e)        
-        exam_answer = ExamAnswer(exam=exam, user_id=request.user.id)                    
-
     if request.method == "GET":        
-        exam_form = questionForms.ExaminationForm(instance=exam)
-        exam_answer_form = questionForms.ExamAnswerForm(instance=exam_answer)
-        return render(request=request, template_name="course/Examination.html",
-                    context = { "user_id": request.user.id,
-                                "exam_id": exam_id,
-                                "form": exam_form, 
-                                "exam_answer_form": exam_answer_form,
-                                "serv_time": str(timezone.now()),
-                                "qTypeList": exam_sys.q_type_list })
+        try:
+            exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
+            return render(request=request, template_name="course/exam_finished.html",
+                            context = { "hasanswer": True })
+        except ObjectDoesNotExist as e:
+            if timezone.now() > exam.end_time:
+                return render(request=request, template_name="course/exam_finished.html",
+                            context = { "hasanswer": False })
+            else:
+                exam_form = questionForms.ExaminationForm(instance=exam)
+                return render(request=request, template_name="course/Examination.html",
+                        context = { "user_id": request.user.id,
+                                    "exam_id": exam_id,
+                                    "form": exam_form, 
+                                    "serv_time": str(timezone.now()),
+                                    "qTypeList": exam_sys.q_type_list })
     else:
         if not request.is_ajax(): 
             return HttpResponse('failed')
+
+        try:
+            exam_answer = ExamAnswer.objects.using(request.db_name).get(exam=exam, user_id=request.user.id)
+        except ObjectDoesNotExist as e:
+            exam_answer = ExamAnswer(exam=exam, user_id=request.user.id)     
 
         print(request.POST['exam'])
         exam_answer.answer_json = request.POST['exam']

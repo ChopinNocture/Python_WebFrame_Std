@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %} 
+{% block title %}考试{% endblock %} 
+{% block jsPage %}
+
+{% endblock %} 
+
+{% block content %}
+
+<div id="root_panel"> 
+    <div id="info_panel">
+        <div id="show_panel">
+            {% if hasanswer %}
+            <p>你已经交卷啦，等待结果吧！</p>
+            {% else %}
+            <p>考试时间已过，你错过了...</p>
+            {% endif%}
+            <a href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange"><span class="arrow-left"></span> 返回</a>
+        </div>
+        {% if hasanswer %}
+        <div id="teacher_haha" alt="Card image cap"></div>
+        {% else %}
+        <div id="teacher_hehe" alt="Card image cap"></div>
+        {% endif%}        
+    </div>    
+</div>
+
+{% endblock %}
+
+{% block jsFunctionLib %}
+    <link rel="stylesheet" href="{% static 'css/edu/student/common_lib.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/student/exam_finished.css' %}"/>
+        
+    <script type="text/javascript" src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tools.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
+{% endblock %}
