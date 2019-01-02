@@ -10,7 +10,7 @@ function init() {
     csrf_Setup();
 
     $("input[id^='prac_mode']").click(onModeChange);
-    $('span[id^=QType_]').each(function (index, elem) {
+    $('button[id^=QType_]').click(onNavTypeClk).each(function (index, elem) {
         var typestr = $(elem).data("qtype");
         qType_list.push(typestr);
         prac_num_json_data[typestr] = 1;
@@ -124,4 +124,87 @@ function updateModeSetting() {
 function onModeChange() {
     lock_mode = $("#prac_mode_1").prop("checked");
     updateModeSetting();
+}
+
+
+
+//=======================================================
+// question filter
+//=======================================================
+var section_id = null;
+var cur_list_url = "";
+var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list-group-item-warning inline-block text-truncate" \
+                    tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" onfocus="this.blur()" id="" title=""></button>';
+
+var QLIST_BTN_ID = "qlist_id";
+
+function onSectionClick(event) {
+    if (event.target.dataset.section != section_id) {
+        $('button[id^=course_]').removeClass('active');
+        $(event.target).addClass('active');
+        section_id = event.target.dataset.section;
+        doRefreshQList();
+    }
+
+    //    $(event.target).blur();
+    return true;
+}
+
+
+function doRefreshQList() {    
+    if (section_id && cur_list_url) {
+        $.get(cur_list_url + section_id.toString(), updateQList);
+    }
+    else {
+        $("#Question_List").empty();
+        $("#qlist_num").html('0');
+    }
+    $('#content_filer').collapse('hide');
+}
+
+function updateQList(jsonData) {
+    var qListPanel = $("#Question_List");
+
+    qListPanel.empty();
+
+    var tempLine;
+    var i = 0;
+    jsonData.forEach(function (iter, index, array) {
+        tempLine = $(QLIST_ITEM_STR)
+            .clone()
+            .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title": iter.desc })
+            .html(iter.desc)
+            .tooltip()
+            .click(onQListBtnClick);
+
+        //if (curr_qid == iter.id) tempLine.addClass('active');
+        qListPanel.append(tempLine);
+        ++i;
+    });
+    $("#qlist_num").html(i.toString());
+}
+
+var question_type ='';
+function onNavTypeClk(event) {
+    $("button[id^='QType_']").removeClass('active');
+
+    question_type = event.target.dataset["qtype"];
+    $(event.target).addClass('active');
+
+    cur_list_url = event.target.dataset.qlistUrl;
+    doRefreshQList();
+
+    return false;
+}
+
+function onQListBtnClick(event) {
+    //$('button[id^=' + QLIST_BTN_ID + ']').removeClass('active');
+    if($(event.target).hasClass('active')) {
+        $(event.target).removeClass('active');
+    }
+    else {
+        $(event.target).addClass('active');    
+    } 
+
+    return false;
 }
