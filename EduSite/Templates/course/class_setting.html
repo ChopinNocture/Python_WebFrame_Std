@@ -10,7 +10,7 @@
 {% csrf_token %}
 <h2 class="text-center font-weight-bold p-1 text-warning text_outline ">班级设置</h2>
 <div class="row border border-dark mx-3 p-2 rounded bg_gray_d2u">
-    <div class="col-3 p-2">
+    <div class="col-2 p-2">
         <div class="card bg-info">                
             <div class="card bg-secondary text-white">
                 <div class="card-header text-center">
@@ -41,8 +41,8 @@
                     <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
                 </div>
                 <div id="id_unlock_div" class="input-group w-100">
-                    <div class="input-group-prepend w-50">
-                        <span class="input-group-text bg-dark text-light border-secondary w-100">解锁需要答对的数量</span>
+                    <div class="input-group-prepend w-75">
+                        <span class="input-group-text bg-dark text-light text-sm-center border-secondary w-100">解锁需要答对的数量</span>
                     </div>
                     <input type="number" min="0" max="20" value="3" step="1" class="form-control" id="id_unlock" onchange="onUnlockChange(event)">
                 </div>
@@ -52,8 +52,8 @@
                 <h5 class="card-title">当前试炼题目数量设置</h5>
             </div>
             {% for qType in qTypeList %}
-            <div class="input-group w-100">
-                <div class="input-group-prepend w-50">
+            <div class="input-group w-100 px-1">
+                <div class="input-group-prepend w-75">
                     <span class="input-group-text bg-dark text-light border-secondary w-100" 
                     data-qtype="{{qType}}"
                     id="QType_{{qType}}">{{qType}}</span>
@@ -66,7 +66,41 @@
             </div>
         </div>
     </div>
-    <div class="col-1 py-2"></div>
+    <div class="col-7 p-0 m-0">
+        <h3 class="text-center font-weight-bold text-warning text-danger">题目筛选</h3>
+        <div class="row mx-0 p-0">
+            <div class="col-4 m-0 p-0">
+                <div class="card bg-light">                
+                    <div class="card bg-secondary text-white">
+                        <div class="card-header text-center">
+                            <h5 class="card-title">课程章节列表</h5>
+                        </div>
+                        <!-- <div class="card-body"> -->
+                        {{course_html}}                  
+                        <!-- </div> -->
+                    </div>                
+                </div>
+            </div>
+            <div class="col-4 m-0 p-0">
+                <!-- <div class="row-fluid"> -->
+                <div class="card bg-warning">
+                    <div class="card-header card-header-sm">
+                        <h5 class="card-title">题目列表
+                            <span class="badge badge-dark" id="qlist_num">0</span>
+                            <span class="float-right">
+                                <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
+                            </span>
+                        </h5>
+                        <div class="collapse align-content-end" id="content_filer">                        
+                            <input class="form-control form-control-sm mr-sm-1 form-inline" type="search" placeholder="搜索" aria-label="搜索" id="filter_input" onchange="onFilterInput(event)">
+                        </div>
+                    </div>
+                    <ul class="list-group" id="Question_List">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

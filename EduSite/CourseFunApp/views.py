@@ -618,12 +618,14 @@ def class_setting(request):
     if request.method == 'GET':
         class_list = ClassInfo.objects.all()
         lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
-        
+        course_html = get_lesson_list_html(request)
+
         return render(request=request, template_name="course/class_setting.html",
                     context = { "lesson_list": lesson_list,
                                 "qTypeList": exam_sys.q_type_list,
                                 'class_list': class_list,
-                                'course_desc':request.course_desc, })
+                                'course_html': course_html,
+                                'course_desc': request.course_desc, })
 
 
 @course_required()
