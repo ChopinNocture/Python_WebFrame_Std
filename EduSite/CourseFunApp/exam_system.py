@@ -12,7 +12,7 @@ q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{type:[]}
-def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_json=None):
+def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_json=None, id_list_json=None):
     tmp_list = type_list
     if not tmp_list:
         tmp_list = q_type_list
@@ -20,15 +20,18 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
     q_json_list = []
     question_dict = {}
     for iter_tpName in tmp_list:
-        print(' --- ', iter_tpName, num_json)
         try:
             temp_class = QuestionModels.get_qType_class(iter_tpName)
         except (AttributeError) as e:
             raise e
 
-        query_filter = temp_class.objects.using(db_name).filter(sectionID=sectionID, case_analyse=None)
-        count = query_filter.count()
-        
+        if id_list_json and id_list_json[iter_tpName]:
+            print(' --- ', iter_tpName, num_json, id_list_json)
+            query_filter = temp_class.objects.using(db_name).filter(id__in=id_list_json[iter_tpName], sectionID=sectionID, case_analyse=None)
+        else:
+            query_filter = temp_class.objects.using(db_name).filter(sectionID=sectionID, case_analyse=None)
+
+        count = query_filter.count()        
         if num_json and num_json[iter_tpName] is not None:
             need_num = min(num_json[iter_tpName], count)
         else:
@@ -61,16 +64,18 @@ def get_questions_by_id_list(qtype, id_list, db_name):
     except (AttributeError) as e:
         raise e
     
+    querylist = list(temp_class.objects.using(db_name).filter(id__in=id_list))
+
     ques_list = list()
-    for id_iter in id_list:
-        question = temp_class.objects.using(db_name).get(id=id_iter)
-        if hasattr(question, 'qVoice'):
-            question_dict = model_to_dict(question, exclude=['qVoice', 'key'])
-            question_dict['qVoice'] = str(question.qVoice)
-            question_dict['key'] = str(question.key)
-        else:
-            question_dict = model_to_dict(question)
-        ques_list.append(question_dict)
+    if qtype == 'Voice':  
+        for iter in querylist:
+            question_dict = model_to_dict(iter, exclude=['qVoice', 'key'])
+            question_dict['qVoice'] = str(iter.qVoice)
+            question_dict['key'] = str(iter.key)
+            ques_list.append(question_dict)  
+    else:
+        for iter in querylist:
+            ques_list.append(model_to_dict(iter))
 
     return {'qtype':qtype, 'questions':ques_list}
 

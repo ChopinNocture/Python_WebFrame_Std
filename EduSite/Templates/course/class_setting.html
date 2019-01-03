@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="col-2 py-2 border-info border-right border-left">
-        <div class="card bg-info border-0">
+        <div class="card bg-info border-0" id="id_mode_setting" style="display:none">
             <div class="card-header card-header-sm">
                 <h5 class="card-title">试炼模式设置</h5>                    
                 <div class="form-check form-check-inline">
@@ -72,7 +72,7 @@
     </div>
     <div class="col-8 p-0 m-0">
         <h3 class="text-center font-weight-bold text-warning text-danger">题目筛选</h3>
-        <div class="row mx-0 p-0">
+        <div class="row mx-0 p-0" id="q_setting" style="display:none">
             <div class="col-3 m-0 p-0">
                 <div class="card bg-light">                
                     <div class="card bg-secondary text-white">
@@ -92,7 +92,7 @@
                         <h5 class="card-title">题目列表
                             <span class="badge badge-dark" id="qlist_num">0</span>
                             <span class="float-right">
-                                <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">确定修改</button>
+                                <button type="button" class="d-inline btn btn-sm btn-danger" onclick="onConfirmSetting(event)">确定修改</button>
                                 <button type="button" class="d-inline btn btn-sm btn-secondary" data-toggle="collapse" data-target="#content_filer" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">搜索</button>
                             </span>
                         </h5>
