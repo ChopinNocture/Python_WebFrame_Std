@@ -7,14 +7,14 @@ class StudentInfo(models.Model):
     student_id = models.PositiveIntegerField()                 # 学号 （唯一标识号）
     name = models.CharField(max_length=64)                     # 姓名
     class_id = models.PositiveIntegerField()                   # 所属班级的 id！
-    user_id = models.IntegerField(default=-1)                  # user_id
+    user_name = models.CharField(max_length=128, unique=True)  # user_name
 
 
 # --------------------------------------------------------
 class TeacherInfo(models.Model):
     teacher_id = models.PositiveIntegerField()                 # 工号编号 （唯一标识号）
     name = models.CharField(max_length=64)                     # 姓名
-    user_id = models.IntegerField(default=-1)                  # user_id
+    user_name = models.CharField(max_length=128, unique=True)  # user_name
     
 
 # --------------------------------------------------------

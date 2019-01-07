@@ -101,7 +101,7 @@ def get_question_list_by_ids(request):
 
 # --------------------------------------------------------
 # editor main
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def question_editor(request):
     course_html = get_lesson_list_html(request)
@@ -211,7 +211,7 @@ def question_editor_form(request, qtype, qid=-1):
     # return HttpResponse(temp_class.get_url_name())
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 @csrf_exempt
 def question_import(request):
@@ -269,7 +269,7 @@ def _question_import(request):
 
 # --------------------------------------------------------
 # oprater for lesson
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def lesson_editor(request):
     course_html = get_lesson_list_html(request)
@@ -382,7 +382,7 @@ def lesson_delete(request, lesson_content_id):
 
 # --------------------------------------------------------
 # study lesson
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def study(request, lesson_id):
     if request.method == "GET":
@@ -408,7 +408,7 @@ def study(request, lesson_id):
 
 # --------------------------------------------------------
 # answer sheet
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def answer_sheet(request, sectionID):
     lesson = Lesson.objects.using(request.db_name).get(id=sectionID)
@@ -437,7 +437,7 @@ def answer_sheet(request, sectionID):
 
 # --------------------------------------------------------
 # examination
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def exam_examination(request, exam_id):
     try:
@@ -490,7 +490,7 @@ def exam_addition_score(request, examans_id):
         return HttpResponse("Suc")
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def exam_editor(request):
     if request.is_ajax() and request.method == "POST":
@@ -614,7 +614,7 @@ def get_lesson_list_html(request):
 
 # --------------------------------------------------------
 # class setting
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def class_setting(request):
     if request.method == 'GET':

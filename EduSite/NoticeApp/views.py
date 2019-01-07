@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from datetime import timedelta
+from django.conf import settings
 
 # Create your views here.
 from .models import Notices
@@ -37,7 +38,7 @@ def public_notice(request, year, month, day, duration):
     return HttpResponse("Succeed!", status=200)
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def public_notice_form(request):
     history_list = Notices.objects.using(request.db_name).filter(expireDate__gt=timezone.now())

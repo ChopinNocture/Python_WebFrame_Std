@@ -30,6 +30,7 @@ urlpatterns = [
     path('user/', include('AccountApp.urls', namespace='user')),
     path('accounts/login/', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
     path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    url(r'^accounts/callback$', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
     path('sync/', include('UserInfoSync.urls')),
 ]
 

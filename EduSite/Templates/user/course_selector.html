@@ -11,7 +11,8 @@
 
 
 {% block content %}
-<div id="main-panel" class="half-alpha">
+<a id="id_logout" href={% url 'user:logout' %}><img class="course_img" src='/Statics/images/logout.png'>注销</a>
+<div id="main-panel" class="half-alpha">    
     <h3>
         <span id="login_title">课程选择</span>
     </h3>

@@ -16,6 +16,20 @@ body {
     /*background-clip:border-box*/
 }
 
+#id_logout {
+    position: relative;
+    top: -1rem;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 1.4rem;
+}
+#id_logout img {
+    position: relative;
+    top: 1rem;
+    width: 3rem;
+    height: 3rem;
+}
+
 #login_title {
     color: whitesmoke;
     text-shadow:2px 0px 2px rgb(26,98,133), 

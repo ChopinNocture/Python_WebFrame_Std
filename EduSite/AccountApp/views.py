@@ -1,15 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import authenticate, login, get_user
+from django.contrib.auth import authenticate, login, logout, get_user
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
+from django.conf import settings
+
 # Create your views here.
 from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm
-from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course, TEACHER_GROUP_NAME
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination
+
+def user_logout(request):
+    if request.user:
+        logout(request)
+    return HttpResponseRedirect(settings.REDIRECT_LOGIN_URL)
 
 
 def user_login(request):
@@ -31,11 +38,14 @@ def user_login(request):
             return HttpResponse('Invalid login')
 
     if request.method == 'GET':
-        login_form = LoginForm()
-        return render(request, 'user/login.html', {'form': login_form})
+        if settings.LOGIN_URL == 'user/login/':
+            login_form = LoginForm()
+            return render(request, 'user/login.html', {'form': login_form})
+        else:
+            return HttpResponseRedirect(settings.REDIRECT_LOGIN_URL)
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def student_main(request):
     lesson_list = Lesson.objects.using(request.db_name).all().values('id', 'description')
@@ -78,13 +88,13 @@ def student_main(request):
                     "unlock_number": cls_set.unlock_number})
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def teacher_main(request):
     return render(request, 'user/teacher_main.html', {'course_desc':request.course_desc})
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def student_manager(request):
     if request.method == 'GET':
@@ -93,7 +103,7 @@ def student_manager(request):
         return render(request, 'user/student_manager.html', {'class_list': class_list})
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 def student_list(request, class_id=None):
     if not request.is_ajax():
         return HttpResponse("Permission reject!")
@@ -107,7 +117,7 @@ def student_list(request, class_id=None):
         return render(request, 'user/student_list.html', {'student_list': stu_list})
 
 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def get_student_prof(request, student_id):
     if not request.is_ajax():
@@ -131,7 +141,7 @@ def get_student_prof(request, student_id):
 
 
 # 
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def award_score(request):    
     if request.method == "POST":
@@ -181,12 +191,15 @@ def update_progress(request):
 
 # --------------------------------------------------------
 # course
-@login_required(login_url='/user/login/')
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
 def course_select(request):
-    if request.method == "GET":        
-        course_list = Course.objects.all()
-        return render(request=request, template_name="user/course_selector.html",
-                  context={"course_list": course_list})
+    if request.method == "GET":
+        if request.user.groups.filter(name__in=[TEACHER_GROUP_NAME, STUDENT_GROUP_NAME]).exists():
+            course_list = Course.objects.all()
+            return render(request=request, template_name="user/course_selector.html",
+                    context={"course_list": course_list})
+        else:
+            return HttpResponse('用户'+str(request.user.username) + '非学生也非老师，请联系管理员！！')
     else:
         course_id = request.POST['course_id']
         
@@ -196,10 +209,13 @@ def course_select(request):
             request.session[COURSE_KEY] = course_id
             request.db_name = course.db_name
 
-            if request.user.groups.filter(name= TEACHER_GROUP_NAME).exists():
+            if request.user.groups.filter(name=TEACHER_GROUP_NAME).exists():
                 return HttpResponseRedirect('/user/teacher/')
-            else:
+            elif request.user.groups.filter(name=STUDENT_GROUP_NAME).exists():
                 return HttpResponseRedirect('/user/student/')
+            else:
+                return HttpResponse('用户'+str(request.user.username) + '非学生也非老师，请联系管理员！！')
+                
                         
         except ObjectDoesNotExist as e:
             print(e)

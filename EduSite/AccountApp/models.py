@@ -32,6 +32,7 @@ class StudentProgressInfo(models.Model):
 
 class TeacherProf(models.Model):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)
+    teacher_number = models.PositiveIntegerField(unique=True)
     class_id_list = models.ManyToManyField("ClassInfo")  # JSONField()
 
     def __str__(self):

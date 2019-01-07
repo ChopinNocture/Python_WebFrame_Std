@@ -25,7 +25,7 @@ SECRET_KEY = '-dlm1^!ab9ncwc-m4!*mcy1&5-rw*a)51q%(ip7s7%yxzrba#w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '106.75.232.48']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '106.75.232.48', '172.18.8.122']
 
 
 # Application definition
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django_cas_ng.middleware.CASMiddleware',  # cas
+    'django_cas_ng.middleware.CASMiddleware',  # cas
 ]
 
 ROOT_URLCONF = 'EduSite.urls'
@@ -186,13 +186,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded")
 MEDIA_URL = '/uploaded/'
 
 
+LOGIN_URL = 'user/login/'
+# ------------------------------------------------------
 # CAS
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'django_cas_ng.backends.CASBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
+)
 
-# CAS_REDIRECT_URL = '/user/login/'
-# CAS_SERVER_URL = 'http://172.18.1.236/cas'
-# CAS_CREATE_USER = True
-# CAS_CREATE_USER_WITH_ID = False
+CAS_REDIRECT_URL = '/user/course/'
+CAS_SERVER_URL = 'http://172.18.1.236/cas/login'
+CAS_CREATE_USER = True
+CAS_CREATE_USER_WITH_ID = False
+
+LOGIN_URL = '/accounts/login/'
+
+# ------------------------------------------------------
+
+REDIRECT_LOGIN_URL = '/' + LOGIN_URL
