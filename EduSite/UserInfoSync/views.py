@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from CourseFunApp.models import Lesson, Examination, ClassSetting, ExamAnswer
 from AccountApp.models import ClassInfo, StudentProf, TeacherProf, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
@@ -14,6 +14,8 @@ SYS_WORKING = False
 # Create your views here.
 def sync_all(request):
     global SYS_WORKING
+
+    error_info = ''
     if SYS_WORKING:
         return HttpResponse("Last sync not finished, please wait.....", status=200)
     else:
@@ -63,20 +65,25 @@ def sync_all(request):
             user.groups.add(group)
             user.first_name = iter.name
             user.save()
+            print(group, '------', user)
 
         if user.groups.filter(name=STUDENT_GROUP_NAME).exists():
+            print("--------------------------------------")
             try:
                 stup = StudentProf.objects.get(user=user)
-                stup.class_id=iter.class_id
                 stup.student_number=iter.student_id
-            except ObjectDoesNotExist as e:            
-                stup = StudentProf(user=user, class_id=iter.class_id, student_number=iter.student_id)
+            except ObjectDoesNotExist as e:
+                stup = StudentProf(user=user, student_number=iter.student_id)
             finally:
-                stup.save()
-    
+                try:
+                    stup.class_id = ClassInfo.objects.get(class_name=iter.class_name)
+                    stup.save()
+                except ObjectDoesNotExist as e:
+                    error_info += '<br>' + str(e)
+                    
     SYS_WORKING = False
     print("Sync finished......")
-    return HttpResponse("Sync finished!", status=200)
+    return HttpResponse("Sync finished!<br>" + error_info, status=200)
 
 
 def test(request):    

@@ -14,9 +14,12 @@ from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination
 
 def user_logout(request):
-    if request.user:
-        logout(request)
-    return HttpResponseRedirect(settings.REDIRECT_LOGIN_URL)
+    if settings.LOGIN_URL == 'user/login/':
+        if request.user:
+            logout(request)
+        return HttpResponseRedirect(settings.REDIRECT_LOGIN_URL)
+    else:
+        return HttpResponseRedirect(settings.CAS_LOGOUT_URL)
 
 
 def user_login(request):

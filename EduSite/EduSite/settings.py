@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas_ng.middleware.CASMiddleware',  # cas
+    #'django_cas_ng.middleware.CASMiddleware',  # cas
 ]
 
 ROOT_URLCONF = 'EduSite.urls'
@@ -186,6 +186,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded")
 MEDIA_URL = '/uploaded/'
 
 
+# ------------------------------------------------------
 LOGIN_URL = 'user/login/'
 # ------------------------------------------------------
 # CAS
@@ -199,8 +200,10 @@ CAS_SERVER_URL = 'http://172.18.1.236/cas/login'
 CAS_CREATE_USER = True
 CAS_CREATE_USER_WITH_ID = False
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = 'accounts/login/'
 
 # ------------------------------------------------------
 
+
+CAS_LOGOUT_URL = '/accounts/logout/'
 REDIRECT_LOGIN_URL = '/' + LOGIN_URL
