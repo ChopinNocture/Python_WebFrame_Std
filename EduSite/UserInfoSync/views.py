@@ -40,19 +40,20 @@ def sync_all(request):
             user = User.objects.get(username=iter.user_name)
         except ObjectDoesNotExist:
             user = User.objects.create_user(username=iter.user_name)
-            group = Group.objects.get(name=TEACHER_GROUP_NAME)
-            user.groups.add(group)
-            user.first_name = iter.name
-            user.save()
+        finally:
+            if not user.groups.filter(name=TEACHER_GROUP_NAME).exists():    
+                group = Group.objects.get(name=TEACHER_GROUP_NAME)
+                user.groups.add(group)
+                user.first_name = iter.name
+                user.save()
 
-        if user.groups.filter(name=TEACHER_GROUP_NAME).exists():
-            try:
-                teacher_prof = TeacherProf.objects.get(user=user)
-                teacher_prof.teacher_number = iter.teacher_id
-            except ObjectDoesNotExist:
-                teacher_prof = TeacherProf(user=user, teacher_number=iter.teacher_id)
-            finally:
-                teacher_prof.save()
+        try:
+            teacher_prof = TeacherProf.objects.get(user=user)
+            teacher_prof.teacher_number = iter.teacher_id
+        except ObjectDoesNotExist:
+            teacher_prof = TeacherProf(user=user, teacher_number=iter.teacher_id)
+        finally:
+            teacher_prof.save()
 
     # students update
     students = StudentInfo.objects.all()
@@ -61,25 +62,25 @@ def sync_all(request):
             user = User.objects.get(username=iter.user_name)
         except ObjectDoesNotExist:
             user = User.objects.create_user(username=iter.user_name)
-            group = Group.objects.get(name=STUDENT_GROUP_NAME)
-            user.groups.add(group)
-            user.first_name = iter.name
-            user.save()
-            print(group, '------', user)
+        finally:
+            if not user.groups.filter(name=STUDENT_GROUP_NAME).exists():
+                group = Group.objects.get(name=STUDENT_GROUP_NAME)
+                user.groups.add(group)
+                user.first_name = iter.name
+                user.save()
+                print(group, '------', user)
 
-        if user.groups.filter(name=STUDENT_GROUP_NAME).exists():
-            print("--------------------------------------")
+        try:
+            stup = StudentProf.objects.get(user=user)
+            stup.student_number=iter.student_id
+        except ObjectDoesNotExist as e:
+            stup = StudentProf(user=user, student_number=iter.student_id)
+        finally:
             try:
-                stup = StudentProf.objects.get(user=user)
-                stup.student_number=iter.student_id
+                stup.class_id = ClassInfo.objects.get(class_name=iter.class_name)
+                stup.save()
             except ObjectDoesNotExist as e:
-                stup = StudentProf(user=user, student_number=iter.student_id)
-            finally:
-                try:
-                    stup.class_id = ClassInfo.objects.get(class_name=iter.class_name)
-                    stup.save()
-                except ObjectDoesNotExist as e:
-                    error_info += '<br>' + str(e)
+                error_info += '<br>' + str(e)
                     
     SYS_WORKING = False
     print("Sync finished......")
