@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,7 +14,10 @@ SYS_WORKING = False
 
 # Create your views here.
 def sync_all(request):
+    t_start = time.clock()
     global SYS_WORKING
+
+    statis_info = ""
 
     error_info = ''
     if SYS_WORKING:
@@ -22,9 +26,11 @@ def sync_all(request):
         SYS_WORKING = True
 
     print("start sync cas info......")
-
+    num = 0
+    sum = 0
     classes = ClassOrinInfo.objects.all()
     for iter in classes:
+        num += 1
         if iter.classinfo_id == -1:
             newClass = ClassInfo(class_name=iter.name)
             newClass.save()
@@ -33,9 +39,14 @@ def sync_all(request):
         else:
             newClass = ClassInfo.objects.filter(id=iter.classinfo_id).update(class_name=iter.name)
 
+    sum += num
+    statis_info += " " + str(num) + " Class info records updated!<br>\n"
+
+    num = 0
     # teachers update
     teachers = TeacherInfo.objects.all()
     for iter in teachers:
+        num += 1
         try:
             user = User.objects.get(username=iter.user_name)
         except ObjectDoesNotExist:
@@ -55,9 +66,14 @@ def sync_all(request):
         finally:
             teacher_prof.save()
 
+    sum += num
+    statis_info += " " + str(num) + " teachers updated!<br>\n"
+
+    num = 0
     # students update
     students = StudentInfo.objects.all()
     for iter in students:
+        num += 1
         try:
             user = User.objects.get(username=iter.user_name)
         except ObjectDoesNotExist:
@@ -81,10 +97,15 @@ def sync_all(request):
                 stup.save()
             except ObjectDoesNotExist as e:
                 error_info += '<br>' + str(e)
-                    
+    
+    sum += num      
+    statis_info += " " + str(num) + " students updated!<br>\n"
+
     SYS_WORKING = False
+
+    statis_info += "<br>\n Total " + str(sum) + "records updated. Used time:" + str(t_start - time.clock())
     print("Sync finished......")
-    return HttpResponse("Sync finished!<br>" + error_info, status=200)
+    return HttpResponse("Sync finished!<br>" + error_info + "<br><br>" + statis_info, status=200)
 
 
 def test(request):    
