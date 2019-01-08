@@ -7,12 +7,27 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
         <script type="text/javascript" src="{% static 'js/runtime/core.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/runtime/baseActions.js' %}"></script>
+
+        <link rel="stylesheet" href="{% static 'css/editor/editor.css' %}"/> 
     </head>
 <body>
 
     {% verbatim %}
     <div id="root">  
-        {{ message }}
+        <div id="id_editor">
+            <div id="id_story_panel">
+            {{ message }}
+            </div>
+            <div id="id_action_panel">
+            {{ message }}
+            </div>
+            <div id="id_show_panel">
+            {{ message }}
+            </div>
+        </div>
+        <div id="id_previewer">
+                {{ message }}
+        </div>
     </div>
     {% endverbatim %}
     <script type="text/javascript" src="{% static 'js/storyboard.js' %}"></script>

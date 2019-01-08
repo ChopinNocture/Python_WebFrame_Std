@@ -1,0 +1,30 @@
+*{
+    /* font-family: HK_BD; */
+}
+
+#root {
+    padding: 0.5rem;
+}
+
+#id_editor {
+    position: relative;
+    width: 61%;
+}
+
+#id_story_panel {
+    position: relative;
+}
+
+#id_action_panel {
+    position: relative;
+}
+
+#id_show_panel {
+    position: relative;
+}
+
+
+#id_previewer {
+    position: relative;
+    left: 61%;
+}
