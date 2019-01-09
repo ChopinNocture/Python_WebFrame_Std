@@ -119,3 +119,7 @@ EduSite/CourseFunApp/migrations/0003_auto_20180929_2134.py
 EduSite/CourseFunApp/migrations/0002_auto_20180928_1750.py
 EduSite/AccountApp/migrations/0002_teacherprof_class_id_list.py
 EduSite/UserInfoSync/migrations/0001_initial.py
+EduSite/DB/db.sqlite3
+EduSite/DB/course_B.sqlite3
+EduSite/DB/course_A.sqlite3
+EduSite/CourseFunApp/migrations/0004_auto_20181227_2122.py

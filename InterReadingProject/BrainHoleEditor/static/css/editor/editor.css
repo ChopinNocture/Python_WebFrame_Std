@@ -3,28 +3,38 @@
 }
 
 #root {
-    padding: 0.5rem;
+    position: relative;
+    margin: 0.5rem;
+    border: 2px dotted;
 }
 
 #id_editor {
-    position: relative;
-    width: 61%;
+    position: absolute;
+    width: 75%;
+    border: 1px dashed;
 }
 
 #id_story_panel {
-    position: relative;
+    position: absolute;
+    width: 70%;
+    border: 1px dotted;
 }
 
 #id_action_panel {
-    position: relative;
+    position: absolute;
+    left: 70%;
+    width: 30%;
+    border: 1px dotted;
 }
 
 #id_show_panel {
-    position: relative;
+    position: absolute;
+    border: 1px dotted;
 }
 
 
 #id_previewer {
-    position: relative;
-    left: 61%;
+    position: absolute;
+    left: 75%;
+    border: 1px dotted;
 }
