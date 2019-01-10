@@ -1,19 +1,23 @@
 //------------------------------------------------
 // storyboard
-Vue.component('ed-story', {
+Vue.component('ed-storyline', {
     data: function () {
-        return 'action';
+        return {
+            actions:[{type:"ed-action"}],
+        };
     },
-    template:''
+    template: '<div>storyline\
+        <component v-for="action in actions" v-bind:is="action.type"></component>\
+    </div>'
 })
 
 //------------------------------------------------
 // actions
 Vue.component('ed-action', {
     data: function () {
-        return 'action';
+        return {content:'action'};
     },
-    template:''
+    template:'<h1>{{content}}</h1>'
 })
 
 Vue.component('ed-sentence',{

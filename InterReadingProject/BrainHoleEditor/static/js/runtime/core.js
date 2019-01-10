@@ -1,9 +1,12 @@
+var story_data = { actions: [] };
+var action_data = {};
+var show_data = {};
+
 class Show {
-    constructor(){}
+    constructor() {}
     start() {}
     onFinish() {}
 }
-
 
 class Action {
     constructor() {
@@ -46,7 +49,6 @@ class Action {
         }
     }
 }
-
 
 class StoryLine {
     constructor() {
