@@ -8,29 +8,30 @@
         <script type="text/javascript" src="{% static 'js/runtime/core.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/runtime/baseActions.js' %}"></script>
 
-        <link rel="stylesheet" href="{% static 'css/editor/editor.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'css/editor/components.css' %}"/> 
     </head>
 <body>
 
 {% verbatim %}
     <div id="root">  
         <div id="id_editor">
-            <div id="id_story_panel">
-                <ed-storyline></ed-storyline>
-            </div>
-            <div id="id_action_panel">
-            {{ message }}
-            </div>
-            <div id="id_show_panel">
-            {{ message }}
+            <panel-storyline 
+                v-bind:actions="sl_data.actions">
+            </panel-storyline>
+            <div id="id_sub_panel">
+                <panel-action v-bind:action="sl_data.actions[cur_action]">
+                </panel-action>
+
+                <panel-show>
+                </panel-show>
             </div>
         </div>
         <div id="id_previewer">
-                {{ message }}
+            效果预览
         </div>
     </div>
 {% endverbatim %}
-    <script type="text/javascript" src="{% static 'js/editor/editor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/editor/components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/storyboard.js' %}"></script>
 </body>
 </html>

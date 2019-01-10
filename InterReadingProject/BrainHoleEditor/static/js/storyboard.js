@@ -1,13 +1,24 @@
 // import {StoryLine} from './runtime/core';
 
-new Vue({
-    el: '#root',
-    data: {
-        message: 'strory!'
+
+
+
+var storyline_editor = new Vue({
+    el: '#id_editor',
+    data: function () {
+        return makeStorylineEdData(storyline_data);
     }
 });
 
 
-var story = new StoryLine();
+storyline_editor.sl_data.actions.push({type_name:"action-sentence"})
 
-story.nextAction();
+storyline_editor.cur_action = -1;
+
+
+
+// var story = new StoryLine();
+
+// story.nextAction();
+// console.log(storyline_editor);
+// storyline_editor.actions.push({type:"ed-sentence"})

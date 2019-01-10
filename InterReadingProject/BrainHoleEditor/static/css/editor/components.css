@@ -14,21 +14,29 @@
     border: 1px dashed;
 }
 
-#id_story_panel {
+.panel-storyline {
     position: absolute;
     width: 70%;
     border: 1px dotted;
 }
 
-#id_action_panel {
+#id_sub_panel {
     position: absolute;
     left: 70%;
     width: 30%;
     border: 1px dotted;
 }
 
-#id_show_panel {
-    position: absolute;
+.panel-action {
+    display: inline-block;
+    top: 0%;
+    width: 100%;
+    border: 1px dotted;
+}
+
+.panel-show {
+    display: inline-block;
+    width: 100%;
     border: 1px dotted;
 }
 
