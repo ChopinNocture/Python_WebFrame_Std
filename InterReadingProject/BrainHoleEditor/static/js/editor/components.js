@@ -10,38 +10,30 @@ function makeStorylineEdData(data) {
 }
 
 var newActionComponent = {
-    props: ['action_types'],
-    template: '<div><button>+</button>\
-        <button v-for="iter in action_types">{{iter}}</button>\
-    </div>',
+    template: "#newAction-btn",
+    props: ['action_types', 'ed_data'],
+    methods: {
+        addAction: function (action_info) {
+            console.log(action_info);
+            this.ed_data.sl_data.actions.push(newActionData(action_info.type_name))
+        }
+    },
 }
 
 Vue.component('panel-storyline', {
-    data: function () {
-        return {
-            types:["空", "对话"]
-        };
-    },
-    components: { "new-btn": newActionComponent },
-    props: ['actions', ''],
-    template: '<div class=panel-storyline>故事板{{actions}}\
-        <component v-for="action in actions" v-bind:is="action.type_name"></component>\
-        <new-btn v-bind:action_types=types>+</new-btn>\
-    </div>'
+    template: '#panel-storyline',
+    components: { "newAction-btn": newActionComponent },
+    props: { ed_data: Object, action_types: Array },
 })
-
-Vue.component()
 
 //------------------------------------------------
 // actions
 Vue.component('panel-action', {
     props: ['action'],
-    template: '<div class=panel-action>行动编辑\
-    <p>{{action}}</p>\
-    </div>'
+    template: '#action-elem'
 })
 
-Vue.component('action', {
+Vue.component('action-', {
     data: function () {
         return {content:'action'};
     },
@@ -49,12 +41,18 @@ Vue.component('action', {
 })
 
 Vue.component('action-sentence',{
-    template:'<h1>sentence</h1>'
+    template:'<h1>单句</h1>'
 })
 
-Vue.component('action-dialog', {})
-Vue.component('action-decision', {})
-Vue.component('action-game', {})
+Vue.component('action-dialog', {
+    template:'<h1>对话</h1>'
+})
+Vue.component('action-decision', {
+    template:'<h1>决策</h1>'
+})
+Vue.component('action-game', {
+    template:'<h1>游戏</h1>'
+})
 
 //------------------------------------------------
 // shows

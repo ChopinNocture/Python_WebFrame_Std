@@ -1,19 +1,28 @@
 // import {StoryLine} from './runtime/core';
 
 
-
+var action_types = [
+    { display_name: "空", type_name: "" },
+    { display_name: "单句", type_name: "Sentence" },
+    { display_name: "对话", type_name: "Dialog" },
+    { display_name: "决策", type_name: "Decision" },
+    { display_name: "游戏", type_name: "Game" },
+]
 
 var storyline_editor = new Vue({
     el: '#id_editor',
     data: function () {
-        return makeStorylineEdData(storyline_data);
+        return {
+            ed_data : makeStorylineEdData(storyline_data),
+            action_types : action_types
+        };
     }
 });
 
 
-storyline_editor.sl_data.actions.push({type_name:"action-sentence"})
+storyline_editor.ed_data.sl_data.actions.push({ type_name: "Sentence" })
 
-storyline_editor.cur_action = -1;
+storyline_editor.ed_data.cur_action = -1;
 
 
 

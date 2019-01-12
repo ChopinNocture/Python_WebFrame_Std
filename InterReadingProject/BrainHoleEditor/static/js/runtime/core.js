@@ -2,11 +2,6 @@ var storyline_data = {
     actions: []
 };
 
-var action_data = {
-    type_name: 'action',
-    show_list: []
-};
-
 var show_data = {};
 
 class Show {

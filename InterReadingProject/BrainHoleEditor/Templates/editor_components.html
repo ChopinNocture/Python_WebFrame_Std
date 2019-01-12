@@ -1,0 +1,21 @@
+{% verbatim %}
+<script type="text/x-template" id="action-elem">
+    <div class=panel-action>行动编辑
+        <p>{{action}}</p>
+    </div>
+</script>
+
+<script type="text/x-template" id="newAction-btn">
+    <div><button>+</button>
+        <button v-for="iter in action_types" @click="addAction(iter)">{{iter.display_name}}</button>
+    </div>
+</script>
+
+<script type="text/x-template" id="panel-storyline">
+    <div class=panel-storyline><h3>故事板{{ed_data}}</h3>
+        <component v-for="action in ed_data.sl_data.actions" v-bind:is="'action-' + action.type_name.toLowerCase()"></component>
+        <newAction-btn v-bind:action_types=action_types
+            :ed_data=ed_data>+</newAction-btn>
+    </div>
+</script>
+{% endverbatim %}

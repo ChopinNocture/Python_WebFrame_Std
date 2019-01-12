@@ -1,4 +1,14 @@
 //import {Action} from './core';
+var action_types = [
+    {},
+]
+
+function newActionData(type_name) {
+    return {
+        type_name: type_name,
+        show_list: []
+    }
+};
 
 class SentenceAction extends Action {
     constructor(action_data) {
