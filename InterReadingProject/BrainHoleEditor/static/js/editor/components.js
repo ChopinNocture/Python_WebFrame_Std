@@ -13,9 +13,9 @@ var newActionComponent = {
     template: "#newAction-btn",
     props: ['action_types', 'ed_data'],
     methods: {
-        addAction: function (action_info) {
-            console.log(action_info);
-            this.ed_data.sl_data.actions.push(newActionData(action_info.type_name))
+        addAction: function (type_name) {
+            console.log(type_name);
+            this.ed_data.sl_data.actions.push(newActionData(type_name))
         }
     },
 }
@@ -29,29 +29,53 @@ Vue.component('panel-storyline', {
 //------------------------------------------------
 // actions
 Vue.component('panel-action', {
-    props: ['action'],
-    template: '#action-elem'
+    props: ['action', 'ed_data'],
+    template: '#action-editor',
 })
 
-Vue.component('action-', {
-    data: function () {
-        return {content:'action'};
+Vue.component('action', {
+    props: ['action', 'ed_data', 'action_types'],
+    template: '#id-action',
+    computed: {
+        display_name: function () {
+            for (const iter of this.action_types) {
+                if(iter.type_name == this.action.type_name)
+                {
+                    return iter.display_name;
+                }
+            }            
+            return "";
+        }        
     },
-    template:'<h1>{{content}}</h1>'
+    methods: {
+        remove: function () {
+            console.log("---------------------");
+            let arr = this.ed_data.sl_data.actions;
+            let idx = arr.indexOf(this.action);
+            if (idx != -1) {
+                arr.splice(idx, 1);
+            }
+        },
+    }
 })
 
-Vue.component('action-sentence',{
-    template:'<h1>单句</h1>'
+Vue.component('action-sentence', {
+    props: ['action'],
+    template: '#id-action-sentence',
+    methods: {}
 })
 
 Vue.component('action-dialog', {
-    template:'<h1>对话</h1>'
+    props: ['action'],
+    template: '#id-action-dialog',
 })
 Vue.component('action-decision', {
-    template:'<h1>决策</h1>'
+    props: ['action', 'ed_data'],
+    template: '#id-action-decision',
 })
 Vue.component('action-game', {
-    template:'<h1>游戏</h1>'
+    props: ['action', 'ed_data'],
+    template: '#id-action-game',
 })
 
 //------------------------------------------------
@@ -61,6 +85,6 @@ Vue.component('panel-show', {
     </div>'
 })
 
-Vue.component('show-scene',{})
-Vue.component('show-avatar',{})
-Vue.component('show-buble',{})
+Vue.component('show-scene', {})
+Vue.component('show-avatar', {})
+Vue.component('show-buble', {})

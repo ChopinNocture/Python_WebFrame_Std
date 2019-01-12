@@ -1,21 +1,56 @@
 {% verbatim %}
-<script type="text/x-template" id="action-elem">
+<script type="text/x-template" id="action-editor">
     <div class=panel-action>行动编辑
-        <p>{{action}}</p>
     </div>
 </script>
 
 <script type="text/x-template" id="newAction-btn">
-    <div><button>+</button>
-        <button v-for="iter in action_types" @click="addAction(iter)">{{iter.display_name}}</button>
+    <div>
+        <button>+</button>
+        <button v-for="iter in action_types" :key="iter.type_name" @click="addAction(iter.type_name)">{{iter.display_name}}</button>
     </div>
 </script>
 
 <script type="text/x-template" id="panel-storyline">
     <div class=panel-storyline><h3>故事板{{ed_data}}</h3>
-        <component v-for="action in ed_data.sl_data.actions" v-bind:is="'action-' + action.type_name.toLowerCase()"></component>
+        <action v-for="(action, index) in ed_data.sl_data.actions" 
+            :action="action"
+            :action_types="action_types"
+            :ed_data="ed_data"></action>
         <newAction-btn v-bind:action_types=action_types
             :ed_data=ed_data>+</newAction-btn>
     </div>
 </script>
+
+<script type="text/x-template" id="id-action">
+    <div>
+        <h4>{{display_name}}<button @click="remove()">-</button></h4>
+        <component v-bind:action="action" :is="'action-' + action.type_name.toLowerCase()"></component>
+    </div>
+</script>
+
+<script type="text/x-template" id="id-action-sentence">
+    <div>
+        <p>{{action}}</p>
+    </div>
+</script>
+
+<script type="text/x-template" id="id-action-dialog">
+    <div>
+        <p>{{action}}</p>
+    </div>
+</script>
+
+<script type="text/x-template" id="id-action-decision">
+    <div>
+        <p>{{action}}</p>
+    </div>
+</script>
+
+<script type="text/x-template" id="id-action-game">
+    <div>
+        <p>{{action}}</p>
+    </div>
+</script>
+
 {% endverbatim %}
