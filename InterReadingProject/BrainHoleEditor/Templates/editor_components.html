@@ -1,6 +1,7 @@
 {% verbatim %}
 <script type="text/x-template" id="action-editor">
     <div class=panel-action>行动编辑
+        <p>{{action}}</p>
     </div>
 </script>
 
@@ -23,8 +24,8 @@
 </script>
 
 <script type="text/x-template" id="id-action">
-    <div>
-        <h4>{{display_name}}<button @click="remove()">-</button></h4>
+    <div @click="onSelected">
+        <h4>{{display_name}}<button @click="remove">-</button></h4>
         <component v-bind:action="action" :is="'action-' + action.type_name.toLowerCase()"></component>
     </div>
 </script>

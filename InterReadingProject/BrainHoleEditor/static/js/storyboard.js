@@ -22,8 +22,6 @@ var storyline_editor = new Vue({
 
 storyline_editor.ed_data.sl_data.actions.push({ type_name: "Sentence" })
 
-storyline_editor.ed_data.cur_action = -1;
-
 
 
 // var story = new StoryLine();

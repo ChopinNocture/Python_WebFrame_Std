@@ -3,7 +3,7 @@
 function makeStorylineEdData(data) {
     var storyline_ed = {
         sl_data: data,
-        cur_action: -1,
+        cur_action: null,
         cur_show: -1
     }
     return storyline_ed;
@@ -49,13 +49,16 @@ Vue.component('action', {
     },
     methods: {
         remove: function () {
-            console.log("---------------------");
             let arr = this.ed_data.sl_data.actions;
             let idx = arr.indexOf(this.action);
             if (idx != -1) {
                 arr.splice(idx, 1);
             }
         },
+        onSelected: function () {
+            console.log("---------------------");
+            this.ed_data.cur_action = this.action;
+        }
     }
 })
 
