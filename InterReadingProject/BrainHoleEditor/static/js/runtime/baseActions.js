@@ -1,14 +1,15 @@
 //import {Action} from './core';
 var action_types = [
     {},
-]
+];
 
-function newActionData(type_name) {
-    return {
-        type_name: type_name,
-        show_list: []
+function SentenceActionData(data) {
+    console.log(data);
+    if(data) {
+        data["avatar"] = "You";
+        data["text"] = "--------------";
     }
-};
+}
 
 class SentenceAction extends Action {
     constructor(action_data) {
@@ -18,15 +19,26 @@ class SentenceAction extends Action {
     }
 }
 
-class DialogAction extends Action {
+
+function DialogActionData(data) {
+    if(data) {
+        data["sent_list"] = [];
+    }
+}
+class DialogAction extends Action {    
     constructor(action_data) {
         super(action_data);
         this.sentence_list = new Array();
     }
 }
 
+
+function DecisionActionData(data) {
+
+}
 class DecisionAction extends Action {
 }
+
 
 class GameAction extends Action {
 }

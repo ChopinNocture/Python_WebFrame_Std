@@ -27,12 +27,38 @@ Vue.component('panel-storyline', {
 })
 
 //------------------------------------------------
-// actions
+// 行动编辑
 Vue.component('panel-action', {
-    props: ['action', 'ed_data'],
+    props: ['action'],
     template: '#action-editor',
 })
 
+//--------------------------------
+// 分类编辑
+Vue.component('ed-', {
+    props: ['action'],
+    template: '',
+})
+
+Vue.component('ed-sentence', {
+    props: ['action'],
+    template: '#ed-sentence',
+})
+Vue.component('ed-dialog', {
+    props: ['action'],
+    template: '#ed-dialog',
+})
+Vue.component('ed-decision', {
+    props: ['action'],
+    template: '#ed-decision',
+})
+Vue.component('ed-game', {
+    props: ['action'],
+    template: '#ed-game',
+})
+
+//------------------------------------------------
+// 行动元素
 Vue.component('action', {
     props: ['action', 'ed_data', 'action_types'],
     template: '#id-action',
@@ -62,23 +88,33 @@ Vue.component('action', {
     }
 })
 
+//------------------------------------------------
+//--------------------------------
+// 分类编辑
+Vue.component('action-',{
+    props: ['action'],
+    template: "",
+})
+
 Vue.component('action-sentence', {
     props: ['action'],
-    template: '#id-action-sentence',
+    template: '#sl-sentence',
     methods: {}
 })
 
 Vue.component('action-dialog', {
     props: ['action'],
-    template: '#id-action-dialog',
+    template: '#sl-dialog',
 })
+
 Vue.component('action-decision', {
-    props: ['action', 'ed_data'],
-    template: '#id-action-decision',
+    props: ['action'],
+    template: '#sl-decision',
 })
+
 Vue.component('action-game', {
-    props: ['action', 'ed_data'],
-    template: '#id-action-game',
+    props: ['action'],
+    template: '#sl-game',
 })
 
 //------------------------------------------------

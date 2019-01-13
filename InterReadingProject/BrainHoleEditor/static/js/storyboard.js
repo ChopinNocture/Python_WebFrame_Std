@@ -19,10 +19,12 @@ var storyline_editor = new Vue({
     }
 });
 
-
-storyline_editor.ed_data.sl_data.actions.push({ type_name: "Sentence" })
-
-
+var previewer = new Vue({
+    el: '#id_previewer',
+    data: function () {
+        return { testData: storyline_editor.ed_data };
+    }
+});
 
 // var story = new StoryLine();
 

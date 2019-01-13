@@ -1,10 +1,6 @@
 {% verbatim %}
-<script type="text/x-template" id="action-editor">
-    <div class=panel-action>行动编辑
-        <p>{{action}}</p>
-    </div>
-</script>
-
+<!----------------------------  故事板 ----------------------------->
+<!-- 新动作按钮 -->
 <script type="text/x-template" id="newAction-btn">
     <div>
         <button>+</button>
@@ -12,8 +8,9 @@
     </div>
 </script>
 
+<!-- 故事板编辑 -->
 <script type="text/x-template" id="panel-storyline">
-    <div class=panel-storyline><h3>故事板{{ed_data}}</h3>
+    <div class="panel-storyline"><h3>故事板</h3>
         <action v-for="(action, index) in ed_data.sl_data.actions" 
             :action="action"
             :action_types="action_types"
@@ -23,35 +20,60 @@
     </div>
 </script>
 
+<!-- 行动元素 -->
 <script type="text/x-template" id="id-action">
-    <div @click="onSelected">
-        <h4>{{display_name}}<button @click="remove">-</button></h4>
+    <div class="elem-action" @click="onSelected">
+        <p>{{display_name}}<button @click="remove">-</button></p>
         <component v-bind:action="action" :is="'action-' + action.type_name.toLowerCase()"></component>
     </div>
 </script>
 
-<script type="text/x-template" id="id-action-sentence">
+<!---------------------------- 行动编辑 ---------------------------->
+<script type="text/x-template" id="action-editor">
+    <div class=panel-action>行动编辑
+        <component v-if="action!=null" v-bind:action="action" :is="'ed-' + action.type_name.toLowerCase()"></component>
+    </div>
+</script>
+
+<!-------------  动作分类 --------------->
+<script type="text/x-template" id="ed-sentence">
+    <div>
+        <input type="text" id="id_avatar" v-model="action.avatar" />
+        <textarea type="text" id="id_text" v-model="action.text"></textarea>
+        <p>{{action}}</p>
+    </div>
+</script>
+<script type="text/x-template" id="sl-sentence">
+    <div>
+        <pre><p>{{action.avatar}}:{{action.text}}</p></pre>
+    </div>
+</script>
+
+
+<script type="text/x-template" id="ed-dialog">
     <div>
         <p>{{action}}</p>
     </div>
 </script>
+<script type="text/x-template" id="sl-dialog">
 
-<script type="text/x-template" id="id-action-dialog">
+</script>
+
+
+<script type="text/x-template" id="ed-decision">
     <div>
         <p>{{action}}</p>
     </div>
 </script>
+<script type="text/x-template" id="sl-decision">
+</script>
 
-<script type="text/x-template" id="id-action-decision">
+
+<script type="text/x-template" id="ed-game">
     <div>
         <p>{{action}}</p>
     </div>
 </script>
-
-<script type="text/x-template" id="id-action-game">
-    <div>
-        <p>{{action}}</p>
-    </div>
+<script type="text/x-template" id="sl-game">
 </script>
-
 {% endverbatim %}

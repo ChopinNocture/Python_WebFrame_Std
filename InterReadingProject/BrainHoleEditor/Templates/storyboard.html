@@ -23,12 +23,13 @@
                 <panel-action v-bind:action="ed_data.cur_action">
                 </panel-action>
 
-                <panel-show>
+                <panel-show v-bind:ed_data="ed_data">
                 </panel-show>
             </div>
         </div>
         <div id="id_previewer">
             效果预览
+            <p>{{testData}}</p>
         </div>
     </div>
 {% endverbatim %}

@@ -52,6 +52,22 @@ class Action {
     }
 }
 
+var idMaker = function(){
+     return -1;
+}
+
+function newActionData(type_name) {
+    var newAction = {
+        id: idMaker(),
+        type_name: type_name,
+        next_id: -1,
+        show_list: []
+    };
+    eval(type_name + "ActionData(newAction)");    
+    return newAction;
+};
+
+//----------------------------------------------------------------
 class StoryLine {
     constructor() {
     }
@@ -67,7 +83,6 @@ class StoryLine {
         return {};
     }
 
-    
     nextAction(id_next) {
         this.generate_action(id_next).start();
     }
