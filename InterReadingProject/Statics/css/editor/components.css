@@ -21,9 +21,11 @@
 
 /*************************************************/
 .panel-storyline {
+    margin: 2px;
     position: absolute;
-    width: 60%;
-    border: 1px dotted;
+    width: 59.5%;
+    border: 1px solid;
+    border-radius: 4px;
 }
 
 .elem-action {
@@ -35,12 +37,16 @@
     vertical-align: top;
 }
 
+.action-selected {
+    background-color: gray;
+}
 
 /*************************************************/
 #id_sub_panel {
+    margin: 2px;
     position: absolute;
     left: 60%;
-    width: 40%;
+    width: 39.5%;
     border: 1px dotted;
 }
 
@@ -48,13 +54,16 @@
     display: inline-block;
     top: 0%;
     width: 100%;
-    border: 1px dotted;
+    border: 1px solid;
+    border-radius: 4px;
 }
 
-.panel-show {
+.panel-trigger {
+    margin-top: 1rem;
     display: inline-block;
     width: 100%;
-    border: 1px dotted;
+    border: 1px solid;
+    border-radius: 4px;
 }
 
 

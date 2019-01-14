@@ -4,7 +4,6 @@ function makeStorylineEdData(data) {
     var storyline_ed = {
         sl_data: data,
         cur_action: null,
-        cur_show: -1
     }
     return storyline_ed;
 }
@@ -12,11 +11,26 @@ function makeStorylineEdData(data) {
 var newActionComponent = {
     template: "#newAction-btn",
     props: ['action_types', 'ed_data'],
+    data: function () {
+        return {
+            opened: false,
+        }        
+    },
     methods: {
         addAction: function (type_name) {
             console.log(type_name);
+            this.opened = false;
             this.ed_data.sl_data.actions.push(newActionData(type_name))
-        }
+        },
+        toggle: function () {
+            this.opened = !this.opened;
+        },
+        toggle_show: function () {
+            this.opened = true;
+        },
+        toggle_hide: function () {
+            this.opened = false;
+        },
     },
 }
 
@@ -37,21 +51,24 @@ Vue.component('panel-action', {
 // 分类编辑
 Vue.component('ed-', {
     props: ['action'],
-    template: '',
+    template: " ",
 })
 
 Vue.component('ed-sentence', {
     props: ['action'],
     template: '#ed-sentence',
 })
+
 Vue.component('ed-dialog', {
     props: ['action'],
     template: '#ed-dialog',
 })
+
 Vue.component('ed-decision', {
     props: ['action'],
     template: '#ed-decision',
 })
+
 Vue.component('ed-game', {
     props: ['action'],
     template: '#ed-game',
@@ -71,7 +88,10 @@ Vue.component('action', {
                 }
             }            
             return "";
-        }        
+        },
+        selected: function () {
+            return this.action == this.ed_data.cur_action;
+        }      
     },
     methods: {
         remove: function () {
@@ -90,10 +110,10 @@ Vue.component('action', {
 
 //------------------------------------------------
 //--------------------------------
-// 分类编辑
+// 分类显示预览
 Vue.component('action-',{
     props: ['action'],
-    template: "",
+    template: " ",
 })
 
 Vue.component('action-sentence', {
@@ -118,12 +138,12 @@ Vue.component('action-game', {
 })
 
 //------------------------------------------------
-// shows
-Vue.component('panel-show', {
-    template: '<div class=panel-show>演出编辑\
+// triggers
+Vue.component('panel-trigger', {
+    template: '<div class=panel-trigger>触发属性\
     </div>'
 })
 
-Vue.component('show-scene', {})
-Vue.component('show-avatar', {})
-Vue.component('show-buble', {})
+Vue.component('trigger-scene', {})
+Vue.component('trigger-avatar', {})
+Vue.component('trigger-buble', {})

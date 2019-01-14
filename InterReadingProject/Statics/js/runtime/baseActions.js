@@ -14,8 +14,8 @@ function SentenceActionData(data) {
 class SentenceAction extends Action {
     constructor(action_data) {
         super(action_data);
-        this.show_list.push(new BubbleShow());
-        this.show_list.push(new AvatarShow());
+        this.trigger_list.push(new Bubbletrigger());
+        this.trigger_list.push(new Avatartrigger());
     }
 }
 
@@ -39,16 +39,18 @@ function DecisionActionData(data) {
 class DecisionAction extends Action {
 }
 
+function GameActionData(data) {
 
+}
 class GameAction extends Action {
 }
 
-//----------------------- Show -----------------------
-class SceneShow extends Show {    
+//----------------------- trigger -----------------------
+class SceneShow extends Trigger {    
 }
 
-class AvatarShow extends Show {    
+class AvatarShow extends Trigger {    
 }
 
-class BubbleShow extends Show {
+class Bubble extends Trigger {
 }

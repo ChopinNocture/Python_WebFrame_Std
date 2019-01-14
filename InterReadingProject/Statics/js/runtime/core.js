@@ -2,24 +2,25 @@ var storyline_data = {
     actions: []
 };
 
-var show_data = {};
+var trigger_data = {};
 
-class Show {
+class Trigger {
     constructor() {}
     start() {}
     onFinish() {}
 }
 
+function ActionData(data) {}
 class Action {
     constructor() {
         this.next_action_func = null;
-        this.show_list = new Array();
+        this.trigger_list = new Array();
     }
 
     parse_data(action_data) {
-        if (action_data && action_data.show_list) {
-            for (const iterator of action_data.show_list) {
-                this.show_list.push(iterator);
+        if (action_data && action_data.trigger_list) {
+            for (const iterator of action_data.trigger_list) {
+                this.trigger_list.push(iterator);
             }
         }
     }
@@ -40,13 +41,13 @@ class Action {
     }
 
     start() {
-        for (const iterator of this.show_list) {
+        for (const iterator of this.trigger_list) {
             iterator.start();
         }
     }
 
     finish() {
-        for (const iterator of this.show_list) {
+        for (const iterator of this.trigger_list) {
             iterator.onFinish();
         }
     }
@@ -61,7 +62,7 @@ function newActionData(type_name) {
         id: idMaker(),
         type_name: type_name,
         next_id: -1,
-        show_list: []
+        trigger_list: []
     };
     eval(type_name + "ActionData(newAction)");    
     return newAction;

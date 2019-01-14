@@ -55,7 +55,7 @@ ROOT_URLCONF = 'InterReadingProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['Templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [

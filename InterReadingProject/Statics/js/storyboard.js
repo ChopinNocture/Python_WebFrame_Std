@@ -22,8 +22,13 @@ var storyline_editor = new Vue({
 var previewer = new Vue({
     el: '#id_previewer',
     data: function () {
-        return { testData: storyline_editor.ed_data };
-    }
+        return {  };
+    },
+    computed: {
+        testData: function() {
+            return storyline_editor.ed_data;
+        } 
+    },
 });
 
 // var story = new StoryLine();
