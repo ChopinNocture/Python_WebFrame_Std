@@ -22,3 +22,4 @@ class TeacherInfo(models.Model):
 class ClassOrinInfo(models.Model):
     name = models.CharField(max_length=128)                    # 班级名称
     classinfo_id = models.IntegerField(default=-1)             # ClassInfo.id
+    orin_id = models.IntegerField(default=-1)                  # 原数据库id
