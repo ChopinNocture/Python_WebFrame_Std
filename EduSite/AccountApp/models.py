@@ -11,7 +11,7 @@ class ClassInfo(models.Model):
 
 class StudentProf(models.Model):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)
-    student_number = models.PositiveIntegerField(unique=True)
+    student_number = models.CharField(max_length=64)
     class_id = models.ForeignKey(ClassInfo, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -32,7 +32,7 @@ class StudentProgressInfo(models.Model):
 
 class TeacherProf(models.Model):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE,)
-    teacher_number = models.PositiveIntegerField(unique=True)
+    teacher_number = models.CharField(max_length=64)
     class_id_list = models.ManyToManyField("ClassInfo")  # JSONField()
 
     def __str__(self):

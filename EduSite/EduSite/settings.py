@@ -190,17 +190,17 @@ MEDIA_URL = '/uploaded/'
 LOGIN_URL = 'user/login/'
 # ------------------------------------------------------
 # CAS
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'django_cas_ng.backends.CASBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'django_cas_ng.backends.CASBackend',
+# )
 
-CAS_REDIRECT_URL = '/user/course/'
-CAS_SERVER_URL = 'http://172.18.1.236/cas/login'
-CAS_CREATE_USER = True
-CAS_CREATE_USER_WITH_ID = False
+# CAS_REDIRECT_URL = '/user/course/'
+# CAS_SERVER_URL = 'http://172.18.1.236/cas/login'
+# CAS_CREATE_USER = True
+# CAS_CREATE_USER_WITH_ID = False
 
-LOGIN_URL = 'accounts/login/'
+# LOGIN_URL = 'accounts/login/'
 
 # ------------------------------------------------------
 

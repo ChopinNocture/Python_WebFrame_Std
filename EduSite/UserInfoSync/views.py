@@ -103,7 +103,7 @@ def sync_all(request):
 
     SYS_WORKING = False
 
-    statis_info += "<br>\n Total " + str(sum) + "records updated. Used time:" + str(t_start - time.clock())
+    statis_info += "<br>\n Total " + str(sum) + " records updated. Used time:" + str(time.clock()-t_start) + " s"
     print("Sync finished......")
     return HttpResponse("Sync finished!<br>" + error_info + "<br><br>" + statis_info, status=200)
 

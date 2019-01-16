@@ -34,10 +34,10 @@ class Command(BaseCommand):
         try:
             stup = StudentProf.objects.get(user=user)
         except ObjectDoesNotExist as e:            
-            stup = StudentProf(user=user, class_id=classinfo, student_number=9999991)            
+            stup = StudentProf(user=user, class_id=classinfo, student_number="9999991")            
         finally:            
             stup.class_id = classinfo
-            stup.student_number=9999991
+            stup.student_number='9999991'
             stup.save()
             print(stup, "added!")
         

@@ -4,7 +4,7 @@ from AccountApp.models import ClassInfo, StudentProf, TeacherProf
 # Create your models here.
 # --------------------------------------------------------
 class StudentInfo(models.Model):
-    student_id = models.PositiveIntegerField()                 # 学号 （唯一标识号）
+    student_id = models.CharField(max_length=64)               # 学号 （唯一标识号）
     name = models.CharField(max_length=64)                     # 姓名
     class_name = models.CharField(max_length=128)              # 所属班级的 id！
     user_name = models.CharField(max_length=128, unique=True)  # user_name
@@ -12,7 +12,7 @@ class StudentInfo(models.Model):
 
 # --------------------------------------------------------
 class TeacherInfo(models.Model):
-    teacher_id = models.PositiveIntegerField()                 # 工号编号 （唯一标识号）
+    teacher_id = models.CharField(max_length=64)               # 工号编号 （唯一标识号）
     name = models.CharField(max_length=64)                     # 姓名
     user_name = models.CharField(max_length=128, unique=True)  # user_name
     
