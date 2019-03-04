@@ -21,9 +21,11 @@ import django_cas_ng.views
 from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
+import AccountApp.views
 
 
 urlpatterns = [
+    path('', AccountApp.views.user_login ),
     path('admin/', admin.site.urls),
     path('notice/', include('NoticeApp.urls', namespace='notice')),
     path('course/', include('CourseFunApp.urls', namespace='course')),
