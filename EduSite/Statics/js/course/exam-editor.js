@@ -445,7 +445,7 @@ function onRandom(event) {
 }
 
 function onRandomNumberChange(event, qtype) {
-    random_num_list[qtype] = Math.max(0, Math.min(event.target.value, question_list_all[cur_type].length));
+    random_num_list[qtype] = Math.max(0, Math.min(event.target.value, question_list_all[qtype].length));
     event.target.value = random_num_list[qtype];
 }
 
