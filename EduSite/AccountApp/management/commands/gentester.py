@@ -38,6 +38,8 @@ class Command(BaseCommand):
         finally:            
             stup.class_id = classinfo
             stup.student_number='9999991'
+            group = Group.objects.get(name=STUDENT_GROUP_NAME)
+            stup.groups.add(group)
             stup.save()
             print(stup, "added!")
         
