@@ -546,6 +546,9 @@ body {
     display: inline-block;
     border-color: #ec8861;
     background: linear-gradient(179deg, #f1d3be , #f3ceab 46%, #e4ae8b 54%, #ca9467 100% );
+    word-wrap: break-word;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 .pair-left {

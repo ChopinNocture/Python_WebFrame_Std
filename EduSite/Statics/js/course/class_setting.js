@@ -27,6 +27,7 @@ function init() {
         $(elem).html(TYPE_TRANS_LIST[typestr]);
     });
 
+    $("#btn_chpt_setting").click(onChapterSetting);
     updateNumberDisp();
     updateModeSetting();
     // Filter
@@ -278,4 +279,9 @@ function filterQList(words = null) {
     else {
         $("#qlist_num").html($('button[id^=' + QLIST_BTN_ID + ']').attr("hidden", false).length);
     }
+}
+
+//----------------------------------
+function onChapterSetting() {
+    
 }
