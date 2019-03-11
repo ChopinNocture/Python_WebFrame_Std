@@ -653,6 +653,7 @@ def class_prac(request, class_id):
         cls_set.unlock_number = request.POST.get('unlock_number')
         print('---------', request.POST.get('qf'))
         cls_set.quests_filter = request.POST.get('qf')
+        cls_set.lesson_order = request.POST.get('order')
         cls_set.save(using=request.db_name)
         
     data = "error"
@@ -660,6 +661,7 @@ def class_prac(request, class_id):
         data = {"ps": json.loads(s=cls_set.practise_setting), 
                 "unlock_number": cls_set.unlock_number,
                 "qf": json.loads(s=cls_set.quests_filter),
+                "order": json.loads(s=cls_set.lesson_order) if cls_set.lesson_order else "",
                 "lock": cls_set.prac_lock_mode }
 
     return JsonResponse(data, safe=False)

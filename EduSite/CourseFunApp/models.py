@@ -14,6 +14,7 @@ class ClassSetting(models.Model):
     prac_lock_mode = models.BooleanField(default=True)
     unlock_number = models.IntegerField(default=UNLOCK_NUMBER)
     quests_filter = models.CharField(max_length=MAX_CONTENT_LENGTH, default='none')
+    lesson_order = models.CharField(max_length=MAX_CONTENT_LENGTH, null=True, blank=True)
 
 # --------------------------------------------------------
 class Examination(models.Model):

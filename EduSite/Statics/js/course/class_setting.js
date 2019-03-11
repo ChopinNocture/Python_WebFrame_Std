@@ -1,5 +1,6 @@
 $(document).ready(init);
 
+var course_list = [];
 var cls_url = "",
     cls_id = null;
 var qType_list = [];
@@ -9,6 +10,14 @@ const MAX_NUM = 20;
 
 function init() {
     csrf_Setup();
+
+    course_list = [];
+    $('button[id^=course_]').each((idx, elem)=> {
+        course_list.push({
+            id: $(elem).data('section'),
+            desc: $(elem).html(), 
+        });
+    });
 
     $('#content_filer').on('hide.bs.collapse', function () {
         filterQList();
@@ -73,7 +82,6 @@ function onClassSelect(event) {
 }
 
 function sucGet(jsonData) {
-    // alert("Get:" + jsonData);
     if (jsonData == "error") {
         resetJsonData();
     } else {
@@ -82,8 +90,16 @@ function sucGet(jsonData) {
         unlock_num = jsonData["unlock_number"];
         if( jsonData["qf"] != 'none' ) {
             quests_filter = jsonData["qf"];
-        }        
+        }
+        lesson_order = jsonData['order'];
+        if (!lesson_order) {
+            lesson_order = [];
+            course_list.forEach((elem, idx) => {                
+                lesson_order.push({ id: elem.id, c: true, i:idx });
+            });
+        }
     }
+    console.log("Get:", lesson_order);
     updateNumberDisp();
     updateModeSetting();
 }
@@ -226,6 +242,8 @@ function updateQList(jsonData) {
 }
 
 function onNavTypeClk(event) {
+    $("#chapter_panel").hide();
+    $("#question_panel").show();
     updateFilter();
     $("button[id^='QType_']").removeClass('active');
     $("#q_setting").show();
@@ -282,6 +300,73 @@ function filterQList(words = null) {
 }
 
 //----------------------------------
+var lesson_order = [];
+
 function onChapterSetting() {
+    $("#chapter_panel").show();
+    $("#question_panel").hide();
+}
+
+//-------------------------------------------------------
+// Q
+//-------------------------------------------------------
+var CHAPTER_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
+                                <span id="id_span_cc"></span>\
+                                <label class="option-item full-line" draggable="true" ondragstart="drag(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
+                                        ##\
+                                </label>\
+                            </div>';
+var id_replace_reg = new RegExp( 'cc' , "g" );
+
+function dragenter(event) {
+    $(event.target).addClass('dropable');
+}
+
+function dragleave(event) {
+    $(event.target).removeClass('dropable');
+}
+
+function drag(event) {
+    if(event.target.dataset['sortid']==null) return false;
+    event.dataTransfer.setData('sortid', event.target.dataset['sortid']);// parentNode.id);
+    event.dataTransfer.effectAllowed = 'copy'; 
+}
+
+function drop(event) {    
+    event.preventDefault();
+    $(event.target).removeClass('dropable');
+    if(event.target.dataset['sortid']== null) return false;
+    //alert(event.target);
+    var id = event.dataTransfer.getData("sortid");
+
+    if(id==''||id==null) return false;
+
+    swapData(id, event.target.dataset['sortid']);
+}
+
+function allowDrop(event){
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    return false;
+}
+
+var SORT_OP_ID = 'sort_item_';
+
+function refreshSort(question) {
+    var option_list = question.options.split(OPTION_SPLITER_SYMBOL);    
+    var shuffled_op = tool_shuffle_list(option_list.length);
     
+    var html_str = '';
+    for (var iter of lesson_order) {
+        html_str += CHAPTER_HTML.replace(id_replace_reg, i)
+                                        .replace('##', option_list[shuffled_op[i]])
+                                        .replace('~~', shuffled_op[i]);
+    }
+    for (var i = 0; i < shuffled_op.length; ++i) {
+        html_str += CHAPTER_HTML.replace(id_replace_reg, i)
+                                        .replace('##', option_list[shuffled_op[i]])
+                                        .replace('~~', shuffled_op[i]);
+    }
+    $('#chapter_panel').html(html_str);
+    //alert(shuffled_op);
 }
