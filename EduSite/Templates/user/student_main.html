@@ -23,6 +23,7 @@
                 <label id="id_student_number"> 学号：{{ stud_info.student_number }} </label>
                 <label id="id_class_id"> {{ stud_info.class_id }}</label>
                 <input id="id_cls_lock_mode" type="checkbox" hidden value="{{ cls_set.prac_lock_mode }}"/>
+                <input id="id_cls_order" type="hidden" value="{{ cls_set.lesson_order }}" />
             </div>
             <div id="user_add"> 
                 <div id="icon_gold" class="num-0">
@@ -135,6 +136,7 @@
             <ul class="list-group list-group-flush">
                 {% for lesson in lesson_list %}
                 <li class="list-group-item" 
+                    data-id="{{ lesson.id }}"
                     data-desc="{{ lesson.description }}"
                     data-curl="{% url 'course:study' lesson_id=lesson.id %}"
                     data-purl="{% url 'course:answer-sheet' sectionID=lesson.id %}" >

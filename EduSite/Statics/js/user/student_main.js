@@ -59,16 +59,30 @@ function onInit(event) {
     $('#move_prev').click(onNext);
     $('#move_next').click(onPrev);
     $('#lesson_list_panel').on('mousewheel', onWheeling).on('DOMMouseScroll', onWheeling);
-    
 
+    let order_list = JSON.parse($('#id_cls_order').val());
+    let temp_list = [];    
+    
     $('#class_list li').each(function (index, elem) {
-        listData.push({
+        temp_list.push({
+            'id': elem.dataset.id,
             'desc': elem.dataset.desc,
             'curl': elem.dataset.curl,
             'purl': elem.dataset.purl
         });
     });
-
+    let t_lesson;
+    for(let iter of order_list) {
+        t_lesson = temp_list.find((elem)=>{return (elem.id==iter.id);});
+        lessonListData.push({
+            'id': t_lesson.id,
+            'desc': t_lesson.desc,
+            'curl': t_lesson.curl,
+            'purl': t_lesson.purl,
+            'use':iter.c,
+        });        
+    }
+    
     $('#exam_his_list li').each(function (index, elem) {
         exam_his_list.push({
             'title': elem.dataset.title,
@@ -104,7 +118,7 @@ function onWheeling(event) {
 }
 
 function onPrev(event) {
-    nextidx = Math.min(listData.length-1, middle_idx+1);
+    nextidx = Math.min(lessonListData.length-1, middle_idx+1);
     if( nextidx == middle_idx ) return;    
 
     middle_idx = nextidx;
@@ -129,18 +143,18 @@ function onNext(event) {
     $('#lesson_inner').css('left', '0rem');
 }
 
-var listData = [];
+var lessonListData = [];
 var middle_idx = 0;
 function updateListView() {
-    $('#l_m .lesson_label').html(middle_idx+1); //    $('#l_m .lesson_label').html(listData[middle_idx].desc);
-    $('#l_u .lesson_label').html( middle_idx-1<0 ? "":middle_idx); // $('#l_u .lesson_label').html( middle_idx-1<0 ? "":listData[middle_idx-1].desc);
+    $('#l_m .lesson_label').html(middle_idx+1); //    $('#l_m .lesson_label').html(lessonListData[middle_idx].desc);
+    $('#l_u .lesson_label').html( middle_idx-1<0 ? "":middle_idx); // $('#l_u .lesson_label').html( middle_idx-1<0 ? "":lessonListData[middle_idx-1].desc);
     $('#l_u').css('visibility', middle_idx-1<0 ? 'hidden': 'visible');
-    $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":middle_idx-1); // $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":listData[middle_idx-2].desc);
+    $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":middle_idx-1); // $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":lessonListData[middle_idx-2].desc);
     $('#l_uu').css('visibility', middle_idx-2<0 ? 'hidden': 'visible');
-    $('#l_b .lesson_label').html(middle_idx+1<listData.length ? middle_idx+2:""); // $('#l_b .lesson_label').html(middle_idx+1<listData.length ? listData[middle_idx+1].desc:"");
-    $('#l_b').css('visibility', middle_idx+1<listData.length ? 'visible':'hidden');
-    $('#l_bb .lesson_label').html(middle_idx+2<listData.length ? middle_idx+3:""); // $('#l_bb .lesson_label').html(middle_idx+2<listData.length ? listData[middle_idx+2].desc:"");
-    $('#l_bb').css('visibility', middle_idx+2<listData.length ? 'visible':'hidden');
+    $('#l_b .lesson_label').html(middle_idx+1<lessonListData.length ? middle_idx+2:""); // $('#l_b .lesson_label').html(middle_idx+1<lessonListData.length ? lessonListData[middle_idx+1].desc:"");
+    $('#l_b').css('visibility', middle_idx+1<lessonListData.length ? 'visible':'hidden');
+    $('#l_bb .lesson_label').html(middle_idx+2<lessonListData.length ? middle_idx+3:""); // $('#l_bb .lesson_label').html(middle_idx+2<lessonListData.length ? lessonListData[middle_idx+2].desc:"");
+    $('#l_bb').css('visibility', middle_idx+2<lessonListData.length ? 'visible':'hidden');
 }
 
 function refreshBookList() {
@@ -168,7 +182,7 @@ function refreshBookList() {
 //================================================================
 // 当前
 function refreshCurrent() {
-    $('#chapter_title').html(listData[middle_idx].desc);
+    $('#chapter_title').html(lessonListData[middle_idx].desc);
 
     if (isLessonLock(middle_idx)) {        
         $('#btn_lesson').removeAttr('href');
@@ -177,7 +191,7 @@ function refreshCurrent() {
         $('#lesson_locked .icon_locker').removeClass("fade-out");        
     }
     else {
-        $('#btn_lesson').prop('href', listData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString());
+        $('#btn_lesson').prop('href', lessonListData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString());
         $('#lesson_info').show();
         $('#lesson_locked').hide();
         $('#lesson_locked .icon_locker').addClass("fade-out");        
@@ -190,7 +204,7 @@ function refreshCurrent() {
         $('#practice_locked .icon_locker').removeClass("fade-out");        
     }
     else {
-        $('#btn_practice').prop('href', listData[middle_idx]['purl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+2)).toString() );
+        $('#btn_practice').prop('href', lessonListData[middle_idx]['purl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+2)).toString() );
         $('#practice_info').show();
         $('#practice_locked').hide();
         $('#practice_locked .icon_locker').addClass("fade-out");        

@@ -12,17 +12,17 @@ function init() {
     csrf_Setup();
 
     course_list = [];
-    $('button[id^=course_]').each((idx, elem)=> {
+    $('button[id^=course_]').each((idx, elem) => {
         course_list.push({
             id: $(elem).data('section'),
-            desc: $(elem).html(), 
+            desc: $(elem).html(),
         });
     });
 
     $('#content_filer').on('hide.bs.collapse', function () {
         filterQList();
     });
-    
+
     $('#content_filer').on('show.bs.collapse', function () {
         $('#filter_input').val("");
     });
@@ -46,6 +46,11 @@ function onConfirmSetting(event) {
     updateFilter();
     // alert(JSON.stringify(prac_num_json_data));
     if (cls_url != "") {
+        let order = [];
+        for(let iter of lesson_order) {
+            order.push({id: iter.id, c: iter.c});
+        }
+
         $.ajax({
             url: cls_url,
             type: 'post',
@@ -53,6 +58,7 @@ function onConfirmSetting(event) {
                 "ps": JSON.stringify(prac_num_json_data),
                 "lock": $("#prac_mode_1").prop("checked") ? "True" : "False",
                 "unlock_number": $("#id_unlock").val(),
+                "order": JSON.stringify(order),
                 "qf": JSON.stringify(quests_filter)
             },
             dataType: "json",
@@ -88,18 +94,25 @@ function sucGet(jsonData) {
         prac_num_json_data = jsonData["ps"];
         lock_mode = jsonData["lock"];
         unlock_num = jsonData["unlock_number"];
-        if( jsonData["qf"] != 'none' ) {
+        if (jsonData["qf"] != 'none') {
             quests_filter = jsonData["qf"];
         }
         lesson_order = jsonData['order'];
-        if (!lesson_order) {
+        console.log("Get:", course_list, lesson_order);
+        if (!lesson_order || lesson_order == "") {
             lesson_order = [];
-            course_list.forEach((elem, idx) => {                
-                lesson_order.push({ id: elem.id, c: true, i:idx });
+            course_list.forEach((elem, idx) => {
+                lesson_order.push({ id: elem.id, c: true, i: idx });
             });
         }
+        else {
+            for (let iter of lesson_order) {
+                iter['i'] = course_list.findIndex((val, idx) => {
+                    return (val.id == iter.id);
+                });
+            }
+        }
     }
-    console.log("Get:", lesson_order);
     updateNumberDisp();
     updateModeSetting();
 }
@@ -113,10 +126,15 @@ function resetJsonData() {
         prac_num_json_data[iter] = 1;
         quests_filter[iter] = [];
     }
+    lesson_order = [];
+    course_list.forEach((elem, idx) => {
+        lesson_order.push({ id: elem.id, c: true, i: idx });
+    });
+    console.log("resetJsonData:", course_list, lesson_order);
 }
 
 function sucPost(jsonData) {
-    alert("修改成功！");
+    //alert("修改成功！");
 }
 
 function failPost() {
@@ -145,7 +163,7 @@ function updateModeSetting() {
         $("#prac_mode_1").prop("checked", true);
         $("#id_unlock").val(unlock_num);
         $("#id_unlock_div").show();
-    } 
+    }
     else {
         $("#prac_mode_0").prop("checked", true);
         $("#id_unlock").val(unlock_num);
@@ -169,7 +187,7 @@ var QLIST_ITEM_STR = '<button class="list-group-item list-group-item-action list
                     tabindex="-1" data-qid=-1 data-toggle="tooltip" data-placement="left" data-desc="" onfocus="this.blur()" id="" title=""></button>';
 
 var QLIST_BTN_ID = "qlist_id";
-var question_type ='';
+var question_type = '';
 
 function onSectionClick(event) {
     updateFilter();
@@ -199,7 +217,7 @@ function updateFilter() {
     });
 }
 
-function doRefreshQList() {    
+function doRefreshQList() {
     if (section_id && cur_list_url) {
         $.get(cur_list_url + section_id.toString(), updateQList);
     }
@@ -260,12 +278,12 @@ function onNavTypeClk(event) {
 function onQListBtnClick(event) {
     //$('button[id^=' + QLIST_BTN_ID + ']').removeClass('active');
     var jqItem = $(event.target);
-    if(jqItem.hasClass('active')) {
+    if (jqItem.hasClass('active')) {
         jqItem.removeClass('active').html(jqItem.data('desc'));
     }
     else {
         jqItem.addClass('active').html('✔' + jqItem.data('desc'));
-    } 
+    }
 
     return false;
 }
@@ -282,14 +300,14 @@ function filterQList(words = null) {
         $("#qlist_num").html(
             $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
                 var missed = false;
-                var word_list = words.split(" ");                
+                var word_list = words.split(" ");
                 word_list.forEach((item, idx, arr) => {
                     missed = missed || (elem.innerHTML.indexOf(item) == -1);
                     return missed;
                 });
 
-                if(missed) {
-                    ++hidden_num;                    
+                if (missed) {
+                    ++hidden_num;
                 }
                 $(elem).attr("hidden", missed);
             }).length - hidden_num);
@@ -299,24 +317,25 @@ function filterQList(words = null) {
     }
 }
 
-//----------------------------------
+//-------------------------------------------------------
+// Q
+//-------------------------------------------------------
 var lesson_order = [];
 
 function onChapterSetting() {
+    refreshChapterOrder();
     $("#chapter_panel").show();
     $("#question_panel").hide();
 }
 
-//-------------------------------------------------------
-// Q
-//-------------------------------------------------------
-var CHAPTER_HTML = '<div class="option-group" id="id_option_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
-                                <span id="id_span_cc"></span>\
-                                <label class="option-item full-line" draggable="true" ondragstart="drag(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" id="sort_item_cc" data-sortid="cc" data-opidx="~~"> \
-                                        ##\
-                                </label>\
-                            </div>';
-var id_replace_reg = new RegExp( 'cc' , "g" );
+//----------------------------------
+var CHAPTER_HTML = '<div class="input-group" id="id_chapter_cc" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)" data-sortid="cc">\
+                        <div class="input-group-prepend"><span class="input-group-text" id="id_span_cc">cc</span></div>\
+                        <div class="form-control" draggable="true" ondragstart="drag(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" id="chapter_item_cc" data-sortid="cc"> \
+                            ##</div>\
+                        <div class="input-group-append"><div class="input-group-text"><input type="checkbox" id="chpt_check_cc" data-sortid="cc" onchange="onChapterCheck(event)" ~~ /></div></div>\
+                    </div>';
+var id_replace_reg = new RegExp('cc', "g");
 
 function dragenter(event) {
     $(event.target).addClass('dropable');
@@ -327,46 +346,58 @@ function dragleave(event) {
 }
 
 function drag(event) {
-    if(event.target.dataset['sortid']==null) return false;
+    if (event.target.dataset['sortid'] == null) return false;
     event.dataTransfer.setData('sortid', event.target.dataset['sortid']);// parentNode.id);
-    event.dataTransfer.effectAllowed = 'copy'; 
+    event.dataTransfer.effectAllowed = 'copy';
 }
 
-function drop(event) {    
+function drop(event) {
     event.preventDefault();
     $(event.target).removeClass('dropable');
-    if(event.target.dataset['sortid']== null) return false;
+    if (event.target.dataset['sortid'] == null) return false;
     //alert(event.target);
     var id = event.dataTransfer.getData("sortid");
 
-    if(id==''||id==null) return false;
+    if (id == '' || id == null) return false;
 
     swapData(id, event.target.dataset['sortid']);
 }
 
-function allowDrop(event){
+function swapData(curidx, taridx) {
+    var curhtml = $('#'+ CHPT_ID + curidx).html();
+    var curdata = lesson_order[curidx];
+    lesson_order[curidx] = lesson_order[taridx];
+    lesson_order[taridx] = curdata;
+
+    var tarhtml = $('#'+ CHPT_ID + taridx).html();
+    $('#'+ CHPT_ID + curidx).html(tarhtml);
+    $('#'+ CHPT_ID + taridx).html(curhtml);
+
+    $('#chpt_check_' + curidx).get(0).checked = lesson_order[curidx].c;
+    $('#chpt_check_' + taridx).get(0).checked = lesson_order[taridx].c;    
+}
+
+function allowDrop(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'copy';
     return false;
 }
 
-var SORT_OP_ID = 'sort_item_';
+function onChapterCheck(event) {
+    lesson_order[event.target.dataset['sortid']].c = event.target.checked;
+}
 
-function refreshSort(question) {
-    var option_list = question.options.split(OPTION_SPLITER_SYMBOL);    
-    var shuffled_op = tool_shuffle_list(option_list.length);
-    
+var CHPT_ID = 'chapter_item_';
+
+//{ id: elem.id, c: true, i:idx } course_list
+function refreshChapterOrder() {
     var html_str = '';
-    for (var iter of lesson_order) {
+    for (var i in lesson_order) {
         html_str += CHAPTER_HTML.replace(id_replace_reg, i)
-                                        .replace('##', option_list[shuffled_op[i]])
-                                        .replace('~~', shuffled_op[i]);
+            .replace('##', course_list[lesson_order[i].i].desc)
+            .replace('~~', lesson_order[i].c ? "checked" : "");
     }
-    for (var i = 0; i < shuffled_op.length; ++i) {
-        html_str += CHAPTER_HTML.replace(id_replace_reg, i)
-                                        .replace('##', option_list[shuffled_op[i]])
-                                        .replace('~~', shuffled_op[i]);
-    }
-    $('#chapter_panel').html(html_str);
+    $('#order_panel').html(html_str);
     //alert(shuffled_op);
 }
+
