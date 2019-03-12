@@ -11,7 +11,9 @@ function isLessonLock(idx) {
 function isPracLock(idx) {
     return lock_mode && (idx<<1 >= progress);
 }
-
+function isUsing(idx) {
+    return lessonListData[idx].use;
+}
 //================================================================
 function onInit(event) {
     onExamReadyGet(null);
@@ -72,15 +74,20 @@ function onInit(event) {
         });
     });
     let t_lesson;
-    for(let iter of order_list) {
-        t_lesson = temp_list.find((elem)=>{return (elem.id==iter.id);});
+    for (let iter of order_list) {
+        t_lesson = temp_list.find((elem) => { return (elem.id == iter.id); });
         lessonListData.push({
             'id': t_lesson.id,
             'desc': t_lesson.desc,
             'curl': t_lesson.curl,
             'purl': t_lesson.purl,
-            'use':iter.c,
-        });        
+            'use': iter.c,
+        });
+    }
+    if (progress==0) {
+        let next_pro_idx=-1;
+        while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) {}
+        progress = next_pro_idx << 1;
     }
     
     $('#exam_his_list li').each(function (index, elem) {
@@ -146,15 +153,15 @@ function onNext(event) {
 var lessonListData = [];
 var middle_idx = 0;
 function updateListView() {
-    $('#l_m .lesson_label').html(middle_idx+1); //    $('#l_m .lesson_label').html(lessonListData[middle_idx].desc);
-    $('#l_u .lesson_label').html( middle_idx-1<0 ? "":middle_idx); // $('#l_u .lesson_label').html( middle_idx-1<0 ? "":lessonListData[middle_idx-1].desc);
-    $('#l_u').css('visibility', middle_idx-1<0 ? 'hidden': 'visible');
-    $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":middle_idx-1); // $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":lessonListData[middle_idx-2].desc);
-    $('#l_uu').css('visibility', middle_idx-2<0 ? 'hidden': 'visible');
-    $('#l_b .lesson_label').html(middle_idx+1<lessonListData.length ? middle_idx+2:""); // $('#l_b .lesson_label').html(middle_idx+1<lessonListData.length ? lessonListData[middle_idx+1].desc:"");
-    $('#l_b').css('visibility', middle_idx+1<lessonListData.length ? 'visible':'hidden');
-    $('#l_bb .lesson_label').html(middle_idx+2<lessonListData.length ? middle_idx+3:""); // $('#l_bb .lesson_label').html(middle_idx+2<lessonListData.length ? lessonListData[middle_idx+2].desc:"");
-    $('#l_bb').css('visibility', middle_idx+2<lessonListData.length ? 'visible':'hidden');
+    $('#l_m .lesson_label').html(middle_idx + 1); //    $('#l_m .lesson_label').html(lessonListData[middle_idx].desc);
+    $('#l_u .lesson_label').html(middle_idx - 1 < 0 ? "" : middle_idx); // $('#l_u .lesson_label').html( middle_idx-1<0 ? "":lessonListData[middle_idx-1].desc);
+    $('#l_u').css('visibility', middle_idx - 1 < 0 ? 'hidden' : 'visible');
+    $('#l_uu .lesson_label').html(middle_idx - 2 < 0 ? "" : middle_idx - 1); // $('#l_uu .lesson_label').html(middle_idx-2<0 ? "":lessonListData[middle_idx-2].desc);
+    $('#l_uu').css('visibility', middle_idx - 2 < 0 ? 'hidden' : 'visible');
+    $('#l_b .lesson_label').html(middle_idx + 1 < lessonListData.length ? middle_idx + 2 : ""); // $('#l_b .lesson_label').html(middle_idx+1<lessonListData.length ? lessonListData[middle_idx+1].desc:"");
+    $('#l_b').css('visibility', middle_idx + 1 < lessonListData.length ? 'visible' : 'hidden');
+    $('#l_bb .lesson_label').html(middle_idx + 2 < lessonListData.length ? middle_idx + 3 : ""); // $('#l_bb .lesson_label').html(middle_idx+2<lessonListData.length ? lessonListData[middle_idx+2].desc:"");
+    $('#l_bb').css('visibility', middle_idx + 2 < lessonListData.length ? 'visible' : 'hidden');
 }
 
 function refreshBookList() {
@@ -184,30 +191,47 @@ function refreshBookList() {
 function refreshCurrent() {
     $('#chapter_title').html(lessonListData[middle_idx].desc);
 
-    if (isLessonLock(middle_idx)) {        
-        $('#btn_lesson').removeAttr('href');
-        $('#lesson_info').hide();
-        $('#lesson_locked').show();
-        $('#lesson_locked .icon_locker').removeClass("fade-out");        
-    }
-    else {
-        $('#btn_lesson').prop('href', lessonListData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+1)).toString());
-        $('#lesson_info').show();
-        $('#lesson_locked').hide();
-        $('#lesson_locked .icon_locker').addClass("fade-out");        
-    }
+    if (isUsing(middle_idx)) {
+        $('#lesson_pass').hide();
+        $('#practice_pass').hide();
+        
+        if (isLessonLock(middle_idx)) {
+            $('#btn_lesson').removeAttr('href');
+            $('#lesson_info').hide();
+            $('#lesson_locked').show();
+            $('#lesson_locked .icon_locker').removeClass("fade-out");
+        }
+        else {
+            $('#btn_lesson').prop('href', lessonListData[middle_idx]['curl'] + "?progress=" + Math.max(progress, ((middle_idx << 1) + 1)).toString());
+            $('#lesson_info').show();
+            $('#lesson_locked').hide();
+            $('#lesson_locked .icon_locker').addClass("fade-out");
+        }
     
-    if (isPracLock(middle_idx)) {
-        $('#btn_practice').removeAttr('href');
-        $('#practice_info').hide();
-        $('#practice_locked').show();
-        $('#practice_locked .icon_locker').removeClass("fade-out");        
+        if (isPracLock(middle_idx)) {
+            $('#btn_practice').removeAttr('href');
+            $('#practice_info').hide();
+            $('#practice_locked').show();
+            $('#practice_locked .icon_locker').removeClass("fade-out");
+        }
+        else {
+            let next_pro_idx = middle_idx;
+            while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) {}
+            console.log("next_pro_idx", next_pro_idx);
+            
+            $('#btn_practice').prop('href', lessonListData[middle_idx]['purl'] + "?progress=" + Math.max(progress, (next_pro_idx << 1)).toString());
+            $('#practice_info').show();
+            $('#practice_locked').hide();
+            $('#practice_locked .icon_locker').addClass("fade-out");
+        }
     }
     else {
-        $('#btn_practice').prop('href', lessonListData[middle_idx]['purl'] + "?progress=" + Math.max(progress, ((middle_idx<<1)+2)).toString() );
-        $('#practice_info').show();
+        $('#lesson_info').hide();
+        $('#lesson_locked').hide();
+        $('#practice_info').hide();
         $('#practice_locked').hide();
-        $('#practice_locked .icon_locker').addClass("fade-out");        
+        $('#lesson_pass').show();
+        $('#practice_pass').show();
     }    
 }
 

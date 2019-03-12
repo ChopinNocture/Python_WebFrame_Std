@@ -586,6 +586,24 @@ body {
     height: 4rem;
 }
 
+#lesson_pass, #practice_pass {
+    position: absolute;
+    left: 1.2rem;
+    top: 7.6rem;
+    width: 19rem;
+    height: 5.3rem;  
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: lightgray;    
+    background-color: grey;
+    border-radius: 2rem;
+    padding-top: 2.3rem;    
+    padding-bottom: 0rem;    
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;    
+}
+
 #lesson_locked, #practice_locked {
     position: absolute;
     left: 1.2rem;
