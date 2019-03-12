@@ -4,8 +4,12 @@
 
 {% block header %}
 <nav class="navbar navbar-expand navbar-dark bg-dark text-light w-100" id="banner" role="alert">
-    <div class="w-100"> {{ course_desc }}</div>
-    <a href={% url 'user:course' %} class="btn btn-outline-warning align-right" draggable="false">返回课程选择</a>        
+    <div class="w-100"> {{ course_desc }}
+        {% if is_admin %}
+        <span class="text-danger align-right">管理员</span>
+        {% endif %}
+    </div>    
+    <a href={% url 'user:course' %} class="btn btn-outline-warning align-right" style="display: inline-block; position: absolute; right: 0;" draggable="false">返回课程选择</a>        
 </nav>
 {% endblock %}
 

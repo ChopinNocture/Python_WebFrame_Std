@@ -9,9 +9,19 @@ from django.conf import settings
 # Create your views here.
 from AccountApp import COURSE_KEY
 from AccountApp.forms import LoginForm
-from AccountApp.models import ClassInfo, TeacherProf, StudentProf, StudentProgressInfo, Course, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
+from AccountApp.models import ClassInfo, TeacherProf, StudentProf, AdminTeacher, StudentProgressInfo, Course, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination
+
+
+def is_admin_teacher(user):
+    try:
+        teacher = TeacherProf.objects.get(user=user)
+        AdminTeacher.objects.get(teacher_number=teacher.teacher_number)
+        return True
+    except ObjectDoesNotExist as e:            
+        return False    
+       
 
 def user_logout(request):
     if settings.LOGIN_URL == 'user/login/':
@@ -94,7 +104,7 @@ def student_main(request):
 @login_required(login_url=settings.REDIRECT_LOGIN_URL)
 @course_required()
 def teacher_main(request):
-    return render(request, 'user/teacher_main.html', {'course_desc':request.course_desc})
+    return render(request, 'user/teacher_main.html', {'course_desc': request.course_desc, 'is_admin': is_admin_teacher(request.user)})
 
 
 @login_required(login_url=settings.REDIRECT_LOGIN_URL)
@@ -103,7 +113,7 @@ def student_manager(request):
     if request.method == 'GET':
         class_list = ClassInfo.objects.all()
 
-        return render(request, 'user/student_manager.html', {'class_list': class_list})
+        return render(request, 'user/student_manager.html', {'class_list': class_list, 'is_admin': is_admin_teacher(request.user), 'course_desc': request.course_desc})
 
 
 @login_required(login_url=settings.REDIRECT_LOGIN_URL)

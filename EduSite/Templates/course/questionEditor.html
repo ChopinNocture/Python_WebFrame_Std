@@ -101,10 +101,16 @@
                 </div>
                 <ul class="list-group" id="Question_List">
                 </ul>
+                {% if is_admin %}
                 <div class="card-footer text-right">
                     <button class="btn btn-dark" type="button" onclick="onAddModeClick(event)" id="btn_addQ" onfocus="this.blur()" tabindex="-1">添加题目</button> &nbsp&nbsp
                     <button class="btn btn-danger" type="button" onclick="onDeleteQuestionClick(event)" id="btn_deleteQ" onfocus="this.blur()" tabindex="-1" disabled data-url="{% url 'course:question-delete' qtype='qqqq' qid='999' %}">删除题目</button>
                 </div>
+                {% else %}
+                <div class="card-footer text-center text-danger font-weight-bold">
+                    只有管理员教师可以添加、删除题目
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

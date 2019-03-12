@@ -20,6 +20,7 @@ import CourseFunApp.database_tool as DB_tool
 from AccountApp.decorators import course_required
 from AccountApp import COURSE_KEY
 from AccountApp.models import ClassInfo, StudentProf
+from AccountApp.views import is_admin_teacher
 
 # from django.utils.dateformat import DateFormat
 from django.utils import timezone
@@ -107,7 +108,7 @@ def question_editor(request):
     course_html = get_lesson_list_html(request)
     
     return render(request=request, template_name="course/questionEditor.html",
-                  context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, 'course_desc':request.course_desc})
+                  context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, 'course_desc': request.course_desc, 'is_admin': is_admin_teacher(request.user)})
 
 
 @course_required()
@@ -310,7 +311,8 @@ def lesson_editor(request):
                                                 context={"form": lesson_content_form, "content_id": content_id})
             return render(request=request,
                           template_name="course/lesson_editor.html",
-                          context={"lesson_form_html": form_html, "course_html": course_html, 'course_desc':request.course_desc, 'class_list': class_list })
+                          context={"lesson_form_html": form_html, "course_html": course_html,
+                                   'course_desc': request.course_desc, 'class_list': class_list, "is_admin": is_admin_teacher(request.user)})
 
     elif request.method == "POST":
         lesson_id = request.POST.get("lesson")

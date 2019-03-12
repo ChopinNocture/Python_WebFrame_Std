@@ -39,6 +39,10 @@ class TeacherProf(models.Model):
         return str(self.user.username)
         
 
+class AdminTeacher(models.Model):
+    teacher_number = models.CharField(max_length=64)
+
+    
 MAX_DBNAME_LENGTH = 64
 class Course(models.Model):
     description = models.CharField(max_length=MAX_DBNAME_LENGTH)

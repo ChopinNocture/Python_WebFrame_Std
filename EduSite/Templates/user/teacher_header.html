@@ -1,26 +1,32 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark w-100">
-    <div class="collapse navbar-collapse w-100" id="navbarNav">
-    <ul class="navbar-nav w-75">
-        <li class="nav-item w-50">
-            <a class="nav-link" href={% url 'course:question-editor' %} draggable="false">题库管理</a>
-        </li>
-        <li class="nav-item w-50">
-            <a class="nav-link" href={% url 'course:lesson_editor' %} draggable="false">资料管理</a>
-        </li>
-        <li class="nav-item w-50">
-            <a class="nav-link" href={% url 'user:student_manager' %} draggable="false">学生管理</a>
-        </li>
-        <li class="nav-item w-50">
-            <a class="nav-link" href="{% url 'course:exam_editor' %}" draggable="false">考试管理</a>
-        </li>
-        <li class="nav-item w-50">
-            <a class="nav-link" href="{% url 'course:class_setting' %}" draggable="false">班级设置</a>
-        </li>        
-        <li class="nav-item w-50">
-            <a class="nav-link" href={% url 'notice:public' %} draggable="false">公告管理</a>
-        </li>
-    </ul>
+    <div class="collapse navbar-collapse w-75" id="navbarNav">
+        <ul class="navbar-nav w-75">
+            <li class="nav-item w-50">
+                <a class="nav-link" href={% url 'course:question-editor' %} draggable="false">题库管理</a>
+            </li>
+            <li class="nav-item w-50">
+                <a class="nav-link" href={% url 'course:lesson_editor' %} draggable="false">资料管理</a>
+            </li>
+            <li class="nav-item w-50">
+                <a class="nav-link" href={% url 'user:student_manager' %} draggable="false">学生管理</a>
+            </li>
+            <li class="nav-item w-50">
+                <a class="nav-link" href="{% url 'course:exam_editor' %}" draggable="false">考试管理</a>
+            </li>
+            <li class="nav-item w-50">
+                <a class="nav-link" href="{% url 'course:class_setting' %}" draggable="false">班级设置</a>
+            </li>        
+            <li class="nav-item w-50">
+                <a class="nav-link" href="{% url 'notice:public' %}" draggable="false">公告管理</a>
+            </li>
+        </ul>
     </div>    
-    <span class="badge badge-warning">{{course_desc}}</span> 
-    <a href={% url 'user:teacher' %} class="btn btn-outline-warning" draggable="false">返回</a>    
+    <div>
+        <div class="badge badge-warning">{{course_desc}}
+        {% if is_admin %}
+        <span class="badge badge-danger">管理员</span> 
+        {% endif %}
+    </div> 
+        <a href="{% url 'user:teacher' %}" class="btn btn-outline-warning" draggable="false">返回</a>    
+    </div>
 </nav>
