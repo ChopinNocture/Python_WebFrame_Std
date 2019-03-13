@@ -103,3 +103,17 @@ def checkNearestExam(db_name, class_id):
         return None
 
     return None
+
+
+def checkLatestExam(db_name, class_id):
+    try:
+        exams = QuestionModels.Examination.objects.using(db_name).filter(end_time__lt=timezone.now()).order_by("-end_time").values('id', 'title', 'end_time', 'class_id_list')
+        for iter_exam in exams:
+            if iter_exam['class_id_list'].find(str(class_id)) is not -1:
+                return iter_exam
+        return None
+    except Exception as e:
+        print("no exam", e)
+        return None
+
+    return None

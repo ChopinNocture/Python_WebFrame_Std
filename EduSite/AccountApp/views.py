@@ -12,7 +12,7 @@ from AccountApp.forms import LoginForm
 from AccountApp.models import ClassInfo, TeacherProf, StudentProf, AdminTeacher, StudentProgressInfo, Course, TEACHER_GROUP_NAME, STUDENT_GROUP_NAME
 from AccountApp.decorators import course_required
 from CourseFunApp.models import Lesson, ClassSetting, ExamAnswer, Examination
-
+from CourseFunApp.exam_system import checkLatestExam
 
 def is_admin_teacher(user):
     try:
@@ -91,6 +91,13 @@ def student_main(request):
         print(e)
         exam_ans_list = []
 
+    exam = checkLatestExam(request.db_name, cur_info.class_id.id)
+    billboard = []
+    if exam:
+        temp_list = ExamAnswer.objects.using(request.db_name).filter(exam=exam['id']).order_by("score")[:10]
+        for iter in temp_list:
+            billboard.append(User.objects.get(id=iter.user_id).first_name)
+
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
                     'exam_ans_list': exam_ans_list,
@@ -98,6 +105,7 @@ def student_main(request):
                     'add_gold': add_gold,
                     'cls_set': cls_set,
                     "lesson_list": lesson_list,
+                    "billboard": billboard,
                     "unlock_number": cls_set.unlock_number})
 
 

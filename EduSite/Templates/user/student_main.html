@@ -171,16 +171,9 @@
             <h3>高手榜</h3>
             <div id="billboard_list">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">萧峰</li>
-                    <li class="list-group-item">令狐冲</li>
-                    <li class="list-group-item">武大郎大郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
-                    <li class="list-group-item">小二郎</li>
+                    {% for name in billboard %}
+                    <li class="list-group-item">{{name}}</li>
+                    {% endfor %}
                 </ul>
             </div>                    
         </div>
