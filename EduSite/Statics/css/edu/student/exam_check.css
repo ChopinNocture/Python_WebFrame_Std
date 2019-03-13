@@ -150,3 +150,26 @@ body {
         box-shadow:0rem 0rem 5.0rem #2cb33e;
     }
 }
+
+#exit_panel {
+    position: fixed;
+    top: 0rem;
+    left: 0.5rem;
+    color: white;
+    font-size: 80%;
+}
+
+#exit_panel a {
+    position: relative;
+    display: inline-block; 
+    color: white;   
+    bottom: 0.5em;
+    text-decoration: none;
+}
+#exit_panel img {
+    display: inline-block; 
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 1.25em;
+}

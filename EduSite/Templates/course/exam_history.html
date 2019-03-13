@@ -1,6 +1,6 @@
 {% extends "base_bs_style.html" %}
-{% load static %} 
-{% block title %}历次考试成绩{% endblock %} 
+{% load static %}
+{% block title %}历次考试成绩{% endblock %}
 
 {% block header %}
 {{ course.description }}
@@ -8,42 +8,77 @@
     <div class="w-100 text-right">
         <div class="badge badge-warning">{{course_desc}}
             {% if is_admin %}
-            <span class="badge badge-danger">管理员</span> 
+            <span class="badge badge-danger">管理员</span>
             {% endif %}
         </div>
-        <a href="{% url 'course:exam_editor' %}" class="btn btn-outline-warning" draggable="false">返回</a>    
+        <a href="{% url 'course:exam_editor' %}" class="btn btn-outline-warning" draggable="false">返回</a>
     </div>
 </nav>
 {% endblock %}
 
 {% block content %}
 {% csrf_token %}
-
-<div class="col-2 p-2">
-    <div class="card bg-info">                
-        <div class="card bg-secondary text-white">
-            <div class="card-header text-center">
-                <h5 class="card-title">班级列表</h5>
+<h2 class="text-center font-weight-bold p-1 text-light text_outline ">考试历史成绩</h2>
+<div class="row border border-dark mx-3 p-1 rounded bg_black_u2d" id="root_panel">
+    <div class="col-2 p-0">
+        <div class="card bg-info">
+            <div class="card bg-secondary text-white">
+                <div class="card-header text-center">
+                    <h5 class="card-title">班级列表</h5>
+                </div>
+                {% for cls in class_list %}
+                <button
+                    class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate"
+                    id="class_{{cls.id}}" onclick="onClassSelect(event)" onfocus="this.blur()" tabindex="-1"
+                    data-url="{% url 'user:student_list' %}" data-cls-id="{{cls.id}}"
+                    data-toggle="tooltip" data-placement="right" title="{{cls.class_name}}">{{cls.class_name}}
+                </button>
+                {% endfor %}
             </div>
-            {% for cls in class_list %}
-            <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
-                onclick = "onClassSelect(event)" onfocus="this.blur()"
-                tabindex = "-1"
-                data-url= "{% url 'course:class_prac' class_id=9999 %}"
-                data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
-                title="{{cls.class_name}}" >{{cls.class_name}}
+        </div>
+    </div>
+    <div class="col-3 p-0">
+        <div class="card bg-secondary">
+            <div class="card bg-warning">
+                <div class="card-header text-center">
+                    <h5 class="card-title">考试历史</h5>
+                </div>
+            </div>
+            {% for exam in exam_list %}
+            <button class="list-group-item list-group-item-action list-group-item-warning text-truncate"
+                id="exam_{{exam.id}}" type="button" onclick="onExamSelect(event)" onfocus="this.blur()" tabindex="-1"
+                data-eid={{exam.id}} data-toggle="tooltip" data-placement="right" title="{{exam.title}}">
+                {{exam.title}}&emsp;<span class="text-right badge badge-warning text-wrap"
+                    style="pointer-events: none;">
+                    {{exam.start_time}}</span>
             </button>
-            {% endfor %}                    
-        </div>                
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-7 p-0">
+        <table class="table table-striped table-light table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">姓名</th>
+                    <th scope="col">学号</th>
+                    <th scope="col">卷面分数</th>
+                    <th scope="col">附加分</th>
+                    <th scope="col">最终成绩</th>                    
+                </tr>
+            </thead>
+            <tbody id="list_panel">
+            </tbody>
+        </table>
     </div>
 </div>
-
 {% endblock %}
 
-{% block jsPage %}      
-    <script type="text/javascript" src="{% static 'js/course/exam-history.js' %}"></script>     
-    {% include "top_layer.html" %}
-{% endblock %} 
+{% block jsPage %}
+<script type="text/javascript" src="{% static 'js/course/exam-history.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}" />
+<link rel="stylesheet" href="{% static 'css/edu/student/exam_history.css' %}" />
+{% include "top_layer.html" %}
+{% endblock %}
 
 {% block pageInclude %}
-{% endblock %} 
+{% endblock %}

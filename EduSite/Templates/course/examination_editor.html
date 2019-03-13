@@ -108,10 +108,10 @@
             <div class="col-2 form-group pr-2 m-0 text-right">
                 <a class="btn btn-dark text-light" id="btn_exam_history" href="{% url 'course:exam_editor_history' %}">历次考试成绩</a>
             </div>
-                <div class="col-2 form-group pr-2 m-0">
+            <div class="col-2 form-group pr-2 m-0">
                 <div class="text-right">
-                    {{exam_list_html}}
-                </div>            
+                    {{ exam_list_html }}
+                </div>
             </div>
         </div>
     </div>
@@ -123,27 +123,24 @@
                     <div class="card bg-info border-0">
                         <div class="card-header card-header-sm">
                             <h5 class="card-title">题型选择
-                                <span class="badge badge-warning" id="qlist_num">0</span>                                    
+                                <span class="badge badge-warning" id="qlist_num">0</span>
                             </h5>
                         </div>
-                    {% for qType in qTypeList %}
+                        {% for qType in qTypeList %}
                         {% url 'course:question-list' qType as qListURL %}
-                        <button class="list-group-item list-group-item-action list-group-item-info text-truncate" 
-                            id="NavBtn_{{ qType }}" 
-                            onfocus="this.blur()"
-                            tabindex="-1"
-                            data-type-name="{{qType}}">
+                        <button class="list-group-item list-group-item-action list-group-item-info text-truncate"
+                            id="NavBtn_{{ qType }}" onfocus="this.blur()" tabindex="-1" data-type-name="{{qType}}">
                             {{qType}}
                             <span class="badge badge-warning" id="qType_num_{{qType}}" data-type-name="{{qType}}">0</span>
                         </button>
-                    {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-7 m-0 p-0" id="selected_course">
                     <div class="card bg-danger border-0">
                         <div class="card-header card-header-sm">
                             <h5 class="card-title">已选题目
-                                <span class="badge badge-dark" id="sel_sum">0</span>                                    
+                                <span class="badge badge-dark" id="sel_sum">0</span>
                             </h5>
                         </div>
                         <ul class="list-group" id="selected_qlist">
@@ -156,14 +153,17 @@
             <div class="row-fluid">
                 <div class="btnTrack " style="margin-left: -4px;margin-right: -4px">
                     <div class="mx-2 p-0" id="magic_panel">
-                        <button class="btn btn_left_right btn-warning" style="position: relative;left: 0px;" type="button" onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()"
-                        tabindex="-1"><span class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷</button>
+                        <button class="btn btn_left_right btn-warning" style="position: relative;left: 0px;" type="button"
+                            onclick="onToggleAdd(event)" id="btn_toggle" onfocus="this.blur()" tabindex="-1"><span
+                                class="text-danger font-weight-bold oi oi-arrow-thick-left"></span> 加入试卷</button>
                     </div>
                 </div>
                 <div class="input-group-sm text-center w-100">
                     <div class="input-group-prepend justify-content-center w-100">
                         <span class="input-group-text bg-dark text-light border-secondary">每小题分数</span>
-                        <span class="input-group-text bg-success text-light btn_left_right justify-content-center border-secondary" style="width: 0px;" id="per-num-lb"></span>
+                        <span
+                            class="input-group-text bg-success text-light btn_left_right justify-content-center border-secondary"
+                            style="width: 0px;" id="per-num-lb"></span>
                         <span class="input-group-text bg-dark text-light border-secondary">该类型总分</span>
                     </div>
                 </div>
@@ -171,16 +171,23 @@
                     {% for qType in qTypeList %}
                     <div class="input-group my-1 w-100">
                         <div class="input-group-prepend" style="width: 108px">
-                            <span class="input-group-text bg-secondary text-light border-secondary w-100" id="per-sco-lb-{{qType}}">{{qType}}</span>
+                            <span class="input-group-text bg-secondary text-light border-secondary w-100"
+                                id="per-sco-lb-{{qType}}">{{qType}}</span>
                         </div>
-                        <input type="number" min="0.5" max="100" value="1" step="0.5" class="form-control" required aria-describedby="per-sco-lb-{{qType}}" id="per-score-{{qType}}" onchange="onPerScoreChange(event, '{{qType}}')">
-                        <input type="number" min="0" max="100" value="0" step="1" class="text-center btn_left_right" style="width: 0px;" disabled required id="per-num-{{qType}}" onchange="onRandomNumberChange(event, '{{qType}}')">
-                        <input type="text" class="form-control text-right" placeholder="0" readonly id="total-score-{{qType}}">
+                        <input type="number" min="0.5" max="100" value="1" step="0.5" class="form-control" required
+                            aria-describedby="per-sco-lb-{{qType}}" id="per-score-{{qType}}"
+                            onchange="onPerScoreChange(event, '{{qType}}')">
+                        <input type="number" min="0" max="100" value="0" step="1" class="text-center btn_left_right"
+                            style="width: 0px;" disabled required id="per-num-{{qType}}"
+                            onchange="onRandomNumberChange(event, '{{qType}}')">
+                        <input type="text" class="form-control text-right" placeholder="0" readonly
+                            id="total-score-{{qType}}">
                         <div class="input-group-append" style="width: 108px">
-                            <span class="input-group-text bg-secondary text-light border-secondary" id="total-sco-lb-{{qType}}">该类型总分</span>
+                            <span class="input-group-text bg-secondary text-light border-secondary"
+                                id="total-sco-lb-{{qType}}">该类型总分</span>
                         </div>
                     </div>
-                    {% endfor %}                                      
+                    {% endfor %}
                 </div>
 
                 <div class="row m-0 p-0 justify-content-center">                    

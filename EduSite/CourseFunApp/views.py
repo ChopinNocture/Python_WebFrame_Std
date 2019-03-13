@@ -19,7 +19,7 @@ import CourseFunApp.exam_system as exam_sys
 import CourseFunApp.database_tool as DB_tool
 from AccountApp.decorators import course_required
 from AccountApp import COURSE_KEY
-from AccountApp.models import ClassInfo, StudentProf
+from AccountApp.models import ClassInfo, StudentProf, StudentProgressInfo
 from AccountApp.views import is_admin_teacher
 
 # from django.utils.dateformat import DateFormat
@@ -478,6 +478,14 @@ def exam_examination(request, exam_id):
         exam_answer.answer_json = request.POST['exam']
         exam_answer.score = request.POST['score']
         exam_answer.save(using=request.db_name)
+        try:
+            stu_prof = StudentProf.objects.get(user=request.user)
+            cls_set = ClassSetting.objects.using(request.db_name).get(class_id=stu_prof.class_id.id)
+            stu_pro = StudentProgressInfo.objects.using(request.db_name).get(user_id=request.user.id)
+            stu_pro.gold = max(0, stu_pro.gold - cls_set.exam_ticket)
+            stu_pro.save()
+        except ObjectDoesNotExist as e:
+            print(e)
 
         return JsonResponse({'url':'/user/student/'})
 
@@ -540,13 +548,22 @@ def exam_editor(request):
 def exam_editor_hitory(request):
     if request.method == "GET":
         class_list = ClassInfo.objects.all()
-    exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'end_time', 'title')
-
-    return render(request=request, template_name="course/exam_history.html",
+        exam_list = Examination.objects.using(request.db_name).filter(end_time__lt=timezone.now()).values('id', 'start_time', 'title')
+        return render(request=request, template_name="course/exam_history.html",
                   context={ "class_list": class_list,
                             'course_desc': request.course_desc,
+                            "exam_list": exam_list,
                             "is_admin": is_admin_teacher(request.user)})
-
+    else:
+        exam_id = request.POST['exam_id']
+        query_exam_ans_list = ExamAnswer.objects.using(request.db_name).filter(
+            exam=exam_id).values('exam', 'user_id', 'score', 'addition_score')
+        exam_ans_list = list()
+        for iter in query_exam_ans_list:
+            exam_ans_list.append({'eid': iter['exam'], 'uid': iter['user_id'],
+                                  'score': iter['score'], 'add_sc': iter['addition_score']})
+        return JsonResponse({'exam_list': exam_ans_list})
+        
 
 @course_required()
 def exam_answer(request, examans_id, stud_id=-1):
@@ -660,7 +677,7 @@ def class_prac(request, class_id):
         cls_set.practise_setting = request.POST.get('ps')
         cls_set.prac_lock_mode = request.POST.get('lock')
         cls_set.unlock_number = request.POST.get('unlock_number')
-        print('---------', request.POST.get('qf'))
+        cls_set.exam_ticket = request.POST.get('exam_ticket')
         cls_set.quests_filter = request.POST.get('qf')
         cls_set.lesson_order = request.POST.get('order')
         cls_set.save(using=request.db_name)
@@ -669,6 +686,7 @@ def class_prac(request, class_id):
     if cls_set.practise_setting:
         data = {"ps": json.loads(s=cls_set.practise_setting), 
                 "unlock_number": cls_set.unlock_number,
+                "exam_ticket": cls_set.exam_ticket,
                 "qf": json.loads(s=cls_set.quests_filter),
                 "order": json.loads(s=cls_set.lesson_order) if cls_set.lesson_order else "",
                 "lock": cls_set.prac_lock_mode }

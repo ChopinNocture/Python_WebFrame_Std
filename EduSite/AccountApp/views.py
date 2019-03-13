@@ -128,6 +128,13 @@ def student_list(request, class_id=None):
             stu_list = StudentProf.objects.filter(class_id=class_id).values('user', 'user__username')
 
         return render(request, 'user/student_list.html', {'student_list': stu_list})
+    else:
+        class_id = request.POST['class_id']
+        query_std_list = StudentProf.objects.filter(class_id=class_id).values('user', 'student_number', 'user__username')
+        std_list = list()
+        for iter in query_std_list:
+            std_list.append({'uid': iter['user'], 'st_num': iter['student_number'], 'name': iter['user__username']})
+        return JsonResponse({'std_list': std_list})
 
 
 @login_required(login_url=settings.REDIRECT_LOGIN_URL)

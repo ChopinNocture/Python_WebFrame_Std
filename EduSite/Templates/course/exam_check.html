@@ -14,7 +14,7 @@
     {{exam_form.as_p}}
     {{exam_answer_form.as_p}}
 </form>
-<div id="root_panel"> 
+<div id="root_panel">
     <div id="statistic_panel">
         <div id="inner_panel">
             <div id="title">
@@ -32,6 +32,10 @@
         </div>
     </div>
     {% include "course/exam_sheet.html" %}
+    <div id="exit_panel">
+        <a onclick="onBackClick(event)">
+        <img src="{% static 'images\arrows_left.png' %}" />返回</a>
+    </div>    
 </div>
 
 {% endblock %}

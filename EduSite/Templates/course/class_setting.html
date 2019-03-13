@@ -30,8 +30,16 @@
     </div>
     <div class="col-2 py-2 border-info border-right border-left">
         <div class="card bg-info border-0" id="id_mode_setting" style="display:none">
-            <div class="card-header card-header-sm">
-                <h5 class="card-title">试炼模式设置</h5>                    
+            <div class="pt-2 card-title text-center font-weight-bold">考试门票设置</div>
+            <div class="input-group w-100 px-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-dark text-light text-sm-center border-secondary">所需金币</span>
+                </div>
+                <input type="number" min="0" max="9999" value="1" step="1" class="form-control" id="exam_ticket">
+            </div>
+            <hr class="m-0 p-0 my-1">
+            <div class="px-2 pt-1 card-title text-center font-weight-bold">试炼模式设置</div>
+            <div class="px-2">                
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_0" value="normal">
                     <label class="form-check-label  text-warning" for="prac_mode_0">普通模式</label>
@@ -40,6 +48,8 @@
                     <input class="form-check-input" type="radio" name="pracmode" id="prac_mode_1" value="lock">
                     <label class="form-check-label  text-warning" for="prac_mode_1">通关模式</label>
                 </div>
+            </div>
+            <div class="px-1">
                 <div id="id_unlock_div" class="input-group w-100">
                     <div class="input-group-prepend">
                         <span class="input-group-text bg-dark text-light text-sm-center border-secondary">解锁题数</span>
@@ -47,13 +57,9 @@
                     <input type="number" min="0" max="20" value="3" step="1" class="form-control" id="id_unlock">
                 </div>
                 <p class="small text-danger">“普通模式”无需解锁，试炼直接开放。“通关模式”需要先进行资料学习。</p>
-                <button id="btn_chpt_setting" class="btn btn-warning" 
-                    onfocus="this.blur()"
-                    tabindex = "-1">课程章节设置</button>
             </div>
-            <div class="card-header card-header-sm">
-                <h5 class="card-title">当前试炼题目数量设置</h5>
-            </div>
+            <button class="btn btn-danger" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
+            <div class="p-2 card-title text-center font-weight-bold">试炼题目数量设置</div>
             {% for qType in qTypeList %}
             <div class="input-group w-100 px-1">
                 <div class="input-group-prepend" style='width: 60%;'>
@@ -67,10 +73,10 @@
                 </div>
                 <input style='width: 40%;' type="number" min="0" max="20" value="1" step="1" class="form-control" required aria-describedby="QType_{{qType}}" id="Q_NUM_{{qType}}" onchange="onPerNumChange(event, '{{qType}}')">
             </div>
-            {% endfor %}
-            <div class="card-footer text-center">
-                <button class="btn btn-warning" type="button" id="btn_confirm" onclick="onConfirmSetting(event)">确认修改</button>
-            </div>
+            {% endfor %}            
+            <button id="btn_chpt_setting" class="btn btn-warning" 
+                onfocus="this.blur()"
+                tabindex = "-1">课程章节设置</button>
         </div>
     </div>
     <div class="col-8 p-0 m-0" id="question_panel" style="display:none">

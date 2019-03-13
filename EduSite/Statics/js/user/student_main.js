@@ -4,6 +4,7 @@ $(document).ready(onInit);
 // 进度
 var progress = 0;
 var lock_mode = true;
+var gold = 0;
 
 function isLessonLock(idx) {    
     return lock_mode && (idx<<1 > progress);
@@ -17,9 +18,10 @@ function isUsing(idx) {
 //================================================================
 function onInit(event) {
     onExamReadyGet(null);
+    
+    exam_ticket = $("#id_exam_ticket").val();
 
-    var gold = $("#id_gold").html();
-    gold = Math.floor(gold / 20);
+    gold = Number($("#id_gold").html());    
     //$("#icon_gold").addClass("num-"+gold.toString());
     
     var addgold = $("#id_add_gold").data('gold');
@@ -28,8 +30,7 @@ function onInit(event) {
     }
     else {
         $("#id_add_gold").hide();
-    }
-    
+    }    
 
     lock_mode = $("#id_cls_lock_mode").val()=="True";
 
@@ -267,12 +268,22 @@ function failFunc() {
 //================================================================
 // 考试部分 ('id', 'title', 'duration', 'start_time')
 var examination = null;
+var exam_ticket = 0;
 
+function testfunc() {
+    alert("本次考试需要 " + exam_ticket + "枚金币，你的金币数不够！");
+}
 function onExamReadyGet(jsonData) {
     examination = jsonData;
 
-    if (examination) {    
-        $('#btn_enter_exam').prop('href', $('#exam_entrance').data('examurl').replace('0', examination.id));
+    if (examination) {
+        if (gold >= exam_ticket) {
+            $('#btn_enter_exam').prop('href', $('#exam_entrance').data('examurl').replace('0', examination.id)).click(null);
+        }
+        else {
+            $('#btn_enter_exam').prop('href', "#").click(testfunc);
+        }        
+        
         var time_str = examination.start_time;
         time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
         $('#exam_starttime').html(time_str);
@@ -334,7 +345,6 @@ function onHisPrev(event) {
 }
 
 function onHisNext(event) {
-    alert(";;;");
     nextidx = Math.max(0, his_index-1);
     if( nextidx == his_index ) return;    
     his_index = nextidx;    

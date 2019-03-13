@@ -13,6 +13,7 @@ class ClassSetting(models.Model):
     practise_setting = models.CharField(max_length=MAX_CONTENT_LENGTH)
     prac_lock_mode = models.BooleanField(default=True)
     unlock_number = models.IntegerField(default=UNLOCK_NUMBER)
+    exam_ticket = models.PositiveIntegerField(default=0)
     quests_filter = models.CharField(max_length=MAX_CONTENT_LENGTH, default='none')
     lesson_order = models.CharField(max_length=MAX_CONTENT_LENGTH, null=True, blank=True)
 

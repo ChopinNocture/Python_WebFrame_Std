@@ -58,6 +58,7 @@ function onConfirmSetting(event) {
                 "ps": JSON.stringify(prac_num_json_data),
                 "lock": $("#prac_mode_1").prop("checked") ? "True" : "False",
                 "unlock_number": $("#id_unlock").val(),
+                "exam_ticket": $("#exam_ticket").val(),
                 "order": JSON.stringify(order),
                 "qf": JSON.stringify(quests_filter)
             },
@@ -91,6 +92,7 @@ function sucGet(jsonData) {
     if (jsonData == "error") {
         resetJsonData();
     } else {
+        $("#exam_ticket").val(jsonData["exam_ticket"]),
         prac_num_json_data = jsonData["ps"];
         lock_mode = jsonData["lock"];
         unlock_num = jsonData["unlock_number"];

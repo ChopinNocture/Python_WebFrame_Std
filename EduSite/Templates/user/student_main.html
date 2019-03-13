@@ -24,6 +24,7 @@
                 <label id="id_class_id"> {{ stud_info.class_id }}</label>
                 <input id="id_cls_lock_mode" type="checkbox" hidden value="{{ cls_set.prac_lock_mode }}"/>
                 <input id="id_cls_order" type="hidden" value="{{ cls_set.lesson_order }}" />
+                <input id="id_exam_ticket" type="hidden" value="{{ cls_set.exam_ticket }}" />
             </div>
             <div id="user_add"> 
                 <div id="icon_gold" class="num-0">
@@ -68,6 +69,7 @@
             <p id="exam_open">开放时间：<span id="exam_starttime">xxxxxxx</span></p>
             <p id="exam_end">结束时间：<span id="exam_endtime">xxxxxxx</span></p>            
             <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam"> 进入 </a>
+            <div></div>
         </div>
         <img src="{% static 'images\Shield.png' %}" id="exam_icon"/>
         <img src="{% static 'images\Sword.png' %}" id="exam_icon_Sword" class="sword_shirk"/> 

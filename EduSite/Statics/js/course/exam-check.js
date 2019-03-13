@@ -26,6 +26,12 @@ function update() {
     updatePageView();
     updateQuestion();
 }
+
+function onBackClick(event) {
+    console.log("2323131");
+    
+    history.back();
+}
 //---------------------------------------------------------------------------
 // page
 function onNextClk(event) {
