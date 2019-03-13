@@ -532,13 +532,20 @@ def exam_editor(request):
                                "exam_list_html": exam_list_html,
                                "course_html": get_lesson_list_html(request),
                                "class_list": class_list,
-                               'course_desc':request.course_desc,
+                               'course_desc': request.course_desc,
                                "form": exam_form})
 
 
 @course_required()
 def exam_editor_hitory(request):
-    return HttpResponse('hahaha')
+    if request.method == "GET":
+        class_list = ClassInfo.objects.all()
+    exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'end_time', 'title')
+
+    return render(request=request, template_name="course/exam_history.html",
+                  context={ "class_list": class_list,
+                            'course_desc': request.course_desc,
+                            "is_admin": is_admin_teacher(request.user)})
 
 
 @course_required()

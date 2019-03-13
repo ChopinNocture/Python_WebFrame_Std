@@ -1,0 +1,49 @@
+{% extends "base_bs_style.html" %}
+{% load static %} 
+{% block title %}历次考试成绩{% endblock %} 
+
+{% block header %}
+{{ course.description }}
+<nav class="navbar navbar-expand navbar-dark bg-dark w-100">
+    <div class="w-100 text-right">
+        <div class="badge badge-warning">{{course_desc}}
+            {% if is_admin %}
+            <span class="badge badge-danger">管理员</span> 
+            {% endif %}
+        </div>
+        <a href="{% url 'course:exam_editor' %}" class="btn btn-outline-warning" draggable="false">返回</a>    
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+
+<div class="col-2 p-2">
+    <div class="card bg-info">                
+        <div class="card bg-secondary text-white">
+            <div class="card-header text-center">
+                <h5 class="card-title">班级列表</h5>
+            </div>
+            {% for cls in class_list %}
+            <button class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" id="class_{{cls.id}}" 
+                onclick = "onClassSelect(event)" onfocus="this.blur()"
+                tabindex = "-1"
+                data-url= "{% url 'course:class_prac' class_id=9999 %}"
+                data-cls-id="{{cls.id}}" data-toggle="tooltip" data-placement="right" 
+                title="{{cls.class_name}}" >{{cls.class_name}}
+            </button>
+            {% endfor %}                    
+        </div>                
+    </div>
+</div>
+
+{% endblock %}
+
+{% block jsPage %}      
+    <script type="text/javascript" src="{% static 'js/course/exam-history.js' %}"></script>     
+    {% include "top_layer.html" %}
+{% endblock %} 
+
+{% block pageInclude %}
+{% endblock %} 
