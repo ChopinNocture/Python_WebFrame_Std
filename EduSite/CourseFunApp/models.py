@@ -10,12 +10,12 @@ UNLOCK_NUMBER = 3
 # --------------------------------------------------------
 class ClassSetting(models.Model):
     class_id = models.IntegerField()
-    practise_setting = models.CharField(max_length=MAX_CONTENT_LENGTH)
+    practise_setting = models.CharField(max_length=1024)
     prac_lock_mode = models.BooleanField(default=True)
     unlock_number = models.IntegerField(default=UNLOCK_NUMBER)
     exam_ticket = models.PositiveIntegerField(default=0)
-    quests_filter = models.CharField(max_length=MAX_CONTENT_LENGTH, default='none')
-    lesson_order = models.CharField(max_length=MAX_CONTENT_LENGTH, null=True, blank=True)
+    quests_filter = models.CharField(max_length=2048, default='none')
+    lesson_order = models.CharField(max_length=2048, null=True, blank=True)
 
 # --------------------------------------------------------
 class Examination(models.Model):
