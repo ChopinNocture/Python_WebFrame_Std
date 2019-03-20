@@ -238,25 +238,27 @@ function updateQList(jsonData) {
     var tempLine;
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
-        tempLine = $(QLIST_ITEM_STR)
-            .clone()
-            .attr({
-                "data-qid": iter.id,
-                "id": QLIST_BTN_ID + i,
-                "title": iter.desc
-            })
-            .tooltip()
-            .data('desc', iter.desc)
-            .click(onQListBtnClick);
+        if(iter.flag & 0x01) {
+            tempLine = $(QLIST_ITEM_STR)
+                .clone()
+                .attr({
+                    "data-qid": iter.id,
+                    "id": QLIST_BTN_ID + i,
+                    "title": iter.desc
+                })
+                .tooltip()
+                .data('desc', iter.desc)
+                .click(onQListBtnClick);
 
-        if ($.inArray(Number(iter.id), quests_filter[question_type]) != -1) {
-            tempLine.html('✔' + iter.desc).addClass('active');
-        } else {
-            tempLine.html(iter.desc);
+            if ($.inArray(Number(iter.id), quests_filter[question_type]) != -1) {
+                tempLine.html('✔' + iter.desc).addClass('active');
+            } else {
+                tempLine.html(iter.desc);
+            }
+            //if (curr_qid == iter.id) tempLine.addClass('active');
+            qListPanel.append(tempLine);
+            ++i;
         }
-        //if (curr_qid == iter.id) tempLine.addClass('active');
-        qListPanel.append(tempLine);
-        ++i;
     });
     $("#qlist_num").html(i.toString());
 }

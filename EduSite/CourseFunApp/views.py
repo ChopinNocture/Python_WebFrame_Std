@@ -433,7 +433,7 @@ def answer_sheet(request, sectionID):
                                 "unlock_number": unlock_number,
                                 "progress": request.GET.get("progress")})
     else:        
-        question_dict = exam_sys.generate_question_set(db_name=request.db_name, sectionID=lesson, num_json=num_json, id_list_json=id_list_json)
+        question_dict = exam_sys.generate_question_set(db_name=request.db_name, sectionID=lesson, num_json=num_json, id_list_json=id_list_json, flag=0x01)
         return JsonResponse(question_dict)
 
 

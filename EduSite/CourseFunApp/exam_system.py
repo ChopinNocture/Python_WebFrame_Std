@@ -12,7 +12,7 @@ q_type_list = QuestionModels.get_qType_list()
 # get question
 
 # generate a question set. Dict:{type:[]}
-def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_json=None, id_list_json=None):
+def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_json=None, id_list_json=None, flag=3):
     tmp_list = type_list
     if not tmp_list:
         tmp_list = q_type_list
@@ -38,10 +38,13 @@ def generate_question_set(db_name, sectionID=[], per_sum=2, type_list=[], num_js
             need_num = min(per_sum, count)
         
         if need_num>0:
-            if count == need_num:
-                generated_list = list(query_filter)
-            else:
-                generated_list = random.sample(list(query_filter), need_num)
+            generated_list = []
+            for iter_qst in query_filter:
+                if (iter_qst.flag & flag):
+                    generated_list.append(iter_qst)
+
+            if count > need_num:
+                generated_list = random.sample(generated_list, need_num)
 
             if generated_list:
                 for iter_item in generated_list:
