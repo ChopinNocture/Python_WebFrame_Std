@@ -47,13 +47,14 @@ function initRecorder() {
         window.URL = window.URL || window.webkitURL;
         
         audio_context = new AudioContext;
-      } catch (e) {
-        alert('No web audio support in this browser!');
-      }
+    } catch (e) {
+        alert('浏览器音频设备不可用！将无法完成语音题！');
+    }
       
-      navigator.mediaDevices.getUserMedia({audio: true}).then(startUserMedia).catch(function(e) {
-        alert('No live audio input: ' + e);
-      });
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+        alert('没有麦克风，语音题将无法完成！ ');
+        console.log(e);        
+    });
 }
 
 //----------------------------------------------------------------
