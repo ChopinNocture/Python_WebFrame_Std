@@ -695,6 +695,8 @@ function onKeyFileSelect(event) {
 
 //-------------- check --------------
 function checkVoice() { 
+    $('#id_qVoice')
+
     return ($('#id_qVoice')[0].files.length > 0) && ($('#id_key')[0].files.length > 0); 
 }
 

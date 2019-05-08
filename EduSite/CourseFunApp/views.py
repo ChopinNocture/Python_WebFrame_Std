@@ -158,7 +158,7 @@ def delete_question_list(request, qtype):
 # form part
 @course_required()
 def question_editor_form(request, qtype, qid=-1):
-    # print("------------------" + q_type_list[0].get_url_name())
+    print("------------------" + q_type_list[0].get_url_name())
     try:
         formClass = questionForms.get_qForm_class(qtype)
     except (AttributeError) as e:
@@ -186,8 +186,9 @@ def question_editor_form(request, qtype, qid=-1):
         if newQuestForm.is_valid():
             quest_in_DB = newQuestForm.save(commit=False)
             quest_in_DB.sectionID = questionModels.Lesson.objects.using(request.db_name).get(id=requestData["sectionID"])
+            print("-----", quest_in_DB)
             if hasattr(quest_in_DB, 'qVoice'):
-                quest_in_DB.qVoice
+                print(quest_in_DB.qVoice)
             quest_in_DB.save(using=request.db_name)
             #            quest_in_DB = newQuestForm.save(commit=False)
             #            formData = newQuestForm.cleaned_data
