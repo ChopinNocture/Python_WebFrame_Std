@@ -12,7 +12,7 @@ function init() {
     $('#content_filer').on('hide.bs.collapse', function () {
         filterQList();
     })
-    
+
     $('#content_filer').on('show.bs.collapse', function () {
         $('#filter_input').val("");
     })
@@ -145,7 +145,7 @@ function updateQList(jsonData) {
     $("#qlist_num").html(i.toString());
 }
 
-function doRefreshQList() {    
+function doRefreshQList() {
     if (section_id && cur_list_url) {
         $.get(cur_list_url + section_id.toString(), updateQList);
     }
@@ -175,14 +175,14 @@ function filterQList(words = null) {
         $("#qlist_num").html(
             $('button[id^=' + QLIST_BTN_ID + ']').each(function (index, elem) {
                 var missed = false;
-                var word_list = words.split(" ");                
+                var word_list = words.split(" ");
                 word_list.forEach((item, idx, arr) => {
                     missed = missed || (elem.innerHTML.indexOf(item) == -1);
                     return missed;
                 });
 
-                if(missed) {
-                    ++hidden_num;                    
+                if (missed) {
+                    ++hidden_num;
                 }
                 $(elem).attr("hidden", missed);
             }).length - hidden_num);
@@ -213,7 +213,7 @@ function onDeleteQuestionClick(event) {
 // form framework
 //=======================================================
 function updateQForm(data) {
-    //alert("Data Loaded: " + data);
+    console.log("Data Loaded: ", data);
     document.getElementById('QType_Panel').innerHTML = data;
 
     if (with_value) {
@@ -223,7 +223,7 @@ function updateQForm(data) {
 
         ic_btn("difficult").val($('#id_star').val());
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
-        eval(ParseFormFunc_Prefix + question_type + "()");
+        //eval(ParseFormFunc_Prefix + question_type + "()");
         document.getElementById('btn_modify').innerHTML = "确认修改";
     }
     else {
@@ -232,7 +232,7 @@ function updateQForm(data) {
 
         ic_btn("difficult").val(1);
         document.getElementById('Form_QuestionEditor').action = question_type + "/";
-        document.getElementById('btn_modify').innerHTML = "加入题库";        
+        document.getElementById('btn_modify').innerHTML = "加入题库";
     }
     document.getElementById('Form_QuestionEditor').submit = function () { ajaxSubmitWithFile(this, onSubmitSuccess, onSubmitFailed) };
 
@@ -246,7 +246,7 @@ function checkForm() {
     ret = ret && ($('#id_description').val().length != 0);
     $('#id_sectionID').val(section_id);
     var flag = 0;
-    
+
     if ($('#id_in_pra').get(0).checked) {
         flag = flag | 0x1;
     }
@@ -268,7 +268,7 @@ function onSubmitCheck() {
         //alert("checkForm!");
         document.getElementById('Form_QuestionEditor').submit();
     } else {
-        ShowInfo("提交失败，请检查题目填写是否正确。", 2, function(){document.getElementById('Form_QuestionEditor').reportValidity();}, 'danger');        
+        ShowInfo("提交失败，请检查题目填写是否正确。", 2, function () { document.getElementById('Form_QuestionEditor').reportValidity(); }, 'danger');
     }
 }
 
@@ -375,7 +375,7 @@ function checkOptions() {
 
 
     if (with_key) {
-        var keyValue = $('input[id^='+ ID_KEYButton + ']:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+        var keyValue = $('input[id^=' + ID_KEYButton + ']:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
         //alert(keyValue);
 
         ret = ret && !(keyValue == '');
@@ -608,19 +608,19 @@ function onDeleteSubQuestion(event) {
     var subQ_Panel = $('#SubQ_Panel');
     subQ_Panel.html("");
     subQuestions.forEach(function (iter, index, array) {
-        subQ_Panel.append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[iter.qType])).replace('**', iter.qDesc).replace('**', index ) );
+        subQ_Panel.append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[iter.qType])).replace('**', iter.qDesc).replace('**', index));
     });
 }
 
 function onAddSubQuestion() {
-    var newSubQ = {'qType':$('#sub_type_sel').val(), 'qid':$('#sub_question_sel').val(), 'qDesc':$('#sub_question_sel').find("option:selected").text() };    
-    $('#SubQ_Panel').append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[newSubQ.qType])).replace('**', newSubQ.qDesc).replace('**', subQuestions.length ) );
-    subQuestions.push(newSubQ);    
+    var newSubQ = { 'qType': $('#sub_type_sel').val(), 'qid': $('#sub_question_sel').val(), 'qDesc': $('#sub_question_sel').find("option:selected").text() };
+    $('#SubQ_Panel').append(SUB_QUEST.replace('**', SUB_TYPE_HTML.replace('**', TYPE_TRANS_LIST[newSubQ.qType])).replace('**', newSubQ.qDesc).replace('**', subQuestions.length));
+    subQuestions.push(newSubQ);
     //alert(JSON.stringify(subQuestions));
 }
 
 function handleSubSectionChange(event) {
-    if(question_type != 'CaseAnalyse') {
+    if (question_type != 'CaseAnalyse') {
         $('button[id^=course_]').off('click', handleSubSectionChange);
         return;
     }
@@ -654,7 +654,7 @@ function updateSubQList(jsonData) {
 
         qListPanel.append(tempLine);
     });
-}    
+}
 
 
 //-------------- check --------------
@@ -671,7 +671,7 @@ function parseForm2JsonCaseAnalyse() { }
 var file_tester = /audio\/\w/;
 function refreshVoice() {
     $('#id_qVoice').on('change', onFileSelect);
-    $('#id_key').on('change', onKeyFileSelect);    
+    $('#id_key').on('change', onKeyFileSelect);
 }
 
 function onFileSelect(event) {
@@ -694,10 +694,15 @@ function onKeyFileSelect(event) {
 }
 
 //-------------- check --------------
-function checkVoice() { 
-    $('#id_qVoice')
-
-    return ($('#id_qVoice')[0].files.length > 0) && ($('#id_key')[0].files.length > 0); 
+function checkVoice() {
+    //    $('#id_qVoice')
+    if (($('#id_qVoice')[0].files.length > 0) && ($('#id_key')[0].files.length > 0)) {
+        return true;
+    }
+    else {
+        if ($("#prev_control").prop("src") && $("#key_control").prop("src")) { return true; }
+    }
+    return false;
 }
 
 //-------------- parseForm2Json ---------------
@@ -823,10 +828,10 @@ var ic_btn = function (group = "") {
     if (group == "") return null;
 
     var self_obj = this;
-    this.val = function (value=null) {
-        if(value!=null) {
+    this.val = function (value = null) {
+        if (value != null) {
             icon_btn_list.each(function (idx, elem) {
-                if(idx<value) {
+                if (idx < value) {
                     $(elem).attr("ic_active", true);
                     $(elem).removeClass("text-dark").addClass("text-warning");
                 }
@@ -842,7 +847,7 @@ var ic_btn = function (group = "") {
             var group_value = 0;
             icon_btn_list.each(function (idx, elem) {
                 group_value = idx;
-                return ($(this).attr("ic_active")=="true");
+                return ($(this).attr("ic_active") == "true");
             })
             return group_value;
         }

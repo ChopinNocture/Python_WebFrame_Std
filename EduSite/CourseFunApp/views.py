@@ -158,7 +158,6 @@ def delete_question_list(request, qtype):
 # form part
 @course_required()
 def question_editor_form(request, qtype, qid=-1):
-    print("------------------" + q_type_list[0].get_url_name())
     try:
         formClass = questionForms.get_qForm_class(qtype)
     except (AttributeError) as e:
