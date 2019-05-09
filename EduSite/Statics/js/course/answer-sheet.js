@@ -11,8 +11,8 @@ var cur_idx = -1;
 var question_sum = 0;
 
 function onInit(event) {  
-    initRecorder();
     csrf_Setup();
+    initRecorder();
     $('#btn_submit').click(onSubmitClk)
                     .mouseover(()=>{
                         $('#pen_icon').addClass('pen_finish').removeClass('pen_doing');
@@ -48,13 +48,18 @@ function initRecorder() {
         
         audio_context = new AudioContext;
     } catch (e) {
-        alert('浏览器音频设备不可用！将无法完成语音题！');
+        console.log('浏览器音频设备不可用！将无法完成语音题！');
     }
-      
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
-        alert('没有麦克风，语音题将无法完成！ ');
-        console.log(e);        
-    });
+    
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+            alert('没有麦克风，语音题将无法完成！ ');
+            console.log(e);
+        });
+    }
+    else {
+        alert('浏览器不支持录音设备，语音题将无法完成！');
+    }
 }
 
 //----------------------------------------------------------------
@@ -187,7 +192,7 @@ function showEffect(isCorrect, isVoice) {
 }
 
 function onQuestionListGet(jsonData) {
-    //alert('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
+    console.log('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
     qType_list = jsonData.qType_list;
     qList_obj = jsonData;
     
@@ -223,6 +228,8 @@ function update() {
                 eval('showKeyFunc = showKey' + qtype);                
             }
             //
+            console.log("-----");
+            
         }
     }
     updateStat();

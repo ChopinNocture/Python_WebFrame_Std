@@ -55,9 +55,15 @@ function initRecorder() {
         alert('浏览器不支持音频!');
     }
 
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
-        alert('没找到话筒: ' + e);
-    });
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+            alert('没有麦克风，语音题将无法完成！ ');
+            console.log(e);
+        });
+    }
+    else {
+        alert('浏览器不支持录音设备，语音题将无法完成！');
+    }
 }
 
 function initTime() {
