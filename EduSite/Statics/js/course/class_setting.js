@@ -47,8 +47,8 @@ function onConfirmSetting(event) {
     // alert(JSON.stringify(prac_num_json_data));
     if (cls_url != "") {
         let order = [];
-        for(let iter of lesson_order) {
-            order.push({id: iter.id, c: iter.c});
+        for (let iter of lesson_order) {
+            order.push({ id: iter.id, c: iter.c });
         }
 
         $.ajax({
@@ -93,7 +93,7 @@ function sucGet(jsonData) {
         resetJsonData();
     } else {
         $("#exam_ticket").val(jsonData["exam_ticket"]),
-        prac_num_json_data = jsonData["ps"];
+            prac_num_json_data = jsonData["ps"];
         lock_mode = jsonData["lock"];
         unlock_num = jsonData["unlock_number"];
         if (jsonData["qf"] != 'none') {
@@ -137,9 +137,11 @@ function resetJsonData() {
 
 function sucPost(jsonData) {
     //alert("修改成功！");
+    ShowInfo("修改成功！");
 }
 
 function failPost() {
+    ShowInfo("修改失败！", 1, null, "danger");
     updateNumberDisp();
     updateModeSetting();
 }
@@ -238,7 +240,7 @@ function updateQList(jsonData) {
     var tempLine;
     var i = 0;
     jsonData.forEach(function (iter, index, array) {
-        if(iter.flag & 0x01) {
+        if (iter.flag & 0x01) {
             tempLine = $(QLIST_ITEM_STR)
                 .clone()
                 .attr({
@@ -368,17 +370,17 @@ function drop(event) {
 }
 
 function swapData(curidx, taridx) {
-    var curhtml = $('#'+ CHPT_ID + curidx).html();
+    var curhtml = $('#' + CHPT_ID + curidx).html();
     var curdata = lesson_order[curidx];
     lesson_order[curidx] = lesson_order[taridx];
     lesson_order[taridx] = curdata;
 
-    var tarhtml = $('#'+ CHPT_ID + taridx).html();
-    $('#'+ CHPT_ID + curidx).html(tarhtml);
-    $('#'+ CHPT_ID + taridx).html(curhtml);
+    var tarhtml = $('#' + CHPT_ID + taridx).html();
+    $('#' + CHPT_ID + curidx).html(tarhtml);
+    $('#' + CHPT_ID + taridx).html(curhtml);
 
     $('#chpt_check_' + curidx).get(0).checked = lesson_order[curidx].c;
-    $('#chpt_check_' + taridx).get(0).checked = lesson_order[taridx].c;    
+    $('#chpt_check_' + taridx).get(0).checked = lesson_order[taridx].c;
 }
 
 function allowDrop(event) {
