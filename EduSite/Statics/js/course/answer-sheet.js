@@ -23,6 +23,7 @@ function onInit(event) {
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
+    $('#btn_back').click(onBreakClick);
     $('#btn_back_main').click(onBackMain);
 
     onStartRecordingFunc = function() {
@@ -227,9 +228,7 @@ function update() {
                 eval('checkAnswerFunc = check' + qtype);
                 eval('showKeyFunc = showKey' + qtype);                
             }
-            //
-            console.log("-----");
-            
+            //            
         }
     }
     updateStat();
@@ -277,14 +276,7 @@ function showFinalResult() {
             success: SucFunc
         });
     }
-    playUIAudio("luckygift.mp3");
-}
 
-function onBreakClick(event) {
-    showFinalResult();
-}
-
-function onBackMain(event) {
     $.ajax({
         url: $('#btn_back_main').data('url'),
         type: 'post',
@@ -292,11 +284,21 @@ function onBackMain(event) {
         dataType: 'json',
         success: SucFunc
     });
+
+    playUIAudio("luckygift.mp3");
+}
+
+function onBreakClick(event) {
+    console.log("-----------------------------");
+    showFinalResult();
+}
+
+function onBackMain(event) {
     $(location).attr('href', $('#btn_back').attr('href') );
 }
 
-function SucFunc(){
-
+function SucFunc(info){
+    console.log(info);
 }
 
 //--------------------------------------------------
