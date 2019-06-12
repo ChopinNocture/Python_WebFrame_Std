@@ -109,3 +109,5 @@ EduSite/DB/course_B.sqlite3
 EduSite/DB/course_A.sqlite3
 .idea/workspace.xml
 EduSite/uploaded/
+
+.VSCodeCounter/
