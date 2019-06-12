@@ -6,11 +6,11 @@ var progress = 0;
 var lock_mode = true;
 var gold = 0;
 
-function isLessonLock(idx) {    
-    return lock_mode && (idx<<1 > progress);
+function isLessonLock(idx) {
+    return lock_mode && (idx << 1 > progress);
 }
 function isPracLock(idx) {
-    return lock_mode && (idx<<1 >= progress);
+    return lock_mode && (idx << 1 >= progress);
 }
 function isUsing(idx) {
     return lessonListData[idx].use;
@@ -18,29 +18,29 @@ function isUsing(idx) {
 //================================================================
 function onInit(event) {
     onExamReadyGet(null);
-    
+
     exam_ticket = $("#id_exam_ticket").val();
 
-    gold = Number($("#id_gold").html());    
+    gold = Number($("#id_gold").html());
     //$("#icon_gold").addClass("num-"+gold.toString());
-    
+
     var addgold = $("#id_add_gold").data('gold');
-    if(addgold>0) {
+    if (addgold > 0) {
         $("#id_add_gold").show();
     }
     else {
         $("#id_add_gold").hide();
-    }    
+    }
 
-    lock_mode = $("#id_cls_lock_mode").val()=="True";
+    lock_mode = $("#id_cls_lock_mode").val() == "True";
 
     progress = $("#id_progress").data('progress');
 
-    middle_idx = (progress>>1);
+    middle_idx = (progress >> 1);
 
     $.ajax({
         url: $('#notice_show').data('url'),
-        type: "GET",       
+        type: "GET",
         dataType: "json",
         success: onNoticesGet,
         error: failFunc
@@ -48,11 +48,11 @@ function onInit(event) {
 
     $.ajax({
         url: $('#exam_entrance').data('url'),
-        type: "GET",       
+        type: "GET",
         dataType: "json",
         success: onExamReadyGet,
     });
-    
+
 
     $('#l_m').css('background-size', '100% 100%');
     $('#l_uu').click(onNext);
@@ -63,9 +63,10 @@ function onInit(event) {
     $('#move_next').click(onPrev);
     $('#lesson_list_panel').on('mousewheel', onWheeling).on('DOMMouseScroll', onWheeling);
 
-    let order_list = JSON.parse($('#id_cls_order').val());
-    let temp_list = [];    
-    
+    let order_list = [];
+    if ($('#id_cls_order').val() != 'None') { order_list = JSON.parse($('#id_cls_order').val()); }
+    let temp_list = [];
+
     $('#class_list li').each(function (index, elem) {
         temp_list.push({
             'id': elem.dataset.id,
@@ -85,12 +86,12 @@ function onInit(event) {
             'use': iter.c,
         });
     }
-    if (progress==0) {
-        let next_pro_idx=-1;
-        while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) {}
+    if (progress == 0) {
+        let next_pro_idx = -1;
+        while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) { }
         progress = next_pro_idx << 1;
     }
-    
+
     $('#exam_his_list li').each(function (index, elem) {
         exam_his_list.push({
             'title': elem.dataset.title,
@@ -98,7 +99,7 @@ function onInit(event) {
         });
     });
     refreshExamHistory();
-    refreshBookList();    
+    refreshBookList();
 }
 
 function movingAnim() {
@@ -111,42 +112,42 @@ function movingAnim() {
 
     $('#l_m').css('background-size', '70% 70%');
     $('#l_m .lesson_label').removeClass("lesson_label-scaled");
-    setTimeout(refreshBookList, 400);     
+    setTimeout(refreshBookList, 400);
 }
 
 function onWheeling(event) {
     event.preventDefault();
     var value = event.originalEvent.wheelDelta || -event.originalEvent.detail;
-    if(value>0) {
-        onNext();        
+    if (value > 0) {
+        onNext();
     }
-    else if(value<0) {
+    else if (value < 0) {
         onPrev();
     }
 }
 
 function onPrev(event) {
-    nextidx = Math.min(lessonListData.length-1, middle_idx+1);
-    if( nextidx == middle_idx ) return;    
+    nextidx = Math.min(lessonListData.length - 1, middle_idx + 1);
+    if (nextidx == middle_idx) return;
 
     middle_idx = nextidx;
-    
+
     movingAnim();
     $('#l_b').css('background-size', '100% 100%');
-    $('#l_b span').css({'background-size':'100% 100%', 'opacity':'1'});
+    $('#l_b span').css({ 'background-size': '100% 100%', 'opacity': '1' });
     $('#l_b .lesson_label').addClass("lesson_label-scaled");
-    $('#lesson_inner').css('left', '-14.6784rem');    
+    $('#lesson_inner').css('left', '-14.6784rem');
 }
 
 function onNext(event) {
-    nextidx = Math.max(0, middle_idx-1);
-    if( nextidx == middle_idx ) return;    
+    nextidx = Math.max(0, middle_idx - 1);
+    if (nextidx == middle_idx) return;
 
     middle_idx = nextidx;
 
     movingAnim();
     $('#l_u').css('background-size', '100% 100%');
-    $('#l_u span').css({'background-size': '100% 100%', 'opacity': '1'});
+    $('#l_u span').css({ 'background-size': '100% 100%', 'opacity': '1' });
     $('#l_u .lesson_label').addClass("lesson_label-scaled");
     $('#lesson_inner').css('left', '0rem');
 }
@@ -181,7 +182,7 @@ function refreshBookList() {
     $('#l_b .lesson_label').removeClass("lesson_label-scaled");
     $('#l_m .lesson_label').addClass("lesson_label-scaled");
 
-    $('#l_m').css({'background-size': '100% 100%'});
+    $('#l_m').css({ 'background-size': '100% 100%' });
     $('#l_m span').css({ 'background-size': '100% 100%', 'opacity': '0.01' });
     updateListView();
     refreshCurrent();
@@ -195,7 +196,7 @@ function refreshCurrent() {
     if (isUsing(middle_idx)) {
         $('#lesson_pass').hide();
         $('#practice_pass').hide();
-        
+
         if (isLessonLock(middle_idx)) {
             $('#btn_lesson').removeAttr('href');
             $('#lesson_info').hide();
@@ -208,7 +209,7 @@ function refreshCurrent() {
             $('#lesson_locked').hide();
             $('#lesson_locked .icon_locker').addClass("fade-out");
         }
-    
+
         if (isPracLock(middle_idx)) {
             $('#btn_practice').removeAttr('href');
             $('#practice_info').hide();
@@ -217,9 +218,9 @@ function refreshCurrent() {
         }
         else {
             let next_pro_idx = middle_idx;
-            while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) {}
+            while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) { }
             console.log("next_pro_idx", next_pro_idx);
-            
+
             $('#btn_practice').prop('href', lessonListData[middle_idx]['purl'] + "?progress=" + Math.max(progress, (next_pro_idx << 1)).toString());
             $('#practice_info').show();
             $('#practice_locked').hide();
@@ -233,7 +234,7 @@ function refreshCurrent() {
         $('#practice_locked').hide();
         $('#lesson_pass').show();
         $('#practice_pass').show();
-    }    
+    }
 }
 
 //================================================================
@@ -245,16 +246,16 @@ function onNoticesGet(jsonData) {
     cur_idx = 0;
 
     if (notices_list.length > 0) {
-        setInterval('refresh_notice()', 5000); 
+        setInterval('refresh_notice()', 5000);
         refresh_notice();
     }
 }
 
 function refresh_notice() {
     if (notices_list.length <= 0) return;
-    if (cur_idx >= notices_list.length) {cur_idx = 0;}
+    if (cur_idx >= notices_list.length) { cur_idx = 0; }
 
-//    alert("---" + cur_idx + " - " + notices_list.length +  notices_list[cur_idx].content );
+    //    alert("---" + cur_idx + " - " + notices_list.length +  notices_list[cur_idx].content );
     $('#notice_show').html(notices_list[cur_idx].content);
     ++cur_idx;
     return;
@@ -282,17 +283,17 @@ function onExamReadyGet(jsonData) {
         }
         else {
             $('#btn_enter_exam').prop('href', "#").click(testfunc);
-        }        
-        
+        }
+
         var time_str = examination.start_time;
         time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
         $('#exam_starttime').html(time_str);
         time_str = examination.end_time;
         time_str = time_str.replace('-', '年').replace('-', '月').replace('T', '日 ');
         $('#exam_endtime').html(time_str);
-        
+
         $("#exam_open").show();
-        $("#exam_end").show();        
+        $("#exam_end").show();
         $("#btn_enter_exam").show();
         $("#exam_closed").hide();
         $("#exam_inner").removeClass("shirked").removeClass("extended").addClass('hasExam');
@@ -306,8 +307,8 @@ function onExamReadyGet(jsonData) {
         $('#exam_entrance').mouseenter(examExtend).mouseleave(examShirk);
         $("#exam_open").hide();
         $("#exam_end").hide();
-        $("#btn_enter_exam").hide();        
-        $("#exam_closed").show();        
+        $("#btn_enter_exam").hide();
+        $("#exam_closed").show();
     }
 }
 
@@ -324,29 +325,29 @@ function examShirk() {
 var exam_his_list = [];
 var his_index = 0;
 function refreshExamHistory() {
-    $("#his_prev").attr('disabled', (his_index==0) );
-    $("#his_next").attr('disabled', (his_index>=exam_his_list.length-1) );
-    if(exam_his_list[his_index]) {
+    $("#his_prev").attr('disabled', (his_index == 0));
+    $("#his_next").attr('disabled', (his_index >= exam_his_list.length - 1));
+    if (exam_his_list[his_index]) {
         $("#exam_check_title").html(exam_his_list[his_index].title);
-        $("#btn_exam_check").prop('href', exam_his_list[his_index].url);        
-        $("#exam_check").show();        
+        $("#btn_exam_check").prop('href', exam_his_list[his_index].url);
+        $("#exam_check").show();
         $("#exam_check_none").hide();
     }
     else {
-        $("#exam_check").hide();        
+        $("#exam_check").hide();
         $("#exam_check_none").show();
     }
 }
 function onHisPrev(event) {
     nextidx = Math.min(exam_his_list.length - 1, his_index + 1);
-    if( nextidx == his_index ) return;    
-    his_index = nextidx;    
+    if (nextidx == his_index) return;
+    his_index = nextidx;
     refreshExamHistory();
 }
 
 function onHisNext(event) {
-    nextidx = Math.max(0, his_index-1);
-    if( nextidx == his_index ) return;    
-    his_index = nextidx;    
+    nextidx = Math.max(0, his_index - 1);
+    if (nextidx == his_index) return;
+    his_index = nextidx;
     refreshExamHistory();
 }

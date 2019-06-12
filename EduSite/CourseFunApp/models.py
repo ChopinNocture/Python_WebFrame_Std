@@ -5,26 +5,26 @@ from django.utils import timezone
 # --------------------------------------------------------
 MAX_CONTENT_LENGTH = 250
 UNLOCK_NUMBER = 3
-
+MAX_JSON_LENGTH = 4096
 
 # --------------------------------------------------------
 class ClassSetting(models.Model):
     class_id = models.IntegerField()
-    practise_setting = models.CharField(max_length=1024)
+    practise_setting = models.CharField(max_length=MAX_JSON_LENGTH)
     prac_lock_mode = models.BooleanField(default=True)
     unlock_number = models.IntegerField(default=UNLOCK_NUMBER)
     exam_ticket = models.PositiveIntegerField(default=0)
-    quests_filter = models.CharField(max_length=2048, default='none')
-    lesson_order = models.CharField(max_length=2048, null=True, blank=True)
+    quests_filter = models.CharField(max_length=MAX_JSON_LENGTH, default='none')
+    lesson_order = models.CharField(max_length=MAX_JSON_LENGTH, null=True, blank=True)
 
 # --------------------------------------------------------
 class Examination(models.Model):
     title = models.CharField(max_length=MAX_CONTENT_LENGTH)
     duration = models.PositiveIntegerField()
-    question_list = models.TextField(max_length=2048, default='none')  # JSONField()
+    question_list = models.TextField(max_length=MAX_JSON_LENGTH, default='none')  # JSONField()
     start_time = models.DateTimeField(default=timezone.datetime.today())
     end_time = models.DateTimeField(default=timezone.datetime.today())
-    class_id_list = models.CharField(max_length=128, default='none')    # JSONField()
+    class_id_list = models.CharField(max_length=MAX_JSON_LENGTH, default='none')    # JSONField()
 
     def __str__(self):
         return self.title
@@ -34,7 +34,7 @@ class Examination(models.Model):
 class ExamAnswer(models.Model):
     exam = models.ForeignKey(Examination, on_delete=models.CASCADE )
     user_id = models.IntegerField()
-    answer_json = models.CharField(max_length=4096)    # JSONField()
+    answer_json = models.CharField(max_length=MAX_JSON_LENGTH)    # JSONField()
     score = models.IntegerField(default=0, blank=True)
     addition_score = models.IntegerField(default=0, blank=True)
 
@@ -78,7 +78,7 @@ class LessonContent(models.Model):
     file_type = models.CharField(max_length=20, choices=MEDIA_CHOICES, default='none', null=True, )
     file = models.FileField(upload_to=file_lesson_path, null=True, blank=True)
     content = models.TextField()
-    class_id_list = models.CharField(max_length=128)
+    class_id_list = models.CharField(max_length=MAX_JSON_LENGTH)
 
 
 # --------------------------------------------------------
@@ -140,7 +140,7 @@ class SortQuestion(Question):
 
 # 案例、简答题
 class CaseAnalyseQuestion(Question):
-    subQuestions = models.TextField(max_length=1024)  # JSONField()
+    subQuestions = models.TextField(max_length=MAX_JSON_LENGTH)  # JSONField()
 
 
 # 语音题

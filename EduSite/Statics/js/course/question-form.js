@@ -223,7 +223,7 @@ function updateQForm(data) {
 
         ic_btn("difficult").val($('#id_star').val());
         document.getElementById('Form_QuestionEditor').action = question_type + "/" + curr_qid + "/";
-        //eval(ParseFormFunc_Prefix + question_type + "()");
+        eval(ParseFormFunc_Prefix + question_type + "()");
         document.getElementById('btn_modify').innerHTML = "确认修改";
     }
     else {

@@ -195,6 +195,29 @@ def award_score(request):
         return HttpResponse("failed!")
 
 
+@login_required(login_url=settings.REDIRECT_LOGIN_URL)
+@course_required()
+def add_gold(request):    
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        if user_id==None:
+            cur_user = get_user(request)
+            if not isinstance(cur_user, AnonymousUser):
+                user_id = cur_user.id
+
+        try:
+            cur_prof = StudentProgressInfo.objects.using(request.db_name).get(user_id=user_id)
+            gold = int(request.POST.get('gold'))
+            cur_prof.gold = cur_prof.gold + gold
+            cur_prof.save()
+
+        except Exception as e:
+            print(e)
+        return JsonResponse({})
+    else:
+        return HttpResponse("failed!")
+
+
 @course_required()
 def update_progress(request):
     if request.method == "POST":    

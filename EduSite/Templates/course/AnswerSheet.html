@@ -47,7 +47,7 @@
             <span class="gold-icon-big succeed" style="vertical-align:middle;"></span> x <span style="vertical-align:middle;" id="stat_right">0</span>
             </h5>
             <!-- <button id="btn_back" class="btn btn-warning btn-lg align-right">结束答题</button> -->
-            <button href="{% url 'user:student' %}" onclick="onBreakClick(event)" id="btn_back" class="btn-circle-orange" onfocus="this.blur()" tabindex="-1"><span class="arrow-left"></span> 结束修炼</button>
+            <button href="{% url 'user:student' %}" id="btn_back" class="btn-circle-orange" onfocus="this.blur()" tabindex="-1"><span class="arrow-left"></span> 结束修炼</button>
         </div>
         <div id='q_progress'>
             <ul id="progress_list">
@@ -70,7 +70,7 @@
             修炼结束，你获得的<span class="gold-icon-big succeed"></span>将给你带来帮助！
         </h1>
         <button id="btn_back_main" class="btn-round-sky" 
-                data-url="{% url 'user:award_score' %}" 
+                data-url="{% url 'user:add_gold' %}" 
                 data-progurl="{% url 'user:update_progress' %}" 
                 data-progress="{{progress}}">知道啦!</button>
     </div>
