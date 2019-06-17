@@ -34,10 +34,6 @@ function onInit(event) {
 
     lock_mode = $("#id_cls_lock_mode").val() == "True";
 
-    progress = $("#id_progress").data('progress');
-
-    middle_idx = (progress >> 1);
-
     $.ajax({
         url: $('#notice_show').data('url'),
         type: "GET",
@@ -89,9 +85,12 @@ function onInit(event) {
     if (progress == 0) {
         let next_pro_idx = -1;
         while (++next_pro_idx < lessonListData.length && !lessonListData[next_pro_idx].use) { }
-        progress = next_pro_idx << 1;
+        progress = (next_pro_idx << 1);
     }
-
+    progress = Math.min(progress,  ((lessonListData.length - 1) << 1));
+    progress = $("#id_progress").data('progress');
+    middle_idx = Math.min(lessonListData.length - 1, (progress >> 1));    
+    
     $('#exam_his_list li').each(function (index, elem) {
         exam_his_list.push({
             'title': elem.dataset.title,
@@ -242,6 +241,8 @@ function refreshCurrent() {
 var notices_list = [];
 var cur_idx = 0;
 function onNoticesGet(jsonData) {
+    console.log("onNoticesGet", jsonData);
+    
     notices_list = jsonData;
     cur_idx = 0;
 
