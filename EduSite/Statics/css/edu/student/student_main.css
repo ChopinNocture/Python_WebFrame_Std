@@ -91,12 +91,6 @@ body {
     background-color: #fac785;    
 }
 
-
-#id_student_number {
-}
-#id_user {}
-#id_class_id {}
-
 #user_info label {
     position: relative; 
     top: -2.2rem;
@@ -133,8 +127,13 @@ body {
  /* border: 3px dashed; */        
 }
 
+#id_user {}
+#id_student_number {}
+#id_class_id {}
+
 #user_add {
-    left: 30rem;
+    
+    right: 10rem;
 }
 
 #icon_gold label {

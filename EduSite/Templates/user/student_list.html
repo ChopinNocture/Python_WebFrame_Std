@@ -1,5 +1,7 @@
 
     {% for stud in student_list %}
     <button type="button" class="list-group-item list-group-item-action list-group-item-secondary inline-block text-truncate" \
-            id="stud_{{stud.user}}" onfocus="blur()" data-url="{% url 'user:student_prof' student_id=stud.user %}">{{stud.user__username}}</button>
+            id="stud_{{stud.user}}" onfocus="blur()" data-url="{% url 'user:student_prof' student_id=stud.user %}" \
+            data-toggle="tooltip" data-placement="right" \
+            title="{{stud.user__username}}">{{stud.user__first_name}}&emsp;{{stud.user__username}}</button>
     {% endfor %}

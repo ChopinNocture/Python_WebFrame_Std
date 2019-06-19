@@ -100,6 +100,7 @@ def student_main(request):
 
     return render(request, 'user/student_main.html', 
                     {'stud_info': cur_info, 
+                    'user': cur_user,
                     'exam_ans_list': exam_ans_list,
                     'stud_cprof': cur_prof,
                     'add_gold': add_gold,
@@ -131,17 +132,17 @@ def student_list(request, class_id=None):
 
     if request.method == 'GET':
         if class_id is None:
-            stu_list = StudentProf.objects.all().values('user', 'user__username')
+            stu_list = StudentProf.objects.all().values('user', 'user__username', 'user__first_name')
         else:
-            stu_list = StudentProf.objects.filter(class_id=class_id).values('user', 'user__username')
+            stu_list = StudentProf.objects.filter(class_id=class_id).values('user', 'user__username', 'user__first_name')
 
         return render(request, 'user/student_list.html', {'student_list': stu_list})
     else:
         class_id = request.POST['class_id']
-        query_std_list = StudentProf.objects.filter(class_id=class_id).values('user', 'student_number', 'user__username')
+        query_std_list = StudentProf.objects.filter(class_id=class_id).values('user', 'student_number', 'user__username', 'user__first_name')
         std_list = list()
         for iter in query_std_list:
-            std_list.append({'uid': iter['user'], 'st_num': iter['student_number'], 'name': iter['user__username']})
+            std_list.append({'uid': iter['user'], 'st_num': iter['student_number'], 'name': iter['user__username'], 'first_name': iter['user__first_name']})
         return JsonResponse({'std_list': std_list})
 
 
