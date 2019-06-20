@@ -15,66 +15,6 @@
 
 {% block content %}
 <div id="root_panel">
-    <div class="" id="stud_prof">
-        <div class="row-fluid" id="prof_inner">            
-            <div id="user_info">
-                <span id="icon_user"></span>
-                <label id="id_user" style="font-size: 1.8em;color: white; top: -2rem;">{{user.first_name}}</label>
-                <label id="id_student_number"> 学号：{{ stud_info.student_number }} </label>
-                <label id="id_class_id"> {{ stud_info.class_id }}</label>
-                <input id="id_cls_lock_mode" type="checkbox" hidden value="{{ cls_set.prac_lock_mode }}"/>
-                <input id="id_cls_order" type="hidden" value="{{ cls_set.lesson_order }}" />
-                <input id="id_exam_ticket" type="hidden" value="{{ cls_set.exam_ticket }}" />
-            </div>
-            <div id="user_add"> 
-                <div id="icon_gold" class="num-0">
-                    <label id="id_gold">{{ stud_cprof.gold }}</label>
-                </div>
-                <span id='id_add_gold' data-gold='{{add_gold}}'>+{{add_gold}} 获得老师奖励！</span>
-                
-                <span id="id_progress" data-progress="{{ stud_cprof.progress }}" hidden></span>
-                <label id="id_rank" hidden>{{ stud_cprof.rank }}</label>
-                <label id="id_level" hidden>{{ stud_cprof.level }}</label>
-            </div>            
-        </div>
-    </div>
-
-    <div id="exam_history"
-        data-url="{% url 'course:exam_answer' examans_id=9999 %}">
-        <div id="history_inner">
-            <h3>试炼历史</h3>
-            <p id="exam_check_none">未参加过试炼</p>
-            <p id="exam_check"><span id="exam_check_title"></span>:
-                <a class="btn btn-success right" type="button" onclick="" id="btn_exam_check">进入查看</a>
-            </p>
-        </div>
-        <img src="{% static 'images\exam_icon.png' %}" id="history_icon"/>
-        <div id="exam_his_list" hidden>
-            <ul>
-                {% for exam_his in exam_ans_list %}
-                <li data-title="{{ exam_his.title }}" data-url="{% url 'course:exam_answer' examans_id=exam_his.id %}"></li>                
-                {% endfor %}
-            </ul>
-        </div>        
-        <button id="his_prev" onfocus="this.blur()" onclick="onHisPrev(event)" tabindex="-1"></button>
-        <button id="his_next" onfocus="this.blur()" onclick="onHisNext(event)" tabindex="-1"></button>
-    </div>
-
-    <div id="exam_entrance"
-        data-examurl="{% url 'course:exam_current' exam_id=0 %}"
-        data-url="{% url 'course:exam_ready'%}">
-        <div id="exam_inner">
-            <h3>试炼场</h3>
-            <p id="exam_closed">当前未开放</p>
-            <p id="exam_open">开放时间：<span id="exam_starttime">xxxxxxx</span></p>
-            <p id="exam_end">结束时间：<span id="exam_endtime">xxxxxxx</span></p>            
-            <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam"> 进入 </a>
-            <div></div>
-        </div>
-        <img src="{% static 'images\Shield.png' %}" id="exam_icon"/>
-        <img src="{% static 'images\Sword.png' %}" id="exam_icon_Sword" class="sword_shirk"/> 
-    </div>
-
     <div class="col-8" id="lesson_panel">
         <div id="girl_panel"></div>
         <div id="cur_lesson_panel">
@@ -152,6 +92,66 @@
                 {% endfor %}
             </ul>
         </div>
+    </div>
+
+    <div class="" id="stud_prof">
+        <div class="row-fluid" id="prof_inner">            
+            <div id="user_info">
+                <span id="icon_user"></span>
+                <label id="id_user" style="font-size: 1.8em;color: white; top: -2rem;">{{user.first_name}}</label>
+                <label id="id_student_number"> 学号：{{ stud_info.student_number }} </label>
+                <label id="id_class_id"> {{ stud_info.class_id }}</label>
+                <input id="id_cls_lock_mode" type="checkbox" hidden value="{{ cls_set.prac_lock_mode }}"/>
+                <input id="id_cls_order" type="hidden" value="{{ cls_set.lesson_order }}" />
+                <input id="id_exam_ticket" type="hidden" value="{{ cls_set.exam_ticket }}" />
+            </div>
+            <div id="user_add"> 
+                <div id="icon_gold" class="num-0">
+                    <label id="id_gold">{{ stud_cprof.gold }}</label>
+                </div>
+                <span id='id_add_gold' data-gold='{{add_gold}}'>+{{add_gold}} 获得老师奖励！</span>
+                
+                <span id="id_progress" data-progress="{{ stud_cprof.progress }}" hidden></span>
+                <label id="id_rank" hidden>{{ stud_cprof.rank }}</label>
+                <label id="id_level" hidden>{{ stud_cprof.level }}</label>
+            </div>            
+        </div>
+    </div>
+
+    <div id="exam_history"
+        data-url="{% url 'course:exam_answer' examans_id=9999 %}">
+        <div id="history_inner">
+            <h3>试炼历史</h3>
+            <p id="exam_check_none">未参加过试炼</p>
+            <p id="exam_check"><span id="exam_check_title"></span>:
+                <a class="btn btn-success right" type="button" onclick="" id="btn_exam_check">进入查看</a>
+            </p>
+        </div>
+        <img src="{% static 'images\exam_icon.png' %}" id="history_icon"/>
+        <div id="exam_his_list" hidden>
+            <ul>
+                {% for exam_his in exam_ans_list %}
+                <li data-title="{{ exam_his.title }}" data-url="{% url 'course:exam_answer' examans_id=exam_his.id %}"></li>                
+                {% endfor %}
+            </ul>
+        </div>        
+        <button id="his_prev" onfocus="this.blur()" onclick="onHisPrev(event)" tabindex="-1"></button>
+        <button id="his_next" onfocus="this.blur()" onclick="onHisNext(event)" tabindex="-1"></button>
+    </div>
+
+    <div id="exam_entrance"
+        data-examurl="{% url 'course:exam_current' exam_id=0 %}"
+        data-url="{% url 'course:exam_ready'%}">
+        <div id="exam_inner">
+            <h3>试炼场</h3>
+            <p id="exam_closed">当前未开放</p>
+            <p id="exam_open">开放时间：<span id="exam_starttime">xxxxxxx</span></p>
+            <p id="exam_end">结束时间：<span id="exam_endtime">xxxxxxx</span></p>            
+            <a class="btn btn-success right" type="button" onclick="" id="btn_enter_exam"> 进入 </a>
+            <div></div>
+        </div>
+        <img src="{% static 'images\Shield.png' %}" id="exam_icon"/>
+        <img src="{% static 'images\Sword.png' %}" id="exam_icon_Sword" class="sword_shirk"/> 
     </div>
 </div>
 <div class="" id="hanging_panel_left">

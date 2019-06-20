@@ -339,14 +339,14 @@ function refreshExamHistory() {
         $("#exam_check_none").show();
     }
 }
-function onHisPrev(event) {
+function onHisNext(event) {
     nextidx = Math.min(exam_his_list.length - 1, his_index + 1);
     if (nextidx == his_index) return;
     his_index = nextidx;
     refreshExamHistory();
 }
 
-function onHisNext(event) {
+function onHisPrev(event) {
     nextidx = Math.max(0, his_index - 1);
     if (nextidx == his_index) return;
     his_index = nextidx;
