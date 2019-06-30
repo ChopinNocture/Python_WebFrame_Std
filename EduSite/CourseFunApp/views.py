@@ -530,7 +530,7 @@ def exam_editor(request):
         
     elif request.method == "GET":
         class_list = ClassInfo.objects.all()
-        exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'end_time', 'title')
+        exam_list = Examination.objects.using(request.db_name).all().values('id', 'start_time', 'end_time', 'title', 'question_list')
         exam_list_html = loader.render_to_string(template_name="course/exam_list.html",
                                                  context={"exam_list": exam_list})
 

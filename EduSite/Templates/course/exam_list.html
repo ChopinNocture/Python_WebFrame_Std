@@ -1,6 +1,6 @@
 <div class="dropdown">
     <button class="btn btn-dark dropdown-toggle" type="button" id="exam_history_ls" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        已添加的考试列表
+        从历史考试创建
     </button>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exam_history_ls">
         {% for exam in exam_list %}
@@ -8,7 +8,9 @@
             type="button"
             onfocus="this.blur()"
             tabindex="-1"
-            data-eid={{exam.id}}>
+            onclick="selHistoryExam({{exam.id}}, {{exam.question_list}})"
+            data-eid={{exam.id}}
+            data-qlist={{exam.question_list}}>
             {{exam.title}} {{exam.start_time}}
         </button>
         {% endfor %}                        
