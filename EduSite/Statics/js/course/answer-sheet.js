@@ -37,6 +37,7 @@ function onInit(event) {
 
 //----------------------------------------------------------------
 function startUserMedia(stream) {
+    console.log(audio_context);
     var input = audio_context.createMediaStreamSource(stream);
     recorder = new Recorder(input);
 }
@@ -46,20 +47,36 @@ function initRecorder() {
         // webkit shim
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         window.URL = window.URL || window.webkitURL;
-        
-        audio_context = new AudioContext;
+
+        audio_context = new AudioContext();
     } catch (e) {
         console.log('浏览器音频设备不可用！将无法完成语音题！');
     }
-    
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+
+    var mediaFunc = null;
+    if (navigator.MediaDevices) {
+        mediaFunc = navigator.mediaDevices.getUserMedia;
+        mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
             alert('没有麦克风，语音题将无法完成！ ');
             console.log(e);
         });
     }
     else {
-        alert('浏览器不支持录音设备，语音题将无法完成！');
+        mediaFunc = (function () {
+            if (navigator.getUserMedia) {
+                return navigator.getUserMedia.bind(navigator)
+            }
+            if (navigator.webkitGetUserMedia) {
+                return navigator.webkitGetUserMedia.bind(navigator)
+            }
+            if (navigator.mozGetUserMedia) {
+                return navigator.mozGetUserMedia.bind(navigator)
+            }
+        })();
+        mediaFunc({ audio: true }, startUserMedia, function (e) {
+            alert('没有麦克风，语音题将无法完成！ ');
+            console.log(e);
+        });
     }
 }
 
