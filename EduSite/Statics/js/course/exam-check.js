@@ -305,3 +305,4 @@ function checkVoice(keyString, result_obj) {
 }
 
 var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
+var VOICE_ANSWER_HTML = '<div id="frame_recorder"> <div id="voice_reviewer"></div> </div>';

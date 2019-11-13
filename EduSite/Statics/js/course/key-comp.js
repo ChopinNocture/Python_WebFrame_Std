@@ -75,7 +75,7 @@ function refreshOptionByResult(jq_elem, isKey, jq_icon) {
 //-----------------------------------------------------
 // 语音题目
 function showKeyVoice(result, keyObject) {
-    $('#q_type_sheet').html(VOICE_KEY_HTML.replace('***', keyObject));
+    $('#q_type_sheet')[0].appendChild( $(VOICE_KEY_HTML.replace('***', keyObject))[0] );
     $("#au_key_voice").on('play', updateKeyController).on('ended', updateKeyController).on('pause', updateKeyController);
     $("#keyvoice_play").click(playKeyVoice);
     if (answer_audio != undefined) {
@@ -107,12 +107,12 @@ function playKeyVoice() {
 function updateKeyProgress() {
     var audio = $("#au_key_voice")[0];
     var perNum = (audio.currentTime / audio.duration) * 100
-    $("#keyvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+    $("#keyvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + k_duration_str );
 }
 
 function updateKeyController() {
     var audio = $("#au_key_voice")[0];
-    duration_str = formatTime(audio.duration);
+    k_duration_str = formatTime(audio.duration);
     if(audio.paused) {
         $("#keyvoice_play").removeClass("keyplaying").addClass("keypaused");
         $("#keyvoice_progress").removeClass("progress-bar-animated");
