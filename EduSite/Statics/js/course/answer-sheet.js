@@ -10,26 +10,26 @@ var qList_obj = null;
 var cur_idx = -1;
 var question_sum = 0;
 
-function onInit(event) {  
+function onInit(event) {
     csrf_Setup();
     initRecorder();
     $('#btn_submit').click(onSubmitClk)
-                    .mouseover(()=>{
-                        $('#pen_icon').addClass('pen_finish').removeClass('pen_doing');
-                    })
-                    .mouseout(()=>{
-                        $('#pen_icon').removeClass('pen_finish').addClass('pen_doing');
-                    });
+        .mouseover(() => {
+            $('#pen_icon').addClass('pen_finish').removeClass('pen_doing');
+        })
+        .mouseout(() => {
+            $('#pen_icon').removeClass('pen_finish').addClass('pen_doing');
+        });
 
     $('#btn_next').click(onNextClk);
     $('#btn_Prev').click(onPrevClk);
     $('#btn_back').click(onBreakClick);
     $('#btn_back_main').click(onBackMain);
 
-    onStartRecordingFunc = function() {
+    onStartRecordingFunc = function () {
         $('#btn_submit').hide();
     }
-    onStopRecordingFunc = function() {
+    onStopRecordingFunc = function () {
         $('#btn_submit').show();
     }
     ajaxSubmitJson(document.getElementById('qlist_form'), onQuestionListGet, failFunc);
@@ -115,12 +115,12 @@ function checkAnswer() {
     result_list[cur_idx] = result_json;
     result_json["qDesc"] = qList_obj.qList[cur_idx].description;
     //alert(cur_idx + '   ' + JSON.stringify(qList_obj.qList[cur_idx]) + '\n' + JSON.stringify(result_json));
-    if( result_json.complete ) {
-        showEffect(result_json.result, result_json["Voice"]); 
+    if (result_json.complete) {
+        showEffect(result_json.result, result_json["Voice"]);
         updateStat();
         showKeyFunc(result_json, qList_obj.qList[cur_idx].key);
     }
-    else{
+    else {
         alert('提交之前请完成题目!');
     }
 }
@@ -128,13 +128,13 @@ function checkAnswer() {
 const LI_HTML = '<li><span class="gold-icon **"/></li>';
 
 function updateStat() {
-    var right_sum=0, wrong_sum = 0;
+    var right_sum = 0, wrong_sum = 0;
     var list_html = "";
-    result_list.forEach(function(value,index,array) {
+    result_list.forEach(function (value, index, array) {
         var state_string = "";
 
         if (value['complete']) {
-            if (value['result']) {
+            if (value['result'] > 0) {
                 ++right_sum;
                 state_string = "succeed";
             } else {
@@ -156,7 +156,7 @@ function updateStat() {
     $('#progress_list').html(list_html);
 
     $('#stat_right').html(right_sum);
-    $('#stat_wrong').html(wrong_sum);    
+    $('#stat_wrong').html(wrong_sum);
 }
 
 function showEffect(isCorrect, isVoice) {
@@ -164,20 +164,20 @@ function showEffect(isCorrect, isVoice) {
     var effectTime = 3;
     var finisheFunc = null;
 
-    if(isVoice) {
+    if (isVoice) {
         $('#show_panel').hide();
         $('#btn_submit').hide();
         $('#btn_next').show();
         $('#q_type_tips').html(QTYPE_TIPS_MAP["VoiceRef"]);
     }
     else {
-        if(isCorrect) {
+        if (isCorrect >= 1) {
             $('#teacher').addClass('teacher-right');
             $('#effect_right').show().addClass("bg-scale-out");
             $('.icon-reward').addClass('win-effect');
-            
+
             effectTime = 1.8;
-            finisheFunc = ()=> {
+            finisheFunc = () => {
                 onNextClk();
             };
             $('#q_type_tips').html(QTYPE_TIPS_MAP["SUCCEED"]);
@@ -191,10 +191,10 @@ function showEffect(isCorrect, isVoice) {
             $('#effect_wrong').show();
             $('#sheet_bg_in').addClass('effect-wrong');
 
-            $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);        
+            $('#q_type_tips').html(QTYPE_TIPS_MAP["ERROR"]);
             playUIAudio("bilose.mp3");
         }
-        
+
         setTimeout(() => {
             $('.icon-reward').removeClass('win-effect');
             $('#effect_right').hide().removeClass('bg-scale-out');
@@ -202,11 +202,11 @@ function showEffect(isCorrect, isVoice) {
             $('#show_panel').hide();
             $('#sheet_bg_in').removeClass('effect-wrong');
 
-            if(finisheFunc != null) {
+            if (finisheFunc != null) {
                 finisheFunc();
             }
             //$('#sheet_bg_out').removeClass('effect-wrong');
-        }, effectTime * 1000);    
+        }, effectTime * 1000);
     }
 }
 
@@ -214,16 +214,16 @@ function onQuestionListGet(jsonData) {
     console.log('' + jsonData.qType_list.length + ' ' + jsonData.qList.length);
     qType_list = jsonData.qType_list;
     qList_obj = jsonData;
-    
-    question_sum = qList_obj.qList.length;    
-    result_list = Array.apply(null, Array(question_sum)).map(() => {return {'complete':false};});
-    
+
+    question_sum = qList_obj.qList.length;
+    result_list = Array.apply(null, Array(question_sum)).map(() => { return { 'complete': false }; });
+
     cur_idx = 0;
     //updateStat();
     update();
 }
 
-function update() {    
+function update() {
     $('#teacher').removeClass('teacher-right').removeClass('teacher-wrong');
     if (qList_obj != null && qList_obj.qList != null) {
         $('#question_index').html(cur_idx + 1);
@@ -244,7 +244,7 @@ function update() {
                 updateSound();
                 // 设置check函数
                 eval('checkAnswerFunc = check' + qtype);
-                eval('showKeyFunc = showKey' + qtype);                
+                eval('showKeyFunc = showKey' + qtype);
             }
             //            
         }
@@ -253,7 +253,7 @@ function update() {
 }
 
 function updateSound() {
-    $("input").click(function(){
+    $("input").click(function () {
         playUIAudio('fenlei.mp3');
     });
 }
@@ -282,14 +282,14 @@ function showFinalResult() {
     $('#btn_next').hide();
 
     $('#final_panel').show();
-    
+
     right_sum = $('#stat_right').html();
     unlock_number = $('#final_panel').data("unlock");
-    if( right_sum >= unlock_number ) {
+    if (right_sum >= unlock_number) {
         $.ajax({
             url: $('#btn_back_main').data('progurl'),
             type: 'post',
-            data: { "progress":  $('#btn_back_main').data('progress') },
+            data: { "progress": $('#btn_back_main').data('progress') },
             dataType: 'json',
             success: SucFunc
         });
@@ -312,20 +312,20 @@ function onBreakClick(event) {
 }
 
 function onBackMain(event) {
-    $(location).attr('href', $('#btn_back').attr('href') );
+    $(location).attr('href', $('#btn_back').attr('href'));
 }
 
-function SucFunc(info){
+function SucFunc(info) {
     console.log(info);
 }
 
 //--------------------------------------------------
 //-------------- check --------------
-function checkVoice() { 
+function checkVoice() {
     var result_json = { 'complete': !is_recording };
 
     result_json['answer'] = "";
-    result_json['result'] = true;
+    result_json['result'] = 1;
     result_json["Voice"] = true;
     return result_json;
 }

@@ -38,9 +38,14 @@ function checkFillInBlank(key_str) {
     result_json.complete = (answer_str.length > blank_num);
 
     result_json['answer'] = answer_str;
-    result_json['result'] = (answer_str == key_str);
-    console.log(key_str, answer_str);
 
+    var keyArray = key_str.split(KEY_SPLITER_SYMBOL);
+    var ansArray = answer_str.split(KEY_SPLITER_SYMBOL);
+    var num = 0;
+    for (const idx in keyArray) {
+        if (keyArray[idx] == ansArray[idx]) { ++num; }
+    }
+    result_json['result'] = (num / keyArray.length).toFixed(2);
     return result_json;
 }
 
@@ -70,7 +75,7 @@ function checkTrueOrFalse(key_bool) {
     result_json.complete = $('#TF_Right').prop('checked') || $('#TF_Wrong').prop('checked');
     if (result_json.complete) {
         result_json['answer'] = $('#TF_Right').prop('checked');
-        result_json['result'] = (key_bool == result_json['answer']);
+        result_json['result'] = (key_bool == result_json['answer']) ? 1 : 0;
     }
 
     return result_json;
@@ -115,7 +120,7 @@ function chk_Opt(key_str, key_type) {
 
     result_json.complete = (answer_str.length > 0);
     result_json['answer'] = answer_str;
-    result_json['result'] = (answer_str == key_str);
+    result_json['result'] = (answer_str == key_str) ? 1 : 0;
 
     return result_json;
 }
@@ -265,7 +270,7 @@ function checkSort(key_str) {
     }
     anse_str = anse_str.substring(0, anse_str.length - KEY_SPLITER_SYMBOL.length);
     result_json['answer'] = anse_str;//$('label[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
-    result_json['result'] = suc;
+    result_json['result'] = suc ? 1 : 0;
 
     return result_json;
 }
@@ -425,7 +430,7 @@ function checkCaseAnalyse(key_bool) {
     result_json.complete = false;
     if (result_json.complete) {
         result_json['answer'] = $('#TF_Right').prop('checked');
-        result_json['result'] = (key_bool == result_json['answer']);
+        result_json['result'] = (key_bool == result_json['answer']) ? 1 : 0;
     }
 
     return result_json;
@@ -467,7 +472,13 @@ function checkContract(key_str) {
     result_json.complete = (answer_str.length > blank_num);
 
     result_json['answer'] = answer_str;
-    result_json['result'] = (answer_str == key_str);
+    var keyArray = key_str.split(KEY_SPLITER_SYMBOL);
+    var ansArray = answer_str.split(KEY_SPLITER_SYMBOL);
+    var num = 0;
+    for (const idx in keyArray) {
+        if (keyArray[idx] == ansArray[idx]) { ++num; }
+    }
+    result_json['result'] = (num / keyArray.length).toFixed(2);
 
     return result_json;
 }

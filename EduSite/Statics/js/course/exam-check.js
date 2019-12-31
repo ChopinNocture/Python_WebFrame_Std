@@ -300,7 +300,7 @@ function checkVoice(keyString, result_obj) {
             });
         }
     }
-    result_json['result'] = true;
+    result_json['result'] = 1;
     return result_json;
 }
 

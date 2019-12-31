@@ -121,7 +121,6 @@ function sucGet(jsonData) {
             }
         }
     }
-    console.log("========", quests_filter, lesson_order);
     updateNumberDisp();
     updateModeSetting();
 }

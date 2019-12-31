@@ -491,8 +491,6 @@ function selHistoryExam(exam_id, qlist) {
 function fillInQuestionList(exam_info) {
     examination = exam_info;
 
-    console.log("-----", examination);
-
     for (var iter of type_list) {
         var sel_list = question_list_all[iter].forEach((item, index, array) => {
             if (examination[iter]) {

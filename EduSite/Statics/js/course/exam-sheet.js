@@ -386,7 +386,7 @@ function checkVoice(keyString, result_obj) {
             });
         }
     }
-    result_json['result'] = true;
+    result_json['result'] = 1;
     return result_json;
 }
 
@@ -424,9 +424,7 @@ function standardizeExam() {
                         "r": current.answers[j].result,
                         "a": current.answers[j].answer
                     });
-                    if (current.answers[j].result) {
-                        right_res += 1;
-                    }
+                    right_res += Number(current.answers[j].result);
                 }
                 else {
                     ar_result.push({ "c": false, "r": false, "a": '' });
