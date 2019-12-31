@@ -49,34 +49,35 @@ function initRecorder() {
         window.URL = window.URL || window.webkitURL;
 
         audio_context = new AudioContext();
-    } catch (e) {
-        console.log('浏览器音频设备不可用！将无法完成语音题！');
-    }
 
-    var mediaFunc = null;
-    if (navigator.MediaDevices) {
-        mediaFunc = navigator.mediaDevices.getUserMedia;
-        mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
-            alert('没有麦克风，语音题将无法完成！ ');
-            console.log(e);
-        });
-    }
-    else {
-        mediaFunc = (function () {
-            if (navigator.getUserMedia) {
-                return navigator.getUserMedia.bind(navigator)
-            }
-            if (navigator.webkitGetUserMedia) {
-                return navigator.webkitGetUserMedia.bind(navigator)
-            }
-            if (navigator.mozGetUserMedia) {
-                return navigator.mozGetUserMedia.bind(navigator)
-            }
-        })();
-        mediaFunc({ audio: true }, startUserMedia, function (e) {
-            alert('没有麦克风，语音题将无法完成！ ');
-            console.log(e);
-        });
+        var mediaFunc = null;
+        if (navigator.MediaDevices) {
+            mediaFunc = navigator.mediaDevices.getUserMedia;
+            mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
+                alert('没有麦克风，语音题将无法完成！ ');
+                console.log(e);
+            });
+        }
+        else {
+            mediaFunc = (function () {
+                if (navigator.getUserMedia) {
+                    return navigator.getUserMedia.bind(navigator)
+                }
+                if (navigator.webkitGetUserMedia) {
+                    return navigator.webkitGetUserMedia.bind(navigator)
+                }
+                if (navigator.mozGetUserMedia) {
+                    return navigator.mozGetUserMedia.bind(navigator)
+                }
+            })();
+            mediaFunc({ audio: true }, startUserMedia, function (e) {
+                alert('没有麦克风，语音题将无法完成！ ');
+                console.log(e);
+            });
+        }
+    } catch (e) {
+        console.warn('浏览器音频设备不可用！将无法完成语音题！');
+        alert('浏览器音频设备不可用！将无法完成语音题！');
     }
 }
 

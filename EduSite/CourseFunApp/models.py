@@ -149,6 +149,10 @@ class VoiceQuestion(Question):
     key = models.FileField(upload_to=file_voice_key_path, null=True, blank=True)
 
 
+# 合同题
+class ContractQuestion(Question):
+    key = models.TextField()
+
 # ---------------
 # 题目类方法
 def get_qType_class(qType_name: str):

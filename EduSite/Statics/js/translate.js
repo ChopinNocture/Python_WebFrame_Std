@@ -6,5 +6,6 @@ var TYPE_TRANS_LIST = {
     "Pair": "配对题",
     "Sort": "排序题",
     "CaseAnalyse": "案例与简答题",
-    "Voice": "语音题"
+    "Voice": "语音题",
+    "Contract": "合同题"
 }

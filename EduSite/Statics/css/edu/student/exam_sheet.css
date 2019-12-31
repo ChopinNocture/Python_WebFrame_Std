@@ -790,6 +790,11 @@ body {
     color: #34b946;
 }
 
+#voice_answer_frame {
+    margin: 0.6rem 1.6rem 0.4rem 3rem;
+    color: lightblue;
+}
+
 #frame_recorder {
     text-align: center;
     margin: 1rem 1rem 1rem 2rem;
@@ -801,4 +806,20 @@ body {
     font-size: 1rem;
     font-weight: bold;
     color: red;   
+}
+
+.cont_desc_panel {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.2em;
+    text-indent: 2em;
+    color: black;
+}
+
+#cont-key-panel {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.2em;
+    text-indent: 2em;
+    margin: 1.5rem 2.25rem 0rem 2.75rem;
 }

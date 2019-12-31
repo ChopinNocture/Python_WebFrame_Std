@@ -1,6 +1,7 @@
 var OPTION_SPLITER_SYMBOL = "|-|";
 var KEY_SPLITER_SYMBOL = ",";
 var FillInBlank_Key_Reg = /{@([\…\w\u4e00-\u9fa5]+)@}/g;
+var Contract_Key_Reg = /<u> *([\…\d\W\u4e00-\u9fa5 \-\.\%\/\[\]\{\}]+)<\/u>/g;
 
 var type_HTML = {
     'image': '<img src="***" alt="图片文件，需要支持HTML5 的浏览器" id="prev_control"/>',

@@ -130,11 +130,17 @@ function updateQList(jsonData) {
 
     var tempLine;
     var i = 0;
+    let desc = "";
     jsonData.forEach(function (iter, index, array) {
+        desc = iter.desc;
+        if (desc.length > 50) { 
+            desc = desc.replace(/<\/?[\S]*>/g, "");            
+            desc = desc.trim().substr(0, 20); 
+        }
         tempLine = $(QLIST_ITEM_STR)
             .clone()
-            .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title": iter.desc })
-            .html(iter.desc)
+            .attr({ "data-qid": iter.id, "id": QLIST_BTN_ID + i, "title": desc })
+            .html(desc)
             .tooltip()
             .click(onQListBtnClick);
 
@@ -900,3 +906,58 @@ var ic_btn = function (group = "") {
 }
 
 
+//-------------------------------------------------------
+// Question type: Contract
+//-------------------------------------------------------
+var contract_key_list = [];
+//-------------- refresh --------------
+function refreshContract() {
+    console.log("-----------------");
+    $('#id_description').change(refreshContractKeys);
+    if (with_value) {
+        refreshContractKeys();
+    }
+}
+
+var CONTRACT_KEY_HTML = '<div class="input-group mb-1 mr-sm-1"> <div class="input-group-prepend"> \
+                            <label style="width:98px" class="input-group-text text-info">填空答案 ** </label> \
+                           </div> <input type="text" id="text_option0" data-index="0" class="font-weight-bold form-control" value="--" disabled> </div>';
+
+function refreshContractKeys() {
+    var ques_str = $('#id_description').val();
+    $('#KeysPanel').empty();
+    var htmltext = "";
+    var key;
+    var i = 1;
+    contract_key_list = [];
+
+    ques_str = ques_str.replace(/<\/u> *<u>/g, "").replace(/&nbsp;/g, " ");
+    
+    $('#id_description').val(ques_str);
+    Contract_Key_Reg.lastIndex = 0;
+
+    let key_str = "";
+    while (key = Contract_Key_Reg.exec(ques_str)) {
+        key_str = key[1].trim();
+        contract_key_list.push(key_str);
+        htmltext += FILL_BLANK_KEY_HTML.replace("**", i.toString()).replace("--", key_str);
+        ++i;
+    }
+    $('#KeysPanel').html(htmltext);
+}
+
+//-------------- check --------------
+function checkContract() {
+    if (contract_key_list.length <= 0) {
+        alert("警告！答案未填写！");
+        return false;
+    }
+
+    var keyValue = contract_key_list.map(function (elem, index) { return elem; }).join(KEY_SPLITER_SYMBOL);
+    $('#id_key').val(keyValue);
+
+    return true;
+}
+
+//-------------- parseForm2Json ---------------
+function parseForm2JsonContract() {}
