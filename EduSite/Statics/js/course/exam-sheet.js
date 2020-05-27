@@ -352,8 +352,6 @@ function refreshAnswerVoice(answerString) {
 }
 
 function refreshAnswerContract(answerString) {
-    console.log("-----------", answerString);
-    
     var keyArray = answerString.split(KEY_SPLITER_SYMBOL)
     $('input[id^=blank_]').each(function (idx, elem) {
         $(elem).val(keyArray[idx]);

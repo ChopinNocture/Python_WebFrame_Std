@@ -168,8 +168,9 @@ function updateQuestion() {
         let res = false;
         if (answer_info[cur_type]["re"] && answer_info[cur_type]["re"][cur_idx] && answer_info[cur_type]["re"][cur_idx]['a'] != undefined) {
             refreshAnswer(answer_info[cur_type]["re"][cur_idx]['a'], examination[cur_type]["questions"][cur_idx]);
-            res = answer_info[cur_type]["re"][cur_idx]['r'];
+            res = answer_info[cur_type]["re"][cur_idx]['r'] >= 1;
         }
+        
         var result = {
             "result": res,
             "qDesc": examination[cur_type]["questions"][cur_idx].description
@@ -306,3 +307,12 @@ function checkVoice(keyString, result_obj) {
 
 var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
 var VOICE_ANSWER_HTML = '<div id="frame_recorder"> <div id="voice_reviewer"></div> </div>';
+
+
+//--------------------------------------------
+function refreshAnswerContract(answerString) {
+    var keyArray = answerString.split(KEY_SPLITER_SYMBOL)
+    $('input[id^=blank_]').each(function (idx, elem) {
+        $(elem).val(keyArray[idx]);
+    });
+}
