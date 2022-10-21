@@ -4,7 +4,7 @@
 
 {% if questionType == "TrueOrFalse" %}
 <br>
-{% elif questionType == "FillInBlank" %}
+{% elif questionType == "FillInBlank" or questionType == "Contract" %}
 <div id="KeysPanel" class="border-top border-warning pt-1 rounded">
 </div>
 <br>
@@ -21,6 +21,7 @@
                 <option value="MultiChoice">多项选择题</option>
                 <option value="Pair">配对题</option>
                 <option value="Sort">排序题</option>
+                <option value="Contract">合同题</option>
             </select>
         </div>
         <select class="form-control text-dark text-truncate" id="sub_question_sel">

@@ -107,9 +107,11 @@ function onGetQList(jsonData) {
 function updateExamInfo() {
     for (var iter in type_list) {
         typeIter = type_list[iter];
-        $('#per-score-' + typeIter).val(examination[typeIter].per_score);
-        $('#total-score-' + typeIter).val(examination[typeIter].sum_score);
-        $('#qType_num_' + typeIter).html(examination[typeIter].num);
+        if (examination[typeIter]) {
+            $('#per-score-' + typeIter).val(examination[typeIter].per_score);
+            $('#total-score-' + typeIter).val(examination[typeIter].sum_score);
+            $('#qType_num_' + typeIter).html(examination[typeIter].num);
+        }
     }
     $('#qlist_num').html(examination.total_num);
     $('#exam-total-score').val(examination.total_score);
@@ -122,11 +124,12 @@ function updateExamination() {
         var sel_list = question_list_all[typeIter].filter(function (item, index, array) {
             return item.selected;
         });
-
-        examination[typeIter].num = sel_list.length;
-        examination[typeIter].sum_score = examination[typeIter].per_score * examination[typeIter].num;
-        t_num += examination[typeIter].num;
-        t_score += examination[typeIter].sum_score;
+        if (examination[typeIter]) {
+            examination[typeIter].num = sel_list.length;
+            examination[typeIter].sum_score = examination[typeIter].per_score * examination[typeIter].num;
+            t_num += examination[typeIter].num;
+            t_score += examination[typeIter].sum_score;
+        }
     }
 
     examination.total_num = t_num;
@@ -192,8 +195,14 @@ function updateQList() {
     var tempLine;
     var css_cls = "";
     var sel_sum = 0, unsel_sum = 0;
+    let desc = "";
 
     curTypeList.forEach(function (iter, index, array) {
+        desc = iter.desc;
+        if (desc.length > 50) { 
+            desc = desc.replace(/<\/?[\S]*>/g, "");            
+            desc = desc.trim().substr(0, 20); 
+        }
         if (iter['selected']) {
             qListPanel = SL_Elem;
             css_cls = CSS_SEL_CLASS;
@@ -207,8 +216,8 @@ function updateQList() {
 
         tempLine = $(QLIST_ITEM_STR)
             .clone()
-            .attr({ "data-qindex": index, "id": QLIST_ID + index, "title": iter.desc, "data-secID": iter.secID })
-            .html(iter.desc)
+            .attr({ "data-qindex": index, "id": QLIST_ID + index, "title": desc, "data-secID": iter.secID })
+            .html(desc)
             .addClass(css_cls)
             .tooltip()
             .click(onQListBtnClick).dblclick(onQListBtnDoubleClick);
@@ -260,7 +269,7 @@ function updateBtn() {
     else {
         $('#btn_toggle').css('visibility', 'visible');
 
-        if (question_list_all[cur_type][cur_index].selected) {
+        if (question_list_all[cur_type] && question_list_all[cur_type][cur_index].selected) {
             //$('#magic_panel').removeClass("text-right").addClass("text-left");
             $('#btn_toggle').css({ 'left': '0px' }).removeClass('btn_to_right').removeClass("btn-warning").addClass("btn-danger").html('移出试卷 <span class="font-weight-bold text-warning oi oi-arrow-thick-right"></span>');
         }
@@ -350,8 +359,11 @@ function formCheckAndSet() {
     }
 
     for (var key in question_list_all) {
-        examination[key]['qlist'] = [];
-
+        if (examination[key]) {
+            examination[key]['qlist'] = [];
+        } else {
+            examination[key] = { 'per_score': 1, 'num': 0, 'sum_score': 0, 'qlist': [] };
+        }
         question_list_all[key].forEach(function (iter, index, array) {
             if (iter.selected) {
                 //iter.selected = false;
@@ -480,8 +492,10 @@ function fillInQuestionList(exam_info) {
     examination = exam_info;
 
     for (var iter of type_list) {
-        var sel_list = question_list_all[iter].forEach(function (item, index, array) {
-            item.selected = examination[iter].qlist.indexOf(item.id) != -1;
+        var sel_list = question_list_all[iter].forEach((item, index, array) => {
+            if (examination[iter]) {
+                item.selected = examination[iter].qlist.indexOf(item.id) != -1;
+            }
         });
     }
     //updateExamination();

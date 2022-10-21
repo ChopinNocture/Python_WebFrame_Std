@@ -143,6 +143,19 @@ class VoiceForm(ModelForm):
 
         labels = Q_LABELS_SETTING
 
+# 合同题
+class ContractForm(ModelForm):
+    sectionID = IntegerField(widget=HiddenInput)
+
+    class Meta:
+        model = ContractQuestion
+        fields = FIELD_LIST + ['key']
+        widgets = Q_WIDGETS_SETTING
+        widgets.update({
+            'key': HiddenInput()
+        })
+        labels = Q_LABELS_SETTING
+
 # ---------------
 # 题目Form方法
 current_module = __import__(__name__)

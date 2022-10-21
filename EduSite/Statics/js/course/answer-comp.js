@@ -1,6 +1,6 @@
 
 //=======================================================
-// FillInBlank TrueOrFalse Choice MultiChoice Pair Sort
+// FillInBlank TrueOrFalse Choice MultiChoice Pair Sort Contract
 //=======================================================
 //-------------------------------------------------------
 // Question type: FillInBlank
@@ -14,7 +14,7 @@ var blank_key_list = [];
 
 function refreshFillInBlank(question) {
     blank_key_list = [];
-    var i=0;
+    var i = 0;
 
     fill_desc = question.description.replace(FillInBlank_Key_Reg, function ($0, $1) {
         blank_key_list.push($1);
@@ -35,11 +35,17 @@ function checkFillInBlank(key_str) {
     var blank_num = -1;
     var answer_str = $('input[id^=blank_]').map(function () { ++blank_num; return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
 
-    result_json.complete = (answer_str.length>blank_num);
+    result_json.complete = (answer_str.length > blank_num);
 
     result_json['answer'] = answer_str;
-    result_json['result'] = (answer_str == key_str);
 
+    var keyArray = key_str.split(KEY_SPLITER_SYMBOL);
+    var ansArray = answer_str.split(KEY_SPLITER_SYMBOL);
+    var num = 0;
+    for (const idx in keyArray) {
+        if (keyArray[idx] == ansArray[idx]) { ++num; }
+    }
+    result_json['result'] = (num / keyArray.length).toFixed(2);
     return result_json;
 }
 
@@ -67,10 +73,10 @@ function checkTrueOrFalse(key_bool) {
     var result_json = { 'complete': false }
 
     result_json.complete = $('#TF_Right').prop('checked') || $('#TF_Wrong').prop('checked');
-    if(result_json.complete) {
+    if (result_json.complete) {
         result_json['answer'] = $('#TF_Right').prop('checked');
-        result_json['result'] = (key_bool == result_json['answer']);
-    }   
+        result_json['result'] = (key_bool == result_json['answer']) ? 1 : 0;
+    }
 
     return result_json;
 }
@@ -112,9 +118,9 @@ function chk_Opt(key_str, key_type) {
     var result_json = { 'complete': false };
     var answer_str = $('input:' + key_type + ':checked').map(function () { return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
 
-    result_json.complete = (answer_str.length>0);
+    result_json.complete = (answer_str.length > 0);
     result_json['answer'] = answer_str;
-    result_json['result'] = (answer_str == key_str);
+    result_json['result'] = (answer_str == key_str) ? 1 : 0;
 
     return result_json;
 }
@@ -130,7 +136,7 @@ function checkMultiChoice(key_str) {
 //-------------------------------------------------------
 // Question type: Pair
 //-------------------------------------------------------
-var id_replace_reg = new RegExp( 'cc' , "g" );
+var id_replace_reg = new RegExp('cc', "g");
 
 var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc">\
                             <span id="id_span_cc"></span>\
@@ -141,9 +147,9 @@ var PAIR_OPTION_HTML = '<div class="pair-line option-group" id="id_option_cc">\
 function swapData(curidx, taridx) {
     var curhtml = $('#sort_item_' + curidx).html();
     var curdata = $('#sort_item_' + curidx).get(0).dataset['opidx'];
-    
+
     var tarhtml = $('#sort_item_' + taridx).html();
-    var tardata = $('#sort_item_' + taridx).get(0).dataset['opidx'];   
+    var tardata = $('#sort_item_' + taridx).get(0).dataset['opidx'];
 
     $('#sort_item_' + curidx).html(tarhtml);
     $('#sort_item_' + curidx).get(0).dataset['opidx'] = tardata;
@@ -152,12 +158,12 @@ function swapData(curidx, taridx) {
 
 function onUpClick(event) {
     var curidx = parseInt(event.target.dataset['sortid']);
-    swapData(curidx, curidx-1);
+    swapData(curidx, curidx - 1);
 }
-         
+
 function onDownClick(event) {
-    var curidx = parseInt(event.target.dataset['sortid']);    
-    swapData(curidx, curidx+1);
+    var curidx = parseInt(event.target.dataset['sortid']);
+    swapData(curidx, curidx + 1);
 }
 
 function refreshPair(question) {
@@ -168,20 +174,20 @@ function refreshPair(question) {
     var option_list_r = question.rightOptions.split(OPTION_SPLITER_SYMBOL);
 
     var shuffled_op = tool_shuffle_list(option_list_r.length);
-    
+
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
         html_str += PAIR_OPTION_HTML.replace(id_replace_reg, i)
-                                    .replace('##', option_list_l[i])
-                                    .replace('$$', option_list_r[shuffled_op[i]])
-                                    .replace('~~', shuffled_op[i]);
+            .replace('##', option_list_l[i])
+            .replace('$$', option_list_r[shuffled_op[i]])
+            .replace('~~', shuffled_op[i]);
     }
     $('#q_type_sheet').html(html_str);
-    $('#up_0').css('visibility','hidden');
-    $('#down_'+(option_list_r.length-1)).css('visibility','hidden');    
+    $('#up_0').css('visibility', 'hidden');
+    $('#down_' + (option_list_r.length - 1)).css('visibility', 'hidden');
 }
 
-function checkPair(key_str) { 
+function checkPair(key_str) {
     return checkSort(key_str);
 }
 //-------------------------------------------------------
@@ -204,24 +210,24 @@ function dragleave(event) {
 }
 
 function drag(event) {
-    if(event.target.dataset['sortid']==null) return false;
+    if (event.target.dataset['sortid'] == null) return false;
     event.dataTransfer.setData('sortid', event.target.dataset['sortid']);// parentNode.id);
-    event.dataTransfer.effectAllowed = 'copy'; 
+    event.dataTransfer.effectAllowed = 'copy';
 }
 
-function drop(event) {    
+function drop(event) {
     event.preventDefault();
     $(event.target).removeClass('dropable');
-    if(event.target.dataset['sortid']== null) return false;
+    if (event.target.dataset['sortid'] == null) return false;
     //alert(event.target);
     var id = event.dataTransfer.getData("sortid");
 
-    if(id==''||id==null) return false;
+    if (id == '' || id == null) return false;
 
     swapData(id, event.target.dataset['sortid']);
 }
 
-function allowDrop(event){
+function allowDrop(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'copy';
     return false;
@@ -233,20 +239,20 @@ function refreshSort(question) {
     $('#q_description').html(question.description);
     question['key'] = question.options;
 
-    var option_list = question.options.split(OPTION_SPLITER_SYMBOL);    
+    var option_list = question.options.split(OPTION_SPLITER_SYMBOL);
     var shuffled_op = tool_shuffle_list(option_list.length);
-    
+
     var html_str = '';
     for (var i = 0; i < shuffled_op.length; ++i) {
         html_str += SORTABLE_OPTION_HTML.replace(id_replace_reg, i)
-                                        .replace('##', option_list[shuffled_op[i]])
-                                        .replace('~~', shuffled_op[i]);
+            .replace('##', option_list[shuffled_op[i]])
+            .replace('~~', shuffled_op[i]);
     }
     $('#q_type_sheet').html(html_str);
     //alert(shuffled_op);
 }
 
-function checkSort(key_str) { 
+function checkSort(key_str) {
     //alert("hgaha");
     var suc = true;
     $('label[id^=' + SORT_OP_ID + ']').each(function (index) {
@@ -257,14 +263,14 @@ function checkSort(key_str) {
 
     var result_json = { 'complete': true };
     var idx = 0;
-    var anse_str="";
-    while( $("#" + SORT_OP_ID + idx.toString())[0]!=undefined) {
+    var anse_str = "";
+    while ($("#" + SORT_OP_ID + idx.toString())[0] != undefined) {
         anse_str = anse_str + $("#" + SORT_OP_ID + idx.toString()).data('opidx') + KEY_SPLITER_SYMBOL;
         ++idx;
     }
-    anse_str = anse_str.substring(0, anse_str.length-KEY_SPLITER_SYMBOL.length );
+    anse_str = anse_str.substring(0, anse_str.length - KEY_SPLITER_SYMBOL.length);
     result_json['answer'] = anse_str;//$('label[id^=' + SORT_OP_ID + ']').map(function(){ return this.dataset['opidx'];}).get().join(KEY_SPLITER_SYMBOL);
-    result_json['result'] = suc;
+    result_json['result'] = suc ? 1 : 0;
 
     return result_json;
 }
@@ -273,10 +279,10 @@ function checkSort(key_str) {
 // Question type: Voice
 //-------------------------------------------------------
 //-------------- refresh --------------
-function refreshVoice(question) {    
+function refreshVoice(question) {
     is_recording = false;
-    $('#q_description').html(question.description 
-                            + VOICE_CONTROL_HTML.replace('***', question.qVoice ) );
+    $('#q_description').html(question.description
+        + VOICE_CONTROL_HTML.replace('***', question.qVoice));
     $('#q_type_sheet').html(VOICE_ANSWER_HTML);
     $("#au_q_voice").on('play', updateController).on('ended', updateController).on('pause', updateController);
     $("#qvoice_play").click(playQVoice);
@@ -294,11 +300,11 @@ var VOICE_CONTROL_HTML = '<br><audio src="/uploaded/***" alt="音频文件，需
 var timer, duration_str;
 function playQVoice() {
     var audio = $("#au_q_voice")[0];
-    if(audio.paused) {
-        audio.play();        
+    if (audio.paused) {
+        audio.play();
         timer = setInterval(updateProgress, 20)
     }
-    else{
+    else {
         audio.pause();
         clearInterval(timer);
     }
@@ -306,20 +312,20 @@ function playQVoice() {
 
 function updateProgress() {
     var audio = $("#au_q_voice")[0];
-    if(audio==undefined || audio==null ) {
+    if (audio == undefined || audio == null) {
         clearInterval(timer);
         return;
     }
     else {
         var perNum = (audio.currentTime / audio.duration) * 100
-        $("#qvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+        $("#qvoice_progress").css("width", perNum.toString() + "%").html(formatTime(audio.currentTime) + " / " + duration_str);
     }
 }
 
 function updateController() {
     var audio = $("#au_q_voice")[0];
     duration_str = formatTime(audio.duration);
-    if(audio.paused) {
+    if (audio.paused) {
         $("#qvoice_play").removeClass("playing").addClass("paused");
         $("#qvoice_progress").removeClass("progress-bar-animated");
     }
@@ -340,7 +346,7 @@ var maxTime = 60, rtime = 0;
 var re_timer;
 var answer_audio;
 function onToggleRecord(button) {
-    if(is_recording) {
+    if (is_recording) {
         stopRecording();
     }
     else {
@@ -352,9 +358,9 @@ var onStartRecordingFunc, onStopRecordingFunc;
 
 function startRecording() {
     if (recorder != undefined) {
-        if(onStartRecordingFunc) {
+        if (onStartRecordingFunc) {
             onStartRecordingFunc();
-        }        
+        }
         is_recording = true;
         $("#voice_recorder").addClass("recording");
         recorder.clear();
@@ -367,17 +373,17 @@ function startRecording() {
 function updateRecordTime() {
     rtime = rtime + 1;
     $('#voice_reviewer').html("" + rtime + "秒/" + maxTime + "秒");
-    if( rtime>= maxTime ) {
+    if (rtime >= maxTime) {
         stopRecording();
-    }    
+    }
 }
 
 function stopRecording() {
-    if (is_recording) {   
+    if (is_recording) {
         clearInterval(re_timer);
         is_recording = false;
         $("#voice_recorder").removeClass("recording");
-        
+
         recorder && recorder.stop();
         // create WAV download link using audio data blob
         $('#voice_reviewer').html("");
@@ -397,7 +403,7 @@ function createReviewer() {
         au.src = url;
         $('#voice_reviewer')[0].appendChild(au);
         answer_audio = au;
-        if(onStopRecordingFunc) {
+        if (onStopRecordingFunc) {
             onStopRecordingFunc();
         }
     });
@@ -422,10 +428,57 @@ function checkCaseAnalyse(key_bool) {
     var result_json = { 'complete': false }
 
     result_json.complete = false;
-    if(result_json.complete) {
+    if (result_json.complete) {
         result_json['answer'] = $('#TF_Right').prop('checked');
-        result_json['result'] = (key_bool == result_json['answer']);
-    }   
+        result_json['result'] = (key_bool == result_json['answer']) ? 1 : 0;
+    }
+
+    return result_json;
+}
+
+
+//-------------------------------------------------------
+// Question type: Contract
+//-------------------------------------------------------
+//---- refresh ----
+var CONT_INPUT_HTML = '<input type="text" class="blank-input" id="blank_**" placeholder="" style="width:??em"></input>';
+
+var contract_key_list = [];
+
+function refreshContract(question) {
+    contract_key_list = [];
+    var i = 0;
+
+    let contract_html = question.description.replace(Contract_Key_Reg, ($0, $1) => {
+        contract_key_list.push($1.trim());
+        //contract_key_list
+        let len = Math.max(6, Math.min(30, $1.length >> 1));
+        let htmltext = CONT_INPUT_HTML.replace("**", i.toString()).replace("??", len.toString());
+        ++i;
+        return htmltext;
+    });
+
+    $('#q_description').html("<div class='cont_desc_panel'>" + contract_html + "</div>");
+
+    let html_str = '<div id="cont-key-panel"></div>';
+    $('#q_type_sheet').html(html_str);
+}
+
+function checkContract(key_str) {
+    var result_json = { 'complete': false };
+    var blank_num = -1;
+    var answer_str = $('input[id^=blank_]').map(function () { ++blank_num; return $(this).val(); }).get().join(KEY_SPLITER_SYMBOL);
+
+    result_json.complete = (answer_str.length > blank_num);
+
+    result_json['answer'] = answer_str;
+    var keyArray = key_str.split(KEY_SPLITER_SYMBOL);
+    var ansArray = answer_str.split(KEY_SPLITER_SYMBOL);
+    var num = 0;
+    for (const idx in keyArray) {
+        if (keyArray[idx] == ansArray[idx]) { ++num; }
+    }
+    result_json['result'] = (num / keyArray.length).toFixed(2);
 
     return result_json;
 }

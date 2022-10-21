@@ -35,7 +35,7 @@ class ExamAnswer(models.Model):
     exam = models.ForeignKey(Examination, on_delete=models.CASCADE )
     user_id = models.IntegerField()
     answer_json = models.CharField(max_length=MAX_JSON_LENGTH)    # JSONField()
-    score = models.IntegerField(default=0, blank=True)
+    score = models.FloatField(default=0, blank=True)
     addition_score = models.IntegerField(default=0, blank=True)
 
 
@@ -148,6 +148,10 @@ class VoiceQuestion(Question):
     qVoice = models.FileField(upload_to=file_voice_question_path, null=True, blank=True)
     key = models.FileField(upload_to=file_voice_key_path, null=True, blank=True)
 
+
+# 合同题
+class ContractQuestion(Question):
+    key = models.TextField()
 
 # ---------------
 # 题目类方法

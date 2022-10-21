@@ -98,6 +98,12 @@ function sucGet(jsonData) {
         unlock_num = jsonData["unlock_number"];
         if (jsonData["qf"] != 'none') {
             quests_filter = jsonData["qf"];
+            for (var iter of qType_list) {
+                if(!quests_filter.hasOwnProperty(iter)) {
+                    prac_num_json_data[iter] = 0;
+                    quests_filter[iter] = [];
+                }                
+            }
         }
         lesson_order = jsonData['order'];
         console.log("Get:", course_list, lesson_order);

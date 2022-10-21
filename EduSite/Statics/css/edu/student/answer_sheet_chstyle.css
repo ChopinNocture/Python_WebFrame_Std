@@ -375,3 +375,11 @@ body {
 .gold-icon-failed {
     content: url('/Statics/images/failed.png');    
 }
+
+#cont-key-panel {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.2em;
+    text-indent: 2em;
+    margin: 1.5rem 2.25rem 0rem 2.75rem;
+}

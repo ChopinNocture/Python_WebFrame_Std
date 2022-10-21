@@ -33,7 +33,7 @@ function checkCookie() {
     if (uid == undefined || user_id != uid) {
         document.cookie = 'user_id=' + user_id + ";path=cookieDir;";
         document.cookie = 'e_ans=empty;path=cookieDir;';
-        document.cookie = 'e_st=0;path=cookieDir;';
+        document.cookie = 'e_st=0;path=cookieDir;';        
     }
 }
 
@@ -49,23 +49,37 @@ function initRecorder() {
         // webkit shim
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         window.URL = window.URL || window.webkitURL;
-        audio_context = new AudioContext();
-    }
-    catch (e) {
-        alert('浏览器不支持音频!');
-    }
 
-    var mediaFunc = null;
-    if (navigator.MediaDevices) { mediaFunc = navigator.mediaDevices.getUserMedia; }
-    else { mediaFunc = navigator.getUserMedia; }
-    if (mediaFunc) {
-        mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
-            alert('没有麦克风，语音题将无法完成！ ');
-            console.log(e);
-        });
-    }
-    else {
-        alert('浏览器不支持录音设备，语音题将无法完成！');
+        audio_context = new AudioContext();
+        
+        var mediaFunc = null;
+        if (navigator.MediaDevices) {
+            mediaFunc = navigator.mediaDevices.getUserMedia;
+            mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
+                alert('没有麦克风，语音题将无法完成！ ');
+                console.log(e);
+            });
+        }
+        else {
+            mediaFunc = (function () {
+                if (navigator.getUserMedia) {
+                    return navigator.getUserMedia.bind(navigator)
+                }
+                if (navigator.webkitGetUserMedia) {
+                    return navigator.webkitGetUserMedia.bind(navigator)
+                }
+                if (navigator.mozGetUserMedia) {
+                    return navigator.mozGetUserMedia.bind(navigator)
+                }
+            })();
+            mediaFunc({ audio: true }, startUserMedia, function (e) {
+                alert('没有麦克风，语音题将无法完成！ ');
+                console.log(e);
+            });
+        }
+    } catch (e) {
+        console.warn('浏览器音频设备不可用！将无法完成语音题！');
+        alert('浏览器音频设备不可用！将无法完成语音题！');
     }
 }
 
@@ -108,7 +122,7 @@ function refresh_clock() {
     }
     else {
         submitExam();
-    }
+    }    
 }
 
 function update() {
@@ -333,9 +347,18 @@ function refreshAnswerVoice(answerString) {
         au.controls = true;
         au.src = answerString;
         $('#voice_reviewer')[0].appendChild(au);
+        $('#voice_reviewer')[0].appendChild($('<p>答案已经上传，不能修改。</p>')[0]);
     }
 }
 
+function refreshAnswerContract(answerString) {
+    var keyArray = answerString.split(KEY_SPLITER_SYMBOL)
+    $('input[id^=blank_]').each(function (idx, elem) {
+        $(elem).val(keyArray[idx]);
+    });
+}
+
+let sub_blob = null;
 function checkVoice(keyString, result_obj) {
     var result_json = { 'complete': !is_recording };
 
@@ -345,11 +368,12 @@ function checkVoice(keyString, result_obj) {
     else {
         result_json['answer'] = "";
         if (cur_voice_blob != null) {
-            var formData = new FormData();
+            sub_blob = cur_voice_blob;
+            var formData = new FormData();            
             formData.append("type", cur_type);
             formData.append("index", cur_idx);
-            formData.append("voice", cur_voice_blob);
-
+            formData.append("voice", sub_blob);
+            cur_voice_blob = null;
             $.ajax({
                 url: $("#exam_form").data("voiceAnswerUrl"),
                 type: 'post',
@@ -360,11 +384,11 @@ function checkVoice(keyString, result_obj) {
             });
         }
     }
-    result_json['result'] = true;
+    result_json['result'] = 1;
     return result_json;
 }
 
-var VOICE_SUBMIT_HTML = '<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
+var VOICE_SUBMIT_HTML = '<p id="btn_voice_submit">继续考试或者提交试卷，答案将上传。</p>'; //'<button id="btn_voice_submit" onclick="voiceSubmit(event)" class="btn-round-sky" onfocus="this.blur()" tabindex="-1" >上传语音答案</button>';
 function voiceRecEnd() {
     if ($("#btn_voice_submit")[0] == undefined || $("#btn_voice_submit")[0] == null) {
         $("#frame_recorder")[0].appendChild($(VOICE_SUBMIT_HTML)[0]);
@@ -372,7 +396,7 @@ function voiceRecEnd() {
 }
 
 function onVoiceFileSubmitted(jsonData) {
-    examination[jsonData['type']]["answers"][jsonData['index']]['answer'] = jsonData['fileName']
+    examination[jsonData['type']]["answers"][jsonData['index']]['answer'] = jsonData['fileName'];
 }
 
 function voiceSubmit(event) {
@@ -398,9 +422,7 @@ function standardizeExam() {
                         "r": current.answers[j].result,
                         "a": current.answers[j].answer
                     });
-                    if (current.answers[j].result) {
-                        right_res += 1;
-                    }
+                    right_res += Number(current.answers[j].result);
                 }
                 else {
                     ar_result.push({ "c": false, "r": false, "a": '' });
@@ -426,7 +448,7 @@ function getCookie(name) {
 
 function recoverAnswerFromCookie() {
     var ansStr = getCookie('e_ans');
-    if (ansStr && ansStr != 'empty') {
+    if (ansStr && ansStr!='empty') {
         answer_info = $.parseJSON(ansStr);
         for (var i in qType_list) {
             recoverTypeAnswer(qType_list[i]);

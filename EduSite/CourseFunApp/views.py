@@ -106,7 +106,7 @@ def get_question_list_by_ids(request):
 @course_required()
 def question_editor(request):
     course_html = get_lesson_list_html(request)
-    
+    print(".......", exam_sys.q_type_list)
     return render(request=request, template_name="course/questionEditor.html",
                   context={"qTypeList": exam_sys.q_type_list, "course_html": course_html, 'course_desc': request.course_desc, 'is_admin': is_admin_teacher(request.user)})
 
@@ -432,7 +432,8 @@ def answer_sheet(request, sectionID):
                     context = {"section_name": lesson.description, 
                                 "unlock_number": unlock_number,
                                 "progress": request.GET.get("progress")})
-    else:        
+    else:     
+        print("--*/-", id_list_json)
         question_dict = exam_sys.generate_question_set(db_name=request.db_name, sectionID=lesson, num_json=num_json, id_list_json=id_list_json, flag=0x01)
         return JsonResponse(question_dict)
 

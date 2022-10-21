@@ -13,24 +13,24 @@ function showKeyFillInBlank(result, keyObject) {
         return FIB_KEY_HTML.replace("**", $1);;
     });
 
-    $('#FIB-key-panel').html(key_desc);   
+    $('#FIB-key-panel').html(key_desc);
     //alert("xxx");
 }
 
 function showKeyTrueOrFalse(result, keyObject) {
     refreshOptionByResult($('#TF_Right'), keyObject, $('#span_r'));
-    refreshOptionByResult($('#TF_Wrong'), !keyObject, $('#span_w'));    
+    refreshOptionByResult($('#TF_Wrong'), !keyObject, $('#span_w'));
 }
 
 function showKeyChoice(result, keyObject) {
-    $('input[id^=id_option_]').each(function(idx, elem){
-        refreshOptionByResult($(elem), keyObject == elem.value, $('#id_span_'+idx));
+    $('input[id^=id_option_]').each(function (idx, elem) {
+        refreshOptionByResult($(elem), keyObject == elem.value, $('#id_span_' + idx));
     });
 }
 
 function showKeyMultiChoice(result, keyObject) {
-    $('input[id^=id_option_]').each(function(idx, elem){
-        refreshOptionByResult($(elem), keyObject.indexOf(elem.value)!=-1, $('#id_span_'+idx));
+    $('input[id^=id_option_]').each(function (idx, elem) {
+        refreshOptionByResult($(elem), keyObject.indexOf(elem.value) != -1, $('#id_span_' + idx));
     });
 }
 
@@ -38,7 +38,7 @@ function showKeyPair(result, keyObject) {
     var key_list = keyObject.split(OPTION_SPLITER_SYMBOL);
     $('label[id^=' + SORT_OP_ID + ']').each(function (index, elem) {
         //alert('  0  ' + index + '  ' + this.dataset['opidx']);
-        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_'+index), key_list[index]);
+        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_' + index), key_list[index]);
     });
 }
 
@@ -47,14 +47,14 @@ function showKeySort(result, keyObject) {
 
     $('label[id^=' + SORT_OP_ID + ']').each(function (index, elem) {
         //alert('  0  ' + index + '  ' + this.dataset['opidx']);
-        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_'+index), key_list[index]);
-    });    
+        refreshSortByResult($(elem), (index == elem.dataset['opidx']), $('#id_span_' + index), key_list[index]);
+    });
 }
 
 function refreshSortByResult(jq_elem, isKey, jq_icon, key_html) {
-    var cssName = isKey ? 'checked-key': 'no-key';
+    var cssName = isKey ? 'checked-key' : 'no-key';
     jq_elem.addClass(cssName);
-    cssName = isKey ? 'checked-key': 'checked-no';
+    cssName = isKey ? 'checked-key' : 'checked-no';
     jq_icon.addClass('icon-' + cssName);
     jq_elem.html(key_html).attr("draggable", false).addClass('option-item-disabled');
 }
@@ -75,7 +75,7 @@ function refreshOptionByResult(jq_elem, isKey, jq_icon) {
 //-----------------------------------------------------
 // 语音题目
 function showKeyVoice(result, keyObject) {
-    $('#q_type_sheet').html(VOICE_KEY_HTML.replace('***', keyObject));
+    $('#q_type_sheet')[0].appendChild($(VOICE_KEY_HTML.replace('***', keyObject))[0]);
     $("#au_key_voice").on('play', updateKeyController).on('ended', updateKeyController).on('pause', updateKeyController);
     $("#keyvoice_play").click(playKeyVoice);
     if (answer_audio != undefined) {
@@ -94,11 +94,11 @@ var VOICE_KEY_HTML = '<div id="voice_key_frame"><div id="answer_voice_key"></div
 var k_timer, k_duration_str;
 function playKeyVoice() {
     var audio = $("#au_key_voice")[0];
-    if(audio.paused) {
-        audio.play();        
+    if (audio.paused) {
+        audio.play();
         k_timer = setInterval(updateKeyProgress, 20)
     }
-    else{
+    else {
         audio.pause();
         clearInterval(k_timer);
     }
@@ -107,13 +107,13 @@ function playKeyVoice() {
 function updateKeyProgress() {
     var audio = $("#au_key_voice")[0];
     var perNum = (audio.currentTime / audio.duration) * 100
-    $("#keyvoice_progress").css("width", perNum.toString() + "%").html( formatTime(audio.currentTime) +" / " + duration_str );
+    $("#keyvoice_progress").css("width", perNum.toString() + "%").html(formatTime(audio.currentTime) + " / " + k_duration_str);
 }
 
 function updateKeyController() {
     var audio = $("#au_key_voice")[0];
-    duration_str = formatTime(audio.duration);
-    if(audio.paused) {
+    k_duration_str = formatTime(audio.duration);
+    if (audio.paused) {
         $("#keyvoice_play").removeClass("keyplaying").addClass("keypaused");
         $("#keyvoice_progress").removeClass("progress-bar-animated");
     }
@@ -121,4 +121,20 @@ function updateKeyController() {
         $("#keyvoice_play").addClass("keyplaying").removeClass("keypaused");
         $("#keyvoice_progress").addClass("progress-bar-animated");
     }
+}
+
+
+var CONTRACT_KEY_HTML = '<font class="correct-text">**</font>';
+function showKeyContract(result, keyObject) {
+    var keyArray = keyObject.split(KEY_SPLITER_SYMBOL)
+    $('input[id^=blank_]').each((idx, elem) => {
+        $(elem).attr("disabled", true).addClass(($(elem).val() == keyArray[idx]) ? 'correct' : 'wrong');
+    });
+
+    key_desc = result["qDesc"].replace(Contract_Key_Reg, ($0, $1) => {
+        return CONTRACT_KEY_HTML.replace("**", $1);
+    });
+
+    $('#cont-key-panel').html(key_desc);
+    //alert("xxx");
 }
