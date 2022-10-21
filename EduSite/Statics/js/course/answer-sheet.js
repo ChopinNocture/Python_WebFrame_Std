@@ -52,8 +52,11 @@ function initRecorder() {
         console.log('浏览器音频设备不可用！将无法完成语音题！');
     }
     
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+    var mediaFunc = null;
+    if (navigator.MediaDevices) { mediaFunc = navigator.mediaDevices.getUserMedia; }
+    else { mediaFunc = navigator.getUserMedia; }
+    if (mediaFunc) {
+        mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
             alert('没有麦克风，语音题将无法完成！ ');
             console.log(e);
         });

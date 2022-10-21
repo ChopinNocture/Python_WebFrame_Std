@@ -33,7 +33,7 @@ function checkCookie() {
     if (uid == undefined || user_id != uid) {
         document.cookie = 'user_id=' + user_id + ";path=cookieDir;";
         document.cookie = 'e_ans=empty;path=cookieDir;';
-        document.cookie = 'e_st=0;path=cookieDir;';        
+        document.cookie = 'e_st=0;path=cookieDir;';
     }
 }
 
@@ -49,14 +49,17 @@ function initRecorder() {
         // webkit shim
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         window.URL = window.URL || window.webkitURL;
-        audio_context = new AudioContext;
+        audio_context = new AudioContext();
     }
     catch (e) {
         alert('浏览器不支持音频!');
     }
 
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(startUserMedia).catch(function (e) {
+    var mediaFunc = null;
+    if (navigator.MediaDevices) { mediaFunc = navigator.mediaDevices.getUserMedia; }
+    else { mediaFunc = navigator.getUserMedia; }
+    if (mediaFunc) {
+        mediaFunc({ audio: true }).then(startUserMedia).catch(function (e) {
             alert('没有麦克风，语音题将无法完成！ ');
             console.log(e);
         });
@@ -105,7 +108,7 @@ function refresh_clock() {
     }
     else {
         submitExam();
-    }    
+    }
 }
 
 function update() {
@@ -423,7 +426,7 @@ function getCookie(name) {
 
 function recoverAnswerFromCookie() {
     var ansStr = getCookie('e_ans');
-    if (ansStr && ansStr!='empty') {
+    if (ansStr && ansStr != 'empty') {
         answer_info = $.parseJSON(ansStr);
         for (var i in qType_list) {
             recoverTypeAnswer(qType_list[i]);
