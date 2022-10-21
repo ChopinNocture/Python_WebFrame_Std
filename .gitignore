@@ -111,3 +111,4 @@ EduSite/DB/course_A.sqlite3
 EduSite/uploaded/
 
 .VSCodeCounter/
+.idea/workspace.xml
