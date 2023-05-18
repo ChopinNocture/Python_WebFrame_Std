@@ -101,14 +101,15 @@ EduSite/NoticeApp/migrations/
 EduSite/TestApp/migrations/
 EduSite/CourseFunApp/migrations/
 EduSite/AccountApp/migrations/
+EduSite/StatisticApp/migrations/
 EduSite/.vscode/settings.json
 EduSite/.vscode/launch.json
 EduSite/UserInfoSync/migrations/
 EduSite/DB/db.sqlite3
 EduSite/DB/course_B.sqlite3
 EduSite/DB/course_A.sqlite3
-.idea/workspace.xml
+.idea/
 EduSite/uploaded/
 
 .VSCodeCounter/
-.idea/workspace.xml
+

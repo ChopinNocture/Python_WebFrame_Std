@@ -34,6 +34,7 @@ urlpatterns = [
     path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
     url(r'^accounts/callback$', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
     path('sync/', include('UserInfoSync.urls')),
+    path('statistic/', include('StatisticApp.urls', namespace='statistic')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

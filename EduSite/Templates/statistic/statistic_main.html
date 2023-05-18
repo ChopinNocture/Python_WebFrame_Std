@@ -1,0 +1,55 @@
+{% extends "base_bs_style.html" %} 
+{% load static %} 
+{% block title %}Statistic{% endblock %} 
+{% block jsPage %}
+<!--script src="https://cdn.jsdelivr.net/npm/chart.js"></script-->
+<!--script src="https://unpkg.com/@antv/g2@5.0.0-beta.12/dist/g2.min.js"></script-->
+<script type="text/javascript" src="{% static 'js/libs/g2.min.js' %}"></script>
+
+<script>
+    // 准备数据
+    const data = [
+      { genre: 'Sports', sold: 275 },
+      { genre: 'Strategy', sold: 115 },
+      { genre: 'Action', sold: 120 },
+      { genre: 'Shooter', sold: 350 },
+      { genre: 'Other', sold: 150 },
+    ];
+  
+    // 初始化图表实例
+    const chart = new G2.Chart({
+      container: 'container',
+    });
+  
+    // 声明可视化
+    chart
+      .interval() // 创建一个 Interval 标记
+      .data(data) // 绑定数据
+      .encode('x', 'genre') // 编码 x 通道
+      .encode('y', 'sold'); // 编码 y 通道
+  
+    // 渲染可视化
+    chart.render();
+  </script>
+
+{% endblock %} 
+
+{% block content %} 
+{% csrf_token %}
+<h2 class="text-center font-weight-bold p-1 text-danger text_outline ">课程统计</h2>
+<div class="container border border-dark mx-5 py-4 rounded bg_gray_d2u">
+    <div class="row">
+        <div id="container"></div>
+    </div>
+</div>
+
+{% endblock %}
+{% block header %} 
+{{ course.description }}
+{% include "user/teacher_header.html" %} 
+{% endblock %}
+
+{% block pageInclude %}
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/notice_editor.css' %}"/>    
+{% endblock %} 
