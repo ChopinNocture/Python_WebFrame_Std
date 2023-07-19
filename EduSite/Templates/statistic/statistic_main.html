@@ -5,9 +5,59 @@
 <!--script src="https://cdn.jsdelivr.net/npm/chart.js"></script-->
 <!--script src="https://unpkg.com/@antv/g2@5.0.0-beta.12/dist/g2.min.js"></script-->
 <script type="text/javascript" src="{% static 'js/libs/g2.min.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/libs/chart.js' %}"></script> -->
+<!-- <script type="text/javascript" src="{% static 'js/libs/chart.min.js' %}"></script> -->
+
 
 <script>
-    // 准备数据
+  //------------------------------- Quest part
+    const quest_data = [];
+    {% for quest in course_stat.quest_stat %}
+    quest_data.push({ type: TYPE_TRANS_LIST["{{quest.type}}"], value: {{quest.sum}} });
+    {% endfor %}
+  
+const scaleColor = (node) =>
+  node.scale('color', {
+    palette: 'cool',
+    offset: (t) => t * 0.8 + 0.1,
+  });
+
+    // 初始化图表实例
+    const quest_chart = new G2.Chart({
+      container: 'quest_chart',
+      theme: 'classic',
+      //autoFit: true,
+      // height: 500,
+      // padding: [50, 20, 50, 20],
+    });
+
+    const layer = quest_chart.spaceLayer().data(quest_data);
+    //quest_chart
+    layer
+      .interval() // 创建一个 Interval 标记
+      //.data(quest_data) // 绑定数据
+      .encode('x', 'type')
+      .encode('y', 'value')
+      .call(scaleColor);
+      //.axis('y', { labelFormatter: '.0%' });
+      //.axis('value', false);
+    layer
+      .interval()
+      .transform({ type: 'stackY' })
+  .encode('y', 'value')
+  .encode('color', 'id')
+  .style('radius', 4)
+  .style('stroke', '#fff')
+  .style('lineWidth', 2)
+  .animate('enter', { type: 'waveIn' })
+  .legend(false);
+    quest_chart.render();
+
+
+</script>
+
+<script>
+    // 准备数据    
     const data = [
       { genre: 'Sports', sold: 275 },
       { genre: 'Strategy', sold: 115 },
@@ -19,6 +69,7 @@
     // 初始化图表实例
     const chart = new G2.Chart({
       container: 'container',
+      theme: 'classic',
     });
   
     // 声明可视化
@@ -37,10 +88,19 @@
 {% block content %} 
 {% csrf_token %}
 <h2 class="text-center font-weight-bold p-1 text-danger text_outline ">课程统计</h2>
+<div class="row">
+  <label class="input-group-text">教师总数</label><label class="input-group-text">{{overview.sum.teacher}}</label>
+  <label class="input-group-text">学生总数</label><label class="input-group-text">{{overview.sum.student}}</label>
+  <label class="input-group-text">课程总数</label><label class="input-group-text">{{overview.sum.course}}</label>
+  <label class="input-group-text">班级总数</label><label class="input-group-text">{{overview.sum.class}}</label>
+</div>
 <div class="container border border-dark mx-5 py-4 rounded bg_gray_d2u">
-    <div class="row">
-        <div id="container"></div>
-    </div>
+  <div class="row">
+    <div id="container"></div>
+  </div>
+  <div class="row">
+    <div id="quest_chart"></div>
+  </div>
 </div>
 
 {% endblock %}
