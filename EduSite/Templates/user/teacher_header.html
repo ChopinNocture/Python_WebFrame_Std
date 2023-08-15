@@ -2,13 +2,13 @@
     <div class="collapse navbar-collapse w-75" id="navbarNav">
         <ul class="navbar-nav w-75">
             <li class="nav-item w-50">
-                <a class="nav-link" href={% url 'course:question-editor' %} draggable="false">题库管理</a>
+                <a class="nav-link" href="{% url 'course:question-editor' %}" draggable="false">题库管理</a>
             </li>
             <li class="nav-item w-50">
-                <a class="nav-link" href={% url 'course:lesson_editor' %} draggable="false">资料管理</a>
+                <a class="nav-link" href="{% url 'course:lesson_editor' %}" draggable="false">资料管理</a>
             </li>
             <li class="nav-item w-50">
-                <a class="nav-link" href={% url 'user:student_manager' %} draggable="false">学生管理</a>
+                <a class="nav-link" href="{% url 'user:student_manager' %}" draggable="false">学生管理</a>
             </li>
             <li class="nav-item w-50">
                 <a class="nav-link" href="{% url 'course:exam_editor' %}" draggable="false">考试管理</a>
@@ -18,6 +18,9 @@
             </li>        
             <li class="nav-item w-50">
                 <a class="nav-link" href="{% url 'notice:public' %}" draggable="false">公告管理</a>
+            </li>
+            <li class="nav-item w-50">
+                <a class="nav-link" href="{% url 'statistic:statistic' %}" draggable="false">大数据中心</a>
             </li>
         </ul>
     </div>    

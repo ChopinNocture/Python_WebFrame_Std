@@ -5,101 +5,650 @@
 <!--script src="https://cdn.jsdelivr.net/npm/chart.js"></script-->
 <!--script src="https://unpkg.com/@antv/g2@5.0.0-beta.12/dist/g2.min.js"></script-->
 <script type="text/javascript" src="{% static 'js/libs/g2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/libs/moment.min.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'js/libs/chart.js' %}"></script> -->
 <!-- <script type="text/javascript" src="{% static 'js/libs/chart.min.js' %}"></script> -->
 
-
 <script>
-  //------------------------------- Quest part
-    const quest_data = [];
-    {% for quest in course_stat.quest_stat %}
-    quest_data.push({ type: TYPE_TRANS_LIST["{{quest.type}}"], value: {{quest.sum}} });
-    {% endfor %}
+//------------------------------- Quest part -------------------------------
+  const quest_data = [];
+  {% for quest in course_stat.quest_stat %}
+  quest_data.push({ type: TYPE_TRANS_LIST["{{quest.type}}"], value: {{quest.sum}} });
+  {% endfor %}
   
-const scaleColor = (node) =>
-  node.scale('color', {
-    palette: 'cool',
-    offset: (t) => t * 0.8 + 0.1,
-  });
+  const scaleColor = (node) =>
+    // node.scale('color', {
+    //   palette: 'spectral',
+    //   offset: (t) => t * 0.8 + 0.1,
+    // });
+    node.scale('color', { palette: 'tableau10' });
 
     // 初始化图表实例
     const quest_chart = new G2.Chart({
       container: 'quest_chart',
-      theme: 'classic',
-      //autoFit: true,
-      // height: 500,
-      // padding: [50, 20, 50, 20],
+      theme: 'academy',
+      autoFit: true,    
+      paddingLeft: 60,
     });
 
-    const layer = quest_chart.spaceLayer().data(quest_data);
-    //quest_chart
-    layer
+    quest_chart
       .interval() // 创建一个 Interval 标记
+      .data(quest_data)
+      // .attr('y', 10)
+      // .attr('width', 800)
+      // .attr('height', 400)
       //.data(quest_data) // 绑定数据
       .encode('x', 'type')
       .encode('y', 'value')
+      .encode('color', 'type')
+      .scale('x', { independent: true })
+      .scale('y', { independent: true })
+      .axis('x', {
+        labelSpacing: 4,
+        title: "题 型",
+        label: "",
+        style: {
+          titleSpacing: 20,
+          titleFontSize: 24, 
+          titleFill: "#FFFFFF",
+          titleStroke: '#888888',
+          //titleFontWeight: 'bold' 
+        }        
+      })
+      .axis('y', {
+        labelSpacing: 8,
+        title: "数 量",
+        style: {
+          labelStroke: "#FFFFFF",
+          labelFontSize: 16,
+          titleSpacing: 22,
+          titleFontSize: 24, 
+          titleFill: "#FFFFFF",
+          titleStroke: '#888888',
+        }        
+      })      
+      .label({ 
+        text: 'type', 
+        position: 'inside',
+        formatter: (str) => {
+          return str.split("").join("\n");
+        },
+        style: { 
+          textBaseline: 'alphabetic',
+          fill: '#FFF',
+          fontSize: 20, 
+          fontWeight: 'bold' 
+        } 
+      })
+      .legend('color', { 
+        title: false,
+        style: {
+          itemLabelFontSize: 18,
+          itemLabelFontWeight: 'bold',
+          itemLabelFill: "#FFFFFF",
+          offset: -12,
+        },
+      })
+      .tooltip({ name: '数量', channel: "y" })
+      .animate('enter', { type: 'growInY' })      
       .call(scaleColor);
-      //.axis('y', { labelFormatter: '.0%' });
+      
       //.axis('value', false);
-    layer
+    
+    const quest_ratio_chart = new G2.Chart({
+      container: 'quest_ratio_chart',
+      theme: 'academy',
+      autoFit: true,
+      // padding: [50, 20, 50, 20],
+    });
+
+    quest_ratio_chart
       .interval()
+      .data(quest_data)
+      //.attr('padding', 50)
+      // .attr('paddingRight', 50)
+      // .attr('right', "0")
+      // .attr('x',500)
+      // .attr('y', 50)
+      //.attr('width', 400)
+      // .attr('height', 250)
+      .coordinate({ type: 'theta' })
       .transform({ type: 'stackY' })
-  .encode('y', 'value')
-  .encode('color', 'id')
-  .style('radius', 4)
-  .style('stroke', '#fff')
-  .style('lineWidth', 2)
-  .animate('enter', { type: 'waveIn' })
-  .legend(false);
+      .encode('y', 'value')
+      .encode('color', 'type')
+      .style('radius', 4).style('inset', 1)
+      .style('stroke', '#fff')
+      .style('lineWidth', 2)
+      .animate('enter', { type: 'waveIn' })
+      .label({ 
+        text: 'type', 
+        position: "spider",
+        transform: [{
+            type: 'overlapDodgeY',
+        }],
+        style: {           
+          fill: '#FFF',
+          fontSize: 16, 
+          fontWeight: 'bold' 
+        }
+      })
+      .label({ 
+        text: 'value', 
+        position: "inside",
+        transform: [{
+            type: 'overlapDodgeY',
+        }],
+        style: { 
+          textBaseline: 'top',
+          fill: '#FFF',
+          fontSize: 20, 
+          fontWeight: 'normal',
+          radius: 0.66,
+          //dy: 20
+        }
+      })
+      .call(scaleColor)
+      //.attr('ratio', [2, 1])
+      .legend(false);
+
     quest_chart.render();
-
-
+    quest_ratio_chart.render();
 </script>
 
 <script>
-    // 准备数据    
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 },
-    ];
+  //------------------------------- Lesson part -------------------------------
+  var lesson_data = [];
+  {% for lesson in course_stat.lesson_list %}
+  lesson_data.push({ id: {{lesson.id}}, desc: "{{lesson.description}}", num: 0 });
+  {% endfor %}
+
+  var les;
+  {% for iter in course_stat.lesson_res %}
+  les = lesson_data.find((elem)=>{ return elem.id=={{iter.lesson}}; });
+  if (les) {
+    les.num++;
+  }
+  {% endfor %}
+
+  function splitAndAddPrefix(inputString, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < inputString.length; i += chunkSize) {
+      const chunk = inputString.substr(i, chunkSize);
+      chunks.push(`#${chunk}`);
+    }
+    //console.log(chunks);
+    return chunks;
+  }
+
+  const chartColor = "a6cee31f78b4b2df8a33a02cfb9a99e31a1cfdbf6fff7f00cab2d66a3d9affff99b15928";
+  // 初始化图表实例
+  const lesson_chart = new G2.Chart({
+    container: 'lesson_chart',
+    theme: 'academy',
+    autoFit: true,
+    //paddingLeft: 60,
+    padding: 50,
+  });
+
+  lesson_chart
+    .coordinate({ transform: [{ type: 'transpose' }] })
+    .interval()
+    .data(lesson_data)
+    .transform({ type: 'sortX', reverse: false })
+    .encode('x', 'id')
+    .encode('y', 'num')
+    .encode('color', 'id')
+    .scale('color', { range: splitAndAddPrefix(chartColor, 6) })
+    .scale('y', { padding: 0.5 })
+    .axis('x', {
+        labelSpacing: 4,
+        title: "课程章节",
+        titlePosition: "t",
+        label: "",
+        style: {
+          titleSpacing: 10,
+          titleFontSize: 18, 
+          titleFill: "#FFFFFF",
+          titleFontWeight: 'bold' 
+        }        
+      })
+    .axis('y', {
+      labelSpacing: 8,
+      title: "数量",
+      style: {
+        titleSpacing: 14,
+        labelStroke: "#FFFFFF",
+        titleFontSize: 16, 
+        titleFill: "#FFFFFF",
+        labelFontSize: 12,
+      },
+    })
+    .label({ 
+      text: 'desc', 
+      position: 'left',
+      formatter: (text, data)=>{return data.desc + "  ( " + data.num + " )";},
+      style: { 
+        textAlign: "left",
+        //textAnchor: 'left',
+        //textBaseline: 'top',
+        fontWeight: "bold",
+        fill: '#000',
+        stroke: "#FFFFFF",
+        strokeOpacity: 0.5,
+        fontSize: 16,
+      } 
+    })
+    .tooltip({ channel: "y", title: (data)=>(data.desc), name: '资料数量' })
+    .legend(false)
+
+  lesson_chart.render();
+</script>
+
+<script>
+  //------------------------------- Exam part -------------------------------
+  csrf_Setup();
+
+  const numColor = (node) =>
+    node.scale('color', { palette: 'orRd' });
+
+  const exam_score_chart = new G2.Chart({
+    container: 'exam_score_chart',
+    theme: 'classic',
+    autoFit: true,
+    paddingLeft: 40,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingBottom: 40,
+    marginLeft: 20,
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 80
+  });
+
+  var exam_date_data = [];
+  exam_score_chart
+    .point()
+    .data(exam_date_data.map((value, index)=>({index:index, ...value})))
+    .transform({ type: 'stackY', y1: 'y' })
+    .encode('x', (d) => d.score)
+    .encode('y', (d) => (1))//d.gender === 'M' ? 1 : -1
+    // .axis('y', { title: 'time (day)', grid: true })
+    // .axis('x', { title: 'time (month)', grid: true })
+    .encode('color', (d) => (d.score < 60 ? 0 : 1))
+    .encode('shape', 'point')
+    .scale('color', { range: ['red', 'green'] })
+    .scale('x', { nice: true })
+    .scale('y', { domainMin: 0 })
+    .axis('x', { 
+      title: '分数 →', 
+      grid: true,
+      style: {
+          titleSpacing: 14,
+          titleFontSize: 20, 
+          titleFill: "#FF2222",
+          titleFontWeight: 'bold',
+          gridStroke: "#a0a0a0",
+          gridStrokeOpacity: 80,
+          labelFontSize: 14,
+        } 
+    })
+    .axis('y', {
+      tick: true,
+      tickCount: 5,
+      min: 10,
+      title: ' 学生人数 →',
+      grid: true,
+      style: {
+          titleSpacing: 20,
+          titleFontSize: 24, 
+          titleFill: "#222222",
+          titleFontWeight: 'bold',
+          gridStroke: "#ffffff",
+          gridStrokeOpacity: 50,
+          labelFontSize: 14,
+        },
+      labelFormatter: (d) => `${Math.abs(+d)}`,
+    })
+    .tooltip({ channel: 'x', name: '分数' })
+    .animate('enter', { type: 'fadeIn' })
+    .legend(false);
   
-    // 初始化图表实例
-    const chart = new G2.Chart({
-      container: 'container',
-      theme: 'classic',
+  //=========================
+  // 分数分段统计
+  var exam_data = [
+    { genre: '通过', num: 0, percent: 0 },
+    { genre: '未通过', num: 0, percent: 0 },
+  ];
+
+  // 初始化图表实例
+  const exam_chart = new G2.Chart({
+    container: 'exam_chart',
+    theme: 'academy',
+    autoFit: true,
+    paddingLeft: 10,
+    paddingTop: 20,
+    paddingRight: 30,
+    paddingBottom: 30,
+    marginLeft: 20,
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 80
+  });
+
+  // 声明可视化
+  exam_chart
+    .coordinate({ type: 'theta', innerRadius: 0.25, outerRadius: 0.8 })
+    .interval() // 创建一个 Interval 标记
+    .transform({ type: 'stackY' })
+    .data(exam_data) // 绑定数据
+    .encode('y', 'num')
+    .encode('color', 'genre')
+    .label({
+        text: 'percent',
+        formatter: ".2%",
+        style: {
+          fontSize: 14,
+          fontWeight: 'normal',
+          //offset: -8,
+        },
+      })
+    .label({
+      text: "num",
+      position: "spider",
+      formatter: (d) => (d + "人"),
+      style: {
+          fontSize: 12,
+          fontWeight: 'bold',
+      }
+    })
+    .style('stroke', 'white')
+    .scale('color', {
+      range: ['#4caf50', '#8bc34a', '#ffc107', '#ff9800', '#f44336'],
+    })
+    .legend('color', { 
+      title: false,
+      style: {
+        itemLabelFontSize: 12,
+        itemLabelFontWeight: 'bold',
+        offset: -12,
+      },
+    })
+    .animate('enter', { type: 'waveIn' });
+
+  // // 渲染可视化
+  exam_chart.render();
+
+  //exam_date_data.push({ id: {{iter.id}}, date: "{{iter.start_time}}", title: "{{iter.title}}" });
+  //=================================================
+  function updateChart(jsonData) {
+    // console.log(jsonData);
+    // 初始化分段统计对象
+    const gradeSegments = {
+      "90-100": 0,
+      "80-89": 0,
+      "70-79": 0,
+      "60-69": 0,
+      "低于 60": 0,
+    };
+    
+    let ex_sum = jsonData.length;
+    jsonData.forEach(data => {
+      let grade = data.score;
+      if (grade >= 90 && grade <= 100) {
+        gradeSegments["90-100"]++;
+      } else if (grade >= 80 && grade <= 89) {
+        gradeSegments["80-89"]++;
+      } else if (grade >= 70 && grade <= 79) {
+        gradeSegments["70-79"]++;
+      } else if (grade >= 60 && grade <= 69) {
+        gradeSegments["60-69"]++;
+      } else {
+        gradeSegments["低于 60"]++;
+      }
     });
+    exam_data = [
+      { genre: "90-100", num: gradeSegments["90-100"], percent: gradeSegments["90-100"]/ex_sum },
+      { genre: "80-89", num: gradeSegments["80-89"], percent: gradeSegments["80-89"]/ex_sum },
+      { genre: "70-79", num: gradeSegments["70-79"], percent: gradeSegments["70-79"]/ex_sum },
+      { genre: "60-69", num: gradeSegments["60-69"], percent: gradeSegments["60-69"]/ex_sum },
+      { genre: "低于 60", num: gradeSegments["低于 60"], percent: gradeSegments["低于 60"]/ex_sum },      
+    ];
+    exam_chart.changeData(exam_data);
+    // var maxValue = 10;// jsonData.reduce((max, item) => (item.score > max ? item.score : max), 10);
+    // maxValue = Math.max(maxValue, 10);
+
+    //==================================
+    exam_score_chart.changeData(jsonData.map((value, index)=>({index, ...value})));
+  }  
   
-    // 声明可视化
-    chart
-      .interval() // 创建一个 Interval 标记
-      .data(data) // 绑定数据
-      .encode('x', 'genre') // 编码 x 通道
-      .encode('y', 'sold'); // 编码 y 通道
+  function initChart() {
   
-    // 渲染可视化
-    chart.render();
-  </script>
+  } 
+
+  function onExamSelect(event) {
+    if ($(event.target).hasClass('active')) return;
+
+    $('button[id^=exam_]').removeClass('active');
+    $(event.target).addClass('active');
+
+    let eid = event.target.dataset['eid'];
+    if (null != eid) {
+      $.ajax({
+        url: $('#exam_score_chart').data("url"),
+        type: 'post',
+        data: { "exam_id": eid },
+        dataType: "json",
+        success: updateChart,
+        //error: failGet
+      });
+    }
+  }
+</script>
+
+<script>
+//------------------------------- Notice part -------------------------------
+function countDataByYearMonth(data) {
+  var yearMonthCounts = {};
+  for (var i = 0; i < data.length; i++) {
+    var date = moment(data[i].publicDate).toDate();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var key = `${year}-${month}`;
+
+    // Increment the count for the corresponding year-month
+    if (yearMonthCounts[key]) {
+      yearMonthCounts[key].num++;
+    } else {
+      yearMonthCounts[key] = { "num": 1, "date": date };
+    }
+  }
+  const result = Object.values(yearMonthCounts);
+  result.sort((a, b) => a.date - b.date);
+  return result;
+}
+
+function updateNoticeChart(jsonData) {
+  //console.log(jsonData);
+  let data = countDataByYearMonth(jsonData);
+  //console.log(data);
+  //==================================
+  notice_chart.changeData(data);
+}   
+  
+const notice_chart = new G2.Chart({
+  container: 'notice_chart',
+  theme: 'classic',
+  autoFit: true,
+  // padding: 50,
+  // paddingLeft: 20,
+  // paddingTop: 20,
+  // paddingRight: 20,
+  // paddingBottom: 30,
+  marginLeft: 20,
+  marginTop: 20,
+  marginRight: 20,
+  marginBottom: 80
+});
+
+var notice_data = [{"num": 0, "date": Date.now()}];
+notice_chart
+.line()
+.data(notice_data)
+.transform({ type: 'stackY', y1: 'y' })
+.encode('x', "date")
+.encode('y', "num")//d.gender === 'M' ? 1 : -1
+// .axis('y', { title: 'time (day)', grid: true })
+// .axis('x', { title: 'time (month)', grid: true })
+.axis('x', { 
+  title: '日期 →', 
+  grid: true,
+  style: {
+    labelFontSize: 12, 
+    labelFill: "#FFFFFF",
+    titleSpacing: 12,
+    titleFontSize: 20, 
+    titleFill: "#FFFFFF",
+    titleFontWeight: 'bold',
+    gridStroke: "#a0a0a0",
+    gridStrokeOpacity: 80,
+  } 
+})
+.axis('y', {
+  tick: true,
+  tickCount: 5,
+  min: 10,
+  title: ' 数量 →',
+  grid: false,
+  style: {
+    labelFontSize: 12, 
+    labelFill: "#FFFFFF",
+    titleSpacing: 12,
+    titleFontSize: 20, 
+    titleFill: "#FFFFFF",
+    titleFontWeight: 'bold',
+    gridStroke: "#ffffff",
+    gridStrokeOpacity: 50,
+  },
+  labelFormatter: (d) => `${Math.abs(+d)}`,
+})
+.tooltip({ channel: 'y', name: '发送通知数' })
+.animate('enter', { type: 'fadeIn' })
+.legend(false);
+
+$.ajax({
+    url: $('#notice_chart').data("url"),
+    type: 'post',
+    dataType: "json",
+    success: updateNoticeChart,
+    //error: failGet
+  });   
+</script>
 
 {% endblock %} 
 
 {% block content %} 
 {% csrf_token %}
-<h2 class="text-center font-weight-bold p-1 text-danger text_outline ">课程统计</h2>
-<div class="row">
-  <label class="input-group-text">教师总数</label><label class="input-group-text">{{overview.sum.teacher}}</label>
-  <label class="input-group-text">学生总数</label><label class="input-group-text">{{overview.sum.student}}</label>
-  <label class="input-group-text">课程总数</label><label class="input-group-text">{{overview.sum.course}}</label>
-  <label class="input-group-text">班级总数</label><label class="input-group-text">{{overview.sum.class}}</label>
-</div>
-<div class="container border border-dark mx-5 py-4 rounded bg_gray_d2u">
-  <div class="row">
-    <div id="container"></div>
+<form class="form-horizontal" action="." method="post">{% csrf_token %}
+  {{ form.as_p}}
+</form>>
+<h2 class="text-center font-weight-bold p-1 text-danger text_outline my-3">系统统计</h2>
+<!-- <div class="row d-flex max-width border border-dark mx-4 p-1 rounded bg_black_u2d justify-content-md-center"> -->
+<div class="row max-width border border-dark mx-5 py-2 rounded bg-dark justify-content-around">
+  <div class="media">
+    <img src="{% static "images/statistic/teacher.png" %}" alt="teacher" class="rounded-circle shadow-lg align-self-center icon_image bg-light" />
+    <div class="media-body text-center m-1 ml-3 pt-3 text-warning">
+      <h3 class="mt-0">{{overview.sum.teacher}}</h3>
+      <h5>教师总数</h5>
+    </div>
   </div>
-  <div class="row">
-    <div id="quest_chart"></div>
+  <div class="media">
+    <img src="{% static "images/statistic/student.png" %}" alt="student" class="rounded-circle shadow-lg align-self-center icon_image bg-light" />
+    <div class="media-body text-center m-1 ml-3 pt-3 text-primary">
+      <h3 class="mt-0">{{overview.sum.student}}</h3>
+      <h5>学生总数</h5>
+    </div>
+  </div>
+  <div class="media">
+    <img src="{% static "images/statistic/course.png" %}" alt="course" class="rounded-circle shadow-lg align-self-center icon_image bg-warning" />
+    <div class="media-body text-center m-1 ml-3 pt-3 text-light">
+      <h3 class="mt-0">{{overview.sum.course}}</h3>
+      <h5>课程总数</h5>
+    </div>
+  </div>
+  <div class="media">
+    <img src="{% static "images/statistic/class.png" %}" alt="class" class="rounded-circle shadow-lg align-self-center icon_image bg-light" />
+    <div class="media-body text-center m-1 ml-3 pt-3 text-success">
+      <h3 class="mt-0">{{overview.sum.class}}</h3>
+      <h5>班级总数</h5>
+    </div>
+  </div>
+</div>
+
+<h2 class="text-center font-weight-bold p-1 text-light text_outline my-3">课程统计</h2>
+
+<div class="d-flex flex-row justify-content-around mx-5 my-2 px-0">
+  <div style="width: 58%;">
+    <div class="rounded border border-dark m-0 p-0 mr-3 bg-dark">
+      <h4 class="text-left text_outline m-0 pb-2 pt-3 pl-4 text-light border-bottom border-light">题库题型数量</h4>
+      <div class="row fluid-width w-100 pl-5 pr-2 py-3">
+        <div id="quest_chart" class="w-100 m-0 p-0" style="min-height: 460px;"></div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 42%;">
+    <div class="rounded border border-dark m-0 p-0 ml-3 bg-dark">
+      <h4 class="text-left text_outline m-0 pb-2 pt-3 pl-4 text-light border-bottom border-light">题库题型比例</h4>
+      <div class="row fluid-width w-100 pl-5 pr-2 py-3">
+        <div id="quest_ratio_chart" class="w-100" style="min-height: 460px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="text-center font-weight-bold p-1 text-info text_outline my-3">考试统计</h2>
+<div class="d-flex flex-row mx-5 my-2 px-0 bg-info rounded" style="height:740px;">
+  <div class="card bg-info mr-0 w-25 h-100">
+      <div class="card-header text-center pt-3 pb-1">
+        <h5 class="card-title font-weight-bold text-light">考试列表</h5>
+      </div>
+      <div class="card-body p-0" style="overflow-y: auto;">
+        {% for exam in exam_list %}
+        <button class="list-group-item list-group-item-action list-group-item-info text-truncate"
+            id="exam_{{exam.id}}" type="button" onclick="onExamSelect(event)" onfocus="this.blur()" tabindex="-1"
+            data-eid={{exam.id}} data-toggle="tooltip" data-placement="right" title="{{exam.title}}">
+            {{exam.title}}&emsp;<span class="text-right badge badge-info text-wrap"
+                style="pointer-events: none;">
+                {{exam.start_time}}</span>
+        </button>
+        {% endfor %}
+      </div>
+  </div>
+  <div class="d-flex mx-0 w-75 h-100 p-3">
+    <div class="opacity_bg rounded mr-1" style="width: 75%;">
+      <h5 class="text-left text_outline pl-4 p-3 text-light w-100 border-bottom border-dark">成绩分布</h5>
+      <div id="exam_score_chart" class="w-100 h-100 p-2" data-url="{% url 'statistic:exam_answer' %}"></div>
+    </div>
+    <div class="rounded mx-0 opacity_bg ml-1" style="width: 25%;">
+      <h5 class="text-left text_outline pl-4 p-3 text-light w-100 border-bottom border-dark">考试统计</h5>
+      <div id="exam_chart" class="w-100 h-100"></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="text-center font-weight-bold p-1 text-secondary text_outline my-3">其它统计</h2>
+            
+<div class="d-flex flex-row justify-content-around mx-5 my-2 px-0" style="height:640px;">
+  <div class="h-100 m-0 p-0" style="width: 33.3%;">
+    <div class="rounded border border-dark m-0 p-0 mr-3 bg-dark h-100">
+      <h4 class="text-left text_outline m-0 pb-2 pt-3 pl-4 text-light border-bottom border-light">资料统计</h4>
+      <div id="lesson_chart" class=" w-100" style="height:560px;"></div>
+    </div>
+  </div>
+  <div class="h-100 m-0 p-0" style="width: 66.6%;">
+    <div class="rounded border border-dark m-0 p-0 ml-3 bg-dark h-100">
+      <h4 class="text-left text_outline m-0 pb-2 pt-3 pl-4 text-light border-bottom border-light">通知系统使用情况</h4>
+      <div id="notice_chart" class="w-100 h-100" data-url="{% url 'statistic:notices' %}"></div>
+    </div>
   </div>
 </div>
 
@@ -111,5 +660,5 @@ const scaleColor = (node) =>
 
 {% block pageInclude %}
     <link rel="stylesheet" href="{% static 'css/edu/teacher/teacher.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/edu/teacher/notice_editor.css' %}"/>    
+    <link rel="stylesheet" href="{% static 'css/edu/teacher/statistic.css' %}"/>    
 {% endblock %} 

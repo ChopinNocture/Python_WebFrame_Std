@@ -1,0 +1,32 @@
+body {
+    background-image: url('/Statics/images/BGs/color-05.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: fixed;
+}
+
+.sumcircle {
+    height: 100px;
+    width: 100px;
+    padding-top: 25px;
+}
+
+.icon_image {
+    height: 100px;
+    width: 100px;
+}
+
+.chart,
+.chart3x {
+    min-height: 120px;
+}
+
+.chart3x {
+    width: 480px;
+    height: 560px;
+}
+
+.opacity_bg {
+    background-color: rgba(255, 255, 255, 0.623);
+}
